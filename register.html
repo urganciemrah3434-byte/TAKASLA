@@ -1,42 +1,37 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>TAKASLA - Üye Ol</title>
-
-<link rel="stylesheet" href="css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üye Ol - TAKASLASANA</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+    <header>
+        <h1><a href="index.html" style="color:white; text-decoration:none;">TAKASLASANA</a></h1>
+        <h3>Satma, Takaslasana!</h3>
+    </header>
 
-<header>
-<h1>TAKASLA</h1>
-<h3>Ücretsiz Üye Ol</h3>
-</header>
-
-<div class="container">
-
-<div class="card">
-
-<input type="text" placeholder="Ad Soyad">
-<br><br>
-
-<input type="email" placeholder="E-posta">
-<br><br>
-
-<input type="password" placeholder="Şifre">
-<br><br>
-
-<button class="button">
-
-ÜYE OL
-
-</button>
-
-</div>
-
-</div>
-
+    <div class="container">
+        <div class="card">
+            <h2>Aramıza Katıl</h2>
+            <form id="register-form">
+                <p>
+                    <label>E-posta Adresi:</label><br>
+                    <input type="email" id="email" placeholder="ornek@email.com" required style="width:100%; padding:10px; margin-top:5px;">
+                </p>
+                <p>
+                    <label>Şifre:</label><br>
+                    <input type="password" id="password" placeholder="******" required style="width:100%; padding:10px; margin-top:5px;">
+                </p>
+                <p>
+                    <button type="submit" class="button" style="width:100%; padding:12px; cursor:pointer;">ÜYE OL</button>
+                </p>
+            </form>
+            <p style="text-align:center;">
+                Zaten hesabın var mı? <a href="login.html">Giriş Yap</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>
