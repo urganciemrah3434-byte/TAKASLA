@@ -11,16 +11,26 @@
         <h1><a href="index.html" style="color:white; text-decoration:none;">TAKASLASANA</a></h1>
         <h3>Satma, Takaslasana!</h3>
         <nav id="auth-nav">
-            <!-- Kullanıcı durumu buraya dinamik olarak yüklenecek -->
-            <a href="login.html" id="login-link" style="color:white; margin-right:10px;">Giriş Yap</a>
-            <a href="register.html" id="register-link" style="color:white;">Üye Ol</a>
+            <!-- Kullanıcı durumu buraya yüklenecek -->
+            <a href="login.html" style="color:white; margin-right:10px;">Giriş Yap</a>
+            <a href="register.html" style="color:white;">Üye Ol</a>
         </nav>
     </header>
 
     <div class="container">
-        <div class="card">
-            <h2>Hoş Geldiniz!</h2>
-            <p>Elinizdeki kullanılmayan eşyaları ihtiyacınız olanlarla takaslayın.</p>
+        <!-- İlan Ekleme Butonu / Formu Alanı -->
+        <div class="card" id="add-listing-card" style="text-align:center;">
+            <h2>Elinizdeki Eşyayı Takaslayın</h2>
+            <p>Kullanmadığınız ürünleri yükleyin, takas tekliflerini toplamaya başlayın!</p>
+            <a href="add-listing.html" class="button" style="display:inline-block; padding:12px 24px; background-color:#28a745; color:white; text-decoration:none; font-weight:bold; border-radius:5px; margin-top:10px;">+ İLAN EKLE</a>
+        </div>
+
+        <!-- Vitrin / İlanlar Başlığı -->
+        <h2 style="margin-top: 30px; text-align:center;">Son Eklenen Takaslık Eşyalar</h2>
+        
+        <!-- İlanların Listeleneceği Alan -->
+        <div id="listings-container" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:20px;">
+            <p id="loading-text">İlanlar yükleniyor...</p>
         </div>
     </div>
 
