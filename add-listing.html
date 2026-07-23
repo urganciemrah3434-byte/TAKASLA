@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İlan Ekle - TAKASLASANA</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .drop-zone {
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: background 0.3s, border-color 0.3s;
+            margin-top: 5px;
+        }
+        .drop-zone:hover, .drop-zone.dragover {
+            background: #e9ecef;
+            border-color: #0056b3;
+        }
+        .drop-zone img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -29,9 +52,12 @@
                     <input type="text" id="item-target" placeholder="Örn: Oyuncu Bilgisayarı veya Elektrikli Bisiklet" required style="width:100%; padding:10px; margin-top:5px;">
                 </p>
                 <p>
-                    <label><strong>Görsel / Fotoğraf Linki (URL):</strong></label><br>
-                    <input type="url" id="item-image-url" placeholder="https://... (Fotoğrafın web bağlantısı / linki)" style="width:100%; padding:10px; margin-top:5px;">
-                    <small style="color:#666; font-size:12px;">Hızlı resim yüklemek için <a href="https://imgbb.com" target="_blank" style="color:#007bff;">ImgBB</a> sitesini kullanıp linki buraya yapıştırabilirsiniz.</small>
+                    <label><strong>Ürün Fotoğrafı:</strong></label><br>
+                    <div class="drop-zone" id="drop-zone">
+                        <span id="drop-zone-text">📸 Görseli buraya sürükleyip bırakın veya <strong>tıklayıp seçin</strong></span>
+                        <input type="file" id="item-image-file" accept="image/*" style="display:none;">
+                        <img id="image-preview" src="" alt="Önizleme">
+                    </div>
                 </p>
                 <p>
                     <button type="submit" id="submit-btn" class="button" style="width:100%; padding:12px; background-color:#28a745; color:white; font-weight:bold; cursor:pointer; border:none; border-radius:5px;">İLAN YAYINLA</button>
