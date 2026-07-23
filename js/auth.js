@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // Firebase Konfigürasyonu
 const firebaseConfig = {
@@ -16,9 +16,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Formu Dinle
+// Kayıt Formunu Dinle
 const registerForm = document.getElementById("register-form");
-
 if (registerForm) {
     registerForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -33,6 +32,26 @@ if (registerForm) {
         } catch (error) {
             console.error("Firebase Hatası:", error);
             alert("Hata oluştu: " + error.message);
+        }
+    });
+}
+
+// Giriş Formunu Dinle
+const loginForm = document.getElementById("login-form");
+if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            alert("Hoş geldin! Giriş başarılı: " + userCredential.user.email);
+            window.location.href = "index.html";
+        } catch (error) {
+            console.error("Giriş Hatası:", error);
+            alert("Giriş başarısız: " + error.message);
         }
     });
 }
