@@ -2,63 +2,29 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>TAKASLASANA</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAKASLASANA - Satma, Takaslasana!</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+    <header>
+        <h1><a href="index.html" style="color:white; text-decoration:none;">TAKASLASANA</a></h1>
+        <h3>Satma, Takaslasana!</h3>
+        <nav id="auth-nav">
+            <!-- Kullanıcı durumu buraya dinamik olarak yüklenecek -->
+            <a href="login.html" id="login-link" style="color:white; margin-right:10px;">Giriş Yap</a>
+            <a href="register.html" id="register-link" style="color:white;">Üye Ol</a>
+        </nav>
+    </header>
 
-<header>
-    <h1>TAKASLASANA</h1>
-    <h3>Satma, Takaslasana!</h3>
-</header>
-
-<div class="container">
-
-    <div class="card">
-        <h2>Ne Arıyorsun?</h2>
-
-        <input type="text"
-        placeholder="Telefon, araba, arsa..."
-        style="width:100%;padding:15px;">
+    <div class="container">
+        <div class="card">
+            <h2>Hoş Geldiniz!</h2>
+            <p>Elinizdeki kullanılmayan eşyaları ihtiyacınız olanlarla takaslayın.</p>
+        </div>
     </div>
 
-    <div class="card">
-
-        <h2>Kategoriler</h2>
-
-        <ul>
-            <li>📱 Elektronik</li>
-            <li>🚗 Araç</li>
-            <li>🏠 Emlak</li>
-            <li>🛠️ Hizmet</li>
-            <li>🎮 Koleksiyon</li>
-        </ul>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Son Eklenen İlanlar</h2>
-
-        <p>iPhone 15 Pro ↔ MacBook</p>
-        <p>PS5 ↔ Drone</p>
-        <p>2012 Polo ↔ Motosiklet</p>
-
-    </div>
-
-    <div class="card">
-
-        <a href="register.html">
-            <button class="button">
-                ÜCRETSİZ ÜYE OL
-            </button>
-        </a>
-
-    </div>
-
-</div>
-
+    <!-- Firebase Oturum Yönetimi Scripti -->
+    <script type="module" src="js/auth.js"></script>
 </body>
 </html>
