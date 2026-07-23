@@ -161,7 +161,7 @@ if (addForm) {
     });
 }
 
-// 2. ANA SAYFADA İLANLARI LİSTELEME
+// 2. ANA SAYFADA İLANLARI LİSTELEME VE TIKLAMA YÖNLENDİRMESİ
 const container = document.getElementById("listings-container");
 if (container) {
     async function loadListings() {
@@ -180,7 +180,12 @@ if (container) {
                 const data = doc.data();
                 const card = document.createElement("div");
                 card.className = "card";
-                card.style.cssText = "width:280px; padding:15px; border:1px solid #ddd; border-radius:8px; background:#fff; text-align:left; display:flex; flex-direction:column; justify-content:space-between;";
+                card.style.cssText = "width:280px; padding:15px; border:1px solid #ddd; border-radius:8px; background:#fff; text-align:left; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;";
+
+                // Kart Tıklama Etkinliği (Detay Sayfasına Yönlendirir)
+                card.onclick = () => {
+                    window.location.href = `detail.html?id=${doc.id}`;
+                };
 
                 let imageHTML = data.imageUrl 
                     ? `<img src="${data.imageUrl}" alt="${data.title}" style="width:100%; height:180px; object-fit:cover; border-radius:5px; margin-bottom:10px;">`
