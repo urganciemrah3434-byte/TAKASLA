@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TAKASLASANA - Türkiye'nin İlk Eşya ve Hizmet Takas Platformu</title>
+  <title>TAKASLASANA - Eşyanı veya Becerini Takasla</title>
   
   <!-- Font Awesome İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- Google Fonts: Syne (Başlıklar) & Space Grotesk (Gövde) -->
+  <!-- Google Fonts: Poppins (Başlıklar) & Inter (Gövde) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -21,13 +21,13 @@
       --navy-light: #1e293b;
       --bg-light: #f8fafc;
       --card-bg: #ffffff;
-      --text-main: #1e293b;
+      --text-main: #334155;
       --text-muted: #64748b;
       --border: #e2e8f0;
       --purple: #8b5cf6;
       --amber: #f59e0b;
-      --font-heading: 'Syne', sans-serif;
-      --font-body: 'Space Grotesk', sans-serif;
+      --font-heading: 'Poppins', sans-serif;
+      --font-body: 'Inter', sans-serif;
     }
 
     * {
@@ -61,7 +61,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .nav-container {
@@ -71,7 +71,7 @@
       gap: 15px;
     }
 
-    /* GEOMETRİK YENİ LOGO */
+    /* SEÇENEK 2: DOST CANLISI DÖNÜŞÜM LOGOSU */
     .logo {
       display: flex;
       align-items: center;
@@ -80,22 +80,24 @@
       color: white;
       font-size: 24px;
       font-weight: 800;
-      letter-spacing: -0.5px;
     }
 
-    .logo-icon-geom {
-      width: 42px;
-      height: 42px;
-      background: linear-gradient(135deg, var(--primary), #06b6d4);
-      border-radius: 12px;
+    .logo-icon-friendly {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-size: 20px;
-      position: relative;
-      clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 100%, 0% 100%);
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+      transition: transform 0.3s;
+    }
+
+    .logo:hover .logo-icon-friendly {
+      transform: rotate(180deg);
     }
 
     .logo span b { color: var(--primary); }
@@ -129,7 +131,7 @@
     .search-box input {
       width: 100%;
       padding: 10px 12px 10px 36px;
-      border-radius: 8px;
+      border-radius: 20px;
       border: 1px solid rgba(255,255,255,0.15);
       background: #1e293b;
       color: white;
@@ -138,7 +140,7 @@
 
     .search-box i {
       position: absolute;
-      left: 12px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
       color: #94a3b8;
@@ -149,8 +151,8 @@
       border: 1px solid var(--primary);
       color: var(--primary);
       background: transparent;
-      padding: 9px 16px;
-      border-radius: 8px;
+      padding: 9px 18px;
+      border-radius: 20px;
       font-weight: 600;
       cursor: pointer;
       font-size: 13px;
@@ -160,12 +162,13 @@
       background-color: var(--primary);
       color: white;
       border: none;
-      padding: 9px 18px;
-      border-radius: 8px;
+      padding: 9px 20px;
+      border-radius: 20px;
       font-weight: 700;
       cursor: pointer;
       font-size: 13px;
       transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
     }
 
     .btn-add-listing:hover { background-color: var(--primary-dark); }
@@ -179,11 +182,10 @@
     }
 
     .hero h1 {
-      font-size: 38px;
+      font-size: 36px;
       font-weight: 800;
-      line-height: 1.25;
+      line-height: 1.3;
       margin-bottom: 18px;
-      letter-spacing: -0.5px;
     }
 
     .hero h1 span { color: var(--primary); }
@@ -207,19 +209,18 @@
       background-color: var(--primary);
       color: white;
       padding: 14px 32px;
-      border-radius: 10px;
+      border-radius: 25px;
       text-decoration: none;
       font-weight: 700;
       font-size: 15px;
       transition: 0.2s;
-      letter-spacing: 0.3px;
     }
 
     .btn-hero-secondary {
       border: 2px solid #38bdf8;
       color: #38bdf8;
       padding: 14px 32px;
-      border-radius: 10px;
+      border-radius: 25px;
       text-decoration: none;
       font-weight: 700;
       font-size: 15px;
@@ -251,7 +252,7 @@
     .step-card {
       background: var(--bg-light);
       padding: 30px 22px;
-      border-radius: 16px;
+      border-radius: 20px;
       text-align: center;
       border: 1px solid var(--border);
       position: relative;
@@ -262,30 +263,29 @@
       top: -14px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--navy);
+      background: var(--primary);
       color: white;
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 13px;
-      border: 2px solid white;
-      font-family: var(--font-heading);
+      font-size: 14px;
+      border: 3px solid white;
     }
 
     .step-card .step-icon {
-      width: 60px;
-      height: 60px;
+      width: 64px;
+      height: 64px;
       background: #ecfdf5;
       color: var(--primary);
-      border-radius: 14px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 26px;
       margin: 10px auto 18px auto;
     }
 
@@ -304,7 +304,7 @@
     .sidebar-filter {
       background: white;
       padding: 22px;
-      border-radius: 16px;
+      border-radius: 18px;
       border: 1px solid var(--border);
       height: fit-content;
       position: sticky;
@@ -329,13 +329,12 @@
       color: var(--text-muted);
       margin-bottom: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
     .filter-group select, .filter-group input {
       width: 100%;
       padding: 10px 12px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid var(--border);
       font-size: 13px;
       color: var(--text-main);
@@ -348,7 +347,7 @@
       border: 1px dashed var(--text-muted);
       background: transparent;
       color: var(--text-muted);
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 12px;
       cursor: pointer;
       margin-top: 5px;
@@ -376,17 +375,17 @@
 
     .card {
       background: white;
-      border-radius: 14px;
+      border-radius: 16px;
       border: 1px solid var(--border);
       overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
       transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
     }
 
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
     }
 
     .card-img {
@@ -409,10 +408,10 @@
     }
 
     .badge {
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 10px;
-      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
       color: white;
     }
 
@@ -446,8 +445,8 @@
       font-weight: 700;
       margin-bottom: 12px;
       background: #ecfdf5;
-      padding: 5px 8px;
-      border-radius: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
       display: block;
       white-space: nowrap;
       overflow: hidden;
@@ -469,7 +468,7 @@
     .btn-action {
       flex: 1;
       padding: 8px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid var(--border);
       background: white;
       font-size: 11px;
@@ -502,7 +501,7 @@
       background: white;
       width: 100%;
       max-width: 500px;
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 26px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       position: relative;
@@ -528,7 +527,7 @@
       width: 100%;
       padding: 10px;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 13px;
     }
 
@@ -538,7 +537,7 @@
       color: white;
       border: none;
       padding: 12px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 700;
       cursor: pointer;
       margin-top: 10px;
@@ -559,7 +558,7 @@
   <header class="navbar">
     <div class="container nav-container">
       <a href="#" class="logo">
-        <div class="logo-icon-geom"><i class="fa-solid fa-arrows-split-up-and-left"></i></div>
+        <div class="logo-icon-friendly"><i class="fa-solid fa-arrows-rotate"></i></div>
         <span>TAKASLA<b>SANA</b></span>
       </a>
 
@@ -676,7 +675,7 @@
       </div>
 
       <div class="cards-wrapper" id="cardsWrapper">
-        <!-- JS ile 50 İlan Dinamik Yüklenecek -->
+        <!-- JS ile 50 İlan Yüklenecek -->
       </div>
     </main>
   </section>
