@@ -1,39 +1,271 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* Google Fonts Entegrasyonu */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #0066ff;
+    --primary-hover: #0052cc;
+    --success-color: #10b981;
+    --success-hover: #059669;
+    --danger-color: #ef4444;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-color: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-body{
-    font-family:Arial, sans-serif;
-    background-color:#f5f5f5;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-header{
-    background-color:#ff6b00;
-    color:white;
-    text-align:center;
-    padding:25px;
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.5;
+    padding-bottom: 50px;
 }
 
-.container{
-    width:90%;
-    margin:auto;
+/* Header & Navigasyon */
+header {
+    background: linear-gradient(135deg, #0066ff 0%, #0044b3 100%);
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.card{
-    background:white;
-    padding:20px;
-    margin-top:20px;
-    border-radius:15px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+header h1 a {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.5px;
 }
 
-.button{
-    background-color:#ff6b00;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:10px;
-    cursor:pointer;
+header h3, header small {
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Ana Konteyner */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Grid & Kart Yapısı (Vitrinde Şık İlanlar) */
+#listings-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.card {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius) !important;
+    padding: 16px !important;
+    box-shadow: var(--shadow) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100% !important;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover) !important;
+}
+
+.card img {
+    border-radius: 8px !important;
+    object-fit: cover;
+}
+
+.card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 8px 0 4px 0;
+}
+
+.card p {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* Formlar & Giriş/Kayıt/İlan Ekleme Sayfaları */
+form, .detail-container, .offers-section {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+textarea, 
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-color);
+    background-color: #f8fafc;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+/* Butonlar */
+button, .button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+button:hover, .button:hover {
+    background-color: var(--primary-hover);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Sürükle-Bırak Yükleme Alanı */
+.drop-zone {
+    border: 2px dashed var(--primary-color) !important;
+    background: #f0f6ff !important;
+    border-radius: var(--radius) !important;
+    padding: 30px !important;
+    transition: all 0.2s ease;
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+    background: #e1edff !important;
+    border-color: var(--primary-hover) !important;
+}
+
+/* Profil & Teklif Kartları */
+.offer-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-pending { background: #fef3c7; color: #92400e; }
+.badge-accepted { background: #d1fae5; color: #065f46; }
+.badge-rejected { background: #fee2e2; color: #991b1b; }
+
+.btn-action {
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+.btn-accept { background-color: var(--success-color); }
+.btn-accept:hover { background-color: var(--success-hover); }
+.btn-reject { background-color: var(--danger-color); }
+.btn-reject:hover { background-color: #dc2626; }
+
+/* Mobil Uyumlu Duyarlı Tasarım (Responsive) */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 20px;
+    }
+
+    nav {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+
+    nav a {
+        padding: 6px 10px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    #listings-container {
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+
+    .offer-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .offer-card > div:last-child {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
 }
