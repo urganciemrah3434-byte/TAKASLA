@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TAKASLASANA - Güvenli ve Kolay Takas Platformu</title>
+  <title>TAKASLASANA - Eşya, Hizmet ve Becerini Takasla</title>
   
   <!-- Font Awesome İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,6 +19,7 @@
       --text-main: #334155;
       --text-muted: #64748b;
       --border: #e2e8f0;
+      --purple-badge: #8b5cf6;
     }
 
     * {
@@ -97,7 +98,7 @@
 
     .search-box {
       position: relative;
-      width: 220px;
+      width: 240px;
     }
 
     .search-box input {
@@ -147,11 +148,15 @@
     }
 
     .hero h1 {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 800;
       line-height: 1.3;
       margin-bottom: 12px;
       letter-spacing: -0.5px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
     }
 
     .hero p {
@@ -337,7 +342,7 @@
     }
 
     .badge-green { background-color: var(--primary); }
-    .badge-blue { background-color: #0284c7; }
+    .badge-purple { background-color: var(--purple-badge); }
 
     .card-body {
       padding: 15px;
@@ -346,10 +351,21 @@
     .card-body h4 {
       font-size: 14px;
       color: var(--navy);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .card-body .wanted-item {
+      font-size: 11px;
+      color: var(--primary-dark);
+      font-weight: 600;
+      margin-bottom: 10px;
+      background: #ecfdf5;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
     }
 
     .location-rating {
@@ -387,17 +403,10 @@
       border-color: #a7f3d0;
     }
 
-    /* MOBİL UYUMLULUK */
     @media (max-width: 768px) {
-      .main-content {
-        grid-template-columns: 1fr;
-      }
-      .nav-links, .search-box {
-        display: none;
-      }
-      .hero h1 {
-        font-size: 22px;
-      }
+      .main-content { grid-template-columns: 1fr; }
+      .nav-links, .search-box { display: none; }
+      .hero h1 { font-size: 22px; }
     }
   </style>
 </head>
@@ -425,7 +434,7 @@
       <div class="nav-actions">
         <div class="search-box">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Eşya, marka veya kategori ara...">
+          <input type="text" placeholder="Eşya, hizmet veya beceri ara...">
         </div>
         <button class="btn-icon"><i class="fa-regular fa-bell"></i></button>
         <button class="btn-primary-outline"><i class="fa-regular fa-user"></i> Giriş Yap</button>
@@ -436,11 +445,11 @@
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="container hero-content">
-      <h1>KULLANMADIĞIN EŞYANI TAKASLA,<br>YENİ İHTİYACINI ÜCRETSİZ KARŞILA!</h1>
-      <p>Güvenli, Kolay ve Ücretsiz Takasın En Modern Adresi</p>
+      <h1>EŞYANI VEYA YETENEĞİNİ TAKASLA,<br>İHTİYACINI <span>PARA HARCADAN</span> KARŞILA!</h1>
+      <p>Ev boyamadan matematik dersine, laptop takasından tamirata kadar Türkiye'nin ilk Yetenek & Eşya Takas Platformu</p>
       <div class="hero-buttons">
-        <a href="#ilanlar" class="btn-hero-primary">HEMEN TAKASLA</a>
-        <a href="#" class="btn-hero-secondary">İLAN VER</a>
+        <a href="#ilanlar" class="btn-hero-primary">TAKAS İLANLARINI İNCELE</a>
+        <a href="#" class="btn-hero-secondary">+ İLAN VEYA HİZMET EKLE</a>
       </div>
     </div>
   </section>
@@ -449,19 +458,19 @@
   <section class="steps-section">
     <div class="container steps-grid">
       <div class="step-card">
-        <div class="step-icon"><i class="fa-solid fa-camera"></i></div>
-        <h3>1. İlanını Ekle</h3>
-        <p>Takas etmek istediğin eşyanın fotoğraflarını yükle.</p>
+        <div class="step-icon"><i class="fa-solid fa-briefcase"></i></div>
+        <h3>1. Eşya veya Hizmetini Tanımla</h3>
+        <p>Boya badana yapabilir misin? Veya elinde laptop mu var? İlanını oluştur.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"><i class="fa-solid fa-comments"></i></div>
+        <h3>2. İhtiyacın Olanı İste</h3>
+        <p>"Boya yaparım, laptop ile takaslarım" şeklinde teklifini belirle.</p>
       </div>
       <div class="step-card">
         <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
-        <h3>2. Takas Teklifi Yap</h3>
-        <p>Beğendiğin eşya için kendi ilanlarınla teklif gönder.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon"><i class="fa-solid fa-shield-halved"></i></div>
-        <h3>3. Güvenle Değiştir</h3>
-        <p>Anlaşın, kargolayın veya yüz yüze takas edin.</p>
+        <h3>3. Anlaş ve Takasla</h3>
+        <p>Güvenle iletişime geç, hizmetini ver veya eşyanı teslim et.</p>
       </div>
     </div>
   </section>
@@ -472,13 +481,23 @@
       <h3>Filtrele</h3>
       
       <div class="filter-group">
+        <label>Takas Türü</label>
+        <select>
+          <option>Tüm Takaslar</option>
+          <option>🛠️ Hizmet & Beceriler</option>
+          <option>📦 Eşya Takası</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
         <label>Kategori</label>
         <select>
           <option>Tüm Kategoriler</option>
-          <option>Elektronik</option>
+          <option>Boya, Tadilat & Ustalık</option>
+          <option>Özel Ders & Eğitim</option>
+          <option>Yazılım & Tasarım</option>
+          <option>Elektronik Eşya</option>
           <option>Moda & Giyim</option>
-          <option>Ev & Yaşam</option>
-          <option>Vasıta</option>
         </select>
       </div>
 
@@ -492,108 +511,99 @@
           <option>İzmir</option>
         </select>
       </div>
-
-      <div class="filter-group">
-        <label>Eşya Durumu</label>
-        <select>
-          <option>Farketmez</option>
-          <option>Sıfır / Ambalajında</option>
-          <option>Az Kullanılmış</option>
-          <option>İyi Durumda</option>
-        </select>
-      </div>
     </aside>
 
     <main class="listings-grid">
       <div class="listings-header">
-        2. Öne Çıkan Takas İlanları
+        <h2>Öne Çıkan Takas & Hizmet İlanları</h2>
         <span class="count">4 ilan listeleniyor</span>
       </div>
 
       <div class="cards-wrapper">
-        <!-- Kart 1 -->
+        
+        <!-- Hizmet İlanı 1 (Boyacı) -->
+        <div class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500" alt="Boya Badana">
+            <div class="badges">
+              <span class="badge badge-purple">🛠️ HİZMET</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h4>Profesyonel Boya Badana</h4>
+            <div class="wanted-item">🔄 Karşılığında Laptop İstiyor</div>
+            <div class="location-rating">
+              <span><i class="fa-solid fa-location-dot"></i> İstanbul</span>
+              <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj</button>
+              <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hizmet İlanı 2 (İngilizce Öğretmeni) -->
+        <div class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500" alt="Özel Ders">
+            <div class="badges">
+              <span class="badge badge-purple">🛠️ HİZMET</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h4>Birebir İngilizce Özel Ders</h4>
+            <div class="wanted-item">🔄 Web Sitesi Tasarımı İstiyor</div>
+            <div class="location-rating">
+              <span><i class="fa-solid fa-location-dot"></i> Ankara</span>
+              <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj</button>
+              <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Eşya İlanı 1 -->
         <div class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500" alt="Apple Watch">
             <div class="badges">
-              <span class="badge badge-green">TAKASLIK</span>
-              <span class="badge badge-blue">YENİ</span>
+              <span class="badge badge-green">📦 EŞYA</span>
             </div>
           </div>
           <div class="card-body">
             <h4>Apple Watch Series 7</h4>
-            <div class="location-rating">
-              <span><i class="fa-solid fa-location-dot"></i> İstanbul</span>
-              <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
-            </div>
-            <div class="card-actions">
-              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj At</button>
-              <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Kart 2 -->
-        <div class="card">
-          <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500" alt="Ceket">
-            <div class="badges">
-              <span class="badge badge-green">TAKASLIK</span>
-              <span class="badge badge-blue">YENİ</span>
-            </div>
-          </div>
-          <div class="card-body">
-            <h4>Vintage Denim Ceket</h4>
-            <div class="location-rating">
-              <span><i class="fa-solid fa-location-dot"></i> Kastamonu</span>
-              <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
-            </div>
-            <div class="card-actions">
-              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj At</button>
-              <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Kart 3 -->
-        <div class="card">
-          <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500" alt="Kulaklık">
-            <div class="badges">
-              <span class="badge badge-green">TAKASLIK</span>
-              <span class="badge badge-blue">YENİ</span>
-            </div>
-          </div>
-          <div class="card-body">
-            <h4>Sony Kulak Üstü Kulaklık</h4>
+            <div class="wanted-item">🔄 Bisiklet Veya Ustalık Hizmeti</div>
             <div class="location-rating">
               <span><i class="fa-solid fa-location-dot"></i> Kastamonu</span>
               <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
             </div>
             <div class="card-actions">
-              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj At</button>
+              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj</button>
               <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
             </div>
           </div>
         </div>
 
-        <!-- Kart 4 -->
+        <!-- Hizmet İlanı 3 (Yazılım) -->
         <div class="card">
           <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" alt="Headphones">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500" alt="Yazılım">
             <div class="badges">
-              <span class="badge badge-green">TAKASLIK</span>
-              <span class="badge badge-blue">YENİ</span>
+              <span class="badge badge-purple">🛠️ HİZMET</span>
             </div>
           </div>
           <div class="card-body">
-            <h4>Sony WH-1000XM4 Kulaklık</h4>
+            <h4>Mobil Uygulama Geliştirme</h4>
+            <div class="wanted-item">🔄 Elektrikli Scooter İstiyor</div>
             <div class="location-rating">
-              <span><i class="fa-solid fa-location-dot"></i> Kastamonu</span>
+              <span><i class="fa-solid fa-location-dot"></i> İzmir</span>
               <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
             </div>
             <div class="card-actions">
-              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj At</button>
+              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj</button>
               <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
             </div>
           </div>
