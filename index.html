@@ -8,15 +8,15 @@
   <!-- Font Awesome İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
-  <!-- Google Fonts: Poppins (Başlıklar) & Inter (Gövde) -->
+  <!-- Google Fonts: Plus Jakarta Sans (Başlıklar) & Inter (Gövde) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
       --primary: #10b981;
-      --primary-dark: #059669;
+      --primary-dark: #047857;
       --navy: #0f172a;
       --navy-light: #1e293b;
       --bg-light: #f8fafc;
@@ -24,9 +24,9 @@
       --text-main: #334155;
       --text-muted: #64748b;
       --border: #e2e8f0;
-      --purple: #8b5cf6;
+      --purple: #6366f1;
       --amber: #f59e0b;
-      --font-heading: 'Poppins', sans-serif;
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
       --font-body: 'Inter', sans-serif;
     }
 
@@ -61,7 +61,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
 
     .nav-container {
@@ -71,7 +71,7 @@
       gap: 15px;
     }
 
-    /* SEÇENEK 2: DOST CANLISI DÖNÜŞÜM LOGOSU */
+    /* SEÇENEK 1: MODERN & MİNİMALİST LOGO */
     .logo {
       display: flex;
       align-items: center;
@@ -80,47 +80,48 @@
       color: white;
       font-size: 24px;
       font-weight: 800;
+      letter-spacing: -0.5px;
     }
 
-    .logo-icon-friendly {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, #10b981, #3b82f6);
-      border-radius: 50%;
+    .logo-icon-minimal {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 20px;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
-      transition: transform 0.3s;
+      color: var(--navy);
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      transition: transform 0.2s;
     }
 
-    .logo:hover .logo-icon-friendly {
-      transform: rotate(180deg);
+    .logo:hover .logo-icon-minimal {
+      transform: scale(1.05);
     }
 
     .logo span b { color: var(--primary); }
 
     .nav-links {
       display: flex;
-      gap: 22px;
+      gap: 24px;
     }
 
     .nav-links a {
-      color: #cbd5e1;
+      color: #94a3b8;
       text-decoration: none;
       font-size: 14px;
       font-weight: 600;
       transition: 0.2s;
     }
 
-    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-links a:hover, .nav-links a.active { color: white; }
 
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .search-box {
@@ -130,9 +131,9 @@
 
     .search-box input {
       width: 100%;
-      padding: 10px 12px 10px 36px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.15);
+      padding: 9px 12px 9px 36px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
       background: #1e293b;
       color: white;
       font-size: 13px;
@@ -140,52 +141,58 @@
 
     .search-box i {
       position: absolute;
-      left: 14px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
-      color: #94a3b8;
+      color: #64748b;
       font-size: 13px;
     }
 
     .btn-primary-outline {
-      border: 1px solid var(--primary);
-      color: var(--primary);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
       background: transparent;
-      padding: 9px 18px;
-      border-radius: 20px;
+      padding: 8px 16px;
+      border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
       font-size: 13px;
+      transition: 0.2s;
+    }
+
+    .btn-primary-outline:hover {
+      border-color: white;
     }
 
     .btn-add-listing {
       background-color: var(--primary);
-      color: white;
+      color: var(--navy);
       border: none;
-      padding: 9px 20px;
-      border-radius: 20px;
+      padding: 9px 18px;
+      border-radius: 8px;
       font-weight: 700;
       cursor: pointer;
       font-size: 13px;
       transition: 0.2s;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
     }
 
-    .btn-add-listing:hover { background-color: var(--primary-dark); }
+    .btn-add-listing:hover { background-color: #34d399; }
 
     /* HERO */
     .hero {
-      background: linear-gradient(180deg, var(--navy) 0%, #1e293b 100%);
+      background: var(--navy);
       color: white;
       text-align: center;
-      padding: 70px 20px 80px 20px;
+      padding: 80px 20px 90px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
     .hero h1 {
-      font-size: 36px;
+      font-size: 38px;
       font-weight: 800;
-      line-height: 1.3;
-      margin-bottom: 18px;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
     }
 
     .hero h1 span { color: var(--primary); }
@@ -193,8 +200,8 @@
     .hero p {
       color: #94a3b8;
       font-size: 17px;
-      max-width: 680px;
-      margin: 0 auto 32px auto;
+      max-width: 650px;
+      margin: 0 auto 36px auto;
       font-weight: 400;
     }
 
@@ -207,104 +214,95 @@
 
     .btn-hero-primary {
       background-color: var(--primary);
-      color: white;
-      padding: 14px 32px;
-      border-radius: 25px;
+      color: var(--navy);
+      padding: 14px 28px;
+      border-radius: 8px;
       text-decoration: none;
       font-weight: 700;
       font-size: 15px;
       transition: 0.2s;
     }
 
+    .btn-hero-primary:hover { background-color: #34d399; }
+
     .btn-hero-secondary {
-      border: 2px solid #38bdf8;
-      color: #38bdf8;
-      padding: 14px 32px;
-      border-radius: 25px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 8px;
       text-decoration: none;
-      font-weight: 700;
+      font-weight: 600;
       font-size: 15px;
       background: transparent;
       cursor: pointer;
+      transition: 0.2s;
     }
+
+    .btn-hero-secondary:hover { border-color: white; }
 
     /* NASIL ÇALIŞIR KÖŞESİ */
     .how-it-works {
-      padding: 60px 0;
+      padding: 70px 0;
       background: white;
       border-bottom: 1px solid var(--border);
     }
 
     .section-title {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 48px;
     }
 
-    .section-title h2 { font-size: 28px; color: var(--navy); margin-bottom: 6px; }
+    .section-title h2 { font-size: 28px; color: var(--navy); margin-bottom: 8px; font-weight: 800; }
     .section-title p { color: var(--text-muted); font-size: 15px; }
 
     .steps-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 24px;
     }
 
     .step-card {
       background: var(--bg-light);
-      padding: 30px 22px;
-      border-radius: 20px;
-      text-align: center;
+      padding: 32px 24px;
+      border-radius: 12px;
+      text-align: left;
       border: 1px solid var(--border);
       position: relative;
     }
 
     .step-number {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--primary);
-      color: white;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 14px;
-      border: 3px solid white;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      background: #d1fae5;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 16px;
     }
 
     .step-card .step-icon {
-      width: 64px;
-      height: 64px;
-      background: #ecfdf5;
-      color: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      margin: 10px auto 18px auto;
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 12px;
     }
 
-    .step-card h3 { font-size: 18px; color: var(--navy); margin-bottom: 8px; }
-    .step-card p { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+    .step-card h3 { font-size: 18px; color: var(--navy); margin-bottom: 8px; font-weight: 700; }
+    .step-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
     /* ANA İÇERİK & FİLTRELEME */
     .main-content {
       display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 25px;
+      grid-template-columns: 240px 1fr;
+      gap: 28px;
       margin-top: 40px;
       margin-bottom: 70px;
     }
 
     .sidebar-filter {
       background: white;
-      padding: 22px;
-      border-radius: 18px;
+      padding: 20px;
+      border-radius: 12px;
       border: 1px solid var(--border);
       height: fit-content;
       position: sticky;
@@ -312,15 +310,16 @@
     }
 
     .sidebar-filter h3 {
-      font-size: 18px;
-      margin-bottom: 18px;
+      font-size: 16px;
+      margin-bottom: 20px;
       color: var(--navy);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-weight: 700;
     }
 
-    .filter-group { margin-bottom: 16px; }
+    .filter-group { margin-bottom: 18px; }
 
     .filter-group label {
       display: block;
@@ -329,12 +328,13 @@
       color: var(--text-muted);
       margin-bottom: 6px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .filter-group select, .filter-group input {
       width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
       border: 1px solid var(--border);
       font-size: 13px;
       color: var(--text-main);
@@ -344,48 +344,49 @@
     .btn-reset-filter {
       width: 100%;
       padding: 9px;
-      border: 1px dashed var(--text-muted);
+      border: 1px solid var(--border);
       background: transparent;
       color: var(--text-muted);
-      border-radius: 10px;
+      border-radius: 8px;
       font-size: 12px;
       cursor: pointer;
-      margin-top: 5px;
       font-weight: 600;
+      transition: 0.2s;
     }
+
+    .btn-reset-filter:hover { background: var(--bg-light); color: var(--navy); }
 
     /* İLAN KARTLARI GRID */
     .listings-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
       gap: 10px;
     }
 
-    .listings-header h2 { font-size: 22px; color: var(--navy); }
+    .listings-header h2 { font-size: 22px; color: var(--navy); font-weight: 800; }
     .listings-header .count { font-size: 13px; color: var(--text-muted); font-weight: 600; }
 
     .cards-wrapper {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 20px;
     }
 
     .card {
       background: white;
-      border-radius: 16px;
+      border-radius: 12px;
       border: 1px solid var(--border);
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
       cursor: pointer;
     }
 
     .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+      border-color: #cbd5e1;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.04);
     }
 
     .card-img {
@@ -408,14 +409,14 @@
     }
 
     .badge {
-      padding: 4px 10px;
-      border-radius: 12px;
+      padding: 3px 8px;
+      border-radius: 6px;
       font-size: 11px;
       font-weight: 700;
       color: white;
     }
 
-    .badge-green { background-color: var(--primary); }
+    .badge-green { background-color: var(--primary-dark); }
     .badge-purple { background-color: var(--purple); }
 
     .card-body { padding: 14px; }
@@ -433,21 +434,21 @@
     .user-info {
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 4px;
     }
 
     .wanted-box {
-      font-size: 11px;
-      color: var(--primary-dark);
-      font-weight: 700;
+      font-size: 12px;
+      color: var(--navy);
+      font-weight: 600;
       margin-bottom: 12px;
-      background: #ecfdf5;
+      background: var(--bg-light);
       padding: 6px 10px;
-      border-radius: 8px;
-      display: block;
+      border-radius: 6px;
+      border: 1px solid var(--border);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -468,26 +469,29 @@
     .btn-action {
       flex: 1;
       padding: 8px;
-      border-radius: 8px;
+      border-radius: 6px;
       border: 1px solid var(--border);
       background: white;
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
+      transition: 0.2s;
     }
 
     .btn-action.primary {
-      background: #ecfdf5;
-      color: var(--primary);
-      border-color: #a7f3d0;
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
     }
+
+    .btn-action.primary:hover { background: var(--navy-light); }
 
     /* MODAL POP-UP STYLES */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(4px);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(2px);
       z-index: 1000;
       display: none;
       align-items: center;
@@ -500,10 +504,10 @@
     .modal-card {
       background: white;
       width: 100%;
-      max-width: 500px;
-      border-radius: 20px;
-      padding: 26px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      max-width: 480px;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
       position: relative;
       max-height: 90vh;
       overflow-y: auto;
@@ -513,31 +517,31 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 12px;
     }
 
-    .modal-header h3 { font-size: 18px; color: var(--navy); }
-    .close-modal { background: none; border: none; font-size: 22px; color: var(--text-muted); cursor: pointer; }
+    .modal-header h3 { font-size: 17px; color: var(--navy); font-weight: 700; }
+    .close-modal { background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; }
 
     .form-group { margin-bottom: 14px; }
     .form-group label { display: block; font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      padding: 10px;
+      padding: 9px 12px;
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 8px;
       font-size: 13px;
     }
 
     .btn-submit {
       width: 100%;
       background: var(--primary);
-      color: white;
+      color: var(--navy);
       border: none;
       padding: 12px;
-      border-radius: 10px;
+      border-radius: 8px;
       font-weight: 700;
       cursor: pointer;
       margin-top: 10px;
@@ -547,7 +551,7 @@
     @media (max-width: 850px) {
       .main-content { grid-template-columns: 1fr; }
       .nav-links, .search-box { display: none; }
-      .hero h1 { font-size: 26px; }
+      .hero h1 { font-size: 28px; }
       .sidebar-filter { position: static; }
     }
   </style>
@@ -558,8 +562,8 @@
   <header class="navbar">
     <div class="container nav-container">
       <a href="#" class="logo">
-        <div class="logo-icon-friendly"><i class="fa-solid fa-arrows-rotate"></i></div>
-        <span>TAKASLA<b>SANA</b></span>
+        <div class="logo-icon-minimal"><i class="fa-solid fa-arrow-left-right"></i></div>
+        <span>TAKASLASANA<b>.COM</b></span>
       </a>
 
       <nav class="nav-links">
@@ -575,7 +579,7 @@
           <input type="text" id="searchInput" placeholder="Eşya veya hizmet ara..." onkeyup="filterListings()">
         </div>
         <button class="btn-add-listing" onclick="openModal('addListingModal')"><i class="fa-solid fa-plus"></i> İlan Ver</button>
-        <button class="btn-primary-outline" onclick="alert('Giriş sistemi hazır!')"><i class="fa-regular fa-user"></i> Giriş</button>
+        <button class="btn-primary-outline" onclick="alert('Giriş sistemi hazır!')">Giriş Yap</button>
       </div>
     </div>
   </header>
@@ -583,11 +587,11 @@
   <!-- HERO SECTION -->
   <section class="hero">
     <div class="container">
-      <h1>EŞYANIZI VEYA BECERİNİZİ TAKASLAYIN,<br>İHTİYACINIZI <span>PARA HARCAMADAN</span> KARŞILAYIN!</h1>
-      <p>Ev boyamadan özel derse, cep telefonundan tamirata kadar eşyalarını ve becerilerini takaslayabileceğin güvenli platform.</p>
+      <h1>Eşyanı veya Becerini Takasla,<br>İhtiyacını <span>Sıfır Maliyetle</span> Karşıla</h1>
+      <p>Boya ustanızdan özel ders öğretmenine, eski bilgisayarınızdan matkabınıza kadar her türlü eşya ve hizmeti nakit harcamadan takaslayın.</p>
       <div class="hero-buttons">
-        <a href="#ilanlar" class="btn-hero-primary">TAKAS İLANLARINI İNCELE</a>
-        <button class="btn-hero-secondary" onclick="openModal('addListingModal')">+ İLAN VEYA HİZMET EKLE</button>
+        <a href="#ilanlar" class="btn-hero-primary">İlanları Keşfet</a>
+        <button class="btn-hero-secondary" onclick="openModal('addListingModal')">+ Takas İlanı Yayınla</button>
       </div>
     </div>
   </section>
@@ -596,30 +600,30 @@
   <section class="how-it-works" id="nasil-calisir">
     <div class="container">
       <div class="section-title">
-        <h2>Takaslasana Nasıl Çalışır?</h2>
-        <p>3 Kolay Adımda Para Harcamadan İhtiyacına Ulaş!</p>
+        <h2>Sistem Nasıl Çalışıyor?</h2>
+        <p>Para harcamadan ihtiyacınıza ulaşmanın 3 basit adımı</p>
       </div>
 
       <div class="steps-grid">
         <div class="step-card">
-          <div class="step-number">1</div>
-          <div class="step-icon"><i class="fa-solid fa-box-open"></i></div>
-          <h3>Eşyanı veya Becerini Ekle</h3>
-          <p>Kullanmadığın bir eşyayı veya yapabildiğin bir hizmeti (boya, özel ders, tamirat, yazılım) ücretsiz olarak ilan ver.</p>
+          <span class="step-number">ADIM 1</span>
+          <div class="step-icon"><i class="fa-solid fa-box"></i></div>
+          <h3>Sunduğun Şeyi Ekle</h3>
+          <p>Kullanmadığın bir eşyayı veya sunabileceğin bir yeteneği (boya, özel ders, tamirat) ücretsiz olarak ilan ver.</p>
         </div>
 
         <div class="step-card">
-          <div class="step-number">2</div>
-          <div class="step-icon"><i class="fa-solid fa-comments"></i></div>
-          <h3>Karşılığını ve İhtiyacını Belirt</h3>
-          <p>Örneğin: <i>"Ev boyarım, karşılığında dizüstü bilgisayar isterim"</i> diyerek takas teklifini kolayca oluştur.</p>
+          <span class="step-number">ADIM 2</span>
+          <div class="step-icon"><i class="fa-solid fa-arrow-transfer-exchange"></i></div>
+          <h3>Aradığını Belirt</h3>
+          <p>Sunduğun hizmet ya da eşya karşılığında ihtiyacın olan şeyi açıkça yaz: <i>"Boya yaparım, laptop isterim"</i>.</p>
         </div>
 
         <div class="step-card">
-          <div class="step-number">3</div>
+          <span class="step-number">ADIM 3</span>
           <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
-          <h3>Güvenle Anlaş & Takasla</h3>
-          <p>İlgilenen kullanıcılarla mesajlaş, teklifleri değerlendir, anlaşarak sıfır maliyetle takasını tamamla.</p>
+          <h3>Anlaş ve Takasla</h3>
+          <p>İlgilenen kullanıcılarla mesajlaş, teklifleri değerlendir ve nakit harcamadan takasını güvenle yap.</p>
         </div>
       </div>
     </div>
@@ -628,13 +632,13 @@
   <!-- İLANLAR VE FİLTRELEME -->
   <section class="main-content container" id="ilanlar">
     <aside class="sidebar-filter">
-      <h3>Filtrele <i class="fa-solid fa-sliders" style="font-size:14px; color:var(--primary);"></i></h3>
+      <h3>Filtreleme <i class="fa-solid fa-sliders" style="font-size:13px; color:var(--text-muted);"></i></h3>
       
       <div class="filter-group">
         <label>Takas Türü</label>
         <select id="typeFilter" onchange="filterListings()">
-          <option value="all">Tüm Takaslar</option>
-          <option value="HİZMET">🛠️ Hizmet & Beceriler</option>
+          <option value="all">Tümü</option>
+          <option value="HİZMET">🛠️ Hizmet Takası</option>
           <option value="EŞYA">📦 Eşya Takası</option>
         </select>
       </div>
@@ -648,7 +652,6 @@
           <option value="Yazılım & Tasarım">Yazılım & Tasarım</option>
           <option value="Elektronik & Cihazlar">Elektronik & Cihazlar</option>
           <option value="Vasıta & Araç">Vasıta & Araç</option>
-          <option value="Ev & Yaşam">Ev & Yaşam</option>
         </select>
       </div>
 
@@ -665,17 +668,17 @@
         </select>
       </div>
 
-      <button class="btn-reset-filter" onclick="resetFilters()">Filtreleri Temizle</button>
+      <button class="btn-reset-filter" onclick="resetFilters()">Filtreleri Sıfırla</button>
     </aside>
 
     <main class="listings-grid">
       <div class="listings-header">
-        <h2>Aktif Takas İlanları</h2>
+        <h2>Aktif Takaslar</h2>
         <span class="count" id="listingCount">Yükleniyor...</span>
       </div>
 
       <div class="cards-wrapper" id="cardsWrapper">
-        <!-- JS ile 50 İlan Yüklenecek -->
+        <!-- JS ile İlanlar Yüklenecek -->
       </div>
     </main>
   </section>
@@ -684,7 +687,7 @@
   <div class="modal-overlay" id="addListingModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>Yeni Takas İlanı Oluştur</h3>
+        <h3>Yeni Takas İlanı</h3>
         <button class="close-modal" onclick="closeModal('addListingModal')">&times;</button>
       </div>
       <form id="addListingForm" onsubmit="handleCreateListing(event)">
@@ -696,12 +699,12 @@
           </select>
         </div>
         <div class="form-group">
-          <label>İlan Başlığı (Ne Sunuyorsun?)</label>
-          <input type="text" id="newTitle" placeholder="Örn: Ev Boya Badana Hizmeti Verilir" required>
+          <label>İlan Başlığı</label>
+          <input type="text" id="newTitle" placeholder="Örn: Ev Boya Badana Hizmeti" required>
         </div>
         <div class="form-group">
-          <label>Karşılığında Ne İstiyorsun?</label>
-          <input type="text" id="newWanted" placeholder="Örn: Dizüstü Bilgisayar veya Tablet" required>
+          <label>Karşılığında Ne İsteniyor?</label>
+          <input type="text" id="newWanted" placeholder="Örn: Laptop veya Tablet" required>
         </div>
         <div class="form-group">
           <label>Kategori</label>
@@ -723,10 +726,10 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Ad Soyad / Kullanıcı Adı</label>
-          <input type="text" id="newUser" placeholder="Adınız" required>
+          <label>Adınız</label>
+          <input type="text" id="newUser" placeholder="Ad Soyad" required>
         </div>
-        <button type="submit" class="btn-submit">İlanı Yayınla</button>
+        <button type="submit" class="btn-submit">Yayınla</button>
       </form>
     </div>
   </div>
@@ -735,16 +738,16 @@
   <div class="modal-overlay" id="offerModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="offerModalTitle">Takas Teklifi Gönder</h3>
+        <h3 id="offerModalTitle">Takas Teklifi</h3>
         <button class="close-modal" onclick="closeModal('offerModal')">&times;</button>
       </div>
       <div id="offerModalContent" style="margin-bottom:15px; font-size:13px; color:var(--text-muted);"></div>
       <form onsubmit="handleSendOffer(event)">
         <div class="form-group">
-          <label>Teklif Ettiğiniz Eşya veya Hizmet</label>
-          <textarea rows="3" placeholder="Örn: Bendeki Temiz HP Laptop ile takaslayabiliriz, detayları konuşalım." required></textarea>
+          <label>Teklif Ettiğiniz Eşya / Hizmet</label>
+          <textarea rows="3" placeholder="Detayları yazın..." required></textarea>
         </div>
-        <button type="submit" class="btn-submit">Teklifi İlet</button>
+        <button type="submit" class="btn-submit">Teklifi Gönder</button>
       </form>
     </div>
   </div>
@@ -796,7 +799,7 @@
 
     function renderListings(list) {
       const wrapper = document.getElementById('cardsWrapper');
-      document.getElementById('listingCount').innerText = `${list.length} ilan listeleniyor`;
+      document.getElementById('listingCount').innerText = `${list.length} İlan Bulundu`;
       wrapper.innerHTML = '';
 
       if(list.length === 0) {
@@ -817,14 +820,14 @@
             <div class="card-body">
               <h4>${item.title}</h4>
               <div class="user-info"><i class="fa-regular fa-user"></i> ${item.user}</div>
-              <div class="wanted-box">🔄 ${item.wanted}</div>
+              <div class="wanted-box">Aranan: ${item.wanted}</div>
               <div class="location-rating">
                 <span><i class="fa-solid fa-location-dot"></i> ${item.city}</span>
                 <span class="rating"><i class="fa-solid fa-star"></i> ${item.rating}</span>
               </div>
               <div class="card-actions">
-                <button class="btn-action" onclick="event.stopPropagation(); alert('Mesaj modülü aktif!')"><i class="fa-regular fa-comment"></i> Mesaj</button>
-                <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
+                <button class="btn-action" onclick="event.stopPropagation(); alert('Mesajlaşma paneli yakında aktif olacak!')">Mesaj</button>
+                <button class="btn-action primary">Teklif Yap</button>
               </div>
             </div>
           </div>
@@ -863,8 +866,8 @@
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
     function openOfferModal(title, user, wanted) {
-      document.getElementById('offerModalTitle').innerText = `${title} - Teklif Yap`;
-      document.getElementById('offerModalContent').innerHTML = `<b>İlan Sahibi:</b> ${user}<br><b>İstediği Takas:</b> ${wanted}`;
+      document.getElementById('offerModalTitle').innerText = `${title} - Teklif`;
+      document.getElementById('offerModalContent').innerHTML = `<b>İlan Sahibi:</b> ${user}<br><b>Aranan Takas:</b> ${wanted}`;
       openModal('offerModal');
     }
 
@@ -886,13 +889,13 @@
       localStorage.setItem('takaslasana_listings', JSON.stringify(allListings));
       renderListings(allListings);
       closeModal('addListingModal');
-      alert('İlanınız yayınlandı!');
+      alert('İlanınız başarıyla eklendi!');
       e.target.reset();
     }
 
     function handleSendOffer(e) {
       e.preventDefault();
-      alert('Teklif iletildi!');
+      alert('Teklifiniz gönderildi!');
       closeModal('offerModal');
       e.target.reset();
     }
