@@ -80,6 +80,38 @@ function handleFile(file) {
     reader.readAsDataURL(file);
 }
 
+// Görseli Sıkıştırıp Base64 Formatına Dönüştüren Fonksiyon
+function compressImage(file, maxWidth = 600, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const base64Url = canvas.toDataURL("image/jpeg", quality);
+                resolve(base64Url);
+            };
+            img.onerror = (error) => reject(error);
+        };
+        reader.onerror = (error) => reject(error);
+    });
+}
+
 // 1. İLAN EKLEME FORMU
 const addForm = document.getElementById("add-listing-form");
 if (addForm) {
@@ -94,7 +126,7 @@ if (addForm) {
 
         const submitBtn = document.getElementById("submit-btn");
         submitBtn.disabled = true;
-        submitBtn.innerText = "Fotoğraf Yükleniyor ve Kaydediliyor...";
+        submitBtn.innerText = "İlan Hazırlanıyor ve Kaydediliyor...";
 
         const title = document.getElementById("item-title").value;
         const desc = document.getElementById("item-desc").value;
@@ -103,25 +135,9 @@ if (addForm) {
         let imageUrl = "";
 
         try {
-            // Görsel yükleme işlemi (FreeImageHost API)
+            // Eğer resim seçildiyse yerel olarak sıkıştır ve Base64 al
             if (selectedFile) {
-                const formData = new FormData();
-                formData.append("key", "6d207e02198a847aa98d0a2a901485a5"); // FreeImageHost Key
-                formData.append("action", "upload");
-                formData.append("source", selectedFile);
-                formData.append("format", "json");
-
-                const response = await fetch("https://freeimage.host/api/1/upload", {
-                    method: "POST",
-                    body: formData
-                });
-
-                const resData = await response.json();
-                if (resData && resData.image && resData.image.url) {
-                    imageUrl = resData.image.url;
-                } else {
-                    throw new Error("Resim yüklenirken servisten onay alınamadı.");
-                }
+                imageUrl = await compressImage(selectedFile);
             }
 
             // Firestore Veritabanına Kaydet
