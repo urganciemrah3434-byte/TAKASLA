@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlan Ekle - TAKASLASANA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1><a href="index.html" style="color:white; text-decoration:none;">TAKASLASANA</a></h1>
+        <h3>Satma, Takaslasana!</h3>
+    </header>
+
+    <div class="container">
+        <div class="card" style="max-width:600px; margin:20px auto; padding:20px;">
+            <h2>Yeni Takas İlanı Oluştur</h2>
+            <form id="add-listing-form">
+                <p>
+                    <label><strong>Ürün/Eşya Adı:</strong></label><br>
+                    <input type="text" id="item-title" placeholder="Örn: iPhone 11 64GB" required style="width:100%; padding:10px; margin-top:5px;">
+                </p>
+                <p>
+                    <label><strong>Ürün Açıklaması:</strong></label><br>
+                    <textarea id="item-desc" placeholder="Ürünün durumu, kullanım süresi vb." rows="4" required style="width:100%; padding:10px; margin-top:5px;"></textarea>
+                </p>
+                <p>
+                    <label><strong>Ne ile Takas Düşünüyorsun?:</strong></label><br>
+                    <input type="text" id="item-target" placeholder="Örn: Oyuncu Bilgisayarı veya Elektrikli Bisiklet" required style="width:100%; padding:10px; margin-top:5px;">
+                </p>
+                <p>
+                    <button type="submit" class="button" style="width:100%; padding:12px; background-color:#28a745; color:white; font-weight:bold; cursor:pointer; border:none; border-radius:5px;">İLAN YAYINLA</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- İlan Scripti -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
