@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TAKASLASANA - Eşya, Hizmet ve Becerini Takasla</title>
+  <title>TAKASLASANA - Türkiye'nin İlk Eşya ve Hizmet Takas Platformu</title>
   
   <!-- Font Awesome İkonlar -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,7 +19,8 @@
       --text-main: #334155;
       --text-muted: #64748b;
       --border: #e2e8f0;
-      --purple-badge: #8b5cf6;
+      --purple: #8b5cf6;
+      --amber: #f59e0b;
     }
 
     * {
@@ -36,7 +37,7 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
       padding: 0 20px;
     }
@@ -45,11 +46,11 @@
     .navbar {
       background-color: var(--navy);
       color: white;
-      padding: 15px 0;
+      padding: 14px 0;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .nav-container {
@@ -62,20 +63,32 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       text-decoration: none;
       color: white;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 800;
       letter-spacing: 0.5px;
     }
 
-    .logo svg { stroke: var(--primary); }
-    .logo b { color: var(--primary); }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), #3b82f6);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    }
+
+    .logo span b { color: var(--primary); }
 
     .nav-links {
       display: flex;
-      gap: 20px;
+      gap: 22px;
     }
 
     .nav-links a {
@@ -98,14 +111,14 @@
 
     .search-box {
       position: relative;
-      width: 240px;
+      width: 250px;
     }
 
     .search-box input {
       width: 100%;
-      padding: 8px 12px 8px 34px;
+      padding: 9px 12px 9px 36px;
       border-radius: 8px;
-      border: none;
+      border: 1px solid rgba(255,255,255,0.1);
       background: #1e293b;
       color: white;
       font-size: 13px;
@@ -113,20 +126,11 @@
 
     .search-box i {
       position: absolute;
-      left: 10px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
       color: #94a3b8;
       font-size: 13px;
-    }
-
-    .btn-icon {
-      background: #1e293b;
-      border: none;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
     }
 
     .btn-primary-outline {
@@ -144,25 +148,23 @@
       background: linear-gradient(180deg, var(--navy) 0%, #1e293b 100%);
       color: white;
       text-align: center;
-      padding: 70px 20px;
+      padding: 60px 20px 80px 20px;
     }
 
     .hero h1 {
-      font-size: 30px;
+      font-size: 34px;
       font-weight: 800;
-      line-height: 1.3;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
+      line-height: 1.35;
+      margin-bottom: 16px;
     }
 
-    .hero h1 span {
-      color: var(--primary);
-    }
+    .hero h1 span { color: var(--primary); }
 
     .hero p {
       color: #94a3b8;
-      font-size: 16px;
-      margin-bottom: 28px;
+      font-size: 17px;
+      max-width: 700px;
+      margin: 0 auto 30px auto;
     }
 
     .hero-buttons {
@@ -174,94 +176,140 @@
     .btn-hero-primary {
       background-color: var(--primary);
       color: white;
-      padding: 12px 28px;
+      padding: 14px 32px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 700;
+      font-size: 15px;
       transition: 0.2s;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
     }
 
-    .btn-hero-primary:hover {
-      background-color: var(--primary-dark);
-    }
+    .btn-hero-primary:hover { background-color: var(--primary-dark); }
 
     .btn-hero-secondary {
       border: 2px solid #38bdf8;
       color: #38bdf8;
-      padding: 12px 28px;
+      padding: 14px 32px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 700;
+      font-size: 15px;
     }
 
-    /* ADIMLAR */
-    .steps-section {
-      padding: 40px 0;
+    /* NASIL ÇALIŞIR KÖŞESİ */
+    .how-it-works {
+      padding: 60px 0;
       background: white;
       border-bottom: 1px solid var(--border);
     }
 
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
+    .section-title {
       text-align: center;
+      margin-bottom: 40px;
     }
 
-    .step-card .step-icon {
-      width: 60px;
-      height: 60px;
-      background: #ecfdf5;
-      color: var(--primary);
-      border-radius: 12px;
+    .section-title h2 {
+      font-size: 26px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .step-card {
+      background: var(--bg-light);
+      padding: 30px 24px;
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .step-number {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--navy);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      margin: 0 auto 15px auto;
+      font-weight: 700;
+      font-size: 14px;
+      border: 2px solid white;
+    }
+
+    .step-card .step-icon {
+      width: 64px;
+      height: 64px;
+      background: #ecfdf5;
+      color: var(--primary);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 10px auto 20px auto;
     }
 
     .step-card h3 {
-      font-size: 16px;
+      font-size: 18px;
       color: var(--navy);
-      margin-bottom: 6px;
+      margin-bottom: 10px;
     }
 
     .step-card p {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-muted);
+      line-height: 1.6;
     }
 
-    /* ANA İÇERİK */
+    /* ANA İÇERİK & FİLTRELEME */
     .main-content {
       display: grid;
-      grid-template-columns: 240px 1fr;
+      grid-template-columns: 260px 1fr;
       gap: 30px;
-      margin-top: 40px;
-      margin-bottom: 60px;
+      margin-top: 50px;
+      margin-bottom: 80px;
     }
 
     .sidebar-filter {
       background: white;
-      padding: 20px;
-      border-radius: 12px;
+      padding: 24px;
+      border-radius: 16px;
       border: 1px solid var(--border);
       height: fit-content;
+      position: sticky;
+      top: 80px;
     }
 
     .sidebar-filter h3 {
-      font-size: 16px;
+      font-size: 18px;
       margin-bottom: 20px;
       color: var(--navy);
     }
 
     .filter-group {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .filter-group label {
       display: block;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-muted);
       margin-bottom: 6px;
@@ -277,22 +325,23 @@
       background: var(--bg-light);
     }
 
-    /* İLAN KARTLARI */
+    /* İLAN KARTLARI GRID */
     .listings-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .listings-header h2 {
-      font-size: 20px;
+      font-size: 22px;
       color: var(--navy);
     }
 
     .listings-header .count {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-muted);
+      font-weight: 600;
     }
 
     .cards-wrapper {
@@ -303,20 +352,21 @@
 
     .card {
       background: white;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid var(--border);
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      transition: transform 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .card:hover {
       transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     }
 
     .card-img {
       position: relative;
-      height: 180px;
+      height: 170px;
     }
 
     .card-img img {
@@ -342,10 +392,10 @@
     }
 
     .badge-green { background-color: var(--primary); }
-    .badge-purple { background-color: var(--purple-badge); }
+    .badge-purple { background-color: var(--purple); }
 
     .card-body {
-      padding: 15px;
+      padding: 14px;
     }
 
     .card-body h4 {
@@ -355,17 +405,30 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 700;
     }
 
-    .card-body .wanted-item {
+    .user-info {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .wanted-box {
       font-size: 11px;
       color: var(--primary-dark);
-      font-weight: 600;
-      margin-bottom: 10px;
+      font-weight: 700;
+      margin-bottom: 12px;
       background: #ecfdf5;
-      padding: 4px 8px;
-      border-radius: 4px;
-      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 6px;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .location-rating {
@@ -373,11 +436,11 @@
       justify-content: space-between;
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     .rating {
-      color: #f59e0b;
+      color: var(--amber);
       font-weight: 700;
     }
 
@@ -406,7 +469,7 @@
     @media (max-width: 768px) {
       .main-content { grid-template-columns: 1fr; }
       .nav-links, .search-box { display: none; }
-      .hero h1 { font-size: 22px; }
+      .hero h1 { font-size: 24px; }
     }
   </style>
 </head>
@@ -416,27 +479,23 @@
   <header class="navbar">
     <div class="container nav-container">
       <a href="#" class="logo">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M7 16V4M7 4L3 8M7 4L11 8"/>
-          <path d="M17 8V20M17 20L21 16M17 20L13 16"/>
-        </svg>
+        <div class="logo-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
         <span>TAKASLA<b>SANA</b></span>
       </a>
 
       <nav class="nav-links">
         <a href="#" class="active">Anasayfa</a>
-        <a href="#">Kategoriler <i class="fa-solid fa-chevron-down"></i></a>
-        <a href="#">Hakkımızda</a>
-        <a href="#">Nasıl Çalışır</a>
+        <a href="#nasil-calisir">Nasıl Çalışır?</a>
+        <a href="#ilanlar">İlanlar</a>
+        <a href="#">Kategoriler</a>
         <a href="#">Güvenli Takas</a>
       </nav>
 
       <div class="nav-actions">
         <div class="search-box">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Eşya, hizmet veya beceri ara...">
+          <input type="text" placeholder="Eşya, usta veya ders ara...">
         </div>
-        <button class="btn-icon"><i class="fa-regular fa-bell"></i></button>
         <button class="btn-primary-outline"><i class="fa-regular fa-user"></i> Giriş Yap</button>
       </div>
     </div>
@@ -444,9 +503,9 @@
 
   <!-- HERO SECTION -->
   <section class="hero">
-    <div class="container hero-content">
-      <h1>EŞYANI VEYA YETENEĞİNİ TAKASLA,<br>İHTİYACINI <span>PARA HARCADAN</span> KARŞILA!</h1>
-      <p>Ev boyamadan matematik dersine, laptop takasından tamirata kadar Türkiye'nin ilk Yetenek & Eşya Takas Platformu</p>
+    <div class="container">
+      <h1>EŞYANIZI VEYA BECERİNİZİ TAKASLAYIN,<br>İHTİYACINIZI <span>PARA HARCAMADAN</span> KARŞILAYIN!</h1>
+      <p>Ev boyamadan özel derse, cep telefonundan tamirata kadar eşyalarını ve becerilerini takaslayabileceğin güvenli platform.</p>
       <div class="hero-buttons">
         <a href="#ilanlar" class="btn-hero-primary">TAKAS İLANLARINI İNCELE</a>
         <a href="#" class="btn-hero-secondary">+ İLAN VEYA HİZMET EKLE</a>
@@ -454,23 +513,35 @@
     </div>
   </section>
 
-  <!-- ADIMLAR SECTION -->
-  <section class="steps-section">
-    <div class="container steps-grid">
-      <div class="step-card">
-        <div class="step-icon"><i class="fa-solid fa-briefcase"></i></div>
-        <h3>1. Eşya veya Hizmetini Tanımla</h3>
-        <p>Boya badana yapabilir misin? Veya elinde laptop mu var? İlanını oluştur.</p>
+  <!-- NASIL ÇALIŞIR KÖŞESİ -->
+  <section class="how-it-works" id="nasil-calisir">
+    <div class="container">
+      <div class="section-title">
+        <h2>Takaslasana Nasıl Çalışır?</h2>
+        <p>3 Kolay Adımda Para Harcamadan İhtiyacına Ulaş!</p>
       </div>
-      <div class="step-card">
-        <div class="step-icon"><i class="fa-solid fa-comments"></i></div>
-        <h3>2. İhtiyacın Olanı İste</h3>
-        <p>"Boya yaparım, laptop ile takaslarım" şeklinde teklifini belirle.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
-        <h3>3. Anlaş ve Takasla</h3>
-        <p>Güvenle iletişime geç, hizmetini ver veya eşyanı teslim et.</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-icon"><i class="fa-solid fa-box-open"></i></div>
+          <h3>Eşyanı veya Becerini Ekle</h3>
+          <p>Kullanmadığın bir eşyayı veya yapabildiğin bir hizmeti (boya, özel ders, tamirat, yazılım) ücretsiz olarak ilan ver.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-icon"><i class="fa-solid fa-comments"></i></div>
+          <h3>Karşılığını ve İhtiyacını Belirt</h3>
+          <p>Örneğİn: <i>"Ev boyarım, karşılığında dizüstü bilgisayar isterim"</i> diyerek takas teklifini kolayca oluştur.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
+          <h3>Güvenle Anlaş & Takasla</h3>
+          <p>İlgilenen kullanıcılarla mesajlaş, teklifleri değerlendir, anlaşarak sıfır maliyetle takasını tamamla.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -496,7 +567,8 @@
           <option>Boya, Tadilat & Ustalık</option>
           <option>Özel Ders & Eğitim</option>
           <option>Yazılım & Tasarım</option>
-          <option>Elektronik Eşya</option>
+          <option>Elektronik & Cihazlar</option>
+          <option>Vasıta & Araç</option>
           <option>Moda & Giyim</option>
         </select>
       </div>
@@ -509,29 +581,29 @@
           <option>Ankara</option>
           <option>Kastamonu</option>
           <option>İzmir</option>
+          <option>Bursa</option>
         </select>
       </div>
     </aside>
 
     <main class="listings-grid">
       <div class="listings-header">
-        <h2>Öne Çıkan Takas & Hizmet İlanları</h2>
-        <span class="count">4 ilan listeleniyor</span>
+        <h2>Aktif Takas İlanları</h2>
+        <span class="count">Canlı İlanlar Listeleniyor</span>
       </div>
 
       <div class="cards-wrapper">
-        
-        <!-- Hizmet İlanı 1 (Boyacı) -->
+
+        <!-- İlan 1 -->
         <div class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=500" alt="Boya Badana">
-            <div class="badges">
-              <span class="badge badge-purple">🛠️ HİZMET</span>
-            </div>
+            <div class="badges"><span class="badge badge-purple">🛠️ HİZMET</span></div>
           </div>
           <div class="card-body">
             <h4>Profesyonel Boya Badana</h4>
-            <div class="wanted-item">🔄 Karşılığında Laptop İstiyor</div>
+            <div class="user-info"><i class="fa-regular fa-user"></i> Emrah Ustalık</div>
+            <div class="wanted-box">🔄 Laptop ile Takaslık</div>
             <div class="location-rating">
               <span><i class="fa-solid fa-location-dot"></i> İstanbul</span>
               <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
@@ -543,17 +615,16 @@
           </div>
         </div>
 
-        <!-- Hizmet İlanı 2 (İngilizce Öğretmeni) -->
+        <!-- İlan 2 -->
         <div class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500" alt="Özel Ders">
-            <div class="badges">
-              <span class="badge badge-purple">🛠️ HİZMET</span>
-            </div>
+            <div class="badges"><span class="badge badge-purple">🛠️ HİZMET</span></div>
           </div>
           <div class="card-body">
-            <h4>Birebir İngilizce Özel Ders</h4>
-            <div class="wanted-item">🔄 Web Sitesi Tasarımı İstiyor</div>
+            <h4>Matematik Özel Ders</h4>
+            <div class="user-info"><i class="fa-regular fa-user"></i> Zeynep Öğretmen</div>
+            <div class="wanted-box">🔄 Bulaşık Makinesi İstiyor</div>
             <div class="location-rating">
               <span><i class="fa-solid fa-location-dot"></i> Ankara</span>
               <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
@@ -565,19 +636,18 @@
           </div>
         </div>
 
-        <!-- Eşya İlanı 1 -->
+        <!-- İlan 3 -->
         <div class="card">
           <div class="card-img">
-            <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500" alt="Apple Watch">
-            <div class="badges">
-              <span class="badge badge-green">📦 EŞYA</span>
-            </div>
+            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500" alt="MacBook">
+            <div class="badges"><span class="badge badge-green">📦 EŞYA</span></div>
           </div>
           <div class="card-body">
-            <h4>Apple Watch Series 7</h4>
-            <div class="wanted-item">🔄 Bisiklet Veya Ustalık Hizmeti</div>
+            <h4>MacBook Pro M1 16GB</h4>
+            <div class="user-info"><i class="fa-regular fa-user"></i> Ahmet K.</div>
+            <div class="wanted-box">🔄 Motosiklet ile Takaslık</div>
             <div class="location-rating">
-              <span><i class="fa-solid fa-location-dot"></i> Kastamonu</span>
+              <span><i class="fa-solid fa-location-dot"></i> İzmir</span>
               <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
             </div>
             <div class="card-actions">
@@ -587,20 +657,61 @@
           </div>
         </div>
 
-        <!-- Hizmet İlanı 3 (Yazılım) -->
+        <!-- İlan 4 -->
+        <div class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500" alt="Oto Tamir">
+            <div class="badges"><span class="badge badge-purple">🛠️ HİZMET</span></div>
+          </div>
+          <div class="card-body">
+            <h4>Oto Elektrik & Periyodik Bakım</h4>
+            <div class="user-info"><i class="fa-regular fa-user"></i> Mustafa Usta</div>
+            <div class="wanted-box">🔄 Akıllı Telefon İstiyor</div>
+            <div class="location-rating">
+              <span><i class="fa-solid fa-location-dot"></i> Kastamonu</span>
+              <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj</button>
+              <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- İlan 5 -->
         <div class="card">
           <div class="card-img">
             <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500" alt="Yazılım">
-            <div class="badges">
-              <span class="badge badge-purple">🛠️ HİZMET</span>
-            </div>
+            <div class="badges"><span class="badge badge-purple">🛠️ HİZMET</span></div>
           </div>
           <div class="card-body">
-            <h4>Mobil Uygulama Geliştirme</h4>
-            <div class="wanted-item">🔄 Elektrikli Scooter İstiyor</div>
+            <h4>Web Sitem Kurulumu & SEO</h4>
+            <div class="user-info"><i class="fa-regular fa-user"></i> Burak D.</div>
+            <div class="wanted-box">🔄 Oyun Konsolu (PS5)</div>
             <div class="location-rating">
-              <span><i class="fa-solid fa-location-dot"></i> İzmir</span>
-              <span class="rating"><i class="fa-solid fa-star"></i> 5.0</span>
+              <span><i class="fa-solid fa-location-dot"></i> Bursa</span>
+              <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj</button>
+              <button class="btn-action primary"><i class="fa-solid fa-arrows-rotate"></i> Teklif Yap</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- İlan 6 -->
+        <div class="card">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500" alt="Motosiklet">
+            <div class="badges"><span class="badge badge-green">📦 EŞYA</span></div>
+          </div>
+          <div class="card-body">
+            <h4>125cc Scooter Motosiklet</h4>
+            <div class="user-info"><i class="fa-regular fa-user"></i> Murat Y.</div>
+            <div class="wanted-box">🔄 Ev Tadilat İşleri</div>
+            <div class="location-rating">
+              <span><i class="fa-solid fa-location-dot"></i> Antalya</span>
+              <span class="rating"><i class="fa-solid fa-star"></i> 4.7</span>
             </div>
             <div class="card-actions">
               <button class="btn-action"><i class="fa-regular fa-comment"></i> Mesaj</button>
