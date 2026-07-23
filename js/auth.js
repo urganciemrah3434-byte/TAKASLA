@@ -1,5 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    onAuthStateChanged, 
+    signOut 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // Firebase Konfigürasyonu
 const firebaseConfig = {
@@ -55,3 +61,34 @@ if (loginForm) {
         }
     });
 }
+
+// Oturum Durumunu Dinle ve Ana Sayfa Görünümünü Güncelle
+onAuthStateChanged(auth, (user) => {
+    const authNav = document.getElementById("auth-nav");
+    
+    if (authNav) {
+        if (user) {
+            // Kullanıcı giriş yapmışsa
+            authNav.innerHTML = `
+                <span style="color:#a8ffb2; font-weight:bold;">👤 ${user.email}</span> 
+                <a href="#" id="logout-btn" style="color:#ff6b6b; font-weight:bold; margin-left:15px; text-decoration:none;">[Çıkış Yap]</a>
+            `;
+            
+            const logoutBtn = document.getElementById("logout-btn");
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    await signOut(auth);
+                    alert("Çıkış yapıldı.");
+                    window.location.reload();
+                });
+            }
+        } else {
+            // Kullanıcı giriş yapmamışsa
+            authNav.innerHTML = `
+                <a href="login.html" style="color:white; margin-right:10px;">Giriş Yap</a>
+                <a href="register.html" style="color:white;">Üye Ol</a>
+            `;
+        }
+    }
+});
