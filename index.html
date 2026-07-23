@@ -48,14 +48,15 @@
     .nav-links { display: flex; gap: 20px; }
     .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; cursor: pointer; }
     .nav-links a:hover, .nav-links a.active { color: var(--purple); }
-    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
     
-    .search-box { position: relative; width: 220px; }
+    .search-box { position: relative; width: 200px; }
     .search-box input { width: 100%; padding: 9px 12px 9px 36px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-light); font-size: 13px; }
     .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 13px; }
 
-    .btn-fav-filter { background: white; border: 1px solid var(--border); padding: 9px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; color: var(--rose); cursor: pointer; display: flex; align-items: center; gap: 6px; }
-    .btn-add-listing { background: linear-gradient(135deg, var(--purple), #7c3aed); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 13px; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25); }
+    .lang-select { padding: 8px 10px; border-radius: 20px; border: 1px solid var(--border); font-size: 12px; font-weight: 700; background: white; color: var(--dark); cursor: pointer; }
+    .btn-fav-filter { background: white; border: 1px solid var(--border); padding: 9px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; color: var(--rose); cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .btn-add-listing { background: linear-gradient(135deg, var(--purple), #7c3aed); color: white; border: none; padding: 10px 18px; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 13px; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25); }
 
     /* HERO & CATS */
     .hero { background: linear-gradient(135deg, #f3e8ff 0%, #e0e7ff 100%); padding: 50px 20px 60px 20px; text-align: center; border-radius: 0 0 30px 30px; }
@@ -125,7 +126,7 @@
     .img-preview { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; margin-top: 8px; display: none; }
     .detail-img { width: 100%; height: 240px; object-fit: cover; border-radius: 14px; margin-bottom: 16px; }
 
-    /* SECURITY / CAPTCHA BOX */
+    /* SECURITY BOX */
     .security-box { background: var(--purple-soft); padding: 12px; border-radius: 12px; margin-bottom: 14px; border: 1px dashed var(--purple); }
     .security-box label { font-size: 12px; color: var(--purple); font-weight: 700; }
 
@@ -143,18 +144,26 @@
       </a>
 
       <nav class="nav-links">
-        <a href="#" class="active" onclick="resetFilters()">Anasayfa</a>
-        <a href="#ilanlar" onclick="toggleFavFilter()">Favorilerim ❤️</a>
-        <a href="#" onclick="openModal('addListingModal')">İlan Ver</a>
+        <a href="#" class="active" onclick="resetFilters()" data-i18n="nav_home">Anasayfa</a>
+        <a href="#ilanlar" onclick="toggleFavFilter()" data-i18n="nav_favs">Favorilerim ❤️</a>
+        <a href="#" onclick="openModal('addListingModal')" data-i18n="nav_add">İlan Ver</a>
       </nav>
 
       <div class="nav-actions">
+        <select id="langSelector" class="lang-select" onchange="changeLanguage(this.value)">
+          <option value="tr">🇹🇷 Türkçe</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="ru">🇷🇺 Русский</option>
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="de">🇩🇪 Deutsch</option>
+        </select>
+        
         <div class="search-box">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="searchInput" placeholder="Eşya veya hizmet ara..." onkeyup="filterListings()">
+          <input type="text" id="searchInput" placeholder="Ara..." data-i18n-placeholder="search_placeholder" onkeyup="filterListings()">
         </div>
-        <button class="btn-fav-filter" onclick="toggleFavFilter()"><i class="fa-solid fa-heart"></i> Favoriler</button>
-        <button class="btn-add-listing" onclick="openModal('addListingModal')"><i class="fa-solid fa-plus"></i> İlan Ver</button>
+        <button class="btn-fav-filter" onclick="toggleFavFilter()"><i class="fa-solid fa-heart"></i> <span data-i18n="btn_favorites">Favoriler</span></button>
+        <button class="btn-add-listing" onclick="openModal('addListingModal')"><i class="fa-solid fa-plus"></i> <span data-i18n="nav_add">İlan Ver</span></button>
       </div>
     </div>
   </header>
@@ -162,11 +171,11 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <h1>Eşyanı veya Becerini Takasla,<br><span>Para Harcamadan</span> İhtiyacını Gör!</h1>
-      <p>Kullanmadığın eşyalarını ver ya da bir konuda destek ol; karşılığında ihtiyacın olan hizmeti veya ürünü al.</p>
+      <h1 data-i18n="hero_title">Eşyanı veya Becerini Takasla,<br><span>Para Harcamadan</span> İhtiyacını Gör!</h1>
+      <p data-i18n="hero_desc">Kullanmadığın eşyalarını ver ya da bir konuda destek ol; karşılığında ihtiyacın olan hizmeti veya ürünü al.</p>
       <div class="hero-buttons">
-        <a href="#ilanlar" class="btn-hero btn-hero-primary">İlanları Keşfet</a>
-        <button class="btn-hero btn-hero-secondary" onclick="openModal('addListingModal')">+ İlan Oluştur</button>
+        <a href="#ilanlar" class="btn-hero btn-hero-primary" data-i18n="btn_explore">İlanları Keşfet</a>
+        <button class="btn-hero btn-hero-secondary" onclick="openModal('addListingModal')" data-i18n="btn_create">+ İlan Oluştur</button>
       </div>
     </div>
   </section>
@@ -174,34 +183,34 @@
   <!-- HIZLI KATEGORİLER -->
   <div class="container quick-categories">
     <div class="cat-scroll">
-      <div class="cat-item active" onclick="quickCategory('all', this)"><i class="fa-solid fa-border-all"></i> Tümü</div>
-      <div class="cat-item" onclick="quickCategory('Boya, Tadilat & Ustalık', this)"><i class="fa-solid fa-paint-roller"></i> Ustalık & Tadilat</div>
-      <div class="cat-item" onclick="quickCategory('Özel Ders & Eğitim', this)"><i class="fa-solid fa-graduation-cap"></i> Özel Ders</div>
-      <div class="cat-item" onclick="quickCategory('Yazılım & Tasarım', this)"><i class="fa-solid fa-laptop-code"></i> Yazılım & Tasarım</div>
-      <div class="cat-item" onclick="quickCategory('Elektronik & Cihazlar', this)"><i class="fa-solid fa-plug"></i> Elektronik</div>
-      <div class="cat-item" onclick="quickCategory('Ev & Yaşam', this)"><i class="fa-solid fa-house"></i> Ev & Yaşam</div>
-      <div class="cat-item" onclick="quickCategory('Hobiler & Müzik', this)"><i class="fa-solid fa-guitar"></i> Hobi & Müzik</div>
+      <div class="cat-item active" onclick="quickCategory('all', this)"><i class="fa-solid fa-border-all"></i> <span data-i18n="cat_all">Tümü</span></div>
+      <div class="cat-item" onclick="quickCategory('Boya, Tadilat & Ustalık', this)"><i class="fa-solid fa-paint-roller"></i> <span data-i18n="cat_repair">Ustalık & Tadilat</span></div>
+      <div class="cat-item" onclick="quickCategory('Özel Ders & Eğitim', this)"><i class="fa-solid fa-graduation-cap"></i> <span data-i18n="cat_edu">Özel Ders</span></div>
+      <div class="cat-item" onclick="quickCategory('Yazılım & Tasarım', this)"><i class="fa-solid fa-laptop-code"></i> <span data-i18n="cat_tech">Yazılım & Tasarım</span></div>
+      <div class="cat-item" onclick="quickCategory('Elektronik & Cihazlar', this)"><i class="fa-solid fa-plug"></i> <span data-i18n="cat_elec">Elektronik</span></div>
+      <div class="cat-item" onclick="quickCategory('Ev & Yaşam', this)"><i class="fa-solid fa-house"></i> <span data-i18n="cat_home">Ev & Yaşam</span></div>
+      <div class="cat-item" onclick="quickCategory('Hobiler & Müzik', this)"><i class="fa-solid fa-guitar"></i> <span data-i18n="cat_hobbies">Hobi & Müzik</span></div>
     </div>
   </div>
 
   <!-- MAIN CONTENT -->
   <section class="main-content container" id="ilanlar">
     <aside class="sidebar-filter">
-      <h3>Filtrele</h3>
+      <h3 data-i18n="filter_title">Filtrele</h3>
       
       <div class="filter-group">
-        <label>Takas Türü</label>
+        <label data-i18n="filter_type">Takas Türü</label>
         <select id="typeFilter" onchange="filterListings()">
-          <option value="all">Tümü</option>
-          <option value="HİZMET">🛠️ Hizmet Takası</option>
-          <option value="EŞYA">📦 Eşya Takası</option>
+          <option value="all" data-i18n="opt_all">Tümü</option>
+          <option value="HİZMET" data-i18n="opt_service">🛠️ Hizmet Takası</option>
+          <option value="EŞYA" data-i18n="opt_item">📦 Eşya Takası</option>
         </select>
       </div>
 
       <div class="filter-group">
-        <label>Kategori</label>
+        <label data-i18n="filter_category">Kategori</label>
         <select id="categoryFilter" onchange="filterListings()">
-          <option value="all">Tüm Kategoriler</option>
+          <option value="all" data-i18n="opt_all_cats">Tüm Kategoriler</option>
           <option value="Boya, Tadilat & Ustalık">Boya & Tadilat</option>
           <option value="Özel Ders & Eğitim">Özel Ders & Eğitim</option>
           <option value="Yazılım & Tasarım">Yazılım & Tasarım</option>
@@ -212,9 +221,9 @@
       </div>
 
       <div class="filter-group">
-        <label>Şehir</label>
+        <label data-i18n="filter_city">Şehir</label>
         <select id="cityFilter" onchange="filterListings()">
-          <option value="all">Tüm Şehirler</option>
+          <option value="all" data-i18n="opt_all_cities">Tüm Şehirler</option>
           <option value="İstanbul">İstanbul</option>
           <option value="Ankara">Ankara</option>
           <option value="Kastamonu">Kastamonu</option>
@@ -222,17 +231,17 @@
         </select>
       </div>
 
-      <button class="btn-reset-filter" onclick="resetFilters()">Filtreleri Temizle</button>
+      <button class="btn-reset-filter" onclick="resetFilters()" data-i18n="btn_reset">Filtreleri Temizle</button>
     </aside>
 
     <main class="listings-grid">
       <div class="listings-header">
-        <h2 id="sectionHeaderTitle">Aktif İlanlar</h2>
+        <h2 id="sectionHeaderTitle" data-i18n="active_listings">Aktif İlanlar</h2>
         <div style="display:flex; align-items:center; gap:12px;">
           <span id="listingCount" style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Yükleniyor...</span>
           <select id="sortSelect" class="sort-select" onchange="filterListings()">
-            <option value="newest">En Yeniler</option>
-            <option value="rating">En Yüksek Puanlılar</option>
+            <option value="newest" data-i18n="sort_new">En Yeniler</option>
+            <option value="rating" data-i18n="sort_rating">En Yüksek Puanlılar</option>
           </select>
         </div>
       </div>
@@ -245,32 +254,32 @@
   <div class="modal-overlay" id="addListingModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3>Yeni İlan Ver</h3>
+        <h3 data-i18n="modal_add_title">Yeni İlan Ver</h3>
         <button class="close-modal" onclick="closeModal('addListingModal')">&times;</button>
       </div>
       <form id="addListingForm" onsubmit="handleCreateListing(event)">
         <div class="form-group">
-          <label>Takas Türü</label>
+          <label data-i18n="form_type">Takas Türü</label>
           <select id="newType" required>
-            <option value="HİZMET">🛠️ Hizmet Sunuyorum</option>
-            <option value="EŞYA">📦 Eşya Veriyorum</option>
+            <option value="HİZMET" data-i18n="form_type_service">🛠️ Hizmet Sunuyorum</option>
+            <option value="EŞYA" data-i18n="form_type_item">📦 Eşya Veriyorum</option>
           </select>
         </div>
         <div class="form-group">
-          <label>İlan Başlığı</label>
+          <label data-i18n="form_title">İlan Başlığı</label>
           <input type="text" id="newTitle" placeholder="Örn: Çalışır durumda espresso makinesi" required minlength="5">
         </div>
         <div class="form-group">
-          <label>Karşılığında Ne İstiyorsun?</label>
+          <label data-i18n="form_wanted">Karşılığında Ne İstiyorsun?</label>
           <input type="text" id="newWanted" placeholder="Örn: Akustik gitar veya İngilizce dersi" required minlength="3">
         </div>
         <div class="form-group">
-          <label>Fotoğraf Yükle (Bilgisayardan/Telefondan)</label>
+          <label data-i18n="form_img">Fotoğraf Yükle (Bilgisayardan/Telefondan)</label>
           <input type="file" id="newImgFile" accept="image/*" onchange="previewImage(event)">
           <img id="imgPreview" class="img-preview" alt="Görsel Önizleme">
         </div>
         <div class="form-group">
-          <label>Kategori</label>
+          <label data-i18n="filter_category">Kategori</label>
           <select id="newCategory" required>
             <option value="Elektronik & Cihazlar">Elektronik & Cihazlar</option>
             <option value="Boya, Tadilat & Ustalık">Boya, Tadilat & Ustalık</option>
@@ -280,7 +289,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Şehir</label>
+          <label data-i18n="filter_city">Şehir</label>
           <select id="newCity" required>
             <option value="Kastamonu">Kastamonu</option>
             <option value="İstanbul">İstanbul</option>
@@ -289,25 +298,20 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Adınız</label>
+          <label data-i18n="form_name">Adınız</label>
           <input type="text" id="newUser" placeholder="Ad Soyad" required>
         </div>
         <div class="form-group">
-          <label>WhatsApp Numaranız (Başında 90 ile)</label>
+          <label data-i18n="form_phone">WhatsApp Numaranız (Başında 90 ile)</label>
           <input type="tel" id="newPhone" placeholder="Örn: 905551112233" required pattern="[0-9]{12}">
         </div>
 
-        <!-- SPAM / BOT KORUMASI -->
         <div class="security-box">
           <label id="captchaQuestion">Güvenlik Doğrulaması: 3 + 5 = ?</label>
           <input type="number" id="captchaAnswer" placeholder="Sonucu yazınız" required style="margin-top:6px;">
         </div>
 
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">
-          <input type="checkbox" required id="termsCheck"> <u>Topluluk Kurallarını</u> kabul ediyorum. İlanım incelendikten sonra yayında kalacaktır.
-        </div>
-
-        <button type="submit" class="btn-submit" style="background:var(--purple);"><i class="fa-solid fa-check"></i> İlanı Onaya Gönder & Yayınla</button>
+        <button type="submit" class="btn-submit" style="background:var(--purple);"><i class="fa-solid fa-check"></i> <span data-i18n="btn_submit">İlanı Onaya Gönder & Yayınla</span></button>
       </form>
     </div>
   </div>
@@ -326,11 +330,11 @@
         <span class="rating"><i class="fa-solid fa-star"></i> <span id="detailRating"></span></span>
       </div>
       <div style="background:var(--purple-soft); color:var(--purple); padding:10px 14px; border-radius:12px; font-size:13px; font-weight:700; margin-bottom:16px;">
-        <i class="fa-solid fa-arrows-rotate"></i> <b>Aranan Takas:</b> <span id="detailWantedText"></span>
+        <i class="fa-solid fa-arrows-rotate"></i> <b data-i18n="detail_wanted">Aranan Takas:</b> <span id="detailWantedText"></span>
       </div>
       <div style="display:flex; gap:10px;">
-        <button class="btn-action whatsapp-btn" style="padding:12px;" id="detailDirectBtn"><i class="fa-brands fa-whatsapp"></i> Mesaj</button>
-        <button class="btn-action primary" style="padding:12px;" id="detailOfferBtn"><i class="fa-solid fa-handshake"></i> Teklif Yap</button>
+        <button class="btn-action whatsapp-btn" style="padding:12px;" id="detailDirectBtn"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="btn_msg">Mesaj</span></button>
+        <button class="btn-action primary" style="padding:12px;" id="detailOfferBtn"><i class="fa-solid fa-handshake"></i> <span data-i18n="btn_offer">Teklif Yap</span></button>
       </div>
     </div>
   </div>
@@ -339,21 +343,106 @@
   <div class="modal-overlay" id="offerModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="offerModalTitle">Takas Teklifi</h3>
+        <h3 id="offerModalTitle" data-i18n="offer_modal_title">Takas Teklifi</h3>
         <button class="close-modal" onclick="closeModal('offerModal')">&times;</button>
       </div>
       <div id="offerModalContent" style="margin-bottom:15px; font-size:13px; color:var(--text-muted); background:var(--bg-light); padding:10px; border-radius:10px;"></div>
       <form onsubmit="handleSendOffer(event)">
         <div class="form-group">
-          <label>Teklif Ettiğin Eşya veya Hizmet</label>
+          <label data-i18n="offer_label">Teklif Ettiğin Eşya veya Hizmet</label>
           <textarea id="offerText" rows="3" placeholder="Örn: Karşılığında sıfır ayarında dambıl seti teklif ediyorum..." required></textarea>
         </div>
-        <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> WhatsApp ile Teklif Gönder</button>
+        <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="offer_send">WhatsApp ile Teklif Gönder</span></button>
       </form>
     </div>
   </div>
 
   <script>
+    // ÇOKLU DİL SÖZLÜĞÜ (TRANSLATIONS)
+    const translations = {
+      tr: {
+        nav_home: "Anasayfa", nav_favs: "Favorilerim ❤️", nav_add: "İlan Ver",
+        btn_favorites: "Favoriler", search_placeholder: "Eşya veya hizmet ara...",
+        hero_title: "Eşyanı veya Becerini Takasla,<br><span>Para Harcamadan</span> İhtiyacını Gör!",
+        hero_desc: "Kullanmadığın eşyalarını ver ya da bir konuda destek ol; karşılığında ihtiyacın olan hizmeti veya ürünü al.",
+        btn_explore: "İlanları Keşfet", btn_create: "+ İlan Oluştur",
+        cat_all: "Tümü", cat_repair: "Ustalık & Tadilat", cat_edu: "Özel Ders", cat_tech: "Yazılım & Tasarım", cat_elec: "Elektronik", cat_home: "Ev & Yaşam", cat_hobbies: "Hobi & Müzik",
+        filter_title: "Filtrele", filter_type: "Takas Türü", filter_category: "Kategori", filter_city: "Şehir",
+        opt_all: "Tümü", opt_service: "🛠️ Hizmet Takası", opt_item: "📦 Eşya Takası", opt_all_cats: "Tüm Kategoriler", opt_all_cities: "Tüm Şehirler",
+        btn_reset: "Filtreleri Temizle", active_listings: "Aktif İlanlar", sort_new: "En Yeniler", sort_rating: "En Yüksek Puanlılar",
+        modal_add_title: "Yeni İlan Ver", form_type: "Takas Türü", form_type_service: "🛠️ Hizmet Sunuyorum", form_type_item: "📦 Eşya Veriyorum",
+        form_title: "İlan Başlığı", form_wanted: "Karşılığında Ne İstiyorsun?", form_img: "Fotoğraf Yükle (Bilgisayardan/Telefondan)",
+        form_name: "Adınız", form_phone: "WhatsApp Numaranız (Başında 90 ile)", btn_submit: "İlanı Onaya Gönder & Yayınla",
+        detail_wanted: "Aranan Takas:", btn_msg: "Mesaj", btn_offer: "Teklif Yap", offer_modal_title: "Takas Teklifi",
+        offer_label: "Teklif Ettiğin Eşya veya Hizmet", offer_send: "WhatsApp ile Teklif Gönder", wanted_label: "Aranan"
+      },
+      en: {
+        nav_home: "Home", nav_favs: "Favorites ❤️", nav_add: "Post Listing",
+        btn_favorites: "Favorites", search_placeholder: "Search item or service...",
+        hero_title: "Barter Your Items or Skills,<br><span>Without Spending Money!</span>",
+        hero_desc: "Give away your unused items or offer support; get the service or product you need in return.",
+        btn_explore: "Explore Listings", btn_create: "+ Create Listing",
+        cat_all: "All", cat_repair: "Repair & Craft", cat_edu: "Private Lessons", cat_tech: "Tech & Design", cat_elec: "Electronics", cat_home: "Home & Living", cat_hobbies: "Hobbies & Music",
+        filter_title: "Filter", filter_type: "Swap Type", filter_category: "Category", filter_city: "City",
+        opt_all: "All", opt_service: "🛠️ Service Swap", opt_item: "📦 Item Swap", opt_all_cats: "All Categories", opt_all_cities: "All Cities",
+        btn_reset: "Reset Filters", active_listings: "Active Listings", sort_new: "Newest", sort_rating: "Highest Rated",
+        modal_add_title: "Post New Listing", form_type: "Swap Type", form_type_service: "🛠️ I Offer a Service", form_type_item: "📦 I Offer an Item",
+        form_title: "Listing Title", form_wanted: "What Do You Want in Return?", form_img: "Upload Photo",
+        form_name: "Your Name", form_phone: "WhatsApp Number", btn_submit: "Publish Listing",
+        detail_wanted: "Wanted Swap:", btn_msg: "Message", btn_offer: "Make Offer", offer_modal_title: "Swap Offer",
+        offer_label: "Your Offered Item or Service", offer_send: "Send Offer via WhatsApp", wanted_label: "Wanted"
+      },
+      ru: {
+        nav_home: "Главная", nav_favs: "Избранное ❤️", nav_add: "Подать объявление",
+        btn_favorites: "Избранное", search_placeholder: "Поиск товара или услуги...",
+        hero_title: "Обменивайте вещи или навыки,<br><span>Без траты денег!</span>",
+        hero_desc: "Отдайте ненужные вещи или предложите помощь; получите взамен то, что вам нужно.",
+        btn_explore: "Смотреть объявления", btn_create: "+ Создать",
+        cat_all: "Все", cat_repair: "Ремонт", cat_edu: "Обучение", cat_tech: "IT и Дизайн", cat_elec: "Электроника", cat_home: "Дом", cat_hobbies: "Хобби",
+        filter_title: "Фильтр", filter_type: "Тип обмена", filter_category: "Категория", filter_city: "Город",
+        opt_all: "Все", opt_service: "🛠️ Услуга", opt_item: "📦 Товар", opt_all_cats: "Все категории", opt_all_cities: "Все города",
+        btn_reset: "Сбросить", active_listings: "Активные объявления", sort_new: "Новые", sort_rating: "Рейтинг",
+        modal_add_title: "Новое объявление", form_type: "Тип", form_type_service: "🛠️ Предлагаю услугу", form_type_item: "📦 Предлагаю товар",
+        form_title: "Заголовок", form_wanted: "Что хотите взамен?", form_img: "Загрузить фото",
+        form_name: "Ваше имя", form_phone: "WhatsApp номер", btn_submit: "Опубликовать",
+        detail_wanted: "Требуется:", btn_msg: "Сообщение", btn_offer: "Предложить", offer_modal_title: "Предложение",
+        offer_label: "Что вы предлагаете взамен", offer_send: "Отправить в WhatsApp", wanted_label: "Требуется"
+      },
+      ar: {
+        nav_home: "الرئيسية", nav_favs: "المفضلة ❤️", nav_add: "أضف إعلان",
+        btn_favorites: "المفضلة", search_placeholder: "ابحث عن عنصر أو خدمة...",
+        hero_title: "قايض اغراضك أو مهاراتك،<br><span>بدون إنفاق أموال!</span>",
+        hero_desc: "تخلص من الأشياء غير المستخدمة أو قدم مساعدة؛ واحصل على ما تحتاجه بالمقابل.",
+        btn_explore: "استكشف الإعلانات", btn_create: "+ أضف إعلان",
+        cat_all: "الكل", cat_repair: "صيانة", cat_edu: "دروس", cat_tech: "تقنية وتصميم", cat_elec: "إلكترونيات", cat_home: "منزل", cat_hobbies: "هوايات وموسيقى",
+        filter_title: "تصفية", filter_type: "نوع المقايضة", filter_category: "الفئة", filter_city: "المدينة",
+        opt_all: "الكل", opt_service: "🛠️ خدمة", opt_item: "📦 غرض", opt_all_cats: "كل الفئات", opt_all_cities: "كل المدن",
+        btn_reset: "إعادة ضبط", active_listings: "الإعلانات النشطة", sort_new: "الأحدث", sort_rating: "الأعلى تقييماً",
+        modal_add_title: "إعلان جديد", form_type: "النوع", form_type_service: "🛠️ أعرض خدمة", form_type_item: "📦 أعرض سلعة",
+        form_title: "عنوان الإعلان", form_wanted: "ماذا تريد بالمقابل؟", form_img: "تحميل صورة",
+        form_name: "اسمك", form_phone: "رقم واتساب", btn_submit: "نشر الإعلان",
+        detail_wanted: "المقايضة المطلوبة:", btn_msg: "رسالة", btn_offer: "قدم عرضاً", offer_modal_title: "عرض مقايضة",
+        offer_label: "ما تقدمه بالمقابل", offer_send: "إرسال عبر واتساب", wanted_label: "مطلوب"
+      },
+      de: {
+        nav_home: "Startseite", nav_favs: "Favoriten ❤️", nav_add: "Anzeige aufgeben",
+        btn_favorites: "Favoriten", search_placeholder: "Artikel oder Service suchen...",
+        hero_title: "Tausche deine Sachen oder Skills,<br><span>Ohne Geld auszugeben!</span>",
+        hero_desc: "Gib ungenutzte Dinge ab oder biete Hilfe an; erhalte im Gegenzug, was du brauchst.",
+        btn_explore: "Anzeigen entdecken", btn_create: "+ Anzeige erstellen",
+        cat_all: "Alle", cat_repair: "Handwerk", cat_edu: "Nachhilfe", cat_tech: "Tech & Design", cat_elec: "Elektronik", cat_home: "Wohnen", cat_hobbies: "Hobby & Musik",
+        filter_title: "Filter", filter_type: "Tausch-Art", filter_category: "Kategorie", filter_city: "Stadt",
+        opt_all: "Alle", opt_service: "🛠️ Dienstleistung", opt_item: "📦 Gegenstand", opt_all_cats: "Alle Kategorien", opt_all_cities: "Alle Städte",
+        btn_reset: "Filter zurücksetzen", active_listings: "Aktive Anzeigen", sort_new: "Neueste", sort_rating: "Beste Bewertung",
+        modal_add_title: "Neue Anzeige", form_type: "Typ", form_type_service: "🛠️ Biete Dienstleistung", form_type_item: "📦 Biete Gegenstand",
+        form_title: "Titel", form_wanted: "Was möchtest du im Gegenzug?", form_img: "Foto hochladen",
+        form_name: "Dein Name", form_phone: "WhatsApp Nummer", btn_submit: "Veröffentlichen",
+        detail_wanted: "Gesuchter Tausch:", btn_msg: "Nachricht", btn_offer: "Angebot machen", offer_modal_title: "Tauschangebot",
+        offer_label: "Dein Tauschangebot", offer_send: "Über WhatsApp senden", wanted_label: "Gesucht"
+      }
+    };
+
+    let currentLang = 'tr';
     const DEMO_PHONE = "905000000000";
     let allListings = [];
     let favorites = JSON.parse(localStorage.getItem('takas_favs_v1')) || [];
@@ -361,7 +450,6 @@
     let uploadedImageBase64 = "";
     let currentSelectedListing = null;
 
-    // CAPTCHA VARS
     let num1 = Math.floor(Math.random() * 9) + 1;
     let num2 = Math.floor(Math.random() * 9) + 1;
     let captchaCorrect = num1 + num2;
@@ -374,18 +462,37 @@
     ];
 
     function initListings() {
-      // Captcha Ayarla
       document.getElementById('captchaQuestion').innerText = `Güvenlik Doğrulaması: ${num1} + ${num2} = ?`;
-
-      const stored = localStorage.getItem('takaslasana_listings_v6');
+      const stored = localStorage.getItem('takaslasana_listings_v7');
       allListings = stored ? JSON.parse(stored) : rawListings;
-      if (!stored) localStorage.setItem('takaslasana_listings_v6', JSON.stringify(allListings));
+      if (!stored) localStorage.setItem('takaslasana_listings_v7', JSON.stringify(allListings));
+      renderListings(allListings);
+    }
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      // RTL desteği (Arapça için)
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      
+      // Tüm data-i18n etiketlerini çevir
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) el.innerHTML = translations[lang][key];
+      });
+
+      // Placeholder'ları çevir
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[lang][key]) el.placeholder = translations[lang][key];
+      });
+
       renderListings(allListings);
     }
 
     function renderListings(list) {
       const wrapper = document.getElementById('cardsWrapper');
-      document.getElementById('listingCount').innerText = `${list.length} İlan Bulundu`;
+      const t = translations[currentLang];
+      document.getElementById('listingCount').innerText = `${list.length} İlan`;
       wrapper.innerHTML = '';
 
       if (list.length === 0) {
@@ -408,14 +515,14 @@
             <div class="card-body">
               <h4>${item.title}</h4>
               <div class="user-info"><i class="fa-regular fa-user"></i> ${item.user}</div>
-              <div class="wanted-box">Aranan: ${item.wanted}</div>
+              <div class="wanted-box">${t.wanted_label || 'Aranan'}: ${item.wanted}</div>
               <div class="location-rating">
                 <span><i class="fa-solid fa-location-dot"></i> ${item.city}</span>
                 <span class="rating"><i class="fa-solid fa-star"></i> ${item.rating}</span>
               </div>
               <div class="card-actions">
-                <button class="btn-action whatsapp-btn" onclick="event.stopPropagation(); directChat('${item.phone}', '${item.title}')"><i class="fa-brands fa-whatsapp"></i> Mesaj</button>
-                <button class="btn-action primary" onclick="event.stopPropagation(); openOfferModal(${item.id})">Teklif Yap</button>
+                <button class="btn-action whatsapp-btn" onclick="event.stopPropagation(); directChat('${item.phone}', '${item.title}')"><i class="fa-brands fa-whatsapp"></i> ${t.btn_msg}</button>
+                <button class="btn-action primary" onclick="event.stopPropagation(); openOfferModal(${item.id})">${t.btn_offer}</button>
               </div>
             </div>
           </div>
@@ -436,7 +543,6 @@
 
     function toggleFavFilter() {
       showFavsOnly = !showFavsOnly;
-      document.getElementById('sectionHeaderTitle').innerText = showFavsOnly ? "Favori İlanlarım ❤️" : "Aktif İlanlar";
       filterListings();
     }
 
@@ -485,7 +591,6 @@
 
     function resetFilters() {
       showFavsOnly = false;
-      document.getElementById('sectionHeaderTitle').innerText = "Aktif İlanlar";
       document.getElementById('searchInput').value = '';
       document.getElementById('typeFilter').value = 'all';
       document.getElementById('categoryFilter').value = 'all';
@@ -535,10 +640,9 @@
 
     function handleCreateListing(e) {
       e.preventDefault();
-      
       const userAnswer = parseInt(document.getElementById('captchaAnswer').value);
       if (userAnswer !== captchaCorrect) {
-        alert("Güvenlik sorusunun cevabı hatalı! Lütfen tekrar deneyin.");
+        alert("Güvenlik sorusunun cevabı hatalı!");
         return;
       }
 
@@ -557,13 +661,13 @@
       };
 
       allListings.unshift(newListing);
-      localStorage.setItem('takaslasana_listings_v6', JSON.stringify(allListings));
+      localStorage.setItem('takaslasana_listings_v7', JSON.stringify(allListings));
       renderListings(allListings);
       closeModal('addListingModal');
       e.target.reset();
       document.getElementById('imgPreview').style.display = 'none';
       uploadedImageBase64 = "";
-      alert('İlanınız başarıyla kontrol edilip yayınlandı!');
+      alert('İlanınız başarıyla yayınlandı!');
     }
 
     window.onload = initListings;
