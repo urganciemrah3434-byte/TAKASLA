@@ -121,13 +121,67 @@
       ar:{fav:'♡ المفضلة',all:'♥ كل الإعلانات',new:'إعلان جديد',close:'إلغاء',save:'حفظ الإعلان',added:'تم حفظ الإعلان في هذا المتصفح.',found:'إعلان موجود',empty:'لا توجد إعلانات مطابقة.',offer:'تقديم عرض',saved:'♥ محفوظ',bookmark:'♡ حفظ',wanted:'المطلوب',service:'خدمة',item:'غرض'},
       de:{fav:'♡ Favoriten',all:'♥ Alle Anzeigen',new:'Anzeige erstellen',close:'Abbrechen',save:'Anzeige speichern',added:'Anzeige wurde im Browser gespeichert.',found:'Anzeigen gefunden',empty:'Keine passenden Anzeigen gefunden.',offer:'Angebot machen',saved:'♥ Gespeichert',bookmark:'♡ Speichern',wanted:'Gesucht',service:'Dienstleistung',item:'Artikel'}
     };
-    const SEED = [
-      {id:1,type:'item',title:'Az kullanılmış klasik gitar',wanted:'A2 seviye Almanca dersi',user:'Seda C.',city:'Ankara',category:'Hobi & Müzik',rating:4.7,image:'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=600&q=80'},
-      {id:2,type:'service',title:'2+1 daire boya badana hizmeti',wanted:'İkinci el tablet veya laptop',user:'Mustafa Usta',city:'İstanbul',category:'Ustalık',rating:4.9,image:'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&q=80'},
-      {id:3,type:'item',title:'Temiz erkek takım elbise, 48 beden',wanted:'Oyuncu kulaklığı veya akıllı saat',user:'Ahmet Y.',city:'Kastamonu',category:'Ev & Yaşam',rating:4.8,image:'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80'},
-      {id:4,type:'service',title:'LGS ve YKS matematik özel ders',wanted:'Çalışma masası veya ofis koltuğu',user:'Elif Hoca',city:'İzmir',category:'Eğitim',rating:5,image:'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80'}
-    ];
-    const storeKey = 'takaslasana_listings_v1', favKey = 'takaslasana_favorites_v1';
+    const IMAGE_BY_CATEGORY = {
+      'Elektronik':'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=600&q=80',
+      'Ev & Yaşam':'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80',
+      'Eğitim':'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80',
+      'Ustalık':'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&q=80',
+      'Hobi & Müzik':'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=600&q=80',
+      'Yazılım & Tasarım':'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'
+    };
+    const SEED = `
+item|Az kullanılmış klasik gitar|A2 seviye Almanca dersi|Seda C.|Ankara|Hobi & Müzik|4.7
+service|2+1 daire boya badana hizmeti|İkinci el tablet veya laptop|Mustafa Usta|İstanbul|Ustalık|4.9
+item|Temiz erkek takım elbise, 48 beden|Oyuncu kulaklığı veya akıllı saat|Ahmet Y.|Kastamonu|Ev & Yaşam|4.8
+service|LGS ve YKS matematik özel ders|Çalışma masası veya ofis koltuğu|Elif Hoca|İzmir|Eğitim|5.0
+item|PlayStation 4, iki kol ile|Akıllı saat|Burak T.|İstanbul|Elektronik|4.6
+service|Logo ve sosyal medya tasarımı|İngilizce konuşma pratiği|Deniz A.|Ankara|Yazılım & Tasarım|4.9
+item|Mekanik klavye, kırmızı switch|Bluetooth kulaklık|Ozan K.|İzmir|Elektronik|4.5
+service|İngilizce konuşma kulübü|Web sitesi tasarımı|Merve S.|İstanbul|Eğitim|4.8
+item|İki kişilik kamp çadırı|Katlanır kamp sandalyesi|Can D.|Kastamonu|Hobi & Müzik|4.7
+service|Mobilya montajı ve küçük tamirat|Bisiklet veya bisiklet ekipmanı|Hakan Usta|Ankara|Ustalık|4.9
+item|Filtre kahve makinesi|Masa lambası|Zeynep K.|İzmir|Ev & Yaşam|4.6
+service|Başlangıç seviye gitar dersi|Fotoğraf çekimi|Eren B.|İstanbul|Hobi & Müzik|4.8
+item|27 inç monitör|Kablosuz mouse|Yusuf E.|Ankara|Elektronik|4.7
+service|WordPress site kurulumu|Ev yapımı reçel veya zeytinyağı|Selin G.|Kastamonu|Yazılım & Tasarım|4.9
+item|Çocuk bisikleti, 20 jant|Çocuk kitap seti|Nihan P.|İzmir|Ev & Yaşam|4.8
+service|Evde yoga ve nefes dersi|Seramik atölyesi|Derya N.|İstanbul|Eğitim|4.7
+item|Akustik gitar sehpası ile|Ukulele|Gökhan M.|Ankara|Hobi & Müzik|4.5
+service|Bilgisayar format ve bakım|Kitaplık veya raf|Kaan Ö.|Kastamonu|Elektronik|4.8
+item|Çalışma masası, beyaz|Ofis sandalyesi|İlayda Y.|İzmir|Ev & Yaşam|4.6
+service|Profesyonel CV hazırlama|Portre fotoğraf çekimi|Bora A.|İstanbul|Yazılım & Tasarım|4.9
+item|Analog fotoğraf makinesi|Vinil plak|Cemre T.|Ankara|Hobi & Müzik|4.7
+service|Duvar kağıdı ve boya uygulaması|Elektrikli süpürge|İsmail Usta|Kastamonu|Ustalık|4.8
+item|Air fryer, az kullanılmış|Blender seti|Sibel D.|İzmir|Ev & Yaşam|4.6
+service|İlkokul matematik etüt|Keman dersi|Büşra Hoca|İstanbul|Eğitim|4.9
+item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
+service|Excel ve Power BI eğitimi|Dizüstü bilgisayar çantası|Orkun Ç.|Kastamonu|Yazılım & Tasarım|4.8
+item|Kablosuz kulaklık|Taşınabilir şarj cihazı|Melis V.|İzmir|Elektronik|4.7
+service|Bahçe düzenleme desteği|Saksı bitkisi veya bahçe aleti|Tuna K.|İstanbul|Ustalık|4.9
+item|Ahşap kitaplık|Orta boy halı|Esra L.|Ankara|Ev & Yaşam|4.6
+service|Temel fotoğrafçılık dersi|İllüstrasyon veya çizim malzemesi|Sarp F.|Kastamonu|Hobi & Müzik|4.8
+item|Dijital çizim tableti|Tasarım kitabı|Cansu Ş.|İzmir|Yazılım & Tasarım|4.7
+service|Araba iç dış temizlik|Çocuk oyun konsolu|Murat B.|İstanbul|Ustalık|4.6
+item|Nintendo Switch oyunları|Masa oyunu|Emir A.|Ankara|Hobi & Müzik|4.8
+service|Türkçe yabancılara konuşma dersi|Online yazılım desteği|Gül P.|Kastamonu|Eğitim|4.9
+item|Mini projeksiyon cihazı|Duvar saati|Tolga S.|İzmir|Elektronik|4.5
+service|E-ticaret ürün fotoğrafı|Ev yapımı tatlı|Pelin C.|İstanbul|Yazılım & Tasarım|4.8
+item|Katlanır bebek arabası|Bebek bakım çantası|Nazlı A.|Ankara|Ev & Yaşam|4.7
+service|Kombi ve tesisat kontrolü|El aletleri seti|Serkan Usta|Kastamonu|Ustalık|4.9
+item|Keman başlangıç seti|Müzik nota sehpası|Aslı Y.|İzmir|Hobi & Müzik|4.6
+service|React ile web geliştirme mentorlugu|İngilizce teknik çeviri|Umut E.|İstanbul|Yazılım & Tasarım|4.9
+item|E-kitap okuyucu|Roman ve kişisel gelişim kitapları|Ferhat K.|Ankara|Elektronik|4.7
+service|İlk yardım temel eğitimi|Spor ekipmanı|Aylin D.|Kastamonu|Eğitim|4.8
+item|Bar taburesi, iki adet|Duvar aynası|Sevgi K.|İzmir|Ev & Yaşam|4.5
+service|Evcil hayvan gezdirme|Kedi taşıma çantası|Onur G.|İstanbul|Hobi & Müzik|4.7
+item|USB mikrofon ve masa standı|Kulaklık standı|Mert T.|Ankara|Elektronik|4.6
+service|Tadilat sonrası ev temizliği|Mikrodalga fırın|Fatma U.|Kastamonu|Ustalık|4.8
+item|Sırt çantası, 45 litre|Uyku tulumu|Arda N.|İzmir|Hobi & Müzik|4.7
+service|Canva ile tasarım eğitimi|İkinci el tablet|Ece B.|İstanbul|Yazılım & Tasarım|4.9
+item|Dikiş makinesi|Ütü masası|Leyla A.|Ankara|Ev & Yaşam|4.6
+service|Orta seviye Almanca dersi|Kahve değirmeni|Barış K.|Kastamonu|Eğitim|4.8`
+      .trim().split('\n').map((row, index) => { const [type,title,wanted,user,city,category,rating] = row.split('|'); return {id:index + 1,type,title,wanted,user,city,category,rating:Number(rating),image:IMAGE_BY_CATEGORY[category]}; });
+    const storeKey = 'takaslasana_listings_v2', favKey = 'takaslasana_favorites_v1';
     const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
     let listings = read(storeKey, SEED), favorites = new Set(read(favKey, [])), onlyFavorites = false, activeCategory = 'Tümü', language = 'tr';
     const $ = (id) => document.getElementById(id);
