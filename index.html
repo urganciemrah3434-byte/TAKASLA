@@ -155,33 +155,9 @@ service|Duvar kağıdı ve boya uygulaması|Elektrikli süpürge|İsmail Usta|Ka
 item|Air fryer, az kullanılmış|Blender seti|Sibel D.|İzmir|Ev & Yaşam|4.6
 service|İlkokul matematik etüt|Keman dersi|Büşra Hoca|İstanbul|Eğitim|4.9
 item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
-service|Excel ve Power BI eğitimi|Dizüstü bilgisayar çantası|Orkun Ç.|Kastamonu|Yazılım & Tasarım|4.8
-item|Kablosuz kulaklık|Taşınabilir şarj cihazı|Melis V.|İzmir|Elektronik|4.7
-service|Bahçe düzenleme desteği|Saksı bitkisi veya bahçe aleti|Tuna K.|İstanbul|Ustalık|4.9
-item|Ahşap kitaplık|Orta boy halı|Esra L.|Ankara|Ev & Yaşam|4.6
-service|Temel fotoğrafçılık dersi|İllüstrasyon veya çizim malzemesi|Sarp F.|Kastamonu|Hobi & Müzik|4.8
-item|Dijital çizim tableti|Tasarım kitabı|Cansu Ş.|İzmir|Yazılım & Tasarım|4.7
-service|Araba iç dış temizlik|Çocuk oyun konsolu|Murat B.|İstanbul|Ustalık|4.6
-item|Nintendo Switch oyunları|Masa oyunu|Emir A.|Ankara|Hobi & Müzik|4.8
-service|Türkçe yabancılara konuşma dersi|Online yazılım desteği|Gül P.|Kastamonu|Eğitim|4.9
-item|Mini projeksiyon cihazı|Duvar saati|Tolga S.|İzmir|Elektronik|4.5
-service|E-ticaret ürün fotoğrafı|Ev yapımı tatlı|Pelin C.|İstanbul|Yazılım & Tasarım|4.8
-item|Katlanır bebek arabası|Bebek bakım çantası|Nazlı A.|Ankara|Ev & Yaşam|4.7
-service|Kombi ve tesisat kontrolü|El aletleri seti|Serkan Usta|Kastamonu|Ustalık|4.9
-item|Keman başlangıç seti|Müzik nota sehpası|Aslı Y.|İzmir|Hobi & Müzik|4.6
-service|React ile web geliştirme mentorlugu|İngilizce teknik çeviri|Umut E.|İstanbul|Yazılım & Tasarım|4.9
-item|E-kitap okuyucu|Roman ve kişisel gelişim kitapları|Ferhat K.|Ankara|Elektronik|4.7
-service|İlk yardım temel eğitimi|Spor ekipmanı|Aylin D.|Kastamonu|Eğitim|4.8
-item|Bar taburesi, iki adet|Duvar aynası|Sevgi K.|İzmir|Ev & Yaşam|4.5
-service|Evcil hayvan gezdirme|Kedi taşıma çantası|Onur G.|İstanbul|Hobi & Müzik|4.7
-item|USB mikrofon ve masa standı|Kulaklık standı|Mert T.|Ankara|Elektronik|4.6
-service|Tadilat sonrası ev temizliği|Mikrodalga fırın|Fatma U.|Kastamonu|Ustalık|4.8
-item|Sırt çantası, 45 litre|Uyku tulumu|Arda N.|İzmir|Hobi & Müzik|4.7
-service|Canva ile tasarım eğitimi|İkinci el tablet|Ece B.|İstanbul|Yazılım & Tasarım|4.9
-item|Dikiş makinesi|Ütü masası|Leyla A.|Ankara|Ev & Yaşam|4.6
-service|Orta seviye Almanca dersi|Kahve değirmeni|Barış K.|Kastamonu|Eğitim|4.8`
+`
       .trim().split('\n').map((row, index) => { const [type,title,wanted,user,city,category,rating] = row.split('|'); return {id:index + 1,type,title,wanted,user,city,category,rating:Number(rating),image:IMAGE_BY_CATEGORY[category]}; });
-    const storeKey = 'takaslasana_listings_v2', favKey = 'takaslasana_favorites_v1';
+    const storeKey = 'takaslasana_listings_v3', favKey = 'takaslasana_favorites_v1';
     const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
     let listings = read(storeKey, SEED), favorites = new Set(read(favKey, [])), onlyFavorites = false, activeCategory = 'Tümü', language = 'tr';
     const $ = (id) => document.getElementById(id);
