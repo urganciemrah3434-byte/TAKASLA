@@ -103,25 +103,28 @@ if (addForm) {
         let imageUrl = "";
 
         try {
-            // Eğer resim seçildiyse ImgBB API servisimiz üzerinden arka planda yükle
+            // Görsel yükleme işlemi (FreeImageHost API)
             if (selectedFile) {
                 const formData = new FormData();
-                formData.append("image", selectedFile);
+                formData.append("key", "6d207e02198a847aa98d0a2a901485a5"); // FreeImageHost Key
+                formData.append("action", "upload");
+                formData.append("source", selectedFile);
+                formData.append("format", "json");
 
-                // Ücretsiz ImgBB API isteği
-                const response = await fetch("https://api.imgbb.com/1/upload?key=6f120c157f13cf06d441f71f6d3fdf2a", {
+                const response = await fetch("https://freeimage.host/api/1/upload", {
                     method: "POST",
                     body: formData
                 });
+
                 const resData = await response.json();
-                if (resData.success) {
-                    imageUrl = resData.data.url;
+                if (resData && resData.image && resData.image.url) {
+                    imageUrl = resData.image.url;
                 } else {
-                    throw new Error("Resim yüklenemedi.");
+                    throw new Error("Resim yüklenirken servisten onay alınamadı.");
                 }
             }
 
-            // Veritabanına kaydet
+            // Firestore Veritabanına Kaydet
             await addDoc(collection(db, "listings"), {
                 title: title,
                 description: desc,
