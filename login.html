@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - TAKASLASANA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1><a href="index.html" style="color:white; text-decoration:none;">TAKASLASANA</a></h1>
+        <h3>Satma, Takaslasana!</h3>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Giriş Yap</h2>
+            <form id="login-form">
+                <p>
+                    <label>E-posta Adresi:</label><br>
+                    <input type="email" id="login-email" placeholder="ornek@email.com" required style="width:100%; padding:10px; margin-top:5px;">
+                </p>
+                <p>
+                    <label>Şifre:</label><br>
+                    <input type="password" id="login-password" placeholder="******" required style="width:100%; padding:10px; margin-top:5px;">
+                </p>
+                <p>
+                    <button type="submit" class="button" style="width:100%; padding:12px; cursor:pointer;">GİRİŞ YAP</button>
+                </p>
+            </form>
+            <p style="text-align:center;">
+                Hesabın yok mu? <a href="register.html">Üye Ol</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Firebase Giriş Scripti -->
+    <script type="module" src="js/auth.js"></script>
+</body>
+</html>
