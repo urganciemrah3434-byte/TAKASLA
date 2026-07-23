@@ -27,7 +27,6 @@ const registerForm = document.getElementById("register-form");
 if (registerForm) {
     registerForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
@@ -36,7 +35,6 @@ if (registerForm) {
             alert("Tebrikler! Üyelik başarıyla oluşturuldu: " + userCredential.user.email);
             window.location.href = "index.html";
         } catch (error) {
-            console.error("Firebase Hatası:", error);
             alert("Hata oluştu: " + error.message);
         }
     });
@@ -47,7 +45,6 @@ const loginForm = document.getElementById("login-form");
 if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        
         const email = document.getElementById("login-email").value;
         const password = document.getElementById("login-password").value;
 
@@ -56,19 +53,17 @@ if (loginForm) {
             alert("Hoş geldin! Giriş başarılı: " + userCredential.user.email);
             window.location.href = "index.html";
         } catch (error) {
-            console.error("Giriş Hatası:", error);
             alert("Giriş başarısız: " + error.message);
         }
     });
 }
 
-// Oturum Durumunu Dinle ve Ana Sayfa Görünümünü Güncelle
+// Oturum Durumunu Dinle
 onAuthStateChanged(auth, (user) => {
     const authNav = document.getElementById("auth-nav");
     
     if (authNav) {
         if (user) {
-            // Kullanıcı giriş yapmışsa
             authNav.innerHTML = `
                 <span style="color:#a8ffb2; font-weight:bold;">👤 ${user.email}</span> 
                 <a href="#" id="logout-btn" style="color:#ff6b6b; font-weight:bold; margin-left:15px; text-decoration:none;">[Çıkış Yap]</a>
@@ -84,7 +79,6 @@ onAuthStateChanged(auth, (user) => {
                 });
             }
         } else {
-            // Kullanıcı giriş yapmamışsa
             authNav.innerHTML = `
                 <a href="login.html" style="color:white; margin-right:10px;">Giriş Yap</a>
                 <a href="register.html" style="color:white;">Üye Ol</a>
