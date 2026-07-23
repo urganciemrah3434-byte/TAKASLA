@@ -151,7 +151,7 @@
     /* HERO */
     .hero {
       background: linear-gradient(135deg, #f3e8ff 0%, #e0e7ff 100%);
-      padding: 60px 20px 70px 20px;
+      padding: 50px 20px 60px 20px;
       text-align: center;
       border-radius: 0 0 30px 30px;
     }
@@ -192,10 +192,54 @@
     .btn-hero-primary { background: var(--purple); color: white; }
     .btn-hero-secondary { background: white; color: var(--dark); border: 1px solid var(--border); }
 
+    /* HIZLI KATEGORİ BUTONLARI */
+    .quick-categories {
+      margin-top: -30px;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .cat-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 10px 5px;
+      scrollbar-width: none;
+    }
+
+    .cat-scroll::-webkit-scrollbar { display: none; }
+
+    .cat-item {
+      background: white;
+      padding: 12px 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dark);
+      transition: 0.2s;
+    }
+
+    .cat-item:hover, .cat-item.active {
+      border-color: var(--purple);
+      background: var(--purple-soft);
+      color: var(--purple);
+      transform: translateY(-2px);
+    }
+
+    .cat-item i { font-size: 16px; }
+
     /* NASIL ÇALIŞIR */
-    .how-it-works { padding: 50px 0; }
-    .section-title { text-align: center; margin-bottom: 36px; }
-    .section-title h2 { font-size: 26px; color: var(--dark); font-weight: 800; }
+    .how-it-works { padding: 30px 0 50px 0; }
+    .section-title { text-align: center; margin-bottom: 30px; }
+    .section-title h2 { font-size: 24px; color: var(--dark); font-weight: 800; }
     
     .steps-grid {
       display: grid;
@@ -209,7 +253,6 @@
       border-radius: 20px;
       border: 1px solid var(--border);
       text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     }
 
     .step-icon {
@@ -233,7 +276,6 @@
       display: grid;
       grid-template-columns: 240px 1fr;
       gap: 28px;
-      margin-top: 20px;
       margin-bottom: 70px;
     }
 
@@ -288,9 +330,27 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .listings-header h2 { font-size: 22px; color: var(--dark); font-weight: 800; }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sort-select {
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      background: white;
+    }
 
     .cards-wrapper {
       display: grid;
@@ -414,9 +474,20 @@
       background: #f0fdf4;
     }
 
-    .btn-action.whatsapp-btn:hover {
-      background: #dcfce7;
+    .btn-action.whatsapp-btn:hover { background: #dcfce7; }
+
+    /* EMPTY STATE */
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 20px;
+      border: 1px solid var(--border);
     }
+    .empty-state i { font-size: 48px; color: var(--text-muted); margin-bottom: 16px; }
+    .empty-state h3 { font-size: 18px; color: var(--dark); margin-bottom: 8px; font-weight: 800; }
+    .empty-state p { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
 
     /* MODAL POP-UP STYLES */
     .modal-overlay {
@@ -436,10 +507,12 @@
     .modal-card {
       background: white;
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       border-radius: 20px;
       padding: 24px;
       position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal-header {
@@ -479,7 +552,32 @@
       font-size: 14px;
     }
 
-    .btn-submit:hover { background: #1eb857; }
+    /* İLAN DETAY MODALI */
+    .detail-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-bottom: 16px;
+    }
+
+    .detail-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .detail-wanted {
+      background: var(--purple-soft);
+      color: var(--purple);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
 
     @media (max-width: 850px) {
       .main-content { grid-template-columns: 1fr; }
@@ -526,6 +624,19 @@
       </div>
     </div>
   </section>
+
+  <!-- HIZLI KATEGORİ SEÇİMİ -->
+  <div class="container quick-categories">
+    <div class="cat-scroll">
+      <div class="cat-item active" onclick="quickCategory('all', this)"><i class="fa-solid fa-border-all"></i> Tümü</div>
+      <div class="cat-item" onclick="quickCategory('Boya, Tadilat & Ustalık', this)"><i class="fa-solid fa-paint-roller"></i> Ustalık & Tadilat</div>
+      <div class="cat-item" onclick="quickCategory('Özel Ders & Eğitim', this)"><i class="fa-solid fa-graduation-cap"></i> Özel Ders</div>
+      <div class="cat-item" onclick="quickCategory('Yazılım & Tasarım', this)"><i class="fa-solid fa-laptop-code"></i> Yazılım & Tasarım</div>
+      <div class="cat-item" onclick="quickCategory('Elektronik & Cihazlar', this)"><i class="fa-solid fa-plug"></i> Elektronik</div>
+      <div class="cat-item" onclick="quickCategory('Ev & Yaşam', this)"><i class="fa-solid fa-house"></i> Ev & Yaşam</div>
+      <div class="cat-item" onclick="quickCategory('Hobiler & Müzik', this)"><i class="fa-solid fa-guitar"></i> Hobi & Müzik</div>
+    </div>
+  </div>
 
   <!-- NASIL ÇALIŞIR -->
   <section class="how-it-works" id="nasil-calisir">
@@ -602,7 +713,13 @@
     <main class="listings-grid">
       <div class="listings-header">
         <h2>Aktif İlanlar</h2>
-        <span id="listingCount" style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Yükleniyor...</span>
+        <div class="header-controls">
+          <span id="listingCount" style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Yükleniyor...</span>
+          <select id="sortSelect" class="sort-select" onchange="filterListings()">
+            <option value="newest">En Yeniler</option>
+            <option value="rating">En Yüksek Puanlılar</option>
+          </select>
+        </div>
       </div>
 
       <div class="cards-wrapper" id="cardsWrapper">
@@ -666,6 +783,36 @@
     </div>
   </div>
 
+  <!-- MODAL: İLAN DETAYI -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="detailTitle">İlan Detayı</h3>
+        <button class="close-modal" onclick="closeModal('detailModal')">&times;</button>
+      </div>
+      <img id="detailImg" src="" alt="" class="detail-img">
+      <div class="detail-meta">
+        <span><i class="fa-regular fa-user"></i> <b id="detailUser"></b></span>
+        <span><i class="fa-solid fa-location-dot"></i> <span id="detailCity"></span></span>
+        <span class="rating"><i class="fa-solid fa-star"></i> <span id="detailRating"></span></span>
+      </div>
+      <div class="detail-wanted">
+        <i class="fa-solid fa-arrows-rotate"></i> <b>Aranan Takas:</b> <span id="detailWantedText"></span>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px; line-height:1.6;">
+        Bu ilan kullanıcının güncel takas listesindedir. Karşılıklı anlaşma durumunda hemen WhatsApp üzerinden iletişime geçip teklifinizi iletebilirsiniz.
+      </p>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-action whatsapp-btn" style="padding:12px;" id="detailDirectBtn">
+          <i class="fa-brands fa-whatsapp"></i> Direkt Mesaj
+        </button>
+        <button class="btn-action primary" style="padding:12px;" id="detailOfferBtn">
+          <i class="fa-solid fa-handshake"></i> Teklif Yap
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: TEKLİF YAP -->
   <div class="modal-overlay" id="offerModal">
     <div class="modal-card">
@@ -685,7 +832,6 @@
   </div>
 
   <script>
-    // VARSAYILAN TEST NUMARASI
     const DEMO_PHONE = "905000000000";
 
     const rawListings = [
@@ -715,12 +861,12 @@
     let currentSelectedListing = null;
 
     function initListings() {
-      const stored = localStorage.getItem('takaslasana_listings_v3');
+      const stored = localStorage.getItem('takaslasana_listings_v4');
       if (stored) {
         allListings = JSON.parse(stored);
       } else {
         allListings = rawListings;
-        localStorage.setItem('takaslasana_listings_v3', JSON.stringify(allListings));
+        localStorage.setItem('takaslasana_listings_v4', JSON.stringify(allListings));
       }
       renderListings(allListings);
     }
@@ -731,7 +877,14 @@
       wrapper.innerHTML = '';
 
       if(list.length === 0) {
-        wrapper.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">Aradığınız kriterlere uygun ilan bulunamadı.</div>`;
+        wrapper.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <h3>Sonuç Bulunamadı</h3>
+            <p>Aramanıza veya filtrelerinize uygun ilan bulunamadı.</p>
+            <button class="btn-reset-filter" style="width:auto; padding:10px 20px;" onclick="resetFilters()">Tüm İlanları Göster</button>
+          </div>
+        `;
         return;
       }
 
@@ -740,7 +893,7 @@
         const badgeIcon = item.type === 'HİZMET' ? '🛠️ HİZMET' : '📦 EŞYA';
 
         const cardHtml = `
-          <div class="card" onclick="openOfferModal(${item.id})">
+          <div class="card" onclick="openDetailModal(${item.id})">
             <div class="card-img">
               <img src="${item.img}" alt="${item.title}" loading="lazy">
               <div class="badges"><span class="badge ${badgeClass}">${badgeIcon}</span></div>
@@ -757,7 +910,7 @@
                 <button class="btn-action whatsapp-btn" onclick="event.stopPropagation(); directChat('${item.phone}', '${item.title}')">
                   <i class="fa-brands fa-whatsapp"></i> Mesaj
                 </button>
-                <button class="btn-action primary">Teklif Yap</button>
+                <button class="btn-action primary" onclick="event.stopPropagation(); openOfferModal(${item.id})">Teklif Yap</button>
               </div>
             </div>
           </div>
@@ -771,8 +924,9 @@
       const type = document.getElementById('typeFilter').value;
       const category = document.getElementById('categoryFilter').value;
       const city = document.getElementById('cityFilter').value;
+      const sort = document.getElementById('sortSelect').value;
 
-      const filtered = allListings.filter(item => {
+      let filtered = allListings.filter(item => {
         const matchesSearch = item.title.toLowerCase().includes(searchText) || item.wanted.toLowerCase().includes(searchText);
         const matchesType = type === 'all' || item.type === type;
         const matchesCategory = category === 'all' || item.category === category;
@@ -781,7 +935,20 @@
         return matchesSearch && matchesType && matchesCategory && matchesCity;
       });
 
+      if(sort === 'rating') {
+        filtered.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+      } else {
+        filtered.sort((a, b) => b.id - a.id);
+      }
+
       renderListings(filtered);
+    }
+
+    function quickCategory(catName, el) {
+      document.querySelectorAll('.cat-item').forEach(item => item.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('categoryFilter').value = catName;
+      filterListings();
     }
 
     function resetFilters() {
@@ -789,11 +956,33 @@
       document.getElementById('typeFilter').value = 'all';
       document.getElementById('categoryFilter').value = 'all';
       document.getElementById('cityFilter').value = 'all';
-      renderListings(allListings);
+      document.querySelectorAll('.cat-item').forEach(item => item.classList.remove('active'));
+      document.querySelector('.cat-item').classList.add('active');
+      filterListings();
     }
 
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function openDetailModal(id) {
+      currentSelectedListing = allListings.find(item => item.id === id);
+      if(!currentSelectedListing) return;
+
+      document.getElementById('detailTitle').innerText = currentSelectedListing.title;
+      document.getElementById('detailImg').src = currentSelectedListing.img;
+      document.getElementById('detailUser').innerText = currentSelectedListing.user;
+      document.getElementById('detailCity').innerText = currentSelectedListing.city;
+      document.getElementById('detailRating').innerText = currentSelectedListing.rating;
+      document.getElementById('detailWantedText').innerText = currentSelectedListing.wanted;
+
+      document.getElementById('detailDirectBtn').onclick = () => directChat(currentSelectedListing.phone, currentSelectedListing.title);
+      document.getElementById('detailOfferBtn').onclick = () => {
+        closeModal('detailModal');
+        openOfferModal(id);
+      };
+
+      openModal('detailModal');
+    }
 
     function openOfferModal(id) {
       currentSelectedListing = allListings.find(item => item.id === id);
@@ -819,7 +1008,6 @@
 
       closeModal('offerModal');
       document.getElementById('offerText').value = '';
-      
       window.open(whatsappUrl, '_blank');
     }
 
@@ -846,7 +1034,7 @@
       };
 
       allListings.unshift(newListing);
-      localStorage.setItem('takaslasana_listings_v3', JSON.stringify(allListings));
+      localStorage.setItem('takaslasana_listings_v4', JSON.stringify(allListings));
       renderListings(allListings);
       closeModal('addListingModal');
       alert('İlanınız başarıyla eklendi!');
