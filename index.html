@@ -396,12 +396,26 @@
       font-size: 11px;
       font-weight: 700;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
 
     .btn-action.primary {
       background: var(--purple);
       color: white;
       border-color: var(--purple);
+    }
+
+    .btn-action.whatsapp-btn {
+      color: #16a34a;
+      border-color: #bbf7d0;
+      background: #f0fdf4;
+    }
+
+    .btn-action.whatsapp-btn:hover {
+      background: #dcfce7;
     }
 
     /* MODAL POP-UP STYLES */
@@ -450,7 +464,7 @@
 
     .btn-submit {
       width: 100%;
-      background: var(--purple);
+      background: #25d366;
       color: white;
       border: none;
       padding: 12px;
@@ -458,7 +472,14 @@
       font-weight: 700;
       cursor: pointer;
       margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
     }
+
+    .btn-submit:hover { background: #1eb857; }
 
     @media (max-width: 850px) {
       .main-content { grid-template-columns: 1fr; }
@@ -610,7 +631,7 @@
           <input type="text" id="newTitle" placeholder="Örn: Çalışır durumda espresso makinesi" required>
         </div>
         <div class="form-group">
-          <label>Karşılığında Ne İtiyorsun?</label>
+          <label>Karşılığında Ne İstiyorsun?</label>
           <input type="text" id="newWanted" placeholder="Örn: Akustik gitar veya İngilizce dersi" required>
         </div>
         <div class="form-group">
@@ -636,7 +657,11 @@
           <label>Adınız</label>
           <input type="text" id="newUser" placeholder="Ad Soyad" required>
         </div>
-        <button type="submit" class="btn-submit">İlanı Yayınla</button>
+        <div class="form-group">
+          <label>WhatsApp Numaranız</label>
+          <input type="tel" id="newPhone" placeholder="Örn: 905551112233" required>
+        </div>
+        <button type="submit" class="btn-submit" style="background:var(--purple);"><i class="fa-solid fa-check"></i> İlanı Yayınla</button>
       </form>
     </div>
   </div>
@@ -648,252 +673,54 @@
         <h3 id="offerModalTitle">Takas Teklifi</h3>
         <button class="close-modal" onclick="closeModal('offerModal')">&times;</button>
       </div>
-      <div id="offerModalContent" style="margin-bottom:15px; font-size:13px; color:var(--text-muted);"></div>
+      <div id="offerModalContent" style="margin-bottom:15px; font-size:13px; color:var(--text-muted); background:var(--bg-light); padding:10px; border-radius:10px;"></div>
       <form onsubmit="handleSendOffer(event)">
         <div class="form-group">
           <label>Teklif Ettiğin Eşya veya Hizmet</label>
-          <textarea rows="3" placeholder="Açıklama yapın..." required></textarea>
+          <textarea id="offerText" rows="3" placeholder="Örn: Karşılığında sıfır ayarında dambıl seti teklif ediyorum..." required></textarea>
         </div>
-        <button type="submit" class="btn-submit">Teklif Gönder</button>
+        <button type="submit" class="btn-submit"><i class="fa-brands fa-whatsapp"></i> WhatsApp ile Teklif Gönder</button>
       </form>
     </div>
   </div>
 
   <script>
-    // TEKİL VE GERÇEKÇİ BENZERSİZ 20 İLAN DİZİSİ
+    // VARSAYILAN TEST NUMARASI
+    const DEMO_PHONE = "905000000000";
+
     const rawListings = [
-      {
-        id: 1,
-        type: "EŞYA",
-        title: "Kuru Temizlenmiş Temiz Erkek Takım Elbise (48 Beden)",
-        category: "Ev & Yaşam",
-        wanted: "Oyuncu Kulaklığı veya Akıllı Saat",
-        user: "Ahmet Y.",
-        city: "Kastamonu",
-        rating: "4.8",
-        img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500"
-      },
-      {
-        id: 2,
-        type: "HİZMET",
-        title: "2+1 Daire Ev / Ofis Boya Badana İşleri Alınır",
-        category: "Boya, Tadilat & Ustalık",
-        wanted: "Laptop veya İkinci El Tablet",
-        user: "Mustafa Usta",
-        city: "İstanbul",
-        rating: "4.9",
-        img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500"
-      },
-      {
-        id: 3,
-        type: "EŞYA",
-        title: "Az Kullanılmış Klasik Gitar (Kılıfı Dahil)",
-        category: "Hobiler & Müzik",
-        wanted: "A2 Düzey Almanca Dersi",
-        user: "Seda C.",
-        city: "Ankara",
-        rating: "4.7",
-        img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500"
-      },
-      {
-        id: 4,
-        type: "HİZMET",
-        title: "LGS & YKS İçin Birebir Matematik Özel Ders",
-        category: "Özel Ders & Eğitim",
-        wanted: "Ofis Koltuğu veya Çalışma Masası",
-        user: "Elif Hoca",
-        city: "İzmir",
-        rating: "5.0",
-        img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500"
-      },
-      {
-        id: 5,
-        type: "EŞYA",
-        title: "Bosch Marka Matkap Seti ve Çantası",
-        category: "Boya, Tadilat & Ustalık",
-        wanted: "Mikrodalga Fırın veya Kamp Çadırı",
-        user: "Murat B.",
-        city: "Bursa",
-        rating: "4.6",
-        img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500"
-      },
-      {
-        id: 6,
-        type: "HİZMET",
-        title: "Sıfırdan Kurumsal Logo & Banner Tasarımı",
-        category: "Yazılım & Tasarım",
-        wanted: "Temiz Bisiklet veya Paten",
-        user: "Caner K.",
-        city: "İstanbul",
-        rating: "4.9",
-        img: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500"
-      },
-      {
-        id: 7,
-        type: "EŞYA",
-        title: "Eski Tip Temiz Ahşap Kitaplık",
-        category: "Ev & Yaşam",
-        wanted: "Filtre Kahve Makinesi",
-        user: "Zeynep T.",
-        city: "Kastamonu",
-        rating: "4.5",
-        img: "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=500"
-      },
-      {
-        id: 8,
-        type: "EŞYA",
-        title: "PlayStation 4 Slim 500GB + 2 Kol",
-        category: "Elektronik & Cihazlar",
-        wanted: "Elektrikli Scooter veya Robot Süpürge",
-        user: "Burak D.",
-        city: "Antalya",
-        rating: "4.8",
-        img: "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=500"
-      },
-      {
-        id: 9,
-        type: "HİZMET",
-        title: "İngilizce Pratik ve Konuşma Dersi (Online)",
-        category: "Özel Ders & Eğitim",
-        wanted: "Müzik Klavyeli / Org",
-        user: "Merve A.",
-        city: "Ankara",
-        rating: "4.9",
-        img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500"
-      },
-      {
-        id: 10,
-        type: "EŞYA",
-        title: "Siyah Renk Temiz Deri Ceket (M Beden)",
-        category: "Ev & Yaşam",
-        wanted: "Kablosuz Dikey Süpürge",
-        user: "Hakan U.",
-        city: "İzmir",
-        rating: "4.4",
-        img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500"
-      },
-      {
-        id: 11,
-        type: "HİZMET",
-        title: "Bilgisayar Formatlama ve Mavi Ekran Tamiri",
-        category: "Yazılım & Tasarım",
-        wanted: "Harici Harddisk (1TB+)",
-        user: "Oğuzhan Y.",
-        city: "Kastamonu",
-        rating: "4.7",
-        img: "https://images.unsplash.com/photo-1588702547923-7093a6c36452?w=500"
-      },
-      {
-        id: 12,
-        type: "EŞYA",
-        title: "2 Kisilik Kamp Çadırı & Mat",
-        category: "Hobiler & Müzik",
-        wanted: "Oto Bakım Hizmeti veya Pasta Cila",
-        user: "Gökhan R.",
-        city: "Bursa",
-        rating: "4.6",
-        img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500"
-      },
-      {
-        id: 13,
-        type: "HİZMET",
-        title: "Oto Pasta Cila ve İÇ Detaylı Temizlik",
-        category: "Boya, Tadilat & Ustalık",
-        wanted: "Akıllı Televizyon",
-        user: "Serkan Usta",
-        city: "İstanbul",
-        rating: "4.9",
-        img: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=500"
-      },
-      {
-        id: 14,
-        type: "EŞYA",
-        title: "Canon EOS 1200D Fotoğraf Makinesi",
-        category: "Elektronik & Cihazlar",
-        wanted: "İPhone 11 veya Muadili Telefon",
-        user: "Gizem A.",
-        city: "Ankara",
-        rating: "4.8",
-        img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500"
-      },
-      {
-        id: 15,
-        type: "HİZMET",
-        title: "Evde Yoğa ve Pilates Eğitmenliği",
-        category: "Özel Ders & Eğitim",
-        wanted: "Protein Tozu veya Dambıl Seti",
-        user: "Selin Y.",
-        city: "Antalya",
-        rating: "5.0",
-        img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500"
-      },
-      {
-        id: 16,
-        type: "EŞYA",
-        title: "Vintage Plak Çalar (Pikap) - Çalışır Durumda",
-        category: "Hobiler & Müzik",
-        wanted: "Bluetooth Hoparlör",
-        user: "Koray T.",
-        city: "İstanbul",
-        rating: "4.9",
-        img: "https://images.unsplash.com/photo-1539375665275-f9de415ef9ac?w=500"
-      },
-      {
-        id: 17,
-        type: "EŞYA",
-        title: "Philips Airfryer Fritöz (Az Kullanıldı)",
-        category: "Ev & Yaşam",
-        wanted: "Çay Makinesi & Tost Makinesi",
-        user: "Emine B.",
-        city: "Kastamonu",
-        rating: "4.7",
-        img: "https://images.unsplash.com/photo-1585515320310-259814833e62?w=500"
-      },
-      {
-        id: 18,
-        type: "HİZMET",
-        title: "Köpek Gezdirme ve Evcil Hayvan Bakımı",
-        category: "Ev & Yaşam",
-        wanted: "Kedim İçin Büyük Tırmalama Tahtası",
-        user: "Deniz M.",
-        city: "İzmir",
-        rating: "4.8",
-        img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=500"
-      },
-      {
-        id: 19,
-        type: "EŞYA",
-        title: "21 Vites Dağ Bisikleti (Aksesuarlı)",
-        category: "Hobiler & Müzik",
-        wanted: "Aksiyon Kamerası (GoPro vb.)",
-        user: "Tolga Ö.",
-        city: "Bursa",
-        rating: "4.5",
-        img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500"
-      },
-      {
-        id: 20,
-        type: "HİZMET",
-        title: "Düğün & Özel Gün Keman Dinletisi",
-        category: "Hobiler & Müzik",
-        wanted: "Profesyonel Stüdyo Mikrofona ihtiyacım var",
-        user: "Aylin K.",
-        city: "Ankara",
-        rating: "5.0",
-        img: "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?w=500"
-      }
+      { id: 1, type: "EŞYA", title: "Kuru Temizlenmiş Temiz Erkek Takım Elbise (48 Beden)", category: "Ev & Yaşam", wanted: "Oyuncu Kulaklığı veya Akıllı Saat", user: "Ahmet Y.", city: "Kastamonu", rating: "4.8", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500" },
+      { id: 2, type: "HİZMET", title: "2+1 Daire Ev / Ofis Boya Badana İşleri Alınır", category: "Boya, Tadilat & Ustalık", wanted: "Laptop veya İkinci El Tablet", user: "Mustafa Usta", city: "İstanbul", rating: "4.9", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500" },
+      { id: 3, type: "EŞYA", title: "Az Kullanılmış Klasik Gitar (Kılıfı Dahil)", category: "Hobiler & Müzik", wanted: "A2 Düzey Almanca Dersi", user: "Seda C.", city: "Ankara", rating: "4.7", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500" },
+      { id: 4, type: "HİZMET", title: "LGS & YKS İçin Birebir Matematik Özel Ders", category: "Özel Ders & Eğitim", wanted: "Ofis Koltuğu veya Çalışma Masası", user: "Elif Hoca", city: "İzmir", rating: "5.0", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500" },
+      { id: 5, type: "EŞYA", title: "Bosch Marka Matkap Seti ve Çantası", category: "Boya, Tadilat & Ustalık", wanted: "Mikrodalga Fırın veya Kamp Çadırı", user: "Murat B.", city: "Bursa", rating: "4.6", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500" },
+      { id: 6, type: "HİZMET", title: "Sıfırdan Kurumsal Logo & Banner Tasarımı", category: "Yazılım & Tasarım", wanted: "Temiz Bisiklet veya Paten", user: "Caner K.", city: "İstanbul", rating: "4.9", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=500" },
+      { id: 7, type: "EŞYA", title: "Eski Tip Temiz Ahşap Kitaplık", category: "Ev & Yaşam", wanted: "Filtre Kahve Makinesi", user: "Zeynep T.", city: "Kastamonu", rating: "4.5", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=500" },
+      { id: 8, type: "EŞYA", title: "PlayStation 4 Slim 500GB + 2 Kol", category: "Elektronik & Cihazlar", wanted: "Elektrikli Scooter veya Robot Süpürge", user: "Burak D.", city: "Antalya", rating: "4.8", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=500" },
+      { id: 9, type: "HİZMET", title: "İngilizce Pratik ve Konuşma Dersi (Online)", category: "Özel Ders & Eğitim", wanted: "Müzik Klavyeli / Org", user: "Merve A.", city: "Ankara", rating: "4.9", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500" },
+      { id: 10, type: "EŞYA", title: "Siyah Renk Temiz Deri Ceket (M Beden)", category: "Ev & Yaşam", wanted: "Kablosuz Dikey Süpürge", user: "Hakan U.", city: "İzmir", rating: "4.4", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500" },
+      { id: 11, type: "HİZMET", title: "Bilgisayar Formatlama ve Mavi Ekran Tamiri", category: "Yazılım & Tasarım", wanted: "Harici Harddisk (1TB+)", user: "Oğuzhan Y.", city: "Kastamonu", rating: "4.7", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1588702547923-7093a6c36452?w=500" },
+      { id: 12, type: "EŞYA", title: "2 Kişilik Kamp Çadırı & Mat", category: "Hobiler & Müzik", wanted: "Oto Bakım Hizmeti veya Pasta Cila", user: "Gökhan R.", city: "Bursa", rating: "4.6", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500" },
+      { id: 13, type: "HİZMET", title: "Oto Pasta Cila ve İç Detaylı Temizlik", category: "Boya, Tadilat & Ustalık", wanted: "Akıllı Televizyon", user: "Serkan Usta", city: "İstanbul", rating: "4.9", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=500" },
+      { id: 14, type: "EŞYA", title: "Canon EOS 1200D Fotoğraf Makinesi", category: "Elektronik & Cihazlar", wanted: "iPhone 11 veya Muadili Telefon", user: "Gizem A.", city: "Ankara", rating: "4.8", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500" },
+      { id: 15, type: "HİZMET", title: "Evde Yoga ve Pilates Eğitmenliği", category: "Özel Ders & Eğitim", wanted: "Protein Tozu veya Dambıl Seti", user: "Selin Y.", city: "Antalya", rating: "5.0", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500" },
+      { id: 16, type: "EŞYA", title: "Vintage Plak Çalar (Pikap) - Çalışır Durumda", category: "Hobiler & Müzik", wanted: "Bluetooth Hoparlör", user: "Koray T.", city: "İstanbul", rating: "4.9", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1539375665275-f9de415ef9ac?w=500" },
+      { id: 17, type: "EŞYA", title: "Philips Airfryer Fritöz (Az Kullanıldı)", category: "Ev & Yaşam", wanted: "Çay Makinesi & Tost Makinesi", user: "Emine B.", city: "Kastamonu", rating: "4.7", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1585515320310-259814833e62?w=500" },
+      { id: 18, type: "HİZMET", title: "Köpek Gezdirme ve Evcil Hayvan Bakımı", category: "Ev & Yaşam", wanted: "Kedim İçin Büyük Tırmalama Tahtası", user: "Deniz M.", city: "İzmir", rating: "4.8", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=500" },
+      { id: 19, type: "EŞYA", title: "21 Vites Dağ Bisikleti (Aksesuarlı)", category: "Hobiler & Müzik", wanted: "Aksiyon Kamerası (GoPro vb.)", user: "Tolga Ö.", city: "Bursa", rating: "4.5", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500" },
+      { id: 20, type: "HİZMET", title: "Düğün & Özel Gün Keman Dinletisi", category: "Hobiler & Müzik", wanted: "Profesyonel Stüdyo Mikrofona ihtiyacım var", user: "Aylin K.", city: "Ankara", rating: "5.0", phone: DEMO_PHONE, img: "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?w=500" }
     ];
 
     let allListings = [];
+    let currentSelectedListing = null;
 
     function initListings() {
-      // Doğrudan benzersiz yeni ilanlarımızı localStorage ve state içine yüklüyoruz
-      const stored = localStorage.getItem('takaslasana_listings_v2');
+      const stored = localStorage.getItem('takaslasana_listings_v3');
       if (stored) {
         allListings = JSON.parse(stored);
       } else {
         allListings = rawListings;
-        localStorage.setItem('takaslasana_listings_v2', JSON.stringify(allListings));
+        localStorage.setItem('takaslasana_listings_v3', JSON.stringify(allListings));
       }
       renderListings(allListings);
     }
@@ -913,7 +740,7 @@
         const badgeIcon = item.type === 'HİZMET' ? '🛠️ HİZMET' : '📦 EŞYA';
 
         const cardHtml = `
-          <div class="card" onclick="openOfferModal('${item.title}', '${item.user}', '${item.wanted}')">
+          <div class="card" onclick="openOfferModal(${item.id})">
             <div class="card-img">
               <img src="${item.img}" alt="${item.title}" loading="lazy">
               <div class="badges"><span class="badge ${badgeClass}">${badgeIcon}</span></div>
@@ -927,7 +754,9 @@
                 <span class="rating"><i class="fa-solid fa-star"></i> ${item.rating}</span>
               </div>
               <div class="card-actions">
-                <button class="btn-action" onclick="event.stopPropagation(); alert('Mesajlaşma paneli yakında aktif olacak!')">Mesaj</button>
+                <button class="btn-action whatsapp-btn" onclick="event.stopPropagation(); directChat('${item.phone}', '${item.title}')">
+                  <i class="fa-brands fa-whatsapp"></i> Mesaj
+                </button>
                 <button class="btn-action primary">Teklif Yap</button>
               </div>
             </div>
@@ -966,10 +795,39 @@
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    function openOfferModal(title, user, wanted) {
-      document.getElementById('offerModalTitle').innerText = `${title} - Teklif Yap`;
-      document.getElementById('offerModalContent').innerHTML = `<b>İlan Sahibi:</b> ${user}<br><b>Aranan Takas:</b> ${wanted}`;
+    function openOfferModal(id) {
+      currentSelectedListing = allListings.find(item => item.id === id);
+      if(!currentSelectedListing) return;
+
+      document.getElementById('offerModalTitle').innerText = `${currentSelectedListing.title}`;
+      document.getElementById('offerModalContent').innerHTML = `
+        <b>İlan Sahibi:</b> ${currentSelectedListing.user}<br>
+        <b>Aranan Takas:</b> ${currentSelectedListing.wanted}
+      `;
       openModal('offerModal');
+    }
+
+    function handleSendOffer(e) {
+      e.preventDefault();
+      if (!currentSelectedListing) return;
+
+      const offerText = document.getElementById('offerText').value;
+      const phone = currentSelectedListing.phone || DEMO_PHONE;
+      
+      const message = `Merhaba ${currentSelectedListing.user}, Takaslasana.com üzerindeki "${currentSelectedListing.title}" ilanınız için teklifim var:\n\n👉 ${offerText}`;
+      const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+      closeModal('offerModal');
+      document.getElementById('offerText').value = '';
+      
+      window.open(whatsappUrl, '_blank');
+    }
+
+    function directChat(phone, title) {
+      const targetPhone = phone || DEMO_PHONE;
+      const message = `Merhaba, Takaslasana.com üzerindeki "${title}" ilanınız ile ilgileniyorum. Detayları görüşebilir miyiz?`;
+      const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
     }
 
     function handleCreateListing(e) {
@@ -982,22 +840,16 @@
         category: document.getElementById('newCategory').value,
         city: document.getElementById('newCity').value,
         user: document.getElementById('newUser').value,
+        phone: document.getElementById('newPhone').value || DEMO_PHONE,
         rating: "5.0",
         img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500"
       };
 
       allListings.unshift(newListing);
-      localStorage.setItem('takaslasana_listings_v2', JSON.stringify(allListings));
+      localStorage.setItem('takaslasana_listings_v3', JSON.stringify(allListings));
       renderListings(allListings);
       closeModal('addListingModal');
       alert('İlanınız başarıyla eklendi!');
-      e.target.reset();
-    }
-
-    function handleSendOffer(e) {
-      e.preventDefault();
-      alert('Teklifiniz gönderildi!');
-      closeModal('offerModal');
       e.target.reset();
     }
 
