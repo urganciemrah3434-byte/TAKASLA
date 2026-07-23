@@ -25,11 +25,60 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 let currentUser = null;
+let selectedFile = null;
 
 // Oturum Kontrolü
 onAuthStateChanged(auth, (user) => {
     currentUser = user;
 });
+
+// SÜRÜKLE-BIRAK VE DOSYA SEÇİM MANTIĞI
+const dropZone = document.getElementById("drop-zone");
+const fileInput = document.getElementById("item-image-file");
+const previewImg = document.getElementById("image-preview");
+const dropText = document.getElementById("drop-zone-text");
+
+if (dropZone) {
+    dropZone.addEventListener("click", () => fileInput.click());
+
+    dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("dragover");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+        dropZone.classList.remove("dragover");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("dragover");
+        if (e.dataTransfer.files.length > 0) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    });
+
+    fileInput.addEventListener("change", (e) => {
+        if (e.target.files.length > 0) {
+            handleFile(e.target.files[0]);
+        }
+    });
+}
+
+function handleFile(file) {
+    if (!file.type.startsWith("image/")) {
+        alert("Lütfen sadece resim dosyası seçin!");
+        return;
+    }
+    selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        previewImg.style.display = "block";
+        dropText.style.display = "none";
+    };
+    reader.readAsDataURL(file);
+}
 
 // 1. İLAN EKLEME FORMU
 const addForm = document.getElementById("add-listing-form");
@@ -45,14 +94,33 @@ if (addForm) {
 
         const submitBtn = document.getElementById("submit-btn");
         submitBtn.disabled = true;
-        submitBtn.innerText = "Yayınlanıyor...";
+        submitBtn.innerText = "Fotoğraf Yükleniyor ve Kaydediliyor...";
 
         const title = document.getElementById("item-title").value;
         const desc = document.getElementById("item-desc").value;
         const target = document.getElementById("item-target").value;
-        const imageUrl = document.getElementById("item-image-url").value;
+
+        let imageUrl = "";
 
         try {
+            // Eğer resim seçildiyse ImgBB API servisimiz üzerinden arka planda yükle
+            if (selectedFile) {
+                const formData = new FormData();
+                formData.append("image", selectedFile);
+
+                // Ücretsiz ImgBB API isteği
+                const response = await fetch("https://api.imgbb.com/1/upload?key=6f120c157f13cf06d441f71f6d3fdf2a", {
+                    method: "POST",
+                    body: formData
+                });
+                const resData = await response.json();
+                if (resData.success) {
+                    imageUrl = resData.data.url;
+                } else {
+                    throw new Error("Resim yüklenemedi.");
+                }
+            }
+
             // Veritabanına kaydet
             await addDoc(collection(db, "listings"), {
                 title: title,
@@ -63,7 +131,7 @@ if (addForm) {
                 createdAt: new Date()
             });
 
-            alert("Tebrikler! İlanınız başarıyla yayınlandı.");
+            alert("Tebrikler! Fotoğraflı ilanınız başarıyla yayınlandı.");
             window.location.href = "index.html";
         } catch (error) {
             console.error("Hata:", error);
@@ -95,9 +163,8 @@ if (container) {
                 card.className = "card";
                 card.style.cssText = "width:280px; padding:15px; border:1px solid #ddd; border-radius:8px; background:#fff; text-align:left; display:flex; flex-direction:column; justify-content:space-between;";
 
-                // Fotoğraf varsa görsel alanını oluştur
                 let imageHTML = data.imageUrl 
-                    ? `<img src="${data.imageUrl}" alt="${data.title}" style="width:100%; height:180px; object-fit:cover; border-radius:5px; margin-bottom:10px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/280x180?text=Gorsel+Yuklenemedi';">`
+                    ? `<img src="${data.imageUrl}" alt="${data.title}" style="width:100%; height:180px; object-fit:cover; border-radius:5px; margin-bottom:10px;">`
                     : `<div style="width:100%; height:150px; background:#eee; display:flex; align-items:center; justify-content:center; color:#888; border-radius:5px; margin-bottom:10px;">Fotoğraf Yok</div>`;
 
                 card.innerHTML = `
