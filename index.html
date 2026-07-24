@@ -187,7 +187,7 @@
 
     <section>
       <div class="list-head">
-        <div><h2 id="listTitle">Aktif İlanlar</h2><span class="count" id="count"></span></div>
+        <div><h2 id="listTitle">Aktif İlanlar</h2><span class="count" id="count">Yükleniyor...</span></div>
         <select id="sort" class="sort">
           <option value="new">En yeniler</option>
           <option value="rating">Puanı yüksek olanlar</option>
@@ -209,7 +209,7 @@
       <input id="newWanted" required minlength="3" placeholder="Örn. Akustik gitar veya İngilizce dersi">
       
       <label>Fotoğraf Yükle</label>
-      <div class="file-upload-box" onclick="$('imageFile').click()">
+      <div class="file-upload-box" id="uploadBox">
         <span id="uploadStatus">📷 Görsel seçmek için tıklayın</span>
         <input type="file" id="imageFile" accept="image/*" style="display:none">
         <img id="imagePreview" alt="Önizleme">
@@ -237,21 +237,21 @@
       
       <div class="form-actions">
         <button class="button" type="button" data-close>Vazgeç</button>
-        <button class="button primary" type="submit">İlanı Kaydet</button>
+        <button class="button primary" id="submitBtn" type="submit">İlanı Kaydet</button>
       </div>
     </form>
   </dialog>
 
-  <!-- Teklif & WhatsApp Modal -->
+  <!-- Teklif Modal -->
   <dialog id="offerDialog">
     <form id="offerForm" class="dialog-content" method="dialog">
       <div class="dialog-head"><h2 id="offerModalTitle">Takas Teklifi Yap</h2><button class="close" type="button" data-close>×</button></div>
       <p style="font-size:13px; color:var(--muted); margin-top:4px;" id="offerTargetInfo"></p>
       
       <label for="offerMessage">Teklifiniz veya Mesajınız</label>
-      <textarea id="offerMessage" rows="3" required placeholder="Merhaba, ilanınızla ilgileniyorum. Elimdeki... ile takas düşünür müsünüz?"></textarea>
+      <textarea id="offerMessage" rows="3" required placeholder="Merhaba, ilanınızla ilgileniyorum..."></textarea>
       
-      <label for="offerPhone">WhatsApp Telefon Numaranız (İsteğe bağlı)</label>
+      <label for="offerPhone">WhatsApp Numaranız (İsteğe Bağlı)</label>
       <input id="offerPhone" type="tel" placeholder="05XX XXX XX XX">
       
       <div class="form-actions">
@@ -263,51 +263,45 @@
 
   <div class="toast" id="toast"></div>
 
-  <script>
-    'use strict';
-    const CATEGORIES = ['Tümü','Elektronik','Ev & Yaşam','Eğitim','Ustalık','Hobi & Müzik','Yazılım & Tasarım'];
-    
-    const REAL_IMAGE_MAP = {
-      'gitar': 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=600&auto=format&fit=crop&q=80',
-      'boya': 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&auto=format&fit=crop&q=80',
-      'takim': 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&auto=format&fit=crop&q=80',
-      'matematik': 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80',
-      'ps4': 'https://images.unsplash.com/photo-1507457379470-08b800bebc67?w=600&auto=format&fit=crop&q=80'
+  <!-- Firebase Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDiEf4SXghJpXUiHIrflLk8lnvaAk7LnUI",
+      authDomain: "takasla-e2013.firebaseapp.com",
+      projectId: "takasla-e2013",
+      storageBucket: "takasla-e2013.firebasestorage.app",
+      messagingSenderId: "324778736339",
+      appId: "1:324778736339:web:d1c25d9aff143c35833226",
+      measurementId: "G-CX29N06BZ7"
     };
 
-    const SEED_DATA = [
-      { id:1, type:'item', title:'Az Kullanılmış Klasik Gitar', wanted:'A2 Almanca Dersi', user:'Seda C.', verified:true, city:'Ankara', category:'Hobi & Müzik', rating:4.9, image:REAL_IMAGE_MAP.gitar, phone:'5550000001' },
-      { id:2, type:'service', title:'2+1 Daire Boya Badana İşçiliği', wanted:'Laptop / Tablet', user:'Mustafa Usta', verified:true, city:'İstanbul', category:'Ustalık', rating:5.0, image:REAL_IMAGE_MAP.boya, phone:'5550000002' },
-      { id:3, type:'item', title:'Siyah Erkek Takım Elbise (48 Beden)', wanted:'Bluetooth Kulaklık', user:'Ahmet Y.', verified:false, city:'Kastamonu', category:'Ev & Yaşam', rating:4.7, image:REAL_IMAGE_MAP.takim, phone:'5550000003' },
-      { id:4, type:'service', title:'LGS / YKS Matematik Özel Dersi', wanted:'Çalışma Masası', user:'Elif Hoca', verified:true, city:'İzmir', category:'Eğitim', rating:5.0, image:REAL_IMAGE_MAP.matematik, phone:'5550000004' },
-      { id:5, type:'item', title:'PlayStation 4 + 2 Adet Kol', wanted:'Akıllı Saat', user:'Burak T.', verified:true, city:'İstanbul', category:'Elektronik', rating:4.8, image:REAL_IMAGE_MAP.ps4, phone:'5550000005' }
-    ];
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    const storeKey = 'takaslasana_listings_v6', favKey = 'takaslasana_favs_v6';
-    if(!localStorage.getItem(storeKey)) localStorage.setItem(storeKey, JSON.stringify(SEED_DATA));
-
-    const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
+    const CATEGORIES = ['Tümü','Elektronik','Ev & Yaşam','Eğitim','Ustalık','Hobi & Müzik','Yazılım & Tasarım'];
     
-    let listings = read(storeKey, SEED_DATA);
-    let favorites = new Set(read(favKey, []));
+    let listings = [];
+    let favorites = new Set(JSON.parse(localStorage.getItem('takasla_favs') || '[]'));
     let onlyFavorites = false;
     let activeCategory = 'Tümü';
-    let language = 'tr';
     let currentUploadedImage = null;
     let selectedOfferItem = null;
 
     const $ = (id) => document.getElementById(id);
-    const save = () => localStorage.setItem(storeKey, JSON.stringify(listings));
     const toast = (text) => { const el=$('toast'); el.textContent=text; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer=setTimeout(()=>el.classList.remove('show'),2800); };
 
-    /* 1. Tema Geçişi (Dark Mode) */
+    // Dark Mode Toggle
     $('themeBtn').addEventListener('click', () => {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
       $('themeBtn').textContent = isDark ? '🌙' : '☀️';
     });
 
-    /* 2. Fotoğraf Yükleme Previews */
+    // Image Upload Handler
+    $('uploadBox').addEventListener('click', () => $('imageFile').click());
     $('imageFile').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file) {
@@ -322,7 +316,7 @@
       }
     });
 
-    function categories() { 
+    function renderCategories() { 
       const holder=$('categories'); 
       holder.replaceChildren(); 
       CATEGORIES.forEach(category => { 
@@ -331,7 +325,7 @@
         button.className='chip'; 
         button.textContent=category; 
         button.setAttribute('aria-pressed', String(category===activeCategory)); 
-        button.addEventListener('click',()=>{ activeCategory=category; categories(); render(); }); 
+        button.addEventListener('click',()=>{ activeCategory=category; renderCategories(); renderListings(); }); 
         holder.append(button); 
       }); 
     }
@@ -346,13 +340,13 @@
         (type==='all'||item.type===type) && 
         (city==='all'||item.city===city) && 
         (activeCategory==='Tümü'||item.category===activeCategory) && 
-        (!q||[item.title,item.wanted,item.user,item.category,item.city].some(val=>String(val).toLowerCase().includes(q)))
-      ).sort((a,b)=>sort==='rating'?b.rating-a.rating:b.id-a.id); 
+        (!q||[item.title,item.wanted,item.user,item.category,item.city].some(val=>String(val||'').toLowerCase().includes(q)))
+      ).sort((a,b)=>sort==='rating'?(b.rating||5)-(a.rating||5):(b.createdAt||0)-(a.createdAt||0)); 
     }
 
     function element(tag, options={}) { const el=document.createElement(tag); Object.assign(el, options); return el; }
 
-    function render() { 
+    function renderListings() { 
       const items=visibleListings(), holder=$('cards'); 
       holder.replaceChildren(); 
       $('count').textContent=`${items.length} ilan bulundu`; 
@@ -361,31 +355,24 @@
         holder.append(element('div',{className:'empty',textContent:'Aramanıza uygun ilan bulunamadı.'})); 
         return; 
       } 
-      items.forEach(item=>holder.append(card(item))); 
+      items.forEach(item=>holder.append(createCard(item))); 
     }
 
-    /* 3. Kart Tasarımı & Onaylı Profil */
-    function card(item) { 
-      const article=element('article',{className:'card'}), imageBox=element('div',{className:'card-image'}), image=element('img',{src:item.image,alt:item.title,loading:'lazy'}), badge=element('span',{className:`badge ${item.type==='service'?'service':''}`,textContent:item.type==='service'?'Hizmet':'Eşya'}), body=element('div',{className:'card-body'}); 
+    function createCard(item) { 
+      const article=element('article',{className:'card'}), imageBox=element('div',{className:'card-image'}), image=element('img',{src:item.image || 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&auto=format&fit=crop&q=80',alt:item.title,loading:'lazy'}), badge=element('span',{className:`badge ${item.type==='service'?'service':''}`,textContent:item.type==='service'?'Hizmet':'Eşya'}), body=element('div',{className:'card-body'}); 
       
       image.onerror=()=>{ image.src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&auto=format&fit=crop&q=80'; }; 
       imageBox.append(image,badge); 
       
       const title=element('h3',{textContent:item.title});
-      
-      // Kullanıcı & Güven Rozeti
       const userMeta=element('div',{className:'meta'});
-      const userName=element('span',{textContent:item.user});
-      userMeta.append(userName);
-      if(item.verified) {
-        const vBadge=element('span',{className:'user-badge',textContent:'✓ Onaylı'});
-        userMeta.append(vBadge);
-      }
+      userMeta.append(element('span',{textContent:item.user}));
+      if(item.verified) userMeta.append(element('span',{className:'user-badge',textContent:'✓ Onaylı'}));
       userMeta.append(element('span',{textContent:` · ${item.category}`}));
 
       const want=element('div',{className:'want',textContent:`İstenen: ${item.wanted}`});
       const details=element('div',{className:'details'}); 
-      details.append(element('span',{textContent:`📍 ${item.city}`}), element('span',{textContent:`★ ${item.rating.toFixed(1)}`})); 
+      details.append(element('span',{textContent:`📍 ${item.city}`}), element('span',{textContent:`★ ${(item.rating || 5.0).toFixed(1)}`})); 
       
       const actions=element('div',{className:'card-actions'});
       const fav=element('button',{className:'small-button',type:'button',textContent:favorites.has(item.id)?'♥ Kaydedildi':'♡ Kaydet'});
@@ -393,11 +380,10 @@
       
       fav.addEventListener('click',()=>{ 
         favorites.has(item.id)?favorites.delete(item.id):favorites.add(item.id); 
-        localStorage.setItem(favKey,JSON.stringify([...favorites])); 
-        render(); 
+        localStorage.setItem('takasla_favs',JSON.stringify([...favorites])); 
+        renderListings(); 
       }); 
       
-      /* 4. Teklif / WhatsApp Modalını Açma */
       offer.addEventListener('click',()=>{
         selectedOfferItem = item;
         $('offerTargetInfo').textContent = `İlan: "${item.title}" (${item.user})`;
@@ -410,7 +396,68 @@
       return article; 
     }
 
-    /* WhatsApp Teklif Formu Submit */
+    // Realtime Data Listener (Firestore)
+    const q = query(collection(db, "listings"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      listings = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        listings.push({
+          id: doc.id,
+          title: data.title || data.description || '',
+          wanted: data.target || data.wanted || '',
+          user: data.userEmail ? data.userEmail.split('@')[0] : (data.user || 'Kullanıcı'),
+          city: data.city || 'İstanbul',
+          category: data.category || 'Tümü',
+          type: data.type || 'item',
+          image: data.imageUrl || data.image || '',
+          verified: data.verified ?? true,
+          rating: data.rating || 5.0,
+          createdAt: data.createdAt ? data.createdAt.seconds : Date.now()
+        });
+      });
+      renderListings();
+    }, (error) => {
+      console.error("Firebase Hatası:", error);
+      toast("Veriler yüklenirken hata oluştu.");
+    });
+
+    // Add New Listing to Firebase
+    $('listingForm').addEventListener('submit', async (e) => { 
+      e.preventDefault(); 
+      const submitBtn = $('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Kaydediliyor...';
+
+      try {
+        await addDoc(collection(db, "listings"), {
+          title: $('newTitle').value.trim(),
+          wanted: $('newWanted').value.trim(),
+          category: $('newCategory').value,
+          city: $('newCity').value,
+          user: $('newUser').value.trim(),
+          type: $('newType').value,
+          image: currentUploadedImage || '',
+          verified: true,
+          rating: 5.0,
+          createdAt: new Date()
+        });
+
+        $('listingForm').reset(); 
+        $('imagePreview').style.display='none';
+        $('uploadStatus').textContent='📷 Görsel seçmek için tıklayın';
+        currentUploadedImage = null;
+        $('listingDialog').close(); 
+        toast('İlanınız canlı veritabanına eklendi!'); 
+      } catch (err) {
+        toast('Hata oluştu, tekrar deneyin.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'İlanı Kaydet';
+      }
+    });
+
+    // WhatsApp Offer Form Submit
     $('offerForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const msg = $('offerMessage').value.trim();
@@ -418,7 +465,6 @@
       const targetPhone = selectedOfferItem?.phone || '905550000000';
       
       const fullText = `Merhaba ${selectedOfferItem.user}, Takaslasana üzerindeki "${selectedOfferItem.title}" ilanınız için teklifim:\n\n${msg}${phone ? '\n\nİletişim Numaram: ' + phone : ''}`;
-      
       const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fullText)}`;
       window.open(waUrl, '_blank');
       
@@ -427,52 +473,19 @@
       toast('WhatsApp yönlendirmesi yapılıyor...');
     });
 
-    function openDialog(){ $('listingDialog').showModal(); }
-
+    // Category options population
     CATEGORIES.slice(1).forEach(cat => $('newCategory').append(element('option',{value:cat,textContent:cat})));
     
-    $('openListing').addEventListener('click',openDialog); 
-    $('heroListing').addEventListener('click',openDialog); 
+    // UI Event Listeners
+    $('openListing').addEventListener('click', () => $('listingDialog').showModal()); 
+    $('heroListing').addEventListener('click', () => $('listingDialog').showModal()); 
     document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => {
       $('listingDialog').close();
       $('offerDialog').close();
     }));
-    
-    $('listingForm').addEventListener('submit', e => { 
-      e.preventDefault(); 
-      const categorySelected = $('newCategory').value;
-      
-      const item = {
-        id: Date.now(),
-        type: $('newType').value,
-        title: $('newTitle').value.trim(),
-        wanted: $('newWanted').value.trim(),
-        category: categorySelected,
-        city: $('newCity').value,
-        user: $('newUser').value.trim(),
-        verified: true,
-        rating: 5.0,
-        image: currentUploadedImage || REAL_IMAGE_MAP.gitar,
-        phone: ''
-      }; 
-      
-      listings.unshift(item); 
-      save(); 
-      e.currentTarget.reset(); 
-      $('imagePreview').style.display='none';
-      $('uploadStatus').textContent='📷 Görsel seçmek için tıklayın';
-      currentUploadedImage = null;
-      
-      $('listingDialog').close(); 
-      activeCategory = 'Tümü'; 
-      categories(); 
-      render(); 
-      toast('İlanınız başarıyla eklendi!'); 
-    });
 
-    ['search','type','city','sort'].forEach(id => $(id).addEventListener(id==='search'?'input':'change', render)); 
-    $('favoritesButton').addEventListener('click', () => { onlyFavorites = !onlyFavorites; render(); }); 
-    
+    ['search','type','city','sort'].forEach(id => $(id).addEventListener(id==='search'?'input':'change', renderListings)); 
+    $('favoritesButton').addEventListener('click', () => { onlyFavorites = !onlyFavorites; renderListings(); }); 
     $('reset').addEventListener('click', () => { 
       $('search').value = ''; 
       $('type').value = 'all'; 
@@ -480,12 +493,11 @@
       $('sort').value = 'new'; 
       onlyFavorites = false; 
       activeCategory = 'Tümü'; 
-      categories(); 
-      render(); 
+      renderCategories(); 
+      renderListings(); 
     });
 
-    categories(); 
-    render();
+    renderCategories();
   </script>
 </body>
 </html>
