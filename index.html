@@ -10,102 +10,158 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --ink:#172033; --muted:#62708a; --line:#e7eaf0; --bg:#f7f8fc; --violet:#6d28d9; --violet-soft:#f2ebff; --green:#059669; --card:#fff; --danger:#e11d48; }
-    * { box-sizing:border-box; }
-    body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 "Plus Jakarta Sans",sans-serif; }
-    button,input,select { font:inherit; }
-    button { cursor:pointer; }
-    .container { width:min(1180px, calc(100% - 32px)); margin-inline:auto; }
-    .topbar { position:sticky; top:0; z-index:10; background:rgba(255,255,255,.9); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
-    .nav { min-height:72px; display:flex; align-items:center; gap:18px; justify-content:space-between; }
-    .brand { color:var(--ink); text-decoration:none; display:flex; align-items:center; gap:10px; font-size:20px; font-weight:800; letter-spacing:-.6px; }
-    .brand-mark { width:38px; height:38px; display:block; }
-    .lang { width:auto; min-height:38px; padding:6px 9px; border-radius:10px; color:var(--muted); font-size:12px; font-weight:700; }
-    .nav-actions { display:flex; align-items:center; gap:9px; }
-    .button { border:0; border-radius:12px; padding:10px 15px; font-weight:700; background:#fff; color:var(--ink); }
-    .button.primary { color:#fff; background:var(--violet); box-shadow:0 8px 18px #6d28d933; }
-    .button.secondary { border:1px solid var(--line); }
-    .hero { overflow:hidden; padding:68px 0 88px; text-align:center; background:radial-gradient(circle at 20% 0,#e9ddff 0,transparent 32%),linear-gradient(115deg,#f7edff,#e7edff); }
-    .eyebrow { color:var(--violet); font-size:13px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-    h1 { max-width:760px; margin:14px auto; font-size:clamp(34px,5vw,58px); line-height:1.08; letter-spacing:-2px; }
-    h1 span { color:var(--violet); }
-    .hero p { max-width:610px; margin:0 auto 25px; color:var(--muted); font-size:17px; }
-    .hero-actions { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
-    .category-bar { position:relative; margin-top:-31px; }
-    .categories { display:flex; overflow-x:auto; gap:10px; padding:7px 2px 12px; scrollbar-width:none; }
-    .chip { flex:0 0 auto; padding:10px 15px; color:var(--ink); background:#fff; border:1px solid var(--line); border-radius:13px; font-size:13px; font-weight:700; }
-    .chip[aria-pressed="true"] { color:var(--violet); border-color:#b99aff; background:var(--violet-soft); }
-    main { display:grid; grid-template-columns:245px minmax(0,1fr); gap:25px; padding:28px 0 65px; }
-    .panel { background:var(--card); border:1px solid var(--line); border-radius:18px; }
-    .filters { height:max-content; padding:18px; }
-    .filters h2 { margin:0 0 17px; font-size:16px; }
-    label { display:block; margin:13px 0 6px; color:var(--muted); font-size:12px; font-weight:800; }
-    input,select { width:100%; min-height:41px; border:1px solid var(--line); border-radius:10px; padding:9px 11px; color:var(--ink); background:#fff; }
-    input:focus,select:focus,button:focus-visible { outline:3px solid #c4b5fd; outline-offset:2px; }
-    .reset { width:100%; margin-top:18px; padding:9px; color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:10px; font-size:13px; font-weight:700; }
-    .list-head { display:flex; justify-content:space-between; align-items:end; gap:15px; margin-bottom:18px; }
-    .list-head h2 { margin:0; font-size:24px; letter-spacing:-.6px; }
-    .count { color:var(--muted); font-size:13px; font-weight:700; }
-    .sort { width:165px; }
-    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; }
-    .card { overflow:hidden; text-align:left; background:var(--card); border:1px solid var(--line); border-radius:17px; transition:transform .2s,box-shadow .2s; }
-    .card:hover { transform:translateY(-4px); box-shadow:0 14px 30px #17203314; }
-    .card-image { position:relative; height:160px; background:#e9eef8; overflow:hidden; }
-    .card-image img { width:100%; height:100%; object-fit:cover; display:block; }
-    .badge { position:absolute; top:10px; left:10px; padding:4px 9px; border-radius:20px; color:#fff; background:var(--green); font-size:11px; font-weight:800; }
-    .badge.service { background:var(--violet); }
-    .card-body { padding:14px; }
-    .card h3 { margin:0 0 5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; font-weight:700; }
-    .meta { color:var(--muted); font-size:12px; }
-    .want { min-height:38px; margin:10px 0; padding:7px 9px; color:var(--violet); background:var(--violet-soft); border-radius:9px; font-size:11px; font-weight:700; line-height:1.3; }
-    .details { display:flex; justify-content:space-between; color:var(--muted); font-size:11px; }
-    .card-actions { display:flex; gap:7px; margin-top:12px; }
-    .small-button { flex:1; padding:8px 5px; border:1px solid var(--line); border-radius:9px; color:var(--ink); background:#fff; font-size:11px; font-weight:800; }
-    .small-button.offer { border-color:var(--violet); color:#fff; background:var(--violet); }
-    .empty { grid-column:1/-1; padding:45px 20px; color:var(--muted); text-align:center; background:#fff; border:1px dashed #cbd5e1; border-radius:16px; }
-    dialog { width:min(530px,calc(100% - 28px)); max-height:90vh; padding:0; border:0; border-radius:18px; box-shadow:0 30px 90px #17203366; }
-    dialog::backdrop { background:#17203388; backdrop-filter:blur(3px); }
-    .dialog-content { padding:22px; }
-    .dialog-head { display:flex; justify-content:space-between; align-items:center; gap:10px; }
-    .dialog-head h2 { margin:0; font-size:19px; }
-    .close { width:34px; height:34px; border:0; border-radius:50%; font-size:22px; background:#f1f3f7; }
-    .form-note { margin:10px 0; color:var(--muted); font-size:12px; }
-    .form-actions { display:flex; justify-content:end; gap:8px; margin-top:20px; }
-    .form-actions .button { border:1px solid var(--line); }
-    .form-actions .primary { border-color:var(--violet); }
-    .toast { position:fixed; z-index:20; right:20px; bottom:20px; max-width:330px; padding:12px 15px; color:#fff; background:var(--ink); border-radius:12px; box-shadow:0 12px 25px #17203344; transform:translateY(90px); opacity:0; transition:.25s; }
-    .toast.show { transform:translateY(0); opacity:1; }
-    @media (max-width:760px) { .nav { min-height:63px; } .nav .button.secondary { display:none; } .brand { font-size:17px; } .hero { padding:47px 0 70px; } .hero p { font-size:15px; } main { grid-template-columns:1fr; } .filters { display:grid; grid-template-columns:1fr 1fr; gap:0 12px; } .filters h2,.reset { grid-column:1/-1; } .list-head { align-items:start; flex-direction:column; } .sort { width:100%; } }
+    :root {
+      --ink: #172033;
+      --muted: #62708a;
+      --line: #e7eaf0;
+      --bg: #f7f8fc;
+      --violet: #6d28d9;
+      --violet-soft: #f2ebff;
+      --green: #059669;
+      --card: #ffffff;
+      --input-bg: #ffffff;
+      --modal-bg: #ffffff;
+    }
+
+    [data-theme="dark"] {
+      --ink: #f1f5f9;
+      --muted: #94a3b8;
+      --line: #334155;
+      --bg: #0f172a;
+      --violet: #8b5cf6;
+      --violet-soft: #1e1b4b;
+      --green: #10b981;
+      --card: #1e293b;
+      --input-bg: #0f172a;
+      --modal-bg: #1e293b;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 "Plus Jakarta Sans", sans-serif; transition: background 0.3s, color 0.3s; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .container { width: min(1180px, calc(100% - 32px)); margin-inline: auto; }
+    
+    /* Topbar */
+    .topbar { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    [data-theme="dark"] .topbar { background: rgba(15, 23, 42, 0.85); }
+    .nav { min-height: 72px; display: flex; align-items: center; gap: 14px; justify-content: space-between; }
+    .brand { color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; letter-spacing: -.6px; }
+    .lang { width: auto; min-height: 38px; padding: 6px 9px; border-radius: 10px; color: var(--muted); font-size: 12px; font-weight: 700; background: var(--input-bg); border: 1px solid var(--line); }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    
+    /* Buttons */
+    .button { border: 0; border-radius: 12px; padding: 10px 15px; font-weight: 700; background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .button.primary { color: #fff; background: var(--violet); border: 0; box-shadow: 0 8px 18px #6d28d933; }
+    .theme-toggle { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+
+    /* Hero */
+    .hero { overflow: hidden; padding: 60px 0 75px; text-align: center; background: radial-gradient(circle at 20% 0, #e9ddff 0, transparent 32%), linear-gradient(115deg, #f7edff, #e7edff); }
+    [data-theme="dark"] .hero { background: radial-gradient(circle at 20% 0, #2e1065 0, transparent 40%), linear-gradient(115deg, #0f172a, #1e1b4b); }
+    .eyebrow { color: var(--violet); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { max-width: 760px; margin: 14px auto; font-size: clamp(32px, 5vw, 54px); line-height: 1.08; letter-spacing: -2px; }
+    h1 span { color: var(--violet); }
+    .hero p { max-width: 610px; margin: 0 auto 25px; color: var(--muted); font-size: 16px; }
+    .hero-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+
+    /* Categories */
+    .category-bar { position: relative; margin-top: -31px; }
+    .categories { display: flex; overflow-x: auto; gap: 10px; padding: 7px 2px 12px; scrollbar-width: none; }
+    .chip { flex: 0 0 auto; padding: 10px 15px; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 13px; font-size: 13px; font-weight: 700; }
+    .chip[aria-pressed="true"] { color: var(--violet); border-color: var(--violet); background: var(--violet-soft); }
+
+    /* Main Grid */
+    main { display: grid; grid-template-columns: 245px minmax(0, 1fr); gap: 25px; padding: 28px 0 65px; }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 18px; }
+    .filters { height: max-content; padding: 18px; }
+    .filters h2 { margin: 0 0 17px; font-size: 16px; }
+    label { display: block; margin: 13px 0 6px; color: var(--muted); font-size: 12px; font-weight: 800; }
+    input, select, textarea { width: 100%; min-height: 41px; border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; color: var(--ink); background: var(--input-bg); }
+    .reset { width: 100%; margin-top: 18px; padding: 9px; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 10px; font-size: 13px; font-weight: 700; }
+
+    /* Listings Head & Cards */
+    .list-head { display: flex; justify-content: space-between; align-items: end; gap: 15px; margin-bottom: 18px; }
+    .list-head h2 { margin: 0; font-size: 24px; letter-spacing: -.6px; }
+    .count { color: var(--muted); font-size: 13px; font-weight: 700; }
+    .sort { width: 165px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px; }
+    .card { overflow: hidden; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 17px; transition: transform .2s, box-shadow .2s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0,0,0,0.1); }
+    .card-image { position: relative; height: 160px; background: #e9eef8; overflow: hidden; }
+    .card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .badge { position: absolute; top: 10px; left: 10px; padding: 4px 9px; border-radius: 20px; color: #fff; background: var(--green); font-size: 11px; font-weight: 800; }
+    .badge.service { background: var(--violet); }
+    
+    .card-body { padding: 14px; }
+    .card h3 { margin: 0 0 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 700; }
+    .user-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--green); background: rgba(16,185,129,0.1); padding: 2px 6px; border-radius: 6px; font-weight: 700; margin-left: 4px; }
+    .meta { color: var(--muted); font-size: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
+    .want { min-height: 38px; margin: 10px 0; padding: 7px 9px; color: var(--violet); background: var(--violet-soft); border-radius: 9px; font-size: 11px; font-weight: 700; line-height: 1.3; }
+    .details { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; }
+    
+    .card-actions { display: flex; gap: 7px; margin-top: 12px; }
+    .small-button { flex: 1; padding: 8px 5px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: var(--card); font-size: 11px; font-weight: 800; }
+    .small-button.offer { border-color: var(--violet); color: #fff; background: var(--violet); }
+    
+    .empty { grid-column: 1/-1; padding: 45px 20px; color: var(--muted); text-align: center; background: var(--card); border: 1px dashed var(--line); border-radius: 16px; }
+
+    /* Modals & Upload */
+    dialog { width: min(520px, calc(100% - 28px)); max-height: 90vh; padding: 0; border: 0; border-radius: 18px; background: var(--modal-bg); color: var(--ink); box-shadow: 0 30px 90px rgba(0,0,0,0.4); }
+    dialog::backdrop { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
+    .dialog-content { padding: 22px; }
+    .dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .dialog-head h2 { margin: 0; font-size: 19px; }
+    .close { width: 34px; height: 34px; border: 0; border-radius: 50%; font-size: 20px; background: var(--line); color: var(--ink); }
+    .form-actions { display: flex; justify-content: end; gap: 8px; margin-top: 20px; }
+    
+    .file-upload-box { border: 2px dashed var(--line); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; margin-top: 6px; background: var(--input-bg); }
+    .file-upload-box img { max-height: 120px; border-radius: 8px; margin-top: 8px; display: none; margin-inline: auto; }
+
+    .toast { position: fixed; z-index: 30; right: 20px; bottom: 20px; max-width: 330px; padding: 12px 15px; color: #fff; background: #0f172a; border-radius: 12px; box-shadow: 0 12px 25px rgba(0,0,0,0.3); transform: translateY(90px); opacity: 0; transition: .25s; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 760px) {
+      .nav .button.secondary { display: none; }
+      .brand { font-size: 17px; }
+      main { grid-template-columns: 1fr; }
+      .filters { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+      .filters h2, .reset { grid-column: 1/-1; }
+      .list-head { align-items: start; flex-direction: column; }
+      .sort { width: 100%; }
+    }
   </style>
 </head>
 <body>
-  <header class="topbar"><nav class="container nav" aria-label="Ana menü">
-    <a class="brand" href="#top" aria-label="Takaslasana ana sayfa">TAKASLASANA</a>
+
+  <!-- Topbar -->
+  <header class="topbar"><nav class="container nav">
+    <a class="brand" href="#top">TAKASLASANA</a>
     <div class="nav-actions">
-      <select id="language" class="lang" aria-label="Dil seçimi">
+      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Tema değiştir">🌙</button>
+      <select id="language" class="lang">
         <option value="tr">🇹🇷 Türkçe</option>
         <option value="en">🇬🇧 English</option>
-        <option value="ru">🇷🇺 Русский</option>
-        <option value="ar">🇸🇦 العربية</option>
-        <option value="de">🇩🇪 Deutsch</option>
       </select>
       <button class="button secondary" id="favoritesButton" type="button">♡ Favoriler</button>
       <button class="button primary" id="openListing" type="button">+ İlan ver</button>
     </div>
   </nav></header>
 
+  <!-- Hero -->
   <section id="top" class="hero"><div class="container">
     <div class="eyebrow" id="heroEyebrow">Para değil, değer takas et</div>
     <h1 id="heroTitle">Eşyanı veya becerini takasla, <span id="heroSpan">ihtiyacını karşıla.</span></h1>
     <p id="heroDesc">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete ulaş.</p>
     <div class="hero-actions">
-      <a class="button primary" id="heroExplore" href="#ilanlar">İlanları keşfet</a>
-      <button class="button secondary" id="heroListing" type="button">İlan oluştur</button>
+      <a class="button primary" id="heroExplore" href="#ilanlar">İlanları Keşfet</a>
+      <button class="button secondary" id="heroListing" type="button">İlan Oluştur</button>
     </div>
   </div></section>
 
-  <div class="container category-bar"><div class="categories" id="categories" aria-label="Kategoriler"></div></div>
+  <!-- Category Bar -->
+  <div class="container category-bar"><div class="categories" id="categories"></div></div>
 
+  <!-- Main Content -->
   <main class="container" id="ilanlar">
     <aside class="panel filters">
       <h2 id="filterTitle">Filtrele</h2>
@@ -126,13 +182,13 @@
           <option>Kastamonu</option>
         </select>
       </div>
-      <button class="reset" id="reset" type="button">Filtreleri temizle</button>
+      <button class="reset" id="reset" type="button">Filtreleri Temizle</button>
     </aside>
 
-    <section aria-labelledby="listTitle">
+    <section>
       <div class="list-head">
-        <div><h2 id="listTitle">Aktif ilanlar</h2><span class="count" id="count" aria-live="polite"></span></div>
-        <select id="sort" class="sort" aria-label="Sıralama">
+        <div><h2 id="listTitle">Aktif İlanlar</h2><span class="count" id="count"></span></div>
+        <select id="sort" class="sort">
           <option value="new">En yeniler</option>
           <option value="rating">Puanı yüksek olanlar</option>
         </select>
@@ -141,26 +197,34 @@
     </section>
   </main>
 
+  <!-- İlan Ekleme Modal -->
   <dialog id="listingDialog">
     <form id="listingForm" class="dialog-content" method="dialog">
-      <div class="dialog-head"><h2 id="dlgTitle">Yeni ilan oluştur</h2><button class="close" type="button" data-close aria-label="Pencereyi kapat">×</button></div>
-      <p class="form-note" id="dlgNote">Bu ilanlar yalnızca bu tarayıcıda saklanır.</p>
-      <label for="newTitle" id="lblNewTitle">İlan başlığı</label>
-      <input id="newTitle" required minlength="3" maxlength="80" placeholder="Örn. Çalışır durumda espresso makinesi">
+      <div class="dialog-head"><h2>Yeni İlan Oluştur</h2><button class="close" type="button" data-close>×</button></div>
       
-      <label for="newWanted" id="lblNewWanted">Karşılığında istediğin</label>
-      <input id="newWanted" required minlength="3" maxlength="90" placeholder="Örn. Akustik gitar veya İngilizce dersi">
+      <label for="newTitle">İlan Başlığı</label>
+      <input id="newTitle" required minlength="3" placeholder="Örn. Çalışır durumda espresso makinesi">
       
-      <label for="newType" id="lblNewType">Takas türü</label>
+      <label for="newWanted">Karşılığında İstediğin</label>
+      <input id="newWanted" required minlength="3" placeholder="Örn. Akustik gitar veya İngilizce dersi">
+      
+      <label>Fotoğraf Yükle</label>
+      <div class="file-upload-box" onclick="$('imageFile').click()">
+        <span id="uploadStatus">📷 Görsel seçmek için tıklayın</span>
+        <input type="file" id="imageFile" accept="image/*" style="display:none">
+        <img id="imagePreview" alt="Önizleme">
+      </div>
+
+      <label for="newType">Takas Türü</label>
       <select id="newType">
         <option value="item">Eşya veriyorum</option>
         <option value="service">Hizmet sunuyorum</option>
       </select>
       
-      <label for="newCategory" id="lblNewCategory">Kategori</label>
+      <label for="newCategory">Kategori</label>
       <select id="newCategory"></select>
       
-      <label for="newCity" id="lblNewCity">Şehir</label>
+      <label for="newCity">Şehir</label>
       <select id="newCity">
         <option>İstanbul</option>
         <option>Ankara</option>
@@ -168,79 +232,59 @@
         <option>Kastamonu</option>
       </select>
       
-      <label for="newUser" id="lblNewUser">Adın</label>
-      <input id="newUser" required maxlength="40" placeholder="Örn. Ayşe K.">
+      <label for="newUser">Adınız</label>
+      <input id="newUser" required placeholder="Örn. Ayşe K.">
       
       <div class="form-actions">
-        <button class="button" type="button" data-close id="btnCancel">Vazgeç</button>
-        <button class="button primary" type="submit" id="btnSave">İlanı kaydet</button>
+        <button class="button" type="button" data-close>Vazgeç</button>
+        <button class="button primary" type="submit">İlanı Kaydet</button>
       </div>
     </form>
   </dialog>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <!-- Teklif & WhatsApp Modal -->
+  <dialog id="offerDialog">
+    <form id="offerForm" class="dialog-content" method="dialog">
+      <div class="dialog-head"><h2 id="offerModalTitle">Takas Teklifi Yap</h2><button class="close" type="button" data-close>×</button></div>
+      <p style="font-size:13px; color:var(--muted); margin-top:4px;" id="offerTargetInfo"></p>
+      
+      <label for="offerMessage">Teklifiniz veya Mesajınız</label>
+      <textarea id="offerMessage" rows="3" required placeholder="Merhaba, ilanınızla ilgileniyorum. Elimdeki... ile takas düşünür müsünüz?"></textarea>
+      
+      <label for="offerPhone">WhatsApp Telefon Numaranız (İsteğe bağlı)</label>
+      <input id="offerPhone" type="tel" placeholder="05XX XXX XX XX">
+      
+      <div class="form-actions">
+        <button class="button" type="button" data-close>Kapat</button>
+        <button class="button primary" type="submit" style="background:#25D366; border:0;">💬 WhatsApp ile Gönder</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast"></div>
 
   <script>
     'use strict';
     const CATEGORIES = ['Tümü','Elektronik','Ev & Yaşam','Eğitim','Ustalık','Hobi & Müzik','Yazılım & Tasarım'];
     
-    const COPY = {
-      tr:{
-        fav:'♡ Favoriler',all:'♥ Tüm ilanlar',new:'+ İlan ver',close:'Vazgeç',save:'İlanı kaydet',added:'İlan başarıyla eklendi.',found:'ilan bulundu',empty:'İlan bulunamadı.',offer:'Teklif Yap',saved:'♥ Kaydedildi',bookmark:'♡ Kaydet',wanted:'İstenen',service:'Hizmet',item:'Eşya',
-        searchPlaceholder:'İlan, takas veya kişi ara',activeListings:'Aktif İlanlar',filterTitle:'Filtrele',resetFilters:'Filtreleri Temizle',
-        heroEyebrow:'Para değil, değer takas et',heroTitle:'Eşyanı veya becerini takasla, ',heroSpan:'ihtiyacını karşıla.',heroDesc:'Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete ulaş.',heroExplore:'İlanları Keşfet',heroCreate:'İlan Oluştur'
-      },
-      en:{
-        fav:'♡ Favorites',all:'♥ All listings',new:'+ Create listing',close:'Cancel',save:'Save listing',added:'Listing added successfully.',found:'listings found',empty:'No listings found.',offer:'Make Offer',saved:'♥ Saved',bookmark:'♡ Save',wanted:'Wanted',service:'Service',item:'Item',
-        searchPlaceholder:'Search listing, swap or person',activeListings:'Active Listings',filterTitle:'Filter',resetFilters:'Clear Filters',
-        heroEyebrow:'Trade value, not money',heroTitle:'Trade your goods or skills, ',heroSpan:'meet your needs.',heroDesc:'Share items or skills you don\'t use; get the product or service you are looking for in return.',heroExplore:'Explore Listings',heroCreate:'Create Listing'
-      },
-      ru:{ fav:'♡ Избранное',all:'♥ Все объявления',new:'+ Новое объявление',close:'Отмена',save:'Сохранить',added:'Объявление добавлено.',found:'объявлений',empty:'Ничего не найдено.',offer:'Предложить',saved:'♥ В избранном',bookmark:'♡ В избранное',wanted:'Нужно',service:'Услуга',item:'Вещь',searchPlaceholder:'Поиск...',activeListings:'Объявления',filterTitle:'Фильтр',resetFilters:'Сбросить',heroEyebrow:'Меняйте ценность',heroTitle:'Обменяйте вещи, ',heroSpan:'получите нужное.',heroDesc:'Делитесь тем, чем не пользуетесь.',heroExplore:'Смотреть',heroCreate:'Создать' },
-      ar:{ fav:'♡ المفضلة',all:'♥ كل الإعلانات',new:'+ إعلان جديد',close:'إلغاء',save:'حفظ',added:'تمت الإضافة بنجاح.',found:'إعلان',empty:'لا توجد إعلانات.',offer:'تقديم عرض',saved:'♥ محفوظ',bookmark:'♡ حفظ',wanted:'المطلوب',service:'خدمة',item:'غرض',searchPlaceholder:'بحث...',activeListings:'الإعلانات النشطة',filterTitle:'تصفية',resetFilters:'مسح',heroEyebrow:'تبادل القيمة',heroTitle:'بادل أغراضك، ',heroSpan:'ولَبّ احتياجاتك.',heroDesc:'شارك الأشياء التي لا تستخدمها.',heroExplore:'استكشف',heroCreate:'إنشاء' },
-      de:{ fav:'♡ Favoriten',all:'♥ Alle',new:'+ Erstellen',close:'Abbrechen',save:'Speichern',added:'Erfolgreich hinzugefügt.',found:'Anzeigen',empty:'Keine Anzeigen.',offer:'Angebot',saved:'♥ Gespeichert',bookmark:'♡ Speichern',wanted:'Gesucht',service:'Dienst',item:'Artikel',searchPlaceholder:'Suchen...',activeListings:'Aktive Anzeigen',filterTitle:'Filter',resetFilters:'Zurücksetzen',heroEyebrow:'Wert tauschen',heroTitle:'Tausche Dinge, ',heroSpan:'decke Bedarf.',heroDesc:'Teile Dinge, die du nicht nutzt.',heroExplore:'Entdecken',heroCreate:'Erstellen' }
-    };
-
-    // Gerçekçi Stok Resimler (Unsplash Direct High-Res IDs)
     const REAL_IMAGE_MAP = {
       'gitar': 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=600&auto=format&fit=crop&q=80',
       'boya': 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&auto=format&fit=crop&q=80',
       'takim': 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&auto=format&fit=crop&q=80',
       'matematik': 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80',
-      'ps4': 'https://images.unsplash.com/photo-1507457379470-08b800bebc67?w=600&auto=format&fit=crop&q=80',
-      'logo': 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&auto=format&fit=crop&q=80',
-      'klavye': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop&q=80',
-      'cadir': 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&auto=format&fit=crop&q=80',
-      'kahve': 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=600&auto=format&fit=crop&q=80',
-      'monitor': 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&auto=format&fit=crop&q=80',
-      'bisiklet': 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&auto=format&fit=crop&q=80',
-      'yoga': 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&auto=format&fit=crop&q=80',
-      'masa': 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600&auto=format&fit=crop&q=80',
-      'airfryer': 'https://images.unsplash.com/photo-1585515320310-259814833e62?w=600&auto=format&fit=crop&q=80'
+      'ps4': 'https://images.unsplash.com/photo-1507457379470-08b800bebc67?w=600&auto=format&fit=crop&q=80'
     };
 
     const SEED_DATA = [
-      { id:1, type:'item', title:'Az Kullanılmış Klasik Gitar', wanted:'A2 Almanca Dersi', user:'Seda C.', city:'Ankara', category:'Hobi & Müzik', rating:4.8, image:REAL_IMAGE_MAP.gitar },
-      { id:2, type:'service', title:'2+1 Daire Boya Badana İşçiliği', wanted:'Laptop / Tablet', user:'Mustafa Usta', city:'İstanbul', category:'Ustalık', rating:4.9, image:REAL_IMAGE_MAP.boya },
-      { id:3, type:'item', title:'Siyah Erkek Takım Elbise (48 Beden)', wanted:'Bluetooth Kulaklık', user:'Ahmet Y.', city:'Kastamonu', category:'Ev & Yaşam', rating:4.7, image:REAL_IMAGE_MAP.takim },
-      { id:4, type:'service', title:'LGS / YKS Matematik Özel Dersi', wanted:'Çalışma Masası', user:'Elif Hoca', city:'İzmir', category:'Eğitim', rating:5.0, image:REAL_IMAGE_MAP.matematik },
-      { id:5, type:'item', title:'PlayStation 4 + 2 Adet Kol', wanted:'Akıllı Saat', user:'Burak T.', city:'İstanbul', category:'Elektronik', rating:4.6, image:REAL_IMAGE_MAP.ps4 },
-      { id:6, type:'service', title:'Kurumsal Logo & Grafik Tasarım', wanted:'İngilizce Konuşma Pratiği', user:'Deniz A.', city:'Ankara', category:'Yazılım & Tasarım', rating:4.9, image:REAL_IMAGE_MAP.logo },
-      { id:7, type:'item', title:'Mekanik RGB Klavye (Red Switch)', wanted:'Kablosuz Mouse', user:'Ozan K.', city:'İzmir', category:'Elektronik', rating:4.5, image:REAL_IMAGE_MAP.klavye },
-      { id:8, type:'item', title:'3 Kişilik Su Geçirmez Kamp Çadırı', wanted:'Kamp Sandalyesi Seti', user:'Can D.', city:'Kastamonu', category:'Hobi & Müzik', rating:4.8, image:REAL_IMAGE_MAP.cadir },
-      { id:9, type:'item', title:'Filtre Kahve Makinesi (Temiz)', wanted:'Masa Lambası', user:'Zeynep K.', city:'İzmir', category:'Ev & Yaşam', rating:4.6, image:REAL_IMAGE_MAP.kahve },
-      { id:10, type:'item', title:'27 inç Full HD Oyuncu Monitörü', wanted:'Ofis Koltuğu', user:'Yusuf E.', city:'Ankara', category:'Elektronik', rating:4.7, image:REAL_IMAGE_MAP.monitor },
-      { id:11, type:'item', title:'20 Jant Kırmızı Çocuk Bisikleti', wanted:'Çocuk Kitap Seti', user:'Nihan P.', city:'İzmir', category:'Ev & Yaşam', rating:4.8, image:REAL_IMAGE_MAP.bisiklet },
-      { id:12, type:'service', title:'Birebir Yoga ve Nefes Egzersizi', wanted:'Seramik Atölye Dersi', user:'Derya N.', city:'İstanbul', category:'Eğitim', rating:4.7, image:REAL_IMAGE_MAP.yoga },
-      { id:13, type:'item', title:'Ahşap Çalışma Masası (Beyaz)', wanted:'Kitaplık / Raf', user:'İlayda Y.', city:'İzmir', category:'Ev & Yaşam', rating:4.6, image:REAL_IMAGE_MAP.masa },
-      { id:14, type:'item', title:'Xiaomi Air Fryer XL (Az Kullanıldı)', wanted:'Blender Seti', user:'Sibel D.', city:'İzmir', category:'Ev & Yaşam', rating:4.8, image:REAL_IMAGE_MAP.airfryer }
+      { id:1, type:'item', title:'Az Kullanılmış Klasik Gitar', wanted:'A2 Almanca Dersi', user:'Seda C.', verified:true, city:'Ankara', category:'Hobi & Müzik', rating:4.9, image:REAL_IMAGE_MAP.gitar, phone:'5550000001' },
+      { id:2, type:'service', title:'2+1 Daire Boya Badana İşçiliği', wanted:'Laptop / Tablet', user:'Mustafa Usta', verified:true, city:'İstanbul', category:'Ustalık', rating:5.0, image:REAL_IMAGE_MAP.boya, phone:'5550000002' },
+      { id:3, type:'item', title:'Siyah Erkek Takım Elbise (48 Beden)', wanted:'Bluetooth Kulaklık', user:'Ahmet Y.', verified:false, city:'Kastamonu', category:'Ev & Yaşam', rating:4.7, image:REAL_IMAGE_MAP.takim, phone:'5550000003' },
+      { id:4, type:'service', title:'LGS / YKS Matematik Özel Dersi', wanted:'Çalışma Masası', user:'Elif Hoca', verified:true, city:'İzmir', category:'Eğitim', rating:5.0, image:REAL_IMAGE_MAP.matematik, phone:'5550000004' },
+      { id:5, type:'item', title:'PlayStation 4 + 2 Adet Kol', wanted:'Akıllı Saat', user:'Burak T.', verified:true, city:'İstanbul', category:'Elektronik', rating:4.8, image:REAL_IMAGE_MAP.ps4, phone:'5550000005' }
     ];
 
-    const storeKey = 'takaslasana_listings_v5', favKey = 'takaslasana_favs_v5';
-    
-    // Eski veya bozuk verileri temizleme garantisi
-    if(!localStorage.getItem(storeKey)) {
-      localStorage.setItem(storeKey, JSON.stringify(SEED_DATA));
-    }
+    const storeKey = 'takaslasana_listings_v6', favKey = 'takaslasana_favs_v6';
+    if(!localStorage.getItem(storeKey)) localStorage.setItem(storeKey, JSON.stringify(SEED_DATA));
 
     const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
     
@@ -249,11 +293,35 @@
     let onlyFavorites = false;
     let activeCategory = 'Tümü';
     let language = 'tr';
-    
+    let currentUploadedImage = null;
+    let selectedOfferItem = null;
+
     const $ = (id) => document.getElementById(id);
     const save = () => localStorage.setItem(storeKey, JSON.stringify(listings));
     const toast = (text) => { const el=$('toast'); el.textContent=text; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer=setTimeout(()=>el.classList.remove('show'),2800); };
-    
+
+    /* 1. Tema Geçişi (Dark Mode) */
+    $('themeBtn').addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      $('themeBtn').textContent = isDark ? '🌙' : '☀️';
+    });
+
+    /* 2. Fotoğraf Yükleme Previews */
+    $('imageFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          currentUploadedImage = event.target.result;
+          $('imagePreview').src = currentUploadedImage;
+          $('imagePreview').style.display = 'block';
+          $('uploadStatus').textContent = '✅ Görsel Seçildi';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
     function categories() { 
       const holder=$('categories'); 
       holder.replaceChildren(); 
@@ -269,7 +337,7 @@
     }
 
     function visibleListings() { 
-      const q=$('search').value.trim().toLocaleLowerCase(language==='tr'?'tr':'en'); 
+      const q=$('search').value.trim().toLowerCase(); 
       const type=$('type').value; 
       const city=$('city').value; 
       const sort=$('sort').value; 
@@ -278,37 +346,50 @@
         (type==='all'||item.type===type) && 
         (city==='all'||item.city===city) && 
         (activeCategory==='Tümü'||item.category===activeCategory) && 
-        (!q||[item.title,item.wanted,item.user,item.category,item.city].some(value=>String(value).toLocaleLowerCase(language==='tr'?'tr':'en').includes(q)))
+        (!q||[item.title,item.wanted,item.user,item.category,item.city].some(val=>String(val).toLowerCase().includes(q)))
       ).sort((a,b)=>sort==='rating'?b.rating-a.rating:b.id-a.id); 
     }
 
     function element(tag, options={}) { const el=document.createElement(tag); Object.assign(el, options); return el; }
 
     function render() { 
-      const t=COPY[language], items=visibleListings(), holder=$('cards'); 
+      const items=visibleListings(), holder=$('cards'); 
       holder.replaceChildren(); 
-      $('count').textContent=`${items.length} ${t.found}`; 
-      $('favoritesButton').textContent=onlyFavorites?t.all:t.fav; 
-      $('openListing').textContent=t.new;
+      $('count').textContent=`${items.length} ilan bulundu`; 
       
       if(!items.length) { 
-        const empty=element('div',{className:'empty',textContent:t.empty}); 
-        holder.append(empty); 
+        holder.append(element('div',{className:'empty',textContent:'Aramanıza uygun ilan bulunamadı.'})); 
         return; 
       } 
       items.forEach(item=>holder.append(card(item))); 
     }
 
+    /* 3. Kart Tasarımı & Onaylı Profil */
     function card(item) { 
-      const t=COPY[language], article=element('article',{className:'card'}), imageBox=element('div',{className:'card-image'}), image=element('img',{src:item.image,alt:item.title,loading:'lazy'}), badge=element('span',{className:`badge ${item.type==='service'?'service':''}`,textContent:item.type==='service'?t.service:t.item}), body=element('div',{className:'card-body'}); 
+      const article=element('article',{className:'card'}), imageBox=element('div',{className:'card-image'}), image=element('img',{src:item.image,alt:item.title,loading:'lazy'}), badge=element('span',{className:`badge ${item.type==='service'?'service':''}`,textContent:item.type==='service'?'Hizmet':'Eşya'}), body=element('div',{className:'card-body'}); 
       
       image.onerror=()=>{ image.src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&auto=format&fit=crop&q=80'; }; 
       imageBox.append(image,badge); 
       
-      const title=element('h3',{textContent:item.title}), user=element('div',{className:'meta',textContent:`${item.user} · ${item.category}`}), want=element('div',{className:'want',textContent:`${t.wanted}: ${item.wanted}`}), details=element('div',{className:'details'}); 
-      details.append(element('span',{textContent:`📍 ${item.city}`}),element('span',{textContent:`★ ${item.rating.toFixed(1)}`})); 
+      const title=element('h3',{textContent:item.title});
       
-      const actions=element('div',{className:'card-actions'}), fav=element('button',{className:'small-button',type:'button',textContent:favorites.has(item.id)?t.saved:t.bookmark}), offer=element('button',{className:'small-button offer',type:'button',textContent:t.offer}); 
+      // Kullanıcı & Güven Rozeti
+      const userMeta=element('div',{className:'meta'});
+      const userName=element('span',{textContent:item.user});
+      userMeta.append(userName);
+      if(item.verified) {
+        const vBadge=element('span',{className:'user-badge',textContent:'✓ Onaylı'});
+        userMeta.append(vBadge);
+      }
+      userMeta.append(element('span',{textContent:` · ${item.category}`}));
+
+      const want=element('div',{className:'want',textContent:`İstenen: ${item.wanted}`});
+      const details=element('div',{className:'details'}); 
+      details.append(element('span',{textContent:`📍 ${item.city}`}), element('span',{textContent:`★ ${item.rating.toFixed(1)}`})); 
+      
+      const actions=element('div',{className:'card-actions'});
+      const fav=element('button',{className:'small-button',type:'button',textContent:favorites.has(item.id)?'♥ Kaydedildi':'♡ Kaydet'});
+      const offer=element('button',{className:'small-button offer',type:'button',textContent:'Teklif Yap'}); 
       
       fav.addEventListener('click',()=>{ 
         favorites.has(item.id)?favorites.delete(item.id):favorites.add(item.id); 
@@ -316,89 +397,94 @@
         render(); 
       }); 
       
-      offer.addEventListener('click',()=>toast(`“${item.title}” için teklif yapma özelliği yakında aktif olacaktır.`)); 
+      /* 4. Teklif / WhatsApp Modalını Açma */
+      offer.addEventListener('click',()=>{
+        selectedOfferItem = item;
+        $('offerTargetInfo').textContent = `İlan: "${item.title}" (${item.user})`;
+        $('offerDialog').showModal();
+      }); 
       
       actions.append(fav,offer); 
-      body.append(title,user,want,details,actions); 
+      body.append(title,userMeta,want,details,actions); 
       article.append(imageBox,body); 
       return article; 
     }
 
-    function openDialog(){ $('listingDialog').showModal(); $('newTitle').focus(); }
+    /* WhatsApp Teklif Formu Submit */
+    $('offerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msg = $('offerMessage').value.trim();
+      const phone = $('offerPhone').value.trim();
+      const targetPhone = selectedOfferItem?.phone || '905550000000';
+      
+      const fullText = `Merhaba ${selectedOfferItem.user}, Takaslasana üzerindeki "${selectedOfferItem.title}" ilanınız için teklifim:\n\n${msg}${phone ? '\n\nİletişim Numaram: ' + phone : ''}`;
+      
+      const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fullText)}`;
+      window.open(waUrl, '_blank');
+      
+      $('offerDialog').close();
+      $('offerForm').reset();
+      toast('WhatsApp yönlendirmesi yapılıyor...');
+    });
 
-    function updateLanguageTexts() {
-      const t = COPY[language];
-      $('search').placeholder = t.searchPlaceholder;
-      $('listTitle').textContent = t.activeListings;
-      $('filterTitle').textContent = t.filterTitle;
-      $('reset').textContent = t.resetFilters;
-      $('heroEyebrow').textContent = t.heroEyebrow;
-      $('heroTitle').childNodes[0].textContent = t.heroTitle;
-      $('heroSpan').textContent = t.heroSpan;
-      $('heroDesc').textContent = t.heroDesc;
-      $('heroExplore').textContent = t.heroExplore;
-      $('heroListing').textContent = t.heroCreate;
-    }
+    function openDialog(){ $('listingDialog').showModal(); }
 
-    CATEGORIES.slice(1).forEach(category => $('newCategory').append(element('option',{value:category,textContent:category})));
+    CATEGORIES.slice(1).forEach(cat => $('newCategory').append(element('option',{value:cat,textContent:cat})));
     
     $('openListing').addEventListener('click',openDialog); 
     $('heroListing').addEventListener('click',openDialog); 
-    document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>$('listingDialog').close()));
+    document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => {
+      $('listingDialog').close();
+      $('offerDialog').close();
+    }));
     
-    $('listingForm').addEventListener('submit',event=>{ 
-      event.preventDefault(); 
-      if(!event.currentTarget.reportValidity()) return; 
-      
+    $('listingForm').addEventListener('submit', e => { 
+      e.preventDefault(); 
       const categorySelected = $('newCategory').value;
-      const item={
-        id:Date.now(),
-        type:$('newType').value,
-        title:$('newTitle').value.trim(),
-        wanted:$('newWanted').value.trim(),
-        category:categorySelected,
-        city:$('newCity').value,
-        user:$('newUser').value.trim(),
-        rating:5.0,
-        image:REAL_IMAGE_MAP.masa
+      
+      const item = {
+        id: Date.now(),
+        type: $('newType').value,
+        title: $('newTitle').value.trim(),
+        wanted: $('newWanted').value.trim(),
+        category: categorySelected,
+        city: $('newCity').value,
+        user: $('newUser').value.trim(),
+        verified: true,
+        rating: 5.0,
+        image: currentUploadedImage || REAL_IMAGE_MAP.gitar,
+        phone: ''
       }; 
       
       listings.unshift(item); 
       save(); 
-      event.currentTarget.reset(); 
+      e.currentTarget.reset(); 
+      $('imagePreview').style.display='none';
+      $('uploadStatus').textContent='📷 Görsel seçmek için tıklayın';
+      currentUploadedImage = null;
+      
       $('listingDialog').close(); 
-      activeCategory='Tümü'; 
+      activeCategory = 'Tümü'; 
       categories(); 
       render(); 
-      toast(COPY[language].added); 
+      toast('İlanınız başarıyla eklendi!'); 
     });
 
-    ['search','type','city','sort'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render)); 
+    ['search','type','city','sort'].forEach(id => $(id).addEventListener(id==='search'?'input':'change', render)); 
+    $('favoritesButton').addEventListener('click', () => { onlyFavorites = !onlyFavorites; render(); }); 
     
-    $('favoritesButton').addEventListener('click',()=>{ onlyFavorites=!onlyFavorites; render(); }); 
-    
-    $('reset').addEventListener('click',()=>{ 
-      $('search').value=''; 
-      $('type').value='all'; 
-      $('city').value='all'; 
-      $('sort').value='new'; 
-      onlyFavorites=false; 
-      activeCategory='Tümü'; 
+    $('reset').addEventListener('click', () => { 
+      $('search').value = ''; 
+      $('type').value = 'all'; 
+      $('city').value = 'all'; 
+      $('sort').value = 'new'; 
+      onlyFavorites = false; 
+      activeCategory = 'Tümü'; 
       categories(); 
       render(); 
     });
 
-    $('language').addEventListener('change',event=>{ 
-      language=event.target.value; 
-      document.documentElement.lang=language; 
-      document.documentElement.dir=language==='ar'?'rtl':'ltr'; 
-      updateLanguageTexts();
-      render(); 
-    });
-
-    // Sayfa yükleme
     categories(); 
-    updateLanguageTexts();
     render();
   </script>
 </body>
