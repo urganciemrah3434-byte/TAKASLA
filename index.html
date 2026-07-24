@@ -47,7 +47,6 @@
     [data-theme="dark"] .topbar { background: rgba(15, 23, 42, 0.88); }
     .nav { min-height: 80px; display: flex; align-items: center; gap: 14px; justify-content: space-between; }
     
-    /* Büyük ve Belirgin Logo Tasarımı */
     .brand { 
       color: var(--ink); 
       text-decoration: none; 
@@ -77,7 +76,6 @@
     .lang { width: auto; min-height: 38px; padding: 6px 9px; border-radius: 10px; color: var(--muted); font-size: 12px; font-weight: 700; background: var(--input-bg); border: 1px solid var(--line); }
     .nav-actions { display: flex; align-items: center; gap: 10px; }
     
-    /* Buttons */
     .button { border: 0; border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--card); color: var(--ink); border: 1px solid var(--line); }
     .button.primary { color: #fff; background: var(--violet); border: 0; box-shadow: 0 8px 18px #6d28d933; }
     .theme-toggle { width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 18px; }
@@ -316,42 +314,49 @@
 
     const CATEGORIES = ['Tümü','Elektronik','Ev & Yaşam','Eğitim','Ustalık','Hobi & Müzik','Yazılım & Tasarım'];
 
-    // Gerçek ve Farklı İlanlar Varsayılan Veri Seti
-    const INITIAL_SEED = [
+    // 8 Farklı, Zengin ve Gerçek Görselli İlan Listesi
+    const DEMO_ITEMS = [
       {
+        id: 'demo-1',
         title: 'Akustik Gitar (Fender CD-60)',
-        wanted: 'İngilizce Konuşma Pratiki veya Özel Ders',
+        wanted: 'İngilizce Konuşma Pratiği veya Özel Ders',
         user: 'Seda C.',
         city: 'Ankara',
         category: 'Hobi & Müzik',
         type: 'item',
         image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&auto=format&fit=crop&q=80',
         verified: true,
-        rating: 4.9
+        rating: 4.9,
+        createdAt: Date.now() - 1000
       },
       {
+        id: 'demo-2',
         title: 'Ev & Ofis Boya Badana Hizmeti',
-        wanted: 'Dizüstü Bilgisayar veya İkinci El Tablet',
+        wanted: 'Dizüstü Bilgisayar veya Tablet',
         user: 'Mustafa Usta',
         city: 'İstanbul',
         category: 'Ustalık',
         type: 'service',
         image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&auto=format&fit=crop&q=80',
         verified: true,
-        rating: 5.0
+        rating: 5.0,
+        createdAt: Date.now() - 2000
       },
       {
+        id: 'demo-3',
         title: 'LGS & YKS Matematik Özel Dersi',
-        wanted: 'Ergonomik Çalışma Masası ve Sandalyesi',
+        wanted: 'Ergonomik Çalışma Masası',
         user: 'Elif Hoca',
         city: 'İzmir',
         category: 'Eğitim',
         type: 'service',
         image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80',
         verified: true,
-        rating: 5.0
+        rating: 5.0,
+        createdAt: Date.now() - 3000
       },
       {
+        id: 'demo-4',
         title: 'Trek Dağ Bisikleti (27.5 Jant)',
         wanted: 'PlayStation 4 veya Aksiyon Kamerası',
         user: 'Caner K.',
@@ -360,31 +365,37 @@
         type: 'item',
         image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&auto=format&fit=crop&q=80',
         verified: true,
-        rating: 4.8
+        rating: 4.8,
+        createdAt: Date.now() - 4000
       },
       {
+        id: 'demo-5',
         title: 'Profesyonel Web Sitesi Tasarımı',
-        wanted: 'Sıfır Ayarında Mobil Telefon',
+        wanted: 'Sıfır Ayarında Akıllı Telefon',
         user: 'Mert Yazılım',
         city: 'İstanbul',
         category: 'Yazılım & Tasarım',
         type: 'service',
         image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80',
         verified: true,
-        rating: 4.9
+        rating: 4.9,
+        createdAt: Date.now() - 5000
       },
       {
+        id: 'demo-6',
         title: 'Delonghi Manuel Espresso Makinesi',
-        wanted: 'Kamp Çadırı ve Uyku Tulumu Seti',
+        wanted: 'Kamp Çadırı ve Uyku Tulumu',
         user: 'Ayşe T.',
         city: 'Ankara',
         category: 'Ev & Yaşam',
         type: 'item',
         image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80',
         verified: true,
-        rating: 4.7
+        rating: 4.7,
+        createdAt: Date.now() - 6000
       },
       {
+        id: 'demo-7',
         title: 'Sony WH-1000XM4 Kulak Üstü Kulaklık',
         wanted: 'iPad (9. veya 10. Nesil)',
         user: 'Burak M.',
@@ -393,18 +404,21 @@
         type: 'item',
         image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80',
         verified: true,
-        rating: 4.9
+        rating: 4.9,
+        createdAt: Date.now() - 7000
       },
       {
+        id: 'demo-8',
         title: 'Yağlı Boya Tablo & Atölye Dersi',
-        wanted: 'Acoustic Amp (Gitar Amfisi)',
+        wanted: 'Gitar Amfisi veya Müzik Ekipmanı',
         user: 'Zeynep Sanat',
         city: 'Kastamonu',
         category: 'Hobi & Müzik',
         type: 'service',
         image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=80',
         verified: true,
-        rating: 5.0
+        rating: 5.0,
+        createdAt: Date.now() - 8000
       }
     ];
 
@@ -425,7 +439,7 @@
       $('themeBtn').textContent = isDark ? '🌙' : '☀️';
     });
 
-    // Image Upload Handler
+    // Image Upload
     $('uploadBox').addEventListener('click', () => $('imageFile').click());
     $('imageFile').addEventListener('change', (e) => {
       const file = e.target.files[0];
@@ -521,38 +535,37 @@
       return article; 
     }
 
-    // Realtime Firebase Listener
+    // Realtime Firebase Listener (Canlı Veriler + 8 Demo İlan Birleşimi)
     const q = query(collection(db, "listings"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
-      listings = [];
-      if (snapshot.empty) {
-        listings = INITIAL_SEED.map((item, idx) => ({ ...item, id: 'seed-' + idx, createdAt: Date.now() - idx * 1000 }));
-      } else {
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          listings.push({
-            id: doc.id,
-            title: data.title || data.description || '',
-            wanted: data.target || data.wanted || '',
-            user: data.userEmail ? data.userEmail.split('@')[0] : (data.user || 'Kullanıcı'),
-            city: data.city || 'İstanbul',
-            category: data.category || 'Tümü',
-            type: data.type || 'item',
-            image: data.imageUrl || data.image || '',
-            verified: data.verified ?? true,
-            rating: data.rating || 5.0,
-            createdAt: data.createdAt ? (data.createdAt.seconds || Date.now()) : Date.now()
-          });
+      const dbListings = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        dbListings.push({
+          id: doc.id,
+          title: data.title || data.description || '',
+          wanted: data.target || data.wanted || '',
+          user: data.userEmail ? data.userEmail.split('@')[0] : (data.user || 'Kullanıcı'),
+          city: data.city || 'İstanbul',
+          category: data.category || 'Tümü',
+          type: data.type || 'item',
+          image: data.imageUrl || data.image || '',
+          verified: data.verified ?? true,
+          rating: data.rating || 5.0,
+          createdAt: data.createdAt ? (data.createdAt.seconds || Date.now()) : Date.now()
         });
-      }
+      });
+      
+      // Kullanıcının eklediği canlı ilanlar üstte, 8 demo ilan altta yer alacak şekilde birleştirilir
+      listings = [...dbListings, ...DEMO_ITEMS];
       renderListings();
     }, (error) => {
-      console.warn("Firebase canlı akış hatası, varsayılan liste gösteriliyor:", error);
-      listings = INITIAL_SEED.map((item, idx) => ({ ...item, id: 'seed-' + idx, createdAt: Date.now() - idx * 1000 }));
+      console.warn("Firebase bağlantı hatası, varsayılan ilanlar gösteriliyor:", error);
+      listings = [...DEMO_ITEMS];
       renderListings();
     });
 
-    // Add New Listing
+    // Yeni İlan Ekleme
     $('listingForm').addEventListener('submit', async (e) => { 
       e.preventDefault(); 
       const submitBtn = $('submitBtn');
@@ -587,7 +600,7 @@
       }
     });
 
-    // WhatsApp Offer Submit
+    // WhatsApp Teklifi Gönderme
     $('offerForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const msg = $('offerMessage').value.trim();
