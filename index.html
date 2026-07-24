@@ -40,24 +40,24 @@
     .filters { height:max-content; padding:18px; }
     .filters h2 { margin:0 0 17px; font-size:16px; }
     label { display:block; margin:13px 0 6px; color:var(--muted); font-size:12px; font-weight:800; }
-    input,select { width:100%; min-height:41px; border:1px solid var(--line); border-radius:10px; padding:99px 11px; padding:9px 11px; color:var(--ink); background:#fff; }
+    input,select { width:100%; min-height:41px; border:1px solid var(--line); border-radius:10px; padding:9px 11px; color:var(--ink); background:#fff; }
     input:focus,select:focus,button:focus-visible { outline:3px solid #c4b5fd; outline-offset:2px; }
     .reset { width:100%; margin-top:18px; padding:9px; color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:10px; font-size:13px; font-weight:700; }
     .list-head { display:flex; justify-content:space-between; align-items:end; gap:15px; margin-bottom:18px; }
     .list-head h2 { margin:0; font-size:24px; letter-spacing:-.6px; }
     .count { color:var(--muted); font-size:13px; font-weight:700; }
     .sort { width:165px; }
-    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:17px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px; }
     .card { overflow:hidden; text-align:left; background:var(--card); border:1px solid var(--line); border-radius:17px; transition:transform .2s,box-shadow .2s; }
     .card:hover { transform:translateY(-4px); box-shadow:0 14px 30px #17203314; }
-    .card-image { position:relative; height:155px; background:#e9eef8; }
-    .card-image img { width:100%; height:100%; object-fit:cover; }
+    .card-image { position:relative; height:160px; background:#e9eef8; overflow:hidden; }
+    .card-image img { width:100%; height:100%; object-fit:cover; display:block; }
     .badge { position:absolute; top:10px; left:10px; padding:4px 9px; border-radius:20px; color:#fff; background:var(--green); font-size:11px; font-weight:800; }
     .badge.service { background:var(--violet); }
     .card-body { padding:14px; }
-    .card h3 { margin:0 0 5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; }
+    .card h3 { margin:0 0 5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; font-weight:700; }
     .meta { color:var(--muted); font-size:12px; }
-    .want { min-height:41px; margin:10px 0; padding:7px 9px; color:var(--violet); background:var(--violet-soft); border-radius:9px; font-size:11px; font-weight:700; }
+    .want { min-height:38px; margin:10px 0; padding:7px 9px; color:var(--violet); background:var(--violet-soft); border-radius:9px; font-size:11px; font-weight:700; line-height:1.3; }
     .details { display:flex; justify-content:space-between; color:var(--muted); font-size:11px; }
     .card-actions { display:flex; gap:7px; margin-top:12px; }
     .small-button { flex:1; padding:8px 5px; border:1px solid var(--line); border-radius:9px; color:var(--ink); background:#fff; font-size:11px; font-weight:800; }
@@ -80,7 +80,7 @@
 </head>
 <body>
   <header class="topbar"><nav class="container nav" aria-label="Ana menü">
-    <a class="brand" href="#top" aria-label="Takaslasana ana sayfa"><img class="brand-mark" src="logo.svg" alt="">TAKASLASANA</a>
+    <a class="brand" href="#top" aria-label="Takaslasana ana sayfa">TAKASLASANA</a>
     <div class="nav-actions">
       <select id="language" class="lang" aria-label="Dil seçimi">
         <option value="tr">🇹🇷 Türkçe</option>
@@ -146,7 +146,7 @@
       <div class="dialog-head"><h2 id="dlgTitle">Yeni ilan oluştur</h2><button class="close" type="button" data-close aria-label="Pencereyi kapat">×</button></div>
       <p class="form-note" id="dlgNote">Bu ilanlar yalnızca bu tarayıcıda saklanır.</p>
       <label for="newTitle" id="lblNewTitle">İlan başlığı</label>
-      <input id="newTitle" required minlength="5" maxlength="80" placeholder="Örn. Çalışır durumda espresso makinesi">
+      <input id="newTitle" required minlength="3" maxlength="80" placeholder="Örn. Çalışır durumda espresso makinesi">
       
       <label for="newWanted" id="lblNewWanted">Karşılığında istediğin</label>
       <input id="newWanted" required minlength="3" maxlength="90" placeholder="Örn. Akustik gitar veya İngilizce dersi">
@@ -186,77 +186,69 @@
     
     const COPY = {
       tr:{
-        fav:'♡ Favoriler',all:'♥ Tüm ilanlar',new:'+ İlan ver',close:'Vazgeç',save:'İlanı kaydet',added:'İlan bu tarayıcıya kaydedildi.',found:'ilan bulundu',empty:'Bu filtrelere uygun ilan bulunamadı.',offer:'Teklif yap',saved:'♥ Kaydedildi',bookmark:'♡ Kaydet',wanted:'Aranan',service:'Hizmet',item:'Eşya',
-        searchPlaceholder:'İlan, takas veya kişi ara',activeListings:'Aktif ilanlar',filterTitle:'Filtrele',resetFilters:'Filtreleri temizle',
-        heroEyebrow:'Para değil, değer takas et',heroTitle:'Eşyanı veya becerini takasla, ',heroSpan:'ihtiyacını karşıla.',heroDesc:'Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete ulaş.',heroExplore:'İlanları keşfet',heroCreate:'İlan oluştur'
+        fav:'♡ Favoriler',all:'♥ Tüm ilanlar',new:'+ İlan ver',close:'Vazgeç',save:'İlanı kaydet',added:'İlan başarıyla eklendi.',found:'ilan bulundu',empty:'İlan bulunamadı.',offer:'Teklif Yap',saved:'♥ Kaydedildi',bookmark:'♡ Kaydet',wanted:'İstenen',service:'Hizmet',item:'Eşya',
+        searchPlaceholder:'İlan, takas veya kişi ara',activeListings:'Aktif İlanlar',filterTitle:'Filtrele',resetFilters:'Filtreleri Temizle',
+        heroEyebrow:'Para değil, değer takas et',heroTitle:'Eşyanı veya becerini takasla, ',heroSpan:'ihtiyacını karşıla.',heroDesc:'Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete ulaş.',heroExplore:'İlanları Keşfet',heroCreate:'İlan Oluştur'
       },
       en:{
-        fav:'♡ Favorites',all:'♥ All listings',new:'+ Create listing',close:'Cancel',save:'Save listing',added:'Listing saved in this browser.',found:'listings found',empty:'No listings match these filters.',offer:'Make an offer',saved:'♥ Saved',bookmark:'♡ Save',wanted:'Wanted',service:'Service',item:'Item',
-        searchPlaceholder:'Search listing, swap or person',activeListings:'Active listings',filterTitle:'Filter',resetFilters:'Clear filters',
-        heroEyebrow:'Trade value, not money',heroTitle:'Trade your goods or skills, ',heroSpan:'meet your needs.',heroDesc:'Share items or skills you don\'t use; get the product or service you are looking for in return.',heroExplore:'Explore listings',heroCreate:'Create listing'
+        fav:'♡ Favorites',all:'♥ All listings',new:'+ Create listing',close:'Cancel',save:'Save listing',added:'Listing added successfully.',found:'listings found',empty:'No listings found.',offer:'Make Offer',saved:'♥ Saved',bookmark:'♡ Save',wanted:'Wanted',service:'Service',item:'Item',
+        searchPlaceholder:'Search listing, swap or person',activeListings:'Active Listings',filterTitle:'Filter',resetFilters:'Clear Filters',
+        heroEyebrow:'Trade value, not money',heroTitle:'Trade your goods or skills, ',heroSpan:'meet your needs.',heroDesc:'Share items or skills you don\'t use; get the product or service you are looking for in return.',heroExplore:'Explore Listings',heroCreate:'Create Listing'
       },
-      ru:{
-        fav:'♡ Избранное',all:'♥ Все объявления',new:'+ Новое объявление',close:'Отмена',save:'Сохранить',added:'Объявление сохранено в браузере.',found:'объявлений найдено',empty:'Нет объявлений по этим фильтрам.',offer:'Предложить обмен',saved:'♥ Сохранено',bookmark:'♡ Сохранить',wanted:'Нужно',service:'Услуга',item:'Вещь',
-        searchPlaceholder:'Поиск объявлений или людей',activeListings:'Активные объявления',filterTitle:'Фильтр',resetFilters:'Очистить фильтры',
-        heroEyebrow:'Меняйте ценность, а не деньги',heroTitle:'Обменяйте вещи или навыки, ',heroSpan:'получите нужное.',heroDesc:'Делитесь тем, чем не пользуетесь, и получайте взамен нужные товары или услуги.',heroExplore:'Смотреть объявления',heroCreate:'Создать объявление'
-      },
-      ar:{
-        fav:'♡ المفضلة',all:'♥ كل الإعلانات',new:'+ إعلان جديد',close:'إلغاء',save:'حفظ الإعلان',added:'تم حفظ الإعلان في هذا المتصفح.',found:'إعلان موجود',empty:'لا توجد إعلانات مطابقة.',offer:'تقديم عرض',saved:'♥ محفوظ',bookmark:'♡ حفظ',wanted:'المطلوب',service:'خدمة',item:'غرض',
-        searchPlaceholder:'ابحث عن إعلان أو شخص',activeListings:'الإعلانات النشطة',filterTitle:'تصفية',resetFilters:'مسح التصفية',
-        heroEyebrow:'تبادل القيمة وليس المال',heroTitle:'بادل أغراضك أو مهاراتك، ',heroSpan:'ولَبّ احتياجاتك.',heroDesc:'شارك الأشياء أو المهارات التي لا تستخدمها واحصل في المقابل على المنتج أو الخدمة التي تبحث عنها.',heroExplore:'استكشف الإعلانات',heroCreate:'إنشاء إعلان'
-      },
-      de:{
-        fav:'♡ Favoriten',all:'♥ Alle Anzeigen',new:'+ Anzeige erstellen',close:'Abbrechen',save:'Anzeige speichern',added:'Anzeige wurde im Browser gespeichert.',found:'Anzeigen gefunden',empty:'Keine passenden Anzeigen gefunden.',offer:'Angebot machen',saved:'♥ Gespeichert',bookmark:'♡ Speichern',wanted:'Gesucht',service:'Dienstleistung',item:'Artikel',
-        searchPlaceholder:'Anzeige, Tausch oder Person suchen',activeListings:'Aktive Anzeigen',filterTitle:'Filtern',resetFilters:'Filter zurücksetzen',
-        heroEyebrow:'Tausche Wert, nicht Geld',heroTitle:'Tausche Dinge oder Fähigkeiten, ',heroSpan:'decke deinen Bedarf.',heroDesc:'Teile Dinge oder Fähigkeiten, die du nicht nutzt, und erhalte im Gegenzug das gewünschte Produkt.',heroExplore:'Anzeigen entdecken',heroCreate:'Anzeige erstellen'
-      }
+      ru:{ fav:'♡ Избранное',all:'♥ Все объявления',new:'+ Новое объявление',close:'Отмена',save:'Сохранить',added:'Объявление добавлено.',found:'объявлений',empty:'Ничего не найдено.',offer:'Предложить',saved:'♥ В избранном',bookmark:'♡ В избранное',wanted:'Нужно',service:'Услуга',item:'Вещь',searchPlaceholder:'Поиск...',activeListings:'Объявления',filterTitle:'Фильтр',resetFilters:'Сбросить',heroEyebrow:'Меняйте ценность',heroTitle:'Обменяйте вещи, ',heroSpan:'получите нужное.',heroDesc:'Делитесь тем, чем не пользуетесь.',heroExplore:'Смотреть',heroCreate:'Создать' },
+      ar:{ fav:'♡ المفضلة',all:'♥ كل الإعلانات',new:'+ إعلان جديد',close:'إلغاء',save:'حفظ',added:'تمت الإضافة بنجاح.',found:'إعلان',empty:'لا توجد إعلانات.',offer:'تقديم عرض',saved:'♥ محفوظ',bookmark:'♡ حفظ',wanted:'المطلوب',service:'خدمة',item:'غرض',searchPlaceholder:'بحث...',activeListings:'الإعلانات النشطة',filterTitle:'تصفية',resetFilters:'مسح',heroEyebrow:'تبادل القيمة',heroTitle:'بادل أغراضك، ',heroSpan:'ولَبّ احتياجاتك.',heroDesc:'شارك الأشياء التي لا تستخدمها.',heroExplore:'استكشف',heroCreate:'إنشاء' },
+      de:{ fav:'♡ Favoriten',all:'♥ Alle',new:'+ Erstellen',close:'Abbrechen',save:'Speichern',added:'Erfolgreich hinzugefügt.',found:'Anzeigen',empty:'Keine Anzeigen.',offer:'Angebot',saved:'♥ Gespeichert',bookmark:'♡ Speichern',wanted:'Gesucht',service:'Dienst',item:'Artikel',searchPlaceholder:'Suchen...',activeListings:'Aktive Anzeigen',filterTitle:'Filter',resetFilters:'Zurücksetzen',heroEyebrow:'Wert tauschen',heroTitle:'Tausche Dinge, ',heroSpan:'decke Bedarf.',heroDesc:'Teile Dinge, die du nicht nutzt.',heroExplore:'Entdecken',heroCreate:'Erstellen' }
     };
 
-    const IMAGE_BY_CATEGORY = {
-      'Elektronik':'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=600&q=80',
-      'Ev & Yaşam':'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80',
-      'Eğitim':'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80',
-      'Ustalık':'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=600&q=80',
-      'Hobi & Müzik':'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=600&q=80',
-      'Yazılım & Tasarım':'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80'
+    // Gerçekçi Stok Resimler (Unsplash Direct High-Res IDs)
+    const REAL_IMAGE_MAP = {
+      'gitar': 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=600&auto=format&fit=crop&q=80',
+      'boya': 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&auto=format&fit=crop&q=80',
+      'takim': 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&auto=format&fit=crop&q=80',
+      'matematik': 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop&q=80',
+      'ps4': 'https://images.unsplash.com/photo-1507457379470-08b800bebc67?w=600&auto=format&fit=crop&q=80',
+      'logo': 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&auto=format&fit=crop&q=80',
+      'klavye': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop&q=80',
+      'cadir': 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600&auto=format&fit=crop&q=80',
+      'kahve': 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=600&auto=format&fit=crop&q=80',
+      'monitor': 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&auto=format&fit=crop&q=80',
+      'bisiklet': 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&auto=format&fit=crop&q=80',
+      'yoga': 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&auto=format&fit=crop&q=80',
+      'masa': 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600&auto=format&fit=crop&q=80',
+      'airfryer': 'https://images.unsplash.com/photo-1585515320310-259814833e62?w=600&auto=format&fit=crop&q=80'
     };
 
-    const SEED = `
-item|Az kullanılmış klasik gitar|A2 seviye Almanca dersi|Seda C.|Ankara|Hobi & Müzik|4.7
-service|2+1 daire boya badana hizmeti|İkinci el tablet veya laptop|Mustafa Usta|İstanbul|Ustalık|4.9
-item|Temiz erkek takım elbise, 48 beden|Oyuncu kulaklığı veya akıllı saat|Ahmet Y.|Kastamonu|Ev & Yaşam|4.8
-service|LGS ve YKS matematik özel ders|Çalışma masası veya ofis koltuğu|Elif Hoca|İzmir|Eğitim|5.0
-item|PlayStation 4, iki kol ile|Akıllı saat|Burak T.|İstanbul|Elektronik|4.6
-service|Logo ve sosyal medya tasarımı|İngilizce konuşma pratiği|Deniz A.|Ankara|Yazılım & Tasarım|4.9
-item|Mekanik klavye, kırmızı switch|Bluetooth kulaklık|Ozan K.|İzmir|Elektronik|4.5
-service|İngilizce konuşma kulübü|Web sitesi tasarımı|Merve S.|İstanbul|Eğitim|4.8
-item|İki kişilik kamp çadırı|Katlanır kamp sandalyesi|Can D.|Kastamonu|Hobi & Müzik|4.7
-service|Mobilya montajı ve küçük tamirat|Bisiklet veya bisiklet ekipmanı|Hakan Usta|Ankara|Ustalık|4.9
-item|Filtre kahve makinesi|Masa lambası|Zeynep K.|İzmir|Ev & Yaşam|4.6
-service|Başlangıç seviye gitar dersi|Fotoğraf çekimi|Eren B.|İstanbul|Hobi & Müzik|4.8
-item|27 inç monitör|Kablosuz mouse|Yusuf E.|Ankara|Elektronik|4.7
-service|WordPress site kurulumu|Ev yapımı reçel veya zeytinyağı|Selin G.|Kastamonu|Yazılım & Tasarım|4.9
-item|Çocuk bisikleti, 20 jant|Çocuk kitap seti|Nihan P.|İzmir|Ev & Yaşam|4.8
-service|Evde yoga ve nefes dersi|Seramik atölyesi|Derya N.|İstanbul|Eğitim|4.7
-item|Akustik gitar sehpası ile|Ukulele|Gökhan M.|Ankara|Hobi & Müzik|4.5
-service|Bilgisayar format ve bakım|Kitaplık veya raf|Kaan Ö.|Kastamonu|Elektronik|4.8
-item|Çalışma masası, beyaz|Ofis sandalyesi|İlayda Y.|İzmir|Ev & Yaşam|4.6
-service|Profesyonel CV hazırlama|Portre fotoğraf çekimi|Bora A.|İstanbul|Yazılım & Tasarım|4.9
-item|Analog fotoğraf makinesi|Vinil plak|Cemre T.|Ankara|Hobi & Müzik|4.7
-service|Duvar kağıdı ve boya uygulaması|Elektrikli süpürge|İsmail Usta|Kastamonu|Ustalık|4.8
-item|Air fryer, az kullanılmış|Blender seti|Sibel D.|İzmir|Ev & Yaşam|4.6
-service|İlkokul matematik etüt|Keman dersi|Büşra Hoca|İstanbul|Eğitim|4.9
-item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
-`
-      .trim().split('\n').map((row, index) => { 
-        const [type,title,wanted,user,city,category,rating] = row.split('|'); 
-        return {id:index + 1,type,title,wanted,user,city,category,rating:Number(rating),image:IMAGE_BY_CATEGORY[category]}; 
-      });
+    const SEED_DATA = [
+      { id:1, type:'item', title:'Az Kullanılmış Klasik Gitar', wanted:'A2 Almanca Dersi', user:'Seda C.', city:'Ankara', category:'Hobi & Müzik', rating:4.8, image:REAL_IMAGE_MAP.gitar },
+      { id:2, type:'service', title:'2+1 Daire Boya Badana İşçiliği', wanted:'Laptop / Tablet', user:'Mustafa Usta', city:'İstanbul', category:'Ustalık', rating:4.9, image:REAL_IMAGE_MAP.boya },
+      { id:3, type:'item', title:'Siyah Erkek Takım Elbise (48 Beden)', wanted:'Bluetooth Kulaklık', user:'Ahmet Y.', city:'Kastamonu', category:'Ev & Yaşam', rating:4.7, image:REAL_IMAGE_MAP.takim },
+      { id:4, type:'service', title:'LGS / YKS Matematik Özel Dersi', wanted:'Çalışma Masası', user:'Elif Hoca', city:'İzmir', category:'Eğitim', rating:5.0, image:REAL_IMAGE_MAP.matematik },
+      { id:5, type:'item', title:'PlayStation 4 + 2 Adet Kol', wanted:'Akıllı Saat', user:'Burak T.', city:'İstanbul', category:'Elektronik', rating:4.6, image:REAL_IMAGE_MAP.ps4 },
+      { id:6, type:'service', title:'Kurumsal Logo & Grafik Tasarım', wanted:'İngilizce Konuşma Pratiği', user:'Deniz A.', city:'Ankara', category:'Yazılım & Tasarım', rating:4.9, image:REAL_IMAGE_MAP.logo },
+      { id:7, type:'item', title:'Mekanik RGB Klavye (Red Switch)', wanted:'Kablosuz Mouse', user:'Ozan K.', city:'İzmir', category:'Elektronik', rating:4.5, image:REAL_IMAGE_MAP.klavye },
+      { id:8, type:'item', title:'3 Kişilik Su Geçirmez Kamp Çadırı', wanted:'Kamp Sandalyesi Seti', user:'Can D.', city:'Kastamonu', category:'Hobi & Müzik', rating:4.8, image:REAL_IMAGE_MAP.cadir },
+      { id:9, type:'item', title:'Filtre Kahve Makinesi (Temiz)', wanted:'Masa Lambası', user:'Zeynep K.', city:'İzmir', category:'Ev & Yaşam', rating:4.6, image:REAL_IMAGE_MAP.kahve },
+      { id:10, type:'item', title:'27 inç Full HD Oyuncu Monitörü', wanted:'Ofis Koltuğu', user:'Yusuf E.', city:'Ankara', category:'Elektronik', rating:4.7, image:REAL_IMAGE_MAP.monitor },
+      { id:11, type:'item', title:'20 Jant Kırmızı Çocuk Bisikleti', wanted:'Çocuk Kitap Seti', user:'Nihan P.', city:'İzmir', category:'Ev & Yaşam', rating:4.8, image:REAL_IMAGE_MAP.bisiklet },
+      { id:12, type:'service', title:'Birebir Yoga ve Nefes Egzersizi', wanted:'Seramik Atölye Dersi', user:'Derya N.', city:'İstanbul', category:'Eğitim', rating:4.7, image:REAL_IMAGE_MAP.yoga },
+      { id:13, type:'item', title:'Ahşap Çalışma Masası (Beyaz)', wanted:'Kitaplık / Raf', user:'İlayda Y.', city:'İzmir', category:'Ev & Yaşam', rating:4.6, image:REAL_IMAGE_MAP.masa },
+      { id:14, type:'item', title:'Xiaomi Air Fryer XL (Az Kullanıldı)', wanted:'Blender Seti', user:'Sibel D.', city:'İzmir', category:'Ev & Yaşam', rating:4.8, image:REAL_IMAGE_MAP.airfryer }
+    ];
 
-    const storeKey = 'takaslasana_listings_v3', favKey = 'takaslasana_favorites_v1';
+    const storeKey = 'takaslasana_listings_v5', favKey = 'takaslasana_favs_v5';
+    
+    // Eski veya bozuk verileri temizleme garantisi
+    if(!localStorage.getItem(storeKey)) {
+      localStorage.setItem(storeKey, JSON.stringify(SEED_DATA));
+    }
+
     const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
     
-    let listings = read(storeKey, SEED), favorites = new Set(read(favKey, [])), onlyFavorites = false, activeCategory = 'Tümü', language = 'tr';
+    let listings = read(storeKey, SEED_DATA);
+    let favorites = new Set(read(favKey, []));
+    let onlyFavorites = false;
+    let activeCategory = 'Tümü';
+    let language = 'tr';
     
     const $ = (id) => document.getElementById(id);
     const save = () => localStorage.setItem(storeKey, JSON.stringify(listings));
@@ -264,7 +256,7 @@ item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
     
     function categories() { 
       const holder=$('categories'); 
-      holder.replaceChildren(); // Çift eklemeleri engellemek için temizlik
+      holder.replaceChildren(); 
       CATEGORIES.forEach(category => { 
         const button=document.createElement('button'); 
         button.type='button'; 
@@ -286,7 +278,7 @@ item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
         (type==='all'||item.type===type) && 
         (city==='all'||item.city===city) && 
         (activeCategory==='Tümü'||item.category===activeCategory) && 
-        (!q||[item.title,item.wanted,item.user,item.category,item.city].some(value=>value.toLocaleLowerCase(language==='tr'?'tr':'en').includes(q)))
+        (!q||[item.title,item.wanted,item.user,item.category,item.city].some(value=>String(value).toLocaleLowerCase(language==='tr'?'tr':'en').includes(q)))
       ).sort((a,b)=>sort==='rating'?b.rating-a.rating:b.id-a.id); 
     }
 
@@ -310,11 +302,11 @@ item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
     function card(item) { 
       const t=COPY[language], article=element('article',{className:'card'}), imageBox=element('div',{className:'card-image'}), image=element('img',{src:item.image,alt:item.title,loading:'lazy'}), badge=element('span',{className:`badge ${item.type==='service'?'service':''}`,textContent:item.type==='service'?t.service:t.item}), body=element('div',{className:'card-body'}); 
       
-      image.onerror=()=>{ image.remove(); imageBox.style.background='linear-gradient(135deg,#ddd6fe,#d1fae5)'; }; 
+      image.onerror=()=>{ image.src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&auto=format&fit=crop&q=80'; }; 
       imageBox.append(image,badge); 
       
       const title=element('h3',{textContent:item.title}), user=element('div',{className:'meta',textContent:`${item.user} · ${item.category}`}), want=element('div',{className:'want',textContent:`${t.wanted}: ${item.wanted}`}), details=element('div',{className:'details'}); 
-      details.append(element('span',{textContent:`⌖ ${item.city}`}),element('span',{textContent:`★ ${item.rating.toFixed(1)}`})); 
+      details.append(element('span',{textContent:`📍 ${item.city}`}),element('span',{textContent:`★ ${item.rating.toFixed(1)}`})); 
       
       const actions=element('div',{className:'card-actions'}), fav=element('button',{className:'small-button',type:'button',textContent:favorites.has(item.id)?t.saved:t.bookmark}), offer=element('button',{className:'small-button offer',type:'button',textContent:t.offer}); 
       
@@ -324,7 +316,7 @@ item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
         render(); 
       }); 
       
-      offer.addEventListener('click',()=>toast(`“${item.title}” için teklif yapma özelliği yakında eklenecektir.`)); 
+      offer.addEventListener('click',()=>toast(`“${item.title}” için teklif yapma özelliği yakında aktif olacaktır.`)); 
       
       actions.append(fav,offer); 
       body.append(title,user,want,details,actions); 
@@ -367,8 +359,8 @@ item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
         category:categorySelected,
         city:$('newCity').value,
         user:$('newUser').value.trim(),
-        rating:5,
-        image:IMAGE_BY_CATEGORY[categorySelected] || 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80'
+        rating:5.0,
+        image:REAL_IMAGE_MAP.masa
       }; 
       
       listings.unshift(item); 
@@ -404,7 +396,7 @@ item|Eski model turntable|Bluetooth hoparlör|Alper R.|Ankara|Hobi & Müzik|4.5
       render(); 
     });
 
-    // Başlangıç çalıştırmaları
+    // Sayfa yükleme
     categories(); 
     updateLanguageTexts();
     render();
