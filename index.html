@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TAKASLA - Para Değil, Değer Takas Et</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Renk Paleti */
             --primary: #2D6A4F;
             --primary-dark: #1B4332;
-            --primary-light: #C8E6C9;
+            --primary-light: #D8F3DC;
             --accent: #E65100;
             --accent-hover: #F57C00;
             --bg-light: #F8FAF8;
@@ -23,23 +21,23 @@
             --radius-md: 12px;
             --radius-lg: 20px;
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-            --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
             --shadow-accent: 0 4px 14px rgba(230, 81, 0, 0.25);
         }
 
-        /* --- DEFNE YAPRAĞI MOUSE İMLECİ --- */
+        /* --- SADE VE ZARİF YAPRAK MOUSE İMLECİ --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            /* Özel Defne Yaprağı İmleci */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%231B4332" stroke="%23FFFFFF" stroke-width="1.5" d="M17 8C8 10 59 16.17 3.83 12 19 12 19 8 17Zm-5 7c-4 0-7-2-8-5 3 0 6 1 8 5Z"/></svg>'), auto;
+            /* Yeşil Minimal Yaprak İmleci */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%231B4332"><path d="M17 3C12 3 8 7 8 12c0 2.2 0.8 4.2 2.1 5.8L3 21l3.2-7.1C7.8 12.6 9.8 11.8 12 11.8c5 0 9-4 9-8.8V3h-4z"/></svg>'), auto;
         }
 
-        a, button, input, select, .cat-chip, .card {
-            /* Tıklanabilir alanlarda yaprağın vurgulu hali */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23E65100" stroke="%23FFFFFF" stroke-width="1.5" d="M17 8C8 10 59 16.17 3.83 12 19 12 19 8 17Zm-5 7c-4 0-7-2-8-5 3 0 6 1 8 5Z"/></svg>'), pointer !important;
+        a, button, input, select, .cat-chip, .card, .close-btn {
+            /* Tıklanabilir Alanlarda Turuncu Vurgulu Yaprak */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="%23E65100"><path d="M17 3C12 3 8 7 8 12c0 2.2 0.8 4.2 2.1 5.8L3 21l3.2-7.1C7.8 12.6 9.8 11.8 12 11.8c5 0 9-4 9-8.8V3h-4z"/></svg>'), pointer !important;
         }
 
         body {
@@ -134,14 +132,12 @@
             margin: 0 auto;
         }
 
-        /* DÜZENLENEN ROZET YAZISI (Sürdürülebilir & Doğal Takas) */
         .hero-badge {
             display: inline-block;
             background: #D8F3DC;
             color: var(--primary-dark);
-            font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 800;
-            font-size: 1.05rem; /* Yazı Büyütüldü */
+            font-size: 1.05rem;
             letter-spacing: 0.5px;
             padding: 0.6rem 1.6rem;
             border-radius: 50px;
@@ -198,7 +194,6 @@
             color: var(--text-muted);
             white-space: nowrap;
             transition: all 0.2s ease;
-            text-decoration: none;
         }
 
         .cat-chip:hover, .cat-chip.active {
@@ -217,7 +212,6 @@
             gap: 2rem;
         }
 
-        /* Sidebar Filters */
         .sidebar {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -231,12 +225,9 @@
             font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 1.25rem;
-            color: var(--text-main);
         }
 
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
+        .form-group { margin-bottom: 1.25rem; }
 
         .form-label {
             display: block;
@@ -254,24 +245,13 @@
             border-radius: var(--radius-sm);
             font-size: 0.9rem;
             outline: none;
-            transition: border-color 0.2s;
         }
 
-        .form-input:focus, .form-select:focus {
-            border-color: var(--primary);
-        }
-
-        /* Listings Grid */
         .listings-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
-        }
-
-        .listings-title {
-            font-size: 1.5rem;
-            font-weight: 700;
         }
 
         .grid {
@@ -288,9 +268,6 @@
             transition: all 0.2s ease;
             box-shadow: var(--shadow-sm);
             position: relative;
-            text-decoration: none;
-            color: inherit;
-            display: block;
         }
 
         .card:hover {
@@ -325,22 +302,18 @@
         .badge-item { background: #2563EB; }
         .badge-service { background: var(--accent); }
 
-        .card-body {
-            padding: 1rem;
-        }
+        .card-body { padding: 1rem; }
 
         .card-title {
             font-size: 1rem;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 0.5rem;
-            line-height: 1.3;
         }
 
         .card-footer {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             font-size: 0.8rem;
             color: var(--text-muted);
             border-top: 1px solid var(--border);
@@ -348,10 +321,51 @@
             margin-top: 0.75rem;
         }
 
+        /* --- MODAL (POPUP) SİSTEMİ --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
         @media (max-width: 900px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
+            .main-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -360,9 +374,8 @@
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="javascript:void(0)" class="logo-area">
-                <!-- DEFNE YAPRAĞI LOGO (SVG) -->
-                <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <a href="#" class="logo-area">
+                <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
                     <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
                     <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
                     <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
@@ -373,10 +386,10 @@
 
             <div class="nav-actions">
                 <button class="btn btn-outline" style="padding: 0.5rem 0.75rem;">TR</button>
-                <button class="btn btn-outline">🌙</button>
-                <button class="btn btn-outline" onclick="alert('Favorileriniz henüz boş.')">♡ Favoriler</button>
-                <button class="btn btn-outline" onclick="alert('Giriş ekranı hazırlanıyor.')">Giriş Yap</button>
-                <a href="javascript:void(0)" class="btn btn-accent" onclick="alert('İlan verme modülü açılıyor.')">+ İlan Ver</a>
+                <button class="btn btn-outline" onclick="toggleDarkMode()">🌙</button>
+                <button class="btn btn-outline" onclick="openModal('Favorilerim', 'Henüz favori bir ilan eklemediniz.')">♡ Favoriler</button>
+                <button class="btn btn-outline" onclick="openModal('Giriş Yap', 'Hoş geldiniz! Lütfen e-posta adresinizle giriş yapın.')">Giriş Yap</button>
+                <button class="btn btn-accent" onclick="openModal('İlan Ver', 'Eşya veya hizmetinizi takasa çıkarmak için formu doldurun.')">+ İlan Ver</button>
             </div>
         </div>
     </nav>
@@ -389,25 +402,25 @@
             <p class="hero-subtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
             <div class="hero-buttons">
                 <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
-                <a href="javascript:void(0)" class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem; background: white;" onclick="alert('İlan oluşturma adımlarına yönlendiriliyorsunuz.')">İlan Oluştur</a>
+                <button class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem; background: white;" onclick="openModal('İlan Oluştur', 'Hangi eşya veya hizmetinizi takas etmek istiyorsunuz?')">İlan Oluştur</button>
             </div>
         </div>
     </section>
 
     <!-- CATEGORIES -->
     <div class="categories-nav">
-        <a href="javascript:void(0)" class="cat-chip active">Tümü</a>
-        <a href="javascript:void(0)" class="cat-chip">Elektronik</a>
-        <a href="javascript:void(0)" class="cat-chip">Ev & Yaşam</a>
-        <a href="javascript:void(0)" class="cat-chip">Eğitim</a>
-        <a href="javascript:void(0)" class="cat-chip">Ustalık & Hizmet</a>
-        <a href="javascript:void(0)" class="cat-chip">Hobi & Müzik</a>
-        <a href="javascript:void(0)" class="cat-chip">Yazılım & Tasarım</a>
+        <button class="cat-chip active" onclick="filterCategory(this)">Tümü</button>
+        <button class="cat-chip" onclick="filterCategory(this)">Elektronik</button>
+        <button class="cat-chip" onclick="filterCategory(this)">Ev & Yaşam</button>
+        <button class="cat-chip" onclick="filterCategory(this)">Eğitim</button>
+        <button class="cat-chip" onclick="filterCategory(this)">Ustalık & Hizmet</button>
+        <button class="cat-chip" onclick="filterCategory(this)">Hobi & Müzik</button>
+        <button class="cat-chip" onclick="filterCategory(this)">Yazılım & Tasarım</button>
     </div>
 
     <!-- MAIN CONTAINER -->
     <main class="main-container" id="ilanlar">
-        <!-- SIDEBAR FILTERS -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <h2 class="filter-title">Filtrele</h2>
             <div class="form-group">
@@ -445,7 +458,7 @@
 
             <div class="grid">
                 <!-- KART 1 -->
-                <a href="javascript:void(0)" class="card">
+                <div class="card" onclick="openModal('Akustik Gitar (Fender CD-60)', 'Takas Seçenekleri: Amfi veya Elektro Gitar ile takas edilebilir. Şehir: İstanbul.')">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-item">Eşya</span>
                         <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500" class="card-img" alt="Gitar">
@@ -457,10 +470,10 @@
                             <span>Bugün</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
                 <!-- KART 2 -->
-                <a href="javascript:void(0)" class="card">
+                <div class="card" onclick="openModal('Ev & Ofis Boya Badana Hizmeti', 'Takas Seçenekleri: Web tasarımı veya İngilizce özel ders karşılığında boya hizmeti verilir.')">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-service">Hizmet</span>
                         <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500" class="card-img" alt="Badana">
@@ -472,10 +485,10 @@
                             <span>Dün</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
                 <!-- KART 3 -->
-                <a href="javascript:void(0)" class="card">
+                <div class="card" onclick="openModal('LGS & YKS Matematik Özel Dersi', 'Takas Seçenekleri: Bisiklet veya Tabet ile takas edilebilir. Şehir: İzmir.')">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-service">Hizmet</span>
                         <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500" class="card-img" alt="Ders">
@@ -487,10 +500,42 @@
                             <span>3 gün önce</span>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
         </section>
     </main>
 
+    <!-- DINAMIK POPUP / MODAL -->
+    <div class="modal-overlay" id="customModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2 id="modalTitle" style="margin-bottom: 1rem; color: var(--primary-dark);">Başlık</h2>
+            <p id="modalBody" style="color: var(--text-muted); margin-bottom: 1.5rem;">İçerik buraya gelecek.</p>
+            <button class="btn btn-accent" onclick="closeModal()" style="width: 100%; justify-content: center;">Tamam</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT ETKİLEŞİM KODLARI -->
+    <script>
+        function openModal(title, text) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerText = text;
+            document.getElementById('customModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').classList.remove('active');
+        }
+
+        function filterCategory(element) {
+            let chips = document.querySelectorAll('.cat-chip');
+            chips.forEach(chip => chip.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function toggleDarkMode() {
+            document.body.style.filter = document.body.style.filter === 'invert(0.9)' ? 'none' : 'invert(0.9)';
+        }
+    </script>
 </body>
 </html>
