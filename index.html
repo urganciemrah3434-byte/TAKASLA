@@ -462,6 +462,8 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.25);
             transform: translateY(20px);
             transition: transform 0.25s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-overlay.active .modal-card {
@@ -580,8 +582,14 @@
                 <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
                 <button class="btn btn-outline" data-i18n="navFav" onclick="showModal('favoritesModal')">♡ Favoriler</button>
-                <button class="btn btn-outline" id="loginNavBtn" data-i18n="navLogin" onclick="showModal('loginModal')">Giriş Yap</button>
-                <button class="btn btn-outline" style="border-color: var(--primary-dark); color: var(--primary-dark);" data-i18n="navRegister" onclick="showModal('registerModal')">Kayıt Ol</button>
+                
+                <!-- Kimlik Doğrulama Bölümü (Giriş / Kayıt veya Kullanıcı Profili) -->
+                <div id="authButtons" style="display: flex; gap: 0.75rem; align-items: center;">
+                    <button class="btn btn-outline" data-i18n="navLogin" onclick="showModal('loginModal')">Giriş Yap</button>
+                    <button class="btn btn-outline" style="border-color: var(--primary-dark); color: var(--primary-dark);" data-i18n="navRegister" onclick="showModal('registerModal')">Kayıt Ol</button>
+                </div>
+                <div id="userProfileContainer" style="display: none; align-items: center;"></div>
+
                 <button class="btn btn-accent" data-i18n="navPost" onclick="handlePostAdClick()">+ İlan Ver</button>
             </div>
         </div>
@@ -715,13 +723,14 @@
     </footer>
 
     <!-- MODALLAR -->
+    <!-- GİRİŞ YAP MODALI -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
             <h2 class="modal-title" data-i18n="modalLoginTitle">Takaslasana'ya Giriş Yap</h2>
             <p class="modal-sub" data-i18n="modalLoginSub">İlan vermek ve takas yapmak için giriş yapın</p>
             
-            <button class="btn-google" onclick="googleLogin()">
+            <button class="btn-google" onclick="mockGoogleLogin()">
                 <svg width="20" height="20" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -763,7 +772,7 @@
             <h2 class="modal-title" data-i18n="modalRegisterTitle">Takaslasana'ya Kayıt Ol</h2>
             <p class="modal-sub" data-i18n="modalRegisterSub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
             
-            <button class="btn-google" onclick="googleLogin()">
+            <button class="btn-google" onclick="mockGoogleLogin()">
                 <svg width="20" height="20" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -778,7 +787,7 @@
             <form onsubmit="handleRegisterFormSubmit(event)">
                 <div class="form-group">
                     <label class="form-label" data-i18n="nameLabel">Ad Soyad</label>
-                    <input type="text" class="form-input" placeholder="Adınız Soyadınız" required>
+                    <input type="text" class="form-input" id="regName" placeholder="Adınız Soyadınız" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" data-i18n="emailLabel">E-Posta Adresi</label>
@@ -802,6 +811,47 @@
         </div>
     </div>
 
+    <!-- KULLANICI AYARLARI / PROFİL MODALI -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
+            <h2 class="modal-title" data-i18n="profileModalTitle">Kullanıcı Ayarları & Profil</h2>
+            <p class="modal-sub" data-i18n="profileModalSub">Profil bilgilerinizi, resminizi ve iletişim detaylarınızı güncelleyin</p>
+            
+            <form onsubmit="handleProfileUpdate(event)">
+                <div class="form-group" style="text-align: center; margin-bottom: 1.5rem;">
+                    <div id="avatarPreviewContainer" style="width: 80px; height: 80px; border-radius: 50%; background: var(--border); margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 1.8rem; border: 2px solid var(--primary-dark);">
+                        👤
+                    </div>
+                    <label class="form-label" style="text-transform: none; color: var(--accent); cursor: pointer;">
+                        Resim URL Adresi Girin
+                        <input type="text" class="form-input" id="profileAvatarUrl" placeholder="https://ornek.com/resim.jpg" style="margin-top: 0.4rem;" oninput="updateAvatarPreview(this.value)">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-i18n="nameLabel">Ad Soyad</label>
+                    <input type="text" class="form-input" id="profileFullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-i18n="phoneLabel">Telefon Numarası</label>
+                    <input type="tel" class="form-input" id="profilePhone" placeholder="05XXXXXXXXX">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-i18n="addressLabel">Adres</label>
+                    <input type="text" class="form-input" id="profileAddress" placeholder="Şehir, İlçe">
+                </div>
+
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="saveChangesBtn">Değişiklikleri Kaydet</button>
+            </form>
+
+            <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.75rem; border-color: #EF4444; color: #EF4444;" onclick="handleLogout()" data-i18n="logoutBtn">Oturumu Kapat</button>
+        </div>
+    </div>
+
+    <!-- İLAN VER MODALI -->
     <div class="modal-overlay" id="postModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
@@ -831,6 +881,7 @@
         </div>
     </div>
 
+    <!-- FAVORİLER MODALI -->
     <div class="modal-overlay" id="favoritesModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('favoritesModal')">&times;</button>
@@ -843,6 +894,7 @@
         </div>
     </div>
 
+    <!-- DETAY MODALI -->
     <div class="modal-overlay" id="detailModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
@@ -858,7 +910,15 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        let isLoggedIn = false;
+        let currentUser = {
+            isLoggedIn: false,
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+            avatar: ''
+        };
+
         let selectedCategory = 'all';
         let currentLang = 'tr';
 
@@ -924,6 +984,12 @@
                 hasAccount: "Zaten hesabın var mı?",
                 loginLink: "Giriş Yap",
                 securityText: "256-bit SSL ile Güvenli İşlem",
+                profileModalTitle: "Kullanıcı Ayarları & Profil",
+                profileModalSub: "Profil bilgilerinizi, resminizi ve iletişim detaylarınızı güncelleyin",
+                phoneLabel: "Telefon Numarası",
+                addressLabel: "Adres",
+                saveChangesBtn: "Değişiklikleri Kaydet",
+                logoutBtn: "Oturumu Kapat",
                 modalPostTitle: "Yeni İlan Oluştur",
                 modalPostSub: "Eşya veya hizmetinizi takasa çıkarın",
                 postTitleLabel: "İlan Başlığı",
@@ -1000,6 +1066,12 @@
                 hasAccount: "Already have an account?",
                 loginLink: "Sign In",
                 securityText: "Secured with 256-bit SSL",
+                profileModalTitle: "User Settings & Profile",
+                profileModalSub: "Update your profile info, avatar and contact details",
+                phoneLabel: "Phone Number",
+                addressLabel: "Address",
+                saveChangesBtn: "Save Changes",
+                logoutBtn: "Log Out",
                 modalPostTitle: "Create New Listing",
                 modalPostSub: "Put your item or service up for swap",
                 postTitleLabel: "Listing Title",
@@ -1154,7 +1226,7 @@
         }
 
         function handlePostAdClick() {
-            if (!isLoggedIn) {
+            if (!currentUser.isLoggedIn) {
                 showModal('loginModal');
             } else {
                 showModal('postModal');
@@ -1170,9 +1242,16 @@
             showModal('detailModal');
         }
 
-        function googleLogin() {
-            isLoggedIn = true;
-            updateUserUI('Google User');
+        function mockGoogleLogin() {
+            currentUser = {
+                isLoggedIn: true,
+                name: 'Ahmet Yılmaz',
+                email: 'ahmet@gmail.com',
+                phone: '0555 444 33 22',
+                address: 'İstanbul, Kadıköy',
+                avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'
+            };
+            updateUserUI();
             closeModal('loginModal');
             closeModal('registerModal');
             alert(currentLang === 'tr' ? 'Google ile başarıyla giriş yapıldı!' : 'Successfully logged in with Google!');
@@ -1180,26 +1259,101 @@
 
         function handleLoginFormSubmit(e) {
             e.preventDefault();
-            isLoggedIn = true;
-            updateUserUI('Kullanıcı');
+            currentUser = {
+                isLoggedIn: true,
+                name: 'Mehmet Demir',
+                email: 'mehmet@gmail.com',
+                phone: '0532 111 22 33',
+                address: 'Ankara, Çankaya',
+                avatar: ''
+            };
+            updateUserUI();
             closeModal('loginModal');
             alert(currentLang === 'tr' ? 'Giriş başarılı!' : 'Login successful!');
         }
 
         function handleRegisterFormSubmit(e) {
             e.preventDefault();
-            isLoggedIn = true;
-            updateUserUI('Yeni Üye');
+            const nameInput = document.getElementById('regName').value;
+            currentUser = {
+                isLoggedIn: true,
+                name: nameInput || 'Yeni Kullanıcı',
+                email: 'yeni@gmail.com',
+                phone: '',
+                address: '',
+                avatar: ''
+            };
+            updateUserUI();
             closeModal('registerModal');
             alert(currentLang === 'tr' ? 'Kayıt işlemi başarılı! Hoş geldiniz.' : 'Registration successful! Welcome.');
         }
 
-        function updateUserUI(name) {
-            const btn = document.getElementById('loginNavBtn');
-            if (btn) {
-                btn.textContent = `👤 ${name}`;
-                btn.onclick = () => alert(currentLang === 'tr' ? 'Profil yönetimi paneli.' : 'Profile management panel.');
+        function updateUserUI() {
+            const authBtns = document.getElementById('authButtons');
+            const profileContainer = document.getElementById('userProfileContainer');
+
+            if (currentUser.isLoggedIn) {
+                authBtns.style.display = 'none';
+                profileContainer.style.display = 'flex';
+
+                const avatarContent = currentUser.avatar 
+                    ? `<img src="${currentUser.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">` 
+                    : `<span>👤</span>`;
+
+                profileContainer.innerHTML = `
+                    <button class="btn btn-outline" onclick="openProfileSettings()" style="display: flex; align-items: center; gap: 0.5rem; border-color: var(--primary-dark); color: var(--primary-dark);">
+                        ${avatarContent}
+                        <span style="font-weight: 700;">${currentUser.name}</span>
+                    </button>
+                `;
+            } else {
+                authBtns.style.display = 'flex';
+                profileContainer.style.display = 'none';
             }
+        }
+
+        function openProfileSettings() {
+            document.getElementById('profileFullName').value = currentUser.name;
+            document.getElementById('profilePhone').value = currentUser.phone;
+            document.getElementById('profileAddress').value = currentUser.address;
+            document.getElementById('profileAvatarUrl').value = currentUser.avatar;
+            updateAvatarPreview(currentUser.avatar);
+            showModal('profileModal');
+        }
+
+        function updateAvatarPreview(url) {
+            const container = document.getElementById('avatarPreviewContainer');
+            if (url && url.trim() !== '') {
+                container.innerHTML = `<img src="${url}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.parentNode.innerHTML='👤';">`;
+            } else {
+                container.innerHTML = `👤`;
+            }
+        }
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            currentUser.name = document.getElementById('profileFullName').value;
+            currentUser.phone = document.getElementById('profilePhone').value;
+            currentUser.address = document.getElementById('profileAddress').value;
+            currentUser.avatar = document.getElementById('profileAvatarUrl').value;
+
+            updateUserUI();
+            closeModal('profileModal');
+            alert(currentLang === 'tr' ? 'Profil bilgileriniz güncellendi!' : 'Profile updated successfully!');
+        }
+
+        function handleLogout() {
+            currentUser = {
+                isLoggedIn: false,
+                name: '',
+                email: '',
+                phone: '',
+                address: '',
+                avatar: ''
+            };
+            updateUserUI();
+            closeModal('profileModal');
+            alert(currentLang === 'tr' ? 'Oturum kapatıldı.' : 'Logged out successfully.');
         }
 
         function handleFormSubmit(e) {
