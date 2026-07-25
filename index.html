@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAKASLA - Para Değil, Değer Takas Et</title>
+    <title>TAKASLA - Sürdürülebilir & Doğal Takas Platformu</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,7 +12,7 @@
             --primary-light: #D8F3DC;
             --accent: #E65100;
             --accent-hover: #F57C00;
-            --bg-light: #F8FAF8;
+            --bg-body: #F8FAF8;
             --surface: #FFFFFF;
             --text-main: #1F2937;
             --text-muted: #6B7280;
@@ -25,25 +25,36 @@
             --shadow-accent: 0 4px 14px rgba(230, 81, 0, 0.25);
         }
 
-        /* --- SADE VE ZARİF YAPRAK MOUSE İMLECİ --- */
+        /* --- KARANLIK MOD TEMA DEĞİŞKENLERİ --- */
+        body.dark-mode {
+            --bg-body: #0F172A;
+            --surface: #1E293B;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border: #334155;
+            --primary-dark: #52B788;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        /* --- MODERN GÖLGELİ YAPRAK MOUSE İMLECİ --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            /* Yeşil Minimal Yaprak İmleci */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%231B4332"><path d="M17 3C12 3 8 7 8 12c0 2.2 0.8 4.2 2.1 5.8L3 21l3.2-7.1C7.8 12.6 9.8 11.8 12 11.8c5 0 9-4 9-8.8V3h-4z"/></svg>'), auto;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><filter id="sh" x="-20%" y="-20%" width="150%" height="150%"><feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="%23000000" flood-opacity="0.35"/></filter></defs><path filter="url(%23sh)" fill="%231B4332" stroke="%23FFFFFF" stroke-width="1.5" d="M22 4C14 4 8 10 8 18c0 3.5 1.5 6.5 3.5 8.5L5 30l4.5-2.5C11.5 28.5 14.5 29 18 29c8 0 10-10 10-18V4h-6z"/><path fill="%2352B788" d="M18 7c-4 0-7 3-7 7 0 2 1 3.5 2 4.5L10 21l2.5-1.5c1 0.5 2.5 1 4.5 1 5 0 7.5-6 7.5-11.5V7h-4.5z"/></svg>'), auto;
         }
 
         a, button, input, select, .cat-chip, .card, .close-btn {
-            /* Tıklanabilir Alanlarda Turuncu Vurgulu Yaprak */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="%23E65100"><path d="M17 3C12 3 8 7 8 12c0 2.2 0.8 4.2 2.1 5.8L3 21l3.2-7.1C7.8 12.6 9.8 11.8 12 11.8c5 0 9-4 9-8.8V3h-4z"/></svg>'), pointer !important;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><filter id="sh" x="-20%" y="-20%" width="150%" height="150%"><feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="%23000000" flood-opacity="0.35"/></filter></defs><path filter="url(%23sh)" fill="%23E65100" stroke="%23FFFFFF" stroke-width="1.5" d="M22 4C14 4 8 10 8 18c0 3.5 1.5 6.5 3.5 8.5L5 30l4.5-2.5C11.5 28.5 14.5 29 18 29c8 0 10-10 10-18V4h-6z"/><path fill="%23FFB703" d="M18 7c-4 0-7 3-7 7 0 2 1 3.5 2 4.5L10 21l2.5-1.5c1 0.5 2.5 1 4.5 1 5 0 7.5-6 7.5-11.5V7h-4.5z"/></svg>'), pointer !important;
         }
 
         body {
-            background-color: var(--bg-light);
+            background-color: var(--bg-body);
             color: var(--text-main);
             line-height: 1.5;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* --- NAVBAR --- */
@@ -104,8 +115,7 @@
         }
 
         .btn-outline:hover {
-            background: var(--bg-light);
-            border-color: #D1D5DB;
+            background: var(--bg-body);
         }
 
         .btn-accent {
@@ -117,12 +127,10 @@
         .btn-accent:hover {
             background: var(--accent-hover);
             transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(230, 81, 0, 0.35);
         }
 
         /* --- HERO SECTION --- */
         .hero {
-            background: linear-gradient(180deg, #E8F5E9 0%, var(--bg-light) 100%);
             padding: 3.5rem 1.5rem 3rem;
             text-align: center;
         }
@@ -135,7 +143,7 @@
         .hero-badge {
             display: inline-block;
             background: #D8F3DC;
-            color: var(--primary-dark);
+            color: #1B4332;
             font-weight: 800;
             font-size: 1.05rem;
             letter-spacing: 0.5px;
@@ -149,7 +157,7 @@
         .hero-title {
             font-size: 2.6rem;
             font-weight: 800;
-            color: var(--primary-dark);
+            color: var(--text-main);
             margin-bottom: 1rem;
             line-height: 1.25;
         }
@@ -181,7 +189,6 @@
             display: flex;
             gap: 0.5rem;
             overflow-x: auto;
-            scrollbar-width: none;
         }
 
         .cat-chip {
@@ -238,13 +245,15 @@
             margin-bottom: 0.4rem;
         }
 
-        .form-input, .form-select {
+        .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 0.65rem 0.875rem;
             border: 1px solid var(--border);
             border-radius: var(--radius-sm);
             font-size: 0.9rem;
             outline: none;
+            background: var(--surface);
+            color: var(--text-main);
         }
 
         .listings-header {
@@ -267,7 +276,6 @@
             overflow: hidden;
             transition: all 0.2s ease;
             box-shadow: var(--shadow-sm);
-            position: relative;
         }
 
         .card:hover {
@@ -321,21 +329,22 @@
             margin-top: 0.75rem;
         }
 
-        /* --- MODAL (POPUP) SİSTEMİ --- */
+        /* --- MODAL DIALOGS --- */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         .modal-overlay.active {
@@ -343,25 +352,37 @@
             pointer-events: auto;
         }
 
-        .modal-content {
-            background: white;
+        .modal-card {
+            background: var(--surface);
             padding: 2rem;
             border-radius: var(--radius-lg);
-            max-width: 500px;
+            max-width: 480px;
             width: 90%;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            transform: translateY(20px);
+            transition: transform 0.25s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
         }
 
         .close-btn {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 1.2rem;
+            right: 1.2rem;
             background: none;
             border: none;
             font-size: 1.5rem;
             color: var(--text-muted);
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1.25rem;
         }
 
         @media (max-width: 900px) {
@@ -385,16 +406,16 @@
             </a>
 
             <div class="nav-actions">
-                <button class="btn btn-outline" style="padding: 0.5rem 0.75rem;">TR</button>
-                <button class="btn btn-outline" onclick="toggleDarkMode()">🌙</button>
-                <button class="btn btn-outline" onclick="openModal('Favorilerim', 'Henüz favori bir ilan eklemediniz.')">♡ Favoriler</button>
-                <button class="btn btn-outline" onclick="openModal('Giriş Yap', 'Hoş geldiniz! Lütfen e-posta adresinizle giriş yapın.')">Giriş Yap</button>
-                <button class="btn btn-accent" onclick="openModal('İlan Ver', 'Eşya veya hizmetinizi takasa çıkarmak için formu doldurun.')">+ İlan Ver</button>
+                <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
+                <button class="btn btn-outline" onclick="toggleDarkMode()" title="Karanlık / Aydınlık Mod">🌙</button>
+                <button class="btn btn-outline" onclick="showModal('favoritesModal')">♡ Favoriler</button>
+                <button class="btn btn-outline" onclick="showModal('loginModal')">Giriş Yap</button>
+                <button class="btn btn-accent" onclick="showModal('postModal')">+ İlan Ver</button>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-container">
             <div class="hero-badge">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
@@ -402,30 +423,29 @@
             <p class="hero-subtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
             <div class="hero-buttons">
                 <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
-                <button class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem; background: white;" onclick="openModal('İlan Oluştur', 'Hangi eşya veya hizmetinizi takas etmek istiyorsunuz?')">İlan Oluştur</button>
+                <button class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="showModal('postModal')">İlan Oluştur</button>
             </div>
         </div>
     </section>
 
     <!-- CATEGORIES -->
     <div class="categories-nav">
-        <button class="cat-chip active" onclick="filterCategory(this)">Tümü</button>
-        <button class="cat-chip" onclick="filterCategory(this)">Elektronik</button>
-        <button class="cat-chip" onclick="filterCategory(this)">Ev & Yaşam</button>
-        <button class="cat-chip" onclick="filterCategory(this)">Eğitim</button>
-        <button class="cat-chip" onclick="filterCategory(this)">Ustalık & Hizmet</button>
-        <button class="cat-chip" onclick="filterCategory(this)">Hobi & Müzik</button>
-        <button class="cat-chip" onclick="filterCategory(this)">Yazılım & Tasarım</button>
+        <button class="cat-chip active" onclick="setCategory(this)">Tümü</button>
+        <button class="cat-chip" onclick="setCategory(this)">Elektronik</button>
+        <button class="cat-chip" onclick="setCategory(this)">Ev & Yaşam</button>
+        <button class="cat-chip" onclick="setCategory(this)">Eğitim</button>
+        <button class="cat-chip" onclick="setCategory(this)">Ustalık & Hizmet</button>
+        <button class="cat-chip" onclick="setCategory(this)">Hobi & Müzik</button>
     </div>
 
-    <!-- MAIN CONTAINER -->
+    <!-- MAIN -->
     <main class="main-container" id="ilanlar">
         <!-- SIDEBAR -->
         <aside class="sidebar">
             <h2 class="filter-title">Filtrele</h2>
             <div class="form-group">
-                <label class="form-label">Ara</label>
-                <input type="text" class="form-input" placeholder="İlan, takas veya kişi ara...">
+                <label class="form-label">Arama</label>
+                <input type="text" class="form-input" placeholder="İlan başlığı veya kelime...">
             </div>
             <div class="form-group">
                 <label class="form-label">Takas Türü</label>
@@ -449,7 +469,7 @@
         <!-- LISTINGS -->
         <section>
             <div class="listings-header">
-                <h2 class="listings-title">Aktif İlanlar</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 700;">Aktif İlanlar</h2>
                 <select class="form-select" style="width: auto;">
                     <option>En yeniler</option>
                     <option>Popüler olanlar</option>
@@ -457,14 +477,14 @@
             </div>
 
             <div class="grid">
-                <!-- KART 1 -->
-                <div class="card" onclick="openModal('Akustik Gitar (Fender CD-60)', 'Takas Seçenekleri: Amfi veya Elektro Gitar ile takas edilebilir. Şehir: İstanbul.')">
+                <!-- CARD 1 -->
+                <div class="card" onclick="openDetail('Fender Akustik Gitar', 'Müzik Enstrümanı', 'İstanbul', 'Elektro gitar veya amfi ile takas etmek istiyorum. Çiziksiz, kılıfı ile birlikte verilecektir.')">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-item">Eşya</span>
                         <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500" class="card-img" alt="Gitar">
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">Akustik Gitar (Fender CD-60)</h3>
+                        <h3 class="card-title">Fender Akustik Gitar</h3>
                         <div class="card-footer">
                             <span>📍 İstanbul</span>
                             <span>Bugün</span>
@@ -472,14 +492,14 @@
                     </div>
                 </div>
 
-                <!-- KART 2 -->
-                <div class="card" onclick="openModal('Ev & Ofis Boya Badana Hizmeti', 'Takas Seçenekleri: Web tasarımı veya İngilizce özel ders karşılığında boya hizmeti verilir.')">
+                <!-- CARD 2 -->
+                <div class="card" onclick="openDetail('Boya & Badana Ustası', 'Hizmet / Ustalık', 'Ankara', 'Ev veya ofisiniz için boya hizmeti. Karşılığında Web Tasarımı veya İngilizce Özel Ders takası arıyorum.')">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-service">Hizmet</span>
-                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500" class="card-img" alt="Badana">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500" class="card-img" alt="Boya Badana">
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">Ev & Ofis Boya Badana Hizmeti</h3>
+                        <h3 class="card-title">Boya & Badana Ustası</h3>
                         <div class="card-footer">
                             <span>📍 Ankara</span>
                             <span>Dün</span>
@@ -487,14 +507,14 @@
                     </div>
                 </div>
 
-                <!-- KART 3 -->
-                <div class="card" onclick="openModal('LGS & YKS Matematik Özel Dersi', 'Takas Seçenekleri: Bisiklet veya Tabet ile takas edilebilir. Şehir: İzmir.')">
+                <!-- CARD 3 -->
+                <div class="card" onclick="openDetail('Matematik Özel Dersi', 'Eğitim / Ders', 'İzmir', 'LGS ve YKS öğrencilerine haftada 2 saat matematik dersi verilir. Tablet veya bisiklet takasına açıktır.')">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-service">Hizmet</span>
-                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500" class="card-img" alt="Ders">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500" class="card-img" alt="Özel Ders">
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">LGS & YKS Matematik Özel Dersi</h3>
+                        <h3 class="card-title">Matematik Özel Dersi</h3>
                         <div class="card-footer">
                             <span>📍 İzmir</span>
                             <span>3 gün önce</span>
@@ -505,36 +525,121 @@
         </section>
     </main>
 
-    <!-- DINAMIK POPUP / MODAL -->
-    <div class="modal-overlay" id="customModal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h2 id="modalTitle" style="margin-bottom: 1rem; color: var(--primary-dark);">Başlık</h2>
-            <p id="modalBody" style="color: var(--text-muted); margin-bottom: 1.5rem;">İçerik buraya gelecek.</p>
-            <button class="btn btn-accent" onclick="closeModal()" style="width: 100%; justify-content: center;">Tamam</button>
+    <!-- 1. GİRİŞ YAP MODAL -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
+            <h2 class="modal-title">Giriş Yap</h2>
+            <form onsubmit="handleForm(event, 'Giriş başarılı! Hoş geldiniz.')">
+                <div class="form-group">
+                    <label class="form-label">E-Posta Adresi</label>
+                    <input type="email" class="form-input" placeholder="ornek@takasla.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center; margin-top:1rem;">Oturum Aç</button>
+            </form>
         </div>
     </div>
 
-    <!-- JAVASCRIPT ETKİLEŞİM KODLARI -->
+    <!-- 2. İLAN VER MODAL -->
+    <div class="modal-overlay" id="postModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
+            <h2 class="modal-title">Yeni Takas İlanı Ver</h2>
+            <form onsubmit="handleForm(event, 'İlanınız incelemeye alındı ve yayına hazır!')">
+                <div class="form-group">
+                    <label class="form-label">İlan Başlığı</label>
+                    <input type="text" class="form-input" placeholder="Örn: Bisiklet, İngilizce Dersi..." required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kategori</label>
+                    <select class="form-select">
+                        <option>Elektronik</option>
+                        <option>Hizmet & Ustalık</option>
+                        <option>Eğitim</option>
+                        <option>Ev & Yaşam</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ne ile takas etmek istersiniz?</label>
+                    <textarea class="form-textarea" rows="3" placeholder="Aradığınız ürün veya hizmeti yazın..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center; margin-top:0.5rem;">İlanı Yayınla</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. FAVORİLER MODAL -->
+    <div class="modal-overlay" id="favoritesModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('favoritesModal')">&times;</button>
+            <h2 class="modal-title">♡ Favori İlanlarım</h2>
+            <div style="border-bottom: 1px solid var(--border); padding-bottom: 0.8rem; margin-bottom: 0.8rem;">
+                <p style="font-weight: 700;">Fender Akustik Gitar</p>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">İstanbul • Eşya Takası</p>
+            </div>
+            <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;">Kapat</button>
+        </div>
+    </div>
+
+    <!-- 4. İLAN DETAY MODAL -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
+            <h2 class="modal-title" id="dTitle">İlan Detayı</h2>
+            <p id="dCategory" style="font-size: 0.85rem; color: var(--accent); font-weight:700; margin-bottom: 0.5rem;"></p>
+            <p id="dDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; line-height:1.6;"></p>
+            <div style="display:flex; gap:0.5rem;">
+                <button class="btn btn-accent" style="flex:1; justify-content:center;" onclick="alert('Takas teklifiniz ilan sahibine iletildi!')">Takas Teklifi Yap</button>
+                <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="alert('Mesajlaşma paneli açılıyor...')">Mesaj Gönder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
     <script>
-        function openModal(title, text) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalBody').innerText = text;
-            document.getElementById('customModal').classList.add('active');
+        // Modal Yönetimi
+        function showModal(id) {
+            document.getElementById(id).classList.add('active');
         }
 
-        function closeModal() {
-            document.getElementById('customModal').classList.remove('active');
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
         }
 
-        function filterCategory(element) {
-            let chips = document.querySelectorAll('.cat-chip');
-            chips.forEach(chip => chip.classList.remove('active'));
-            element.classList.add('active');
+        function handleForm(e, msg) {
+            e.preventDefault();
+            alert(msg);
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
         }
 
+        // İlan Detayı Açma
+        function openDetail(title, category, city, desc) {
+            document.getElementById('dTitle').innerText = title;
+            document.getElementById('dCategory').innerText = category + ' • ' + city;
+            document.getElementById('dDesc').innerText = desc;
+            showModal('detailModal');
+        }
+
+        // Dil Değişimi
+        let currentLang = 'TR';
+        function toggleLanguage() {
+            currentLang = currentLang === 'TR' ? 'EN' : 'TR';
+            document.getElementById('langBtn').innerText = currentLang === 'TR' ? 'TR 🇹🇷' : 'EN 🇬🇧';
+        }
+
+        // Karanlık Mod
         function toggleDarkMode() {
-            document.body.style.filter = document.body.style.filter === 'invert(0.9)' ? 'none' : 'invert(0.9)';
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Kategori Seçimi
+        function setCategory(el) {
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
         }
     </script>
 </body>
