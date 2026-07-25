@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#6d28d9">
+  <meta name="theme-color" content="#2e7d32">
   <meta name="description" content="Eşya ve becerilerini para harcamadan takasla.">
   <title>TAKASLA — Eşya ve Beceri Takası</title>
 
@@ -18,17 +18,18 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --ink: #172033;
-      --muted: #62708a;
-      --line: #e7eaf0;
-      --bg: #f7f8fc;
-      --violet: #6d28d9;
-      --violet-soft: #f2ebff;
-      --green: #059669;
+      --ink: #1c2a23;
+      --muted: #576d61;
+      --line: #e2e8f0;
+      --bg: #fdfbf7; /* Sıcak Krem / Fildişi Arka Plan */
+      --sage: #2e7d32; /* Adaçayı Yeşili Ana Renk */
+      --sage-soft: #eaf4eb;
+      --amber: #e65100; /* Sıcak Turuncu Vurgu Rengi */
+      --amber-hover: #cf4700;
       --card: #ffffff;
       --input-bg: #ffffff;
       --modal-bg: #ffffff;
@@ -39,122 +40,125 @@
       --muted: #94a3b8;
       --line: #334155;
       --bg: #0f172a;
-      --violet: #8b5cf6;
-      --violet-soft: #1e1b4b;
-      --green: #10b981;
+      --sage: #4caf50;
+      --sage-soft: #1b2e1e;
+      --amber: #ff9800;
+      --amber-hover: #f57c00;
       --card: #1e293b;
       --input-bg: #0f172a;
       --modal-bg: #1e293b;
     }
 
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg) !important; color: var(--ink) !important; font-family: "Plus Jakarta Sans", sans-serif; transition: background 0.3s, color 0.3s; }
+    body { margin: 0; background: var(--bg) !important; color: var(--ink) !important; font-family: "Outfit", sans-serif; transition: background 0.3s, color 0.3s; }
     button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
     .container { width: min(1180px, calc(100% - 32px)); margin-inline: auto; }
     
     /* Topbar & Logo */
-    .topbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .topbar { position: sticky; top: 0; z-index: 100; background: rgba(253, 251, 247, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
     [data-theme="dark"] .topbar { background: rgba(15, 23, 42, 0.88); }
     .nav { min-height: 80px; display: flex; align-items: center; gap: 14px; justify-content: space-between; }
     
     .brand { 
-      color: var(--ink); 
+      color: var(--sage); 
       text-decoration: none; 
       display: flex; 
       align-items: center; 
       gap: 12px; 
       font-size: 26px; 
-      font-weight: 900; 
-      letter-spacing: -1px; 
+      font-weight: 800; 
+      letter-spacing: -0.5px; 
     }
     .brand-logo-icon {
       width: 44px;
       height: 44px;
-      background: linear-gradient(135deg, var(--violet), #9333ea);
-      border-radius: 12px;
+      background: linear-gradient(135deg, var(--sage), #1b5e20);
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #ffffff;
-      box-shadow: 0 6px 16px rgba(109, 40, 217, 0.35);
+      box-shadow: 0 6px 16px rgba(46, 125, 50, 0.25);
     }
     .brand-logo-icon svg { width: 26px; height: 26px; fill: currentColor; }
 
     .nav-actions { display: flex; align-items: center; gap: 10px; }
     
-    .button { border: 0; border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--card); color: var(--ink); border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
-    .button.primary { color: #fff; background: var(--violet); border: 0; box-shadow: 0 8px 18px #6d28d933; }
+    .button { border: 0; border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--card); color: var(--ink); border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: all 0.2s; }
+    .button.primary { color: #fff; background: var(--amber); border: 0; box-shadow: 0 8px 18px rgba(230, 81, 0, 0.25); }
+    .button.primary:hover { background: var(--amber-hover); }
     .button.google { background: #fff; color: #333; border: 1px solid var(--line); }
     .icon-btn { width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; }
 
     /* Profile Bar */
     .user-profile { display: flex; align-items: center; gap: 8px; }
-    .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--violet); }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--sage); }
     
     /* Hero */
-    .hero { overflow: hidden; padding: 60px 0 75px; text-align: center; background: radial-gradient(circle at 20% 0, #e9ddff 0, transparent 32%), linear-gradient(115deg, #f7edff, #e7edff); }
-    [data-theme="dark"] .hero { background: radial-gradient(circle at 20% 0, #2e1065 0, transparent 40%), linear-gradient(115deg, #0f172a, #1e1b4b); }
-    .eyebrow { color: var(--violet); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    h1 { max-width: 760px; margin: 14px auto; font-size: clamp(32px, 5vw, 54px); line-height: 1.08; letter-spacing: -2px; }
-    h1 span { color: var(--violet); }
-    .hero p { max-width: 610px; margin: 0 auto 25px; color: var(--muted); font-size: 16px; }
+    .hero { overflow: hidden; padding: 60px 0 75px; text-align: center; background: radial-gradient(circle at 20% 0, #e2f0e3 0, transparent 40%), linear-gradient(115deg, #f3f8f4, #fdfbf7); }
+    [data-theme="dark"] .hero { background: radial-gradient(circle at 20% 0, #1b2e1e 0, transparent 40%), linear-gradient(115deg, #0f172a, #1b2e1e); }
+    .eyebrow { color: var(--sage); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { max-width: 760px; margin: 14px auto; font-size: clamp(32px, 5vw, 54px); line-height: 1.1; letter-spacing: -1px; }
+    h1 span { color: var(--sage); }
+    .hero p { max-width: 610px; margin: 0 auto 25px; color: var(--muted); font-size: 17px; }
     .hero-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
 
     /* Categories */
     .category-bar { position: relative; margin-top: -31px; }
     .categories { display: flex; overflow-x: auto; gap: 10px; padding: 7px 2px 12px; scrollbar-width: none; }
-    .chip { flex: 0 0 auto; padding: 10px 16px; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 13px; font-size: 13px; font-weight: 700; cursor: pointer; }
-    .chip[aria-pressed="true"] { color: var(--violet); border-color: var(--violet); background: var(--violet-soft); }
+    .chip { flex: 0 0 auto; padding: 10px 18px; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .chip[aria-pressed="true"] { color: var(--sage); border-color: var(--sage); background: var(--sage-soft); }
 
     /* Main Grid */
     main { display: grid; grid-template-columns: 245px minmax(0, 1fr); gap: 25px; padding: 28px 0 65px; }
-    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 18px; }
-    .filters { height: max-content; padding: 18px; }
-    .filters h2 { margin: 0 0 17px; font-size: 16px; }
-    label { display: block; margin: 13px 0 6px; color: var(--muted); font-size: 12px; font-weight: 800; }
-    input, select, textarea { width: 100%; min-height: 41px; border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; color: var(--ink); background: var(--input-bg); }
-    .reset { width: 100%; margin-top: 18px; padding: 9px; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 10px; font-size: 13px; font-weight: 700; }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 20px; }
+    .filters { height: max-content; padding: 20px; }
+    .filters h2 { margin: 0 0 17px; font-size: 17px; }
+    label { display: block; margin: 13px 0 6px; color: var(--muted); font-size: 13px; font-weight: 700; }
+    input, select, textarea { width: 100%; min-height: 42px; border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; color: var(--ink); background: var(--input-bg); }
+    .reset { width: 100%; margin-top: 18px; padding: 10px; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 12px; font-size: 13px; font-weight: 700; }
 
     /* Cards */
     .list-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 15px; margin-bottom: 18px; }
-    .list-head h2 { margin: 0; font-size: 24px; letter-spacing: -.6px; }
+    .list-head h2 { margin: 0; font-size: 24px; letter-spacing: -.5px; }
     .count { color: var(--muted); font-size: 13px; font-weight: 700; }
     .sort { width: 165px; }
     .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-    .card { overflow: hidden; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 17px; transition: transform .2s, box-shadow .2s; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0,0,0,0.1); }
-    .card-image { position: relative; height: 170px; background: #e9eef8; overflow: hidden; }
+    .card { overflow: hidden; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 20px; transition: transform .2s, box-shadow .2s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0,0,0,0.06); }
+    .card-image { position: relative; height: 170px; background: #e8eee9; overflow: hidden; }
     .card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .badge { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 20px; color: #fff; background: var(--green); font-size: 11px; font-weight: 800; }
-    .badge.service { background: var(--violet); }
+    .badge { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 20px; color: #fff; background: var(--sage); font-size: 11px; font-weight: 800; }
+    .badge.service { background: var(--amber); }
     
-    .card-body { padding: 14px; }
-    .card h3 { margin: 0 0 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 700; }
-    .user-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--green); background: rgba(16,185,129,0.12); padding: 2px 6px; border-radius: 6px; font-weight: 700; margin-left: 4px; }
+    .card-body { padding: 16px; }
+    .card h3 { margin: 0 0 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; font-weight: 700; }
+    .user-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--sage); background: var(--sage-soft); padding: 2px 6px; border-radius: 6px; font-weight: 700; margin-left: 4px; }
     .meta { color: var(--muted); font-size: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
-    .want { min-height: 38px; margin: 10px 0; padding: 8px 10px; color: var(--violet); background: var(--violet-soft); border-radius: 9px; font-size: 12px; font-weight: 700; line-height: 1.3; }
+    .want { min-height: 38px; margin: 10px 0; padding: 8px 10px; color: var(--sage); background: var(--sage-soft); border-radius: 10px; font-size: 12px; font-weight: 700; line-height: 1.3; }
     .details { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
     
-    .card-actions { display: flex; gap: 7px; margin-top: 12px; }
-    .small-button { flex: 1; padding: 9px 5px; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); background: var(--card); font-size: 12px; font-weight: 800; }
-    .small-button.offer { border-color: var(--violet); color: #fff; background: var(--violet); }
+    .card-actions { display: flex; gap: 7px; margin-top: 14px; }
+    .small-button { flex: 1; padding: 9px 5px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: var(--card); font-size: 12px; font-weight: 800; }
+    .small-button.offer { border-color: var(--amber); color: #fff; background: var(--amber); }
+    .small-button.offer:hover { background: var(--amber-hover); }
     
     .empty { grid-column: 1/-1; padding: 45px 20px; color: var(--muted); text-align: center; background: var(--card); border: 1px dashed var(--line); border-radius: 16px; }
 
     /* Dialogs */
-    dialog { width: min(520px, calc(100% - 28px)); max-height: 90vh; padding: 0; border: 0; border-radius: 18px; background: var(--modal-bg); color: var(--ink); box-shadow: 0 30px 90px rgba(0,0,0,0.4); }
-    dialog::backdrop { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
-    .dialog-content { padding: 22px; }
+    dialog { width: min(520px, calc(100% - 28px)); max-height: 90vh; padding: 0; border: 0; border-radius: 22px; background: var(--modal-bg); color: var(--ink); box-shadow: 0 30px 90px rgba(0,0,0,0.25); }
+    dialog::backdrop { background: rgba(28, 42, 35, 0.5); backdrop-filter: blur(4px); }
+    .dialog-content { padding: 24px; }
     .dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-    .dialog-head h2 { margin: 0; font-size: 19px; }
+    .dialog-head h2 { margin: 0; font-size: 20px; }
     .close { width: 34px; height: 34px; border: 0; border-radius: 50%; font-size: 20px; background: var(--line); color: var(--ink); }
     .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
     
     .file-upload-box { border: 2px dashed var(--line); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; margin-top: 6px; background: var(--input-bg); }
     .file-upload-box img { max-height: 120px; border-radius: 8px; margin-top: 8px; display: none; margin-inline: auto; }
 
-    .toast { position: fixed; z-index: 300; right: 20px; bottom: 20px; max-width: 330px; padding: 12px 15px; color: #fff; background: #0f172a; border-radius: 12px; box-shadow: 0 12px 25px rgba(0,0,0,0.3); transform: translateY(90px); opacity: 0; transition: .25s; }
+    .toast { position: fixed; z-index: 300; right: 20px; bottom: 20px; max-width: 330px; padding: 12px 15px; color: #fff; background: #1c2a23; border-radius: 12px; box-shadow: 0 12px 25px rgba(0,0,0,0.2); transform: translateY(90px); opacity: 0; transition: .25s; }
     .toast.show { transform: translateY(0); opacity: 1; }
 
     @media (max-width: 760px) {
@@ -202,7 +206,7 @@
 
   <!-- Hero -->
   <section id="top" class="hero"><div class="container">
-    <div class="eyebrow" data-i18n="heroEyebrow">Para değil, değer takas et</div>
+    <div class="eyebrow" data-i18n="heroEyebrow">Sürdürülebilir ve Doğal Takas</div>
     <h1 data-i18n="heroTitle">Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span></h1>
     <p data-i18n="heroDesc">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete ulaş.</p>
     <div class="hero-actions">
@@ -343,7 +347,7 @@
     const i18n = {
       tr: {
         login: "Giriş Yap", logout: "Çıkış", favs: "♡ Favoriler", addListing: "+ İlan ver",
-        heroEyebrow: "Para değil, değer takas et", heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
+        heroEyebrow: "Sürdürülebilir ve Doğal Takas", heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
         heroDesc: "Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete ulaş.",
         explore: "İlanları Keşfet", createListing: "İlan Oluştur", filterTitle: "Filtrele", searchLabel: "Ara",
         typeLabel: "Takas türü", all: "Tümü", item: "Eşya", service: "Hizmet", cityLabel: "Şehir", allCities: "Tüm şehirler",
@@ -355,7 +359,7 @@
       },
       en: {
         login: "Sign In", logout: "Sign Out", favs: "♡ Favorites", addListing: "+ Post Item",
-        heroEyebrow: "Swap value, not money", heroTitle: "Trade your items or skills, <span>get what you need.</span>",
+        heroEyebrow: "Sustainable & Natural Barter", heroTitle: "Trade your items or skills, <span>get what you need.</span>",
         heroDesc: "Share unused items or skills; reach the product or service you are looking for.",
         explore: "Explore Listings", createListing: "Create Listing", filterTitle: "Filter", searchLabel: "Search",
         typeLabel: "Swap Type", all: "All", item: "Item", service: "Service", cityLabel: "City", allCities: "All Cities",
@@ -409,13 +413,12 @@
       applyTheme(newTheme);
     });
 
-    // --- GOOGLE AUTHENTICATION (Pencereli/Yönlendirmeli Güvenli Giriş) ---
+    // --- GOOGLE AUTHENTICATION ---
     async function handleLogin() {
       try {
         await signInWithPopup(auth, provider);
       } catch (err) {
         if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user') {
-          // Açılır pencere engellendiyse yönlendirme moduna geç
           signInWithRedirect(auth, provider);
         } else {
           console.error("Giriş Hatası:", err);
