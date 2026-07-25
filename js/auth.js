@@ -26,6 +26,10 @@ const provider = new GoogleAuthProvider();
 
 provider.setCustomParameters({
     prompt: "select_account"
+});
+
+provider.setCustomParameters({
+    prompt: "select_account"
 
 // Kayıt Formunu Dinle
 const registerForm = document.getElementById("register-form");
@@ -99,15 +103,15 @@ if (googleBtn) {
 
         try {
 
-            const result =
-                await signInWithPopup(
-                    auth,
-                    provider
-                );
+            await signOut(auth);
+
+            const result = await signInWithPopup(
+                auth,
+                provider
+            );
 
             alert(
-                "Hoş geldin " +
-                result.user.displayName
+                "Google ile başarıyla giriş yapıldı!"
             );
 
             window.location.href =
@@ -115,10 +119,7 @@ if (googleBtn) {
 
         } catch (error) {
 
-            alert(
-                "Google Hatası: " +
-                error.message
-            );
+            alert(error.message);
 
         }
 
