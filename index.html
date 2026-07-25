@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAKASLA - Güvenilir Takas Platformu</title>
+    <title>TAKASLA - Güvenilir & Sürdürülebilir Takas Platformu</title>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -37,7 +37,6 @@
             --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
         }
 
-        /* --- STANDART FARE İMLECİ --- */
         * {
             margin: 0;
             padding: 0;
@@ -264,7 +263,7 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
         }
 
@@ -275,6 +274,8 @@
             overflow: hidden;
             transition: all 0.2s ease;
             box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
@@ -309,10 +310,16 @@
         .badge-item { background: #2563EB; }
         .badge-service { background: var(--accent); }
 
-        .card-body { padding: 1rem; }
+        .card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
 
         .card-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 0.5rem;
@@ -328,7 +335,77 @@
             margin-top: 0.75rem;
         }
 
-        /* --- GOOGLE & MODAL STYLES --- */
+        /* --- FOOTER --- */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 3.5rem 1.5rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            margin-bottom: 1.25rem;
+            max-width: 320px;
+        }
+
+        .footer-contact {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .footer-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- MODAL DIALOGS --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -355,7 +432,7 @@
             background: var(--surface);
             padding: 2rem;
             border-radius: var(--radius-lg);
-            max-width: 440px;
+            max-width: 450px;
             width: 90%;
             position: relative;
             box-shadow: 0 20px 40px rgba(0,0,0,0.25);
@@ -392,7 +469,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* GOOGLE BUTONU */
         .btn-google {
             width: 100%;
             background: #FFFFFF;
@@ -445,6 +521,12 @@
 
         @media (max-width: 900px) {
             .main-container { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-container { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
         }
     </style>
 </head>
@@ -467,8 +549,8 @@
                 <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
                 <button class="btn btn-outline" data-i18n="navFav" onclick="showModal('favoritesModal')">♡ Favoriler</button>
-                <button class="btn btn-outline" data-i18n="navLogin" onclick="showModal('loginModal')">Giriş Yap</button>
-                <button class="btn btn-accent" data-i18n="navPost" onclick="showModal('postModal')">+ İlan Ver</button>
+                <button class="btn btn-outline" id="loginNavBtn" data-i18n="navLogin" onclick="showModal('loginModal')">Giriş Yap</button>
+                <button class="btn btn-accent" data-i18n="navPost" onclick="handlePostAdClick()">+ İlan Ver</button>
             </div>
         </div>
     </nav>
@@ -481,7 +563,7 @@
             <p class="hero-subtitle" data-i18n="heroSub">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
             <div class="hero-buttons">
                 <a href="#ilanlar" class="btn btn-accent" data-i18n="btnExplore" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
-                <button class="btn btn-outline" data-i18n="btnCreate" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="showModal('postModal')">İlan Oluştur</button>
+                <button class="btn btn-outline" data-i18n="btnCreate" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="handlePostAdClick()">İlan Oluştur</button>
             </div>
         </div>
     </section>
@@ -520,77 +602,96 @@
                     <option>İstanbul</option>
                     <option>Ankara</option>
                     <option>İzmir</option>
+                    <option>Bursa</option>
+                    <option>Antalya</option>
                 </select>
             </div>
         </aside>
 
-        <!-- LISTINGS -->
+        <!-- LISTINGS (25 ADET İLAN) -->
         <section>
             <div class="listings-header">
-                <h2 style="font-size: 1.5rem; font-weight: 700;" data-i18n="activeListings">Aktif İlanlar</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 700;" data-i18n="activeListings">Aktif İlanlar (25)</h2>
                 <select class="form-select" style="width: auto;">
                     <option data-i18n="optNewest">En yeniler</option>
                     <option data-i18n="optPopular">Popüler olanlar</option>
                 </select>
             </div>
 
-            <div class="grid">
-                <!-- CARD 1 -->
-                <div class="card" onclick="openDetail('Fender Akustik Gitar', 'Müzik Enstrümanı', 'İstanbul', 'Elektro gitar veya amfi ile takas etmek istiyorum.')">
-                    <div class="card-img-wrap">
-                        <span class="badge-type badge-item" data-i18n="badgeItem">Eşya</span>
-                        <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500" class="card-img" alt="Gitar">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Fender Akustik Gitar</h3>
-                        <div class="card-footer">
-                            <span>📍 İstanbul</span>
-                            <span data-i18n="timeToday">Bugün</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD 2 -->
-                <div class="card" onclick="openDetail('Boya & Badana Ustası', 'Hizmet / Ustalık', 'Ankara', 'Boya hizmeti karşılığında Web Tasarımı takası arıyorum.')">
-                    <div class="card-img-wrap">
-                        <span class="badge-type badge-service" data-i18n="badgeService">Hizmet</span>
-                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500" class="card-img" alt="Boya Badana">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Boya & Badana Ustası</h3>
-                        <div class="card-footer">
-                            <span>📍 Ankara</span>
-                            <span data-i18n="timeYesterday">Dün</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD 3 -->
-                <div class="card" onclick="openDetail('Matematik Özel Dersi', 'Eğitim / Ders', 'İzmir', 'LGS ve YKS için matematik dersi. Tablet veya bisiklet takasına açıktır.')">
-                    <div class="card-img-wrap">
-                        <span class="badge-type badge-service" data-i18n="badgeService">Hizmet</span>
-                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500" class="card-img" alt="Özel Ders">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Matematik Özel Dersi</h3>
-                        <div class="card-footer">
-                            <span>📍 İzmir</span>
-                            <span data-i18n="time3Days">3 gün önce</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- 25 DİNAMİK/ÇEŞİTLİ İLAN KARTI -->
+            <div class="grid" id="listingsGrid">
+                <!-- JS Tarafından 25 Farklı Kart Doldurulacak -->
             </div>
         </section>
     </main>
 
-    <!-- 1. GİRİŞ YAP & GMAIL MODAL -->
+    <!-- FOOTER (KURUMSAL ALAN) -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo-area">
+                    <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
+                        <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
+                        <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
+                        <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                    </svg>
+                    <span class="logo-text">TAKASLA</span>
+                </a>
+                <p data-i18n="footerDesc">Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
+                <div class="footer-contact">
+                    <span>📧 destek@takasla.com</span>
+                    <span>📞 +90 (850) 123 45 67</span>
+                    <span>📍 Maslak Mah. Büyükdere Cad. No:142, İstanbul</span>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-title" data-i18n="fCol1Title">Kurumsal</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="alert('Biz Kimiz: Takasla, para harcamadan paylaşımı esas alan topluluk platformudur.')" data-i18n="fAbout">Biz Kimiz</a></li>
+                    <li><a href="#" onclick="alert('Vizyonumuz: Sürdürülebilir dünya için paylaşım ekonomisini yaygınlaştırmak.')" data-i18n="fVision">Vizyonumuz & Misyonumuz</a></li>
+                    <li><a href="#" onclick="alert('Kariyer fırsatları yakında duyurulacaktır.')" data-i18n="fCareers">Kariyer</a></li>
+                    <li><a href="#" onclick="alert('Sürdürülebilirlik ilkelerimiz hakkında detaylı bilgi yakında.')" data-i18n="fSust">Sürdürülebilirlik</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-title" data-i18n="fCol2Title">Destek & Yardım</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="alert('Nasıl Çalışır: İlan verin, teklifleri değerlendirin ve buluşup takaslayın!')" data-i18n="fHowItWorks">Nasıl Çalışır?</a></li>
+                    <li><a href="#" onclick="alert('Güvenli Takas İpuçları: Kamusal alanlarda buluşun, takas öncesi ürünü inceleyin.')" data-i18n="fSafety">Güvenli Takas Rehberi</a></li>
+                    <li><a href="#" onclick="alert('SSS: Sıkça sorulan sorular yakında güncellenecektir.')" data-i18n="fFaq">Sıkça Sorulan Sorular</a></li>
+                    <li><a href="#" onclick="alert('İletişim paneli aktif.')" data-i18n="fContact">İletişim</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-title" data-i18n="fCol3Title">Yasal</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="alert('Kullanım Koşulları detayları.')" data-i18n="fTerms">Kullanım Koşulları</a></li>
+                    <li><a href="#" onclick="alert('Gizlilik Politikası metni.')" data-i18n="fPrivacy">Gizlilik Politikası</a></li>
+                    <li><a href="#" onclick="alert('KVKK Aydınlatma Metni.')" data-i18n="fKvkk">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="#" onclick="alert('Çerez tercihleri.')" data-i18n="fCookies">Çerez Tercihleri</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 TAKASLA. Tüm hakları saklıdır.</span>
+            <span>Made for a Sustainable Future 🌱</span>
+        </div>
+    </footer>
+
+    <!-- MODALLAR -->
+
+    <!-- 1. GİRİŞ YAP MODAL -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
             <h2 class="modal-title" data-i18n="modalLoginTitle">Takasla'ya Giriş Yap</h2>
-            <p class="modal-sub" data-i18n="modalLoginSub">Topluluğa katılın ve hemen takasa başlayın</p>
+            <p class="modal-sub" data-i18n="modalLoginSub">İlan vermek ve takas yapmak için giriş yapın</p>
             
-            <!-- GOOGLE ILE GIRIS BUTONU -->
             <button class="btn-google" onclick="googleLogin()">
                 <svg width="20" height="20" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -603,7 +704,7 @@
 
             <div class="divider" data-i18n="dividerOr">veya e-posta ile</div>
 
-            <form onsubmit="handleForm(event, 'Giriş başarılı! Hoş geldiniz.')">
+            <form onsubmit="handleLoginFormSubmit(event)">
                 <div class="form-group">
                     <label class="form-label" data-i18n="emailLabel">E-Posta Adresi</label>
                     <input type="email" class="form-input" placeholder="ornek@gmail.com" required>
@@ -627,7 +728,7 @@
             <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
             <h2 class="modal-title" data-i18n="modalPostTitle">Yeni İlan Oluştur</h2>
             <p class="modal-sub" data-i18n="modalPostSub">Eşya veya hizmetinizi takasa çıkarın</p>
-            <form onsubmit="handleForm(event, 'İlanınız başarıyla yayınlandı!')">
+            <form onsubmit="handleFormSubmit(event, 'İlanınız başarıyla yayınlandı!')">
                 <div class="form-group">
                     <label class="form-label" data-i18n="postTitleLabel">İlan Başlığı</label>
                     <input type="text" class="form-input" placeholder="Örn: Bisiklet, Ders..." required>
@@ -639,6 +740,7 @@
                         <option>Hizmet & Ustalık</option>
                         <option>Eğitim</option>
                         <option>Ev & Yaşam</option>
+                        <option>Hobi & Müzik</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -677,9 +779,110 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT KODLARI (Sözlük & Fonksiyonlar) -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // ÇOKLU DİL İÇERİK SÖZLÜĞÜ (TR / EN)
+        // KULLANICI OTURUM DURUMU (KONTROL)
+        let isLoggedIn = false;
+
+        // 25 ADET BİRBİRİNDEN FARKLI VERİ SETİ
+        const rawListings = [
+            { id: 1, title: "Fender Akustik Gitar", type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: "Elektro gitar veya amfi ile takas etmek istiyorum." },
+            { id: 2, title: "Boya & Badana Ustası", type: "service", cat: "Hizmet", city: "Ankara", date: "Dün", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500", desc: "Ev boya hizmeti karşılığında Web Tasarımı arıyorum." },
+            { id: 3, title: "Matematik Özel Dersi", type: "service", cat: "Eğitim", city: "İzmir", date: "3 gün önce", img: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500", desc: "LGS/YKS için matematik dersi. Tablet takasına açıktır." },
+            { id: 4, title: "Sony PlayStation 5", type: "item", cat: "Elektronik", city: "Bursa", date: "Bugün", img: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500", desc: "İki kollu PS5. Gaming Laptop ile takaslanabilir." },
+            { id: 5, title: "Vintage Ahşap Yemek Masası", type: "item", cat: "Ev & Yaşam", city: "Antalya", date: "2 gün önce", img: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=500", desc: "Gerçek meşe ağacı. Bisiklet ile takas düşünülür." },
+            { id: 6, title: "İngilizce Pratik Seansı", type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir." },
+            { id: 7, title: "Oto Arıza Tespiti & Tamir", type: "service", cat: "Hizmet", city: "Kocaeli", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor." },
+            { id: 8, title: "Canon EOS M50 Kamera", type: "item", cat: "Elektronik", city: "Eskişehir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: "Temiz vlog kamerası. iPad ile takas olur." },
+            { id: 9, title: "Trek Dağ Bisikleti", type: "item", cat: "Hobi & Müzik", city: "Muğla", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir." },
+            { id: 10, title: "Web Tasarım & Logo Hizmeti", type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir." },
+            { id: 11, title: "Pilates & Yoga Eğitimi", type: "service", cat: "Eğitim", city: "İzmir", date: "1 gün önce", img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=500", desc: "Birebir özel seans. Akıllı saat takasına uygundur." },
+            { id: 12, title: "Nintendo Switch OLED", type: "item", cat: "Elektronik", city: "Ankara", date: "Bugün", img: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=500", desc: "Kutusunda az kullanılmış. Monitör ile takaslı." },
+            { id: 13, title: "Singer Dikiş Makinesi", type: "item", cat: "Ev & Yaşam", city: "Konya", date: "Dün", img: "https://images.unsplash.com/photo-1617103996702-96ff29b1c467?w=500", desc: "Çalışır durumda nostaljik makine. Mikrodalga takası kabul edilir." },
+            { id: 14, title: "Elektro Gitar Amfisi Boss", type: "item", cat: "Hobi & Müzik", city: "Gaziantep", date: "6 gün önce", img: "https://images.unsplash.com/photo-1563330232-57114bb0823c?w=500", desc: "50W Amfi. Kulaklık veya stüdyo ekipmanı aranıyor." },
+            { id: 15, title: "Detaylı Ev & Ofis Temizliği", type: "service", cat: "Hizmet", city: "Mersin", date: "Dün", img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500", desc: "Profesyonel temizlik. Halı yıkama veya badana ile takas." },
+            { id: 16, title: "Almanca A1-B2 Özel Ders", type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500", desc: "Sertifikalı eğitmenden ders. Koşu bandı ile takaslanır." },
+            { id: 17, title: "Espresso Kahve Makinesi", type: "item", cat: "Ev & Yaşam", city: "Trabzon", date: "3 gün önce", img: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500", desc: "Barista tipi makine. Airfryer veya robot süpürge aranıyor." },
+            { id: 18, title: "DJI Mini 2 Drone", type: "item", cat: "Elektronik", city: "Samsun", date: "4 gün önce", img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=500", desc: "4K çekimli drone. Aksiyon kamerası takaslı." },
+            { id: 19, title: "4 Kişilik Kamp Çadırı", type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "Bugün", img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500", desc: "Su geçirmez çadır. Olta takımı ile takas edilir." },
+            { id: 20, title: "Bahçe Peyzaj & Çim Biçme", type: "service", cat: "Hizmet", city: "Bursa", date: "2 gün önce", img: "https://images.unsplash.com/photo-1558904541-efa843a96f01?w=500", desc: "Bahçe bakım hizmeti. Meyve/fidan veya alet takası." },
+            { id: 21, title: "Elektro Keman", type: "item", cat: "Hobi & Müzik", city: "Ankara", date: "Dün", img: "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?w=500", desc: "Siyah şık tasarım elektro keman. Bağlama takaslı." },
+            { id: 22, title: "iPad Air M1 Tablet", type: "item", cat: "Elektronik", city: "İzmir", date: "Bugün", img: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500", desc: "Kalemli ve kılıflı. Laptop takasına açık." },
+            { id: 23, title: "İtalyanca Dil Eğitimi", type: "service", cat: "Eğitim", city: "İstanbul", date: "5 gün önce", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500", desc: "Online/Yüz yüze ders. Grafik tasarım takası kabul edilir." },
+            { id: 24, title: "Ergonomik Çalışma Koltuğu", type: "item", cat: "Ev & Yaşam", city: "Eskişehir", date: "Dün", img: "https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?w=500", desc: "Fileli bel destekli koltuk. Kitap seti veya masa takaslı." },
+            { id: 25, title: "Piyano Dersi (Klasik/Modern)", type: "service", cat: "Hobi & Müzik", city: "Kocaeli", date: "Bugün", img: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=500", desc: "Haftada 2 saat piyano dersi. Ses kartı/Mikrofon takaslı." }
+        ];
+
+        // 25 İLANI EKRANA BASTIRMA
+        function renderListings() {
+            const grid = document.getElementById('listingsGrid');
+            grid.innerHTML = rawListings.map(item => `
+                <div class="card" onclick="openDetail('${item.title}', '${item.cat}', '${item.city}', '${item.desc}')">
+                    <div class="card-img-wrap">
+                        <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
+                            ${item.type === 'item' ? (currentLang === 'tr' ? 'Eşya' : 'Item') : (currentLang === 'tr' ? 'Hizmet' : 'Service')}
+                        </span>
+                        <img src="${item.img}" class="card-img" alt="${item.title}" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${item.title}</h3>
+                        <div class="card-footer">
+                            <span>📍 ${item.city}</span>
+                            <span>${item.date}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // İLAN VER BUTONU KONTROLÜ (GİRİŞ ŞART)
+        function handlePostAdClick() {
+            if (!isLoggedIn) {
+                alert(currentLang === 'tr' 
+                    ? 'İlan verebilmek için lütfen önce giriş yapın.' 
+                    : 'Please log in first to post an ad.');
+                showModal('loginModal');
+            } else {
+                showModal('postModal');
+            }
+        }
+
+        // GOOGLE ILE GIRIS
+        function googleLogin() {
+            isLoggedIn = true;
+            updateLoginUI();
+            alert(currentLang === 'tr' 
+                ? 'Google ile giriş yapıldı! Artık ilan verebilirsiniz.' 
+                : 'Logged in with Google! You can now post ads.');
+            closeModal('loginModal');
+        }
+
+        // FORM ILE GIRIS
+        function handleLoginFormSubmit(e) {
+            e.preventDefault();
+            isLoggedIn = true;
+            updateLoginUI();
+            alert(currentLang === 'tr' 
+                ? 'Giriş başarılı! Artık ilan verebilirsiniz.' 
+                : 'Login successful! You can now post ads.');
+            closeModal('loginModal');
+        }
+
+        function handleFormSubmit(e, msg) {
+            e.preventDefault();
+            alert(msg);
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+        }
+
+        function updateLoginUI() {
+            const btn = document.getElementById('loginNavBtn');
+            if (isLoggedIn) {
+                btn.innerText = currentLang === 'tr' ? '👤 Hesabım' : '👤 My Account';
+                btn.onclick = () => alert(currentLang === 'tr' ? 'Hesap paneli yakında açılıyor.' : 'Account panel coming soon.');
+            }
+        }
+
+        // ÇOKLU DİL SÖZLÜĞÜ (TR / EN)
         const dictionary = {
             tr: {
                 navFav: "♡ Favoriler",
@@ -704,16 +907,11 @@
                 optItem: "Eşya Takası",
                 optService: "Hizmet Takası",
                 optAllCities: "Tüm Şehirler",
-                activeListings: "Aktif İlanlar",
+                activeListings: "Aktif İlanlar (25)",
                 optNewest: "En yeniler",
                 optPopular: "Popüler olanlar",
-                badgeItem: "Eşya",
-                badgeService: "Hizmet",
-                timeToday: "Bugün",
-                timeYesterday: "Dün",
-                time3Days: "3 gün önce",
                 modalLoginTitle: "Takasla'ya Giriş Yap",
-                modalLoginSub: "Topluluğa katılın ve hemen takasa başlayın",
+                modalLoginSub: "İlan vermek ve takas yapmak için giriş yapın",
                 googleLogin: "Google ile Devam Et",
                 dividerOr: "veya e-posta ile",
                 emailLabel: "E-Posta Adresi",
@@ -729,7 +927,23 @@
                 favTitle: "♡ Favori İlanlarım",
                 closeBtn: "Kapat",
                 offerBtn: "Takas Teklifi Et",
-                msgBtn: "Mesaj Gönder"
+                msgBtn: "Mesaj Gönder",
+                footerDesc: "Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.",
+                fCol1Title: "Kurumsal",
+                fAbout: "Biz Kimiz",
+                fVision: "Vizyonumuz & Misyonumuz",
+                fCareers: "Kariyer",
+                fSust: "Sürdürülebilirlik",
+                fCol2Title: "Destek & Yardım",
+                fHowItWorks: "Nasıl Çalışır?",
+                fSafety: "Güvenli Takas Rehberi",
+                fFaq: "Sıkça Sorulan Sorular",
+                fContact: "İletişim",
+                fCol3Title: "Yasal",
+                fTerms: "Kullanım Koşulları",
+                fPrivacy: "Gizlilik Politikası",
+                fKvkk: "KVKK Aydınlatma Metni",
+                fCookies: "Çerez Tercihleri"
             },
             en: {
                 navFav: "♡ Favorites",
@@ -754,16 +968,11 @@
                 optItem: "Item Swap",
                 optService: "Service Swap",
                 optAllCities: "All Cities",
-                activeListings: "Active Listings",
+                activeListings: "Active Listings (25)",
                 optNewest: "Newest",
                 optPopular: "Most Popular",
-                badgeItem: "Item",
-                badgeService: "Service",
-                timeToday: "Today",
-                timeYesterday: "Yesterday",
-                time3Days: "3 days ago",
                 modalLoginTitle: "Log in to Takasla",
-                modalLoginSub: "Join our community and start bartering today",
+                modalLoginSub: "Log in to post ads and start bartering",
                 googleLogin: "Continue with Google",
                 dividerOr: "or with email",
                 emailLabel: "Email Address",
@@ -779,46 +988,47 @@
                 favTitle: "♡ My Favorite Listings",
                 closeBtn: "Close",
                 offerBtn: "Make Swap Offer",
-                msgBtn: "Send Message"
+                msgBtn: "Send Message",
+                footerDesc: "Community-driven, sustainable, and secure barter platform without spending money.",
+                fCol1Title: "Corporate",
+                fAbout: "About Us",
+                fVision: "Vision & Mission",
+                fCareers: "Careers",
+                fSust: "Sustainability",
+                fCol2Title: "Support & Help",
+                fHowItWorks: "How It Works",
+                fSafety: "Safe Barter Guide",
+                fFaq: "FAQ",
+                fContact: "Contact",
+                fCol3Title: "Legal",
+                fTerms: "Terms of Use",
+                fPrivacy: "Privacy Policy",
+                fKvkk: "KVKK Clarification",
+                fCookies: "Cookie Preferences"
             }
         };
 
         let currentLang = 'tr';
 
-        // GERÇEK ZAMANLI DİL DEĞİŞTİRME
         function toggleLanguage() {
             currentLang = currentLang === 'tr' ? 'en' : 'tr';
             document.getElementById('langBtn').innerText = currentLang === 'tr' ? 'TR 🇹🇷' : 'EN 🇬🇧';
-
-            // Özel HTML Başlığı Değiştir
             document.getElementById('heroTitle').innerHTML = dictionary[currentLang].heroTitleHtml;
 
-            // Tüm data-i18n Elemanlarını Güncelle
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (dictionary[currentLang][key]) {
                     el.innerText = dictionary[currentLang][key];
                 }
             });
+
+            if (isLoggedIn) updateLoginUI();
+            renderListings(); // İlan rozet dilini de güncelle
         }
 
-        // GOOGLE ILE GIRIS SIMULASYONU
-        function googleLogin() {
-            alert(currentLang === 'tr' 
-                ? 'Google (Gmail) hesabınız doğrulanıyor... Hoş geldiniz!' 
-                : 'Authenticating with Google (Gmail)... Welcome!');
-            closeModal('loginModal');
-        }
-
-        // MODAL AÇMA / KAPATMA
+        // MODAL FONKSİYONLARI
         function showModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-        function handleForm(e, msg) {
-            e.preventDefault();
-            alert(msg);
-            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
-        }
 
         function openDetail(title, category, city, desc) {
             document.getElementById('dTitle').innerText = title;
@@ -833,6 +1043,9 @@
             document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
         }
+
+        // SAYFA YÜKLENDİĞİNDE İLANLARI HAZIRLA
+        window.onload = renderListings;
     </script>
 </body>
 </html>
