@@ -560,8 +560,8 @@
 </head>
 <body>
 
-    <!-- Orijinal Ses Dosyası Entegrasyonu -->
-    <audio id="jingleAudio" src="TAKASLASANA (mp3cut.net).mp3" preload="auto"></audio>
+    <!-- Basitleştirilmiş Ses Dosyası Referansı (Dosya adını ses.mp3 yapmalısın) -->
+    <audio id="jingleAudio" src="ses.mp3" preload="auto"></audio>
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -959,7 +959,7 @@
             { id: 6, title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
             { id: 7, title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
             { id: 8, title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
-            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzikal", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
+            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
@@ -969,6 +969,7 @@
                 audio.currentTime = 0;
                 audio.play().catch(err => {
                     console.log("Ses oynatılamadı:", err);
+                    alert("Ses dosyası (ses.mp3) HTML dosyasıyla aynı klasörde bulunamadı!");
                 });
             }
         }
