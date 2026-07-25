@@ -6,13 +6,6 @@
   <meta name="theme-color" content="#6d28d9">
   <meta name="description" content="Eşya ve becerilerini para harcamadan takasla.">
   <title>Takaslasana — Eşya ve beceri takası</title>
-
-  <!-- PWA Manifest & Apple Touch Icons -->
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063822.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -307,7 +300,7 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- Firebase Integration & Auth & PWA Registration -->
+  <!-- Firebase Integration & Auth -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -597,15 +590,6 @@
     });
 
     renderCategories();
-
-    // Register Service Worker for PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(() => console.log('ServiceWorker başarıyla kaydedildi.'))
-          .catch((err) => console.log('ServiceWorker hatası:', err));
-      });
-    }
   </script>
 </body>
 </html>
