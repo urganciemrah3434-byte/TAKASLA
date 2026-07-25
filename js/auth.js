@@ -1,3 +1,4 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -10,13 +11,13 @@ import {
 
 // Firebase Konfigürasyonu
 const firebaseConfig = {
-  apiKey: "AIzaSyDiEf4SXghJpXUiHIrflLk8lnvaAk7LnUI",
-  authDomain: "takasla-e2013.firebaseapp.com",
-  projectId: "takasla-e2013",
-  storageBucket: "takasla-e2013.firebasestorage.app",
-  messagingSenderId: "324778736339",
-  appId: "1:324778736339:web:d1c25d9aff143c35833226",
-  measurementId: "G-CX29N06BZ7"
+    apiKey: "AIzaSyDiEf4SXghJpXUiHIrflLk8lnvaAk7LnUI",
+    authDomain: "takasla-e2013.firebaseapp.com",
+    projectId: "takasla-e2013",
+    storageBucket: "takasla-e2013.firebasestorage.app",
+    messagingSenderId: "324778736339",
+    appId: "1:324778736339:web:d1c25d9aff143c35833226",
+    measurementId: "G-CX29N06BZ7"
 };
 
 // Firebase'i Başlat
@@ -27,9 +28,6 @@ const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
     prompt: "select_account"
 });
-
-provider.setCustomParameters({
-    prompt: "select_account"
 
 // Kayıt Formunu Dinle
 const registerForm = document.getElementById("register-form");
@@ -95,34 +93,18 @@ onAuthStateChanged(auth, (user) => {
         }
     }
 });
+
+// Google ile Giriş Yap
 const googleBtn = document.getElementById("google-login");
-
 if (googleBtn) {
-
     googleBtn.addEventListener("click", async () => {
-
         try {
-
             await signOut(auth);
-
-            const result = await signInWithPopup(
-                auth,
-                provider
-            );
-
-            alert(
-                "Google ile başarıyla giriş yapıldı!"
-            );
-
-            window.location.href =
-                "index.html";
-
+            const result = await signInWithPopup(auth, provider);
+            alert("Google ile başarıyla giriş yapıldı!");
+            window.location.href = "index.html";
         } catch (error) {
-
             alert(error.message);
-
         }
-
     });
-
 }
