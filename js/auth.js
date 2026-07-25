@@ -1,10 +1,11 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { 
-    getAuth, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    onAuthStateChanged, 
-    signOut 
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+    GoogleAuthProvider,
+    signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // Firebase Konfigürasyonu
@@ -21,6 +22,10 @@ const firebaseConfig = {
 // Firebase'i Başlat
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+provider.setCustomParameters({
+    prompt: "select_account"
 
 // Kayıt Formunu Dinle
 const registerForm = document.getElementById("register-form");
@@ -86,3 +91,37 @@ onAuthStateChanged(auth, (user) => {
         }
     }
 });
+const googleBtn = document.getElementById("google-login");
+
+if (googleBtn) {
+
+    googleBtn.addEventListener("click", async () => {
+
+        try {
+
+            const result =
+                await signInWithPopup(
+                    auth,
+                    provider
+                );
+
+            alert(
+                "Hoş geldin " +
+                result.user.displayName
+            );
+
+            window.location.href =
+                "index.html";
+
+        } catch (error) {
+
+            alert(
+                "Google Hatası: " +
+                error.message
+            );
+
+        }
+
+    });
+
+}
