@@ -580,7 +580,7 @@
                 <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
                 <button class="btn btn-outline" data-i18n="navFav" onclick="showModal('favoritesModal')">♡ Favoriler</button>
-                <button class="btn btn-outline" id="loginNavBtn" data-i18n="navLogin" onclick="showModal('loginModal')">Giriş Yap</button>
+                <button class="btn btn-outline" id="loginNavBtn" data-i18n="navLogin" onclick="handleLoginButtonClick()">Giriş Yap</button>
                 <button class="btn btn-accent" data-i18n="navPost" onclick="handlePostAdClick()">+ İlan Ver</button>
             </div>
         </div>
@@ -720,25 +720,6 @@
             <h2 class="modal-title" data-i18n="modalLoginTitle">Takaslasana'ya Giriş Yap</h2>
             <p class="modal-sub" data-i18n="modalLoginSub">İlan vermek ve takas yapmak için giriş yapın</p>
             
-            <!-- Google One Tap / Doğrudan Hesap Seçim Ekranı Simülasyonu -->
-            <div style="margin-bottom: 1rem;" id="googleAccountsList">
-                <p style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;" data-i18n="selectGoogleAccount">Kayıtlı Google Hesabınızı Seçin:</p>
-                <div onclick="selectGoogleAccount('Ahmet Yılmaz', 'ahmet.yilmaz@gmail.com', 'A')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 0.5rem; background: var(--bg-body); cursor: pointer; transition: border-color 0.2s;">
-                    <div style="width: 32px; height: 32px; border-radius: 50%; background: #2D6A4F; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">A</div>
-                    <div>
-                        <div style="font-weight: 700; font-size: 0.9rem;">Ahmet Yılmaz</div>
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">ahmet.yilmaz@gmail.com</div>
-                    </div>
-                </div>
-                <div onclick="selectGoogleAccount('Zeynep Demir', 'zeynep.demir@gmail.com', 'Z')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-body); cursor: pointer; transition: border-color 0.2s;">
-                    <div style="width: 32px; height: 32px; border-radius: 50%; background: #E65100; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">Z</div>
-                    <div>
-                        <div style="font-weight: 700; font-size: 0.9rem;">Zeynep Demir</div>
-                        <div style="font-size: 0.75rem; color: var(--text-muted);">zeynep.demir@gmail.com</div>
-                    </div>
-                </div>
-            </div>
-
             <button class="btn-google" onclick="googleLogin()">
                 <svg width="20" height="20" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -754,7 +735,7 @@
             <form onsubmit="handleLoginFormSubmit(event)">
                 <div class="form-group">
                     <label class="form-label" data-i18n="emailLabel">E-Posta Adresi</label>
-                    <input type="email" class="form-input" placeholder="ornek@gmail.com" required>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="ornek@gmail.com" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" data-i18n="passLabel">Şifre</label>
@@ -765,6 +746,19 @@
 
             <div class="security-badge">
                 🔒 <span data-i18n="securityText">256-bit SSL ile Güvenli Giriş</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFİL / ÇIKIŞ YAP MODALI -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
+            <h2 class="modal-title" id="profileModalTitle">Hesabım</h2>
+            <p class="modal-sub" id="profileModalEmail"></p>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                <button class="btn btn-outline" onclick="closeModal('profileModal'); showModal('favoritesModal');" data-i18n="navFav">♡ Favorilerim</button>
+                <button class="btn btn-accent" style="background: #DC2626; justify-content: center;" onclick="logout()" data-i18n="logoutBtn">Oturumu Kapat / Çıkış Yap</button>
             </div>
         </div>
     </div>
@@ -825,8 +819,8 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        let isLoggedIn = false;
-        let currentUser = null;
+        let currentUser = JSON.parse(localStorage.getItem('takas_user')) || null;
+        let isLoggedIn = currentUser !== null;
         let selectedCategory = 'all';
         let currentLang = 'tr';
 
@@ -897,7 +891,7 @@
                 itemBadge: "Eşya",
                 serviceBadge: "Hizmet",
                 noResults: "Aramanıza uygun ilan bulunamadı.",
-                selectGoogleAccount: "Kayıtlı Google Hesabınızı Seçin:"
+                logoutBtn: "Oturumu Kapat / Çıkış Yap"
             },
             en: {
                 tagline: "No money needed; swap with your skills or items!",
@@ -965,7 +959,7 @@
                 itemBadge: "Item",
                 serviceBadge: "Service",
                 noResults: "No listings found matching your search.",
-                selectGoogleAccount: "Select your Google Account:"
+                logoutBtn: "Sign Out"
             }
         };
 
@@ -1104,6 +1098,17 @@
             document.getElementById(id)?.classList.remove('active');
         }
 
+        function handleLoginButtonClick() {
+            if (!isLoggedIn) {
+                showModal('loginModal');
+            } else {
+                // Zaten giriş yapmışsa profil / çıkış modalını aç
+                document.getElementById('profileModalTitle').textContent = currentUser.name;
+                document.getElementById('profileModalEmail').textContent = currentUser.email;
+                showModal('profileModal');
+            }
+        }
+
         function handlePostAdClick() {
             if (!isLoggedIn) {
                 showModal('loginModal');
@@ -1121,32 +1126,49 @@
             showModal('detailModal');
         }
 
-        function selectGoogleAccount(name, email, initial) {
-            currentUser = { name, email, initial };
+        function authenticateUser(name, email) {
+            currentUser = { name, email };
             isLoggedIn = true;
+            localStorage.setItem('takas_user', JSON.stringify(currentUser));
             updateUserUI(name);
-            closeModal('loginModal');
-            alert(currentLang === 'tr' ? `Google ile başarıyla giriş yapıldı (${name})!` : `Successfully logged in with Google (${name})!`);
         }
 
         function googleLogin() {
-            selectGoogleAccount('Ahmet Yılmaz', 'ahmet.yilmaz@gmail.com', 'A');
+            // Gerçek tarayıcı tabanlı Google hesabı taklidi (varsayılan profil)
+            authenticateUser("Google Kullanıcısı", "kullanici@gmail.com");
+            closeModal('loginModal');
+            alert(currentLang === 'tr' ? 'Google ile başarıyla giriş yapıldı!' : 'Successfully logged in with Google!');
         }
 
         function handleLoginFormSubmit(e) {
             e.preventDefault();
-            isLoggedIn = true;
-            currentUser = { name: 'Kullanıcı', email: 'ornek@gmail.com', initial: 'K' };
-            updateUserUI('Kullanıcı');
+            const emailInput = document.getElementById('loginEmail').value;
+            const namePart = emailInput.split('@')[0];
+            const formattedName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+            
+            authenticateUser(formattedName, emailInput);
             closeModal('loginModal');
             alert(currentLang === 'tr' ? 'Giriş başarılı!' : 'Login successful!');
+        }
+
+        function logout() {
+            localStorage.removeItem('takas_user');
+            isLoggedIn = false;
+            currentUser = null;
+            
+            // UI sıfırla
+            const btn = document.getElementById('loginNavBtn');
+            if (btn) {
+                btn.textContent = i18n[currentLang].navLogin;
+            }
+            closeModal('profileModal');
+            alert(currentLang === 'tr' ? 'Oturum kapatıldı.' : 'Logged out successfully.');
         }
 
         function updateUserUI(name) {
             const btn = document.getElementById('loginNavBtn');
             if (btn) {
                 btn.textContent = `👤 ${name}`;
-                btn.onclick = () => alert(currentLang === 'tr' ? `Aktif Hesap: ${currentUser.email}\nProfil yönetimi paneli.` : `Active Account: ${currentUser.email}\nProfile management panel.`);
             }
         }
 
@@ -1161,7 +1183,7 @@
                 title: { tr: title, en: title },
                 type: cat === 'Hizmet' ? 'service' : 'item',
                 cat: cat,
-                city: currentUser && currentUser.email.includes('istanbul') ? 'İstanbul' : 'İstanbul',
+                city: 'İstanbul',
                 date: currentLang === 'tr' ? 'Bugün' : 'Today',
                 img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500",
                 desc: { tr: desc, en: desc }
@@ -1180,6 +1202,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Sayfa yüklendiğinde hafızada kullanıcı varsa oturumu açık tut
+            if (isLoggedIn && currentUser) {
+                updateUserUI(currentUser.name);
+            }
             renderListings();
 
             const searchInput = document.getElementById('searchInput');
