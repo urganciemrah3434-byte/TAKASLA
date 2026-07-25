@@ -73,13 +73,17 @@
     .brand-logo-icon svg { width: 26px; height: 26px; fill: currentColor; }
     .brand span { color: var(--violet); }
 
-    .lang { width: auto; min-height: 38px; padding: 6px 9px; border-radius: 10px; color: var(--muted); font-size: 12px; font-weight: 700; background: var(--input-bg); border: 1px solid var(--line); }
     .nav-actions { display: flex; align-items: center; gap: 10px; }
     
-    .button { border: 0; border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .button { border: 0; border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--card); color: var(--ink); border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 8px; }
     .button.primary { color: #fff; background: var(--violet); border: 0; box-shadow: 0 8px 18px #6d28d933; }
+    .button.google { background: #fff; color: #333; border: 1px solid var(--line); }
     .theme-toggle { width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
+    /* User Profile Bar */
+    .user-profile { display: flex; align-items: center; gap: 8px; }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--violet); }
+    
     /* Hero */
     .hero { overflow: hidden; padding: 60px 0 75px; text-align: center; background: radial-gradient(circle at 20% 0, #e9ddff 0, transparent 32%), linear-gradient(115deg, #f7edff, #e7edff); }
     [data-theme="dark"] .hero { background: radial-gradient(circle at 20% 0, #2e1065 0, transparent 40%), linear-gradient(115deg, #0f172a, #1e1b4b); }
@@ -169,11 +173,16 @@
     </a>
     <div class="nav-actions">
       <button class="theme-toggle" id="themeBtn" type="button" aria-label="Tema değiştir">🌙</button>
-      <select id="language" class="lang">
-        <option value="tr">🇹🇷 Türkçe</option>
-        <option value="en">🇬🇧 English</option>
-      </select>
       <button class="button secondary" id="favoritesButton" type="button">♡ Favoriler</button>
+      
+      <!-- Giriş Yap & Profil Alanı -->
+      <div id="authContainer">
+        <button class="button google" id="loginBtn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+          Giriş Yap
+        </button>
+      </div>
+
       <button class="button primary" id="openListing" type="button">+ İlan ver</button>
     </div>
   </nav></header>
@@ -263,9 +272,6 @@
         <option>Kastamonu</option>
       </select>
       
-      <label for="newUser">Adınız</label>
-      <input id="newUser" required placeholder="Örn. Ayşe K.">
-      
       <div class="form-actions">
         <button class="button" type="button" data-close>Vazgeç</button>
         <button class="button primary" id="submitBtn" type="submit">İlanı Kaydet</button>
@@ -294,10 +300,11 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- Firebase Integration -->
+  <!-- Firebase Integration & Auth -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDiEf4SXghJpXUiHIrflLk8lnvaAk7LnUI",
@@ -311,115 +318,51 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    let currentUser = null;
+
+    // Google ile Giriş / Çıkış Yönetimi
+    $('loginBtn')?.addEventListener('click', () => {
+      signInWithPopup(auth, provider)
+        .then(() => toast('Giriş başarılı!'))
+        .catch((err) => toast('Giriş yapılamadı: ' + err.message));
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      const container = $('authContainer');
+      if (user) {
+        container.innerHTML = `
+          <div class="user-profile">
+            <img class="user-avatar" src="${user.photoURL || 'https://via.placeholder.com/36'}" alt="Profil">
+            <button class="button secondary" id="logoutBtn" style="padding: 6px 12px; font-size:12px;">Çıkış</button>
+          </div>
+        `;
+        $('logoutBtn')?.addEventListener('click', () => signOut(auth).then(() => toast('Çıkış yapıldı.')));
+      } else {
+        container.innerHTML = `
+          <button class="button google" id="loginBtn" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            Giriş Yap
+          </button>
+        `;
+        $('loginBtn')?.addEventListener('click', () => signInWithPopup(auth, provider));
+      }
+    });
 
     const CATEGORIES = ['Tümü','Elektronik','Ev & Yaşam','Eğitim','Ustalık','Hobi & Müzik','Yazılım & Tasarım'];
 
-    // 8 Farklı, Zengin ve Gerçek Görselli İlan Listesi
     const DEMO_ITEMS = [
-      {
-        id: 'demo-1',
-        title: 'Akustik Gitar (Fender CD-60)',
-        wanted: 'İngilizce Konuşma Pratiği veya Özel Ders',
-        user: 'Seda C.',
-        city: 'Ankara',
-        category: 'Hobi & Müzik',
-        type: 'item',
-        image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&auto=format&fit=crop&q=80',
-        verified: true,
-        rating: 4.9,
-        createdAt: Date.now() - 1000
-      },
-      {
-        id: 'demo-2',
-        title: 'Ev & Ofis Boya Badana Hizmeti',
-        wanted: 'Dizüstü Bilgisayar veya Tablet',
-        user: 'Mustafa Usta',
-        city: 'İstanbul',
-        category: 'Ustalık',
-        type: 'service',
-        image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&auto=format&fit=crop&q=80',
-        verified: true,
-        rating: 5.0,
-        createdAt: Date.now() - 2000
-      },
-      {
-        id: 'demo-3',
-        title: 'LGS & YKS Matematik Özel Dersi',
-        wanted: 'Ergonomik Çalışma Masası',
-        user: 'Elif Hoca',
-        city: 'İzmir',
-        category: 'Eğitim',
-        type: 'service',
-        image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80',
-        verified: true,
-        rating: 5.0,
-        createdAt: Date.now() - 3000
-      },
-      {
-        id: 'demo-4',
-        title: 'Trek Dağ Bisikleti (27.5 Jant)',
-        wanted: 'PlayStation 4 veya Aksiyon Kamerası',
-        user: 'Caner K.',
-        city: 'Kastamonu',
-        category: 'Hobi & Müzik',
-        type: 'item',
-        image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&auto=format&fit=crop&q=80',
-        verified: true,
-        rating: 4.8,
-        createdAt: Date.now() - 4000
-      },
-      {
-        id: 'demo-5',
-        title: 'Profesyonel Web Sitesi Tasarımı',
-        wanted: 'Sıfır Ayarında Akıllı Telefon',
-        user: 'Mert Yazılım',
-        city: 'İstanbul',
-        category: 'Yazılım & Tasarım',
-        type: 'service',
-        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80',
-        verified: true,
-        rating: 4.9,
-        createdAt: Date.now() - 5000
-      },
-      {
-        id: 'demo-6',
-        title: 'Delonghi Manuel Espresso Makinesi',
-        wanted: 'Kamp Çadırı ve Uyku Tulumu',
-        user: 'Ayşe T.',
-        city: 'Ankara',
-        category: 'Ev & Yaşam',
-        type: 'item',
-        image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80',
-        verified: true,
-        rating: 4.7,
-        createdAt: Date.now() - 6000
-      },
-      {
-        id: 'demo-7',
-        title: 'Sony WH-1000XM4 Kulak Üstü Kulaklık',
-        wanted: 'iPad (9. veya 10. Nesil)',
-        user: 'Burak M.',
-        city: 'İzmir',
-        category: 'Elektronik',
-        type: 'item',
-        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80',
-        verified: true,
-        rating: 4.9,
-        createdAt: Date.now() - 7000
-      },
-      {
-        id: 'demo-8',
-        title: 'Yağlı Boya Tablo & Atölye Dersi',
-        wanted: 'Gitar Amfisi veya Müzik Ekipmanı',
-        user: 'Zeynep Sanat',
-        city: 'Kastamonu',
-        category: 'Hobi & Müzik',
-        type: 'service',
-        image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=80',
-        verified: true,
-        rating: 5.0,
-        createdAt: Date.now() - 8000
-      }
+      { id: 'demo-1', title: 'Akustik Gitar (Fender CD-60)', wanted: 'İngilizce Konuşma Pratiği veya Özel Ders', user: 'Seda C.', city: 'Ankara', category: 'Hobi & Müzik', type: 'item', image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.9, createdAt: Date.now() - 1000 },
+      { id: 'demo-2', title: 'Ev & Ofis Boya Badana Hizmeti', wanted: 'Dizüstü Bilgisayar veya Tablet', user: 'Mustafa Usta', city: 'İstanbul', category: 'Ustalık', type: 'service', image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&auto=format&fit=crop&q=80', verified: true, rating: 5.0, createdAt: Date.now() - 2000 },
+      { id: 'demo-3', title: 'LGS & YKS Matematik Özel Dersi', wanted: 'Ergonomik Çalışma Masası', user: 'Elif Hoca', city: 'İzmir', category: 'Eğitim', type: 'service', image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80', verified: true, rating: 5.0, createdAt: Date.now() - 3000 },
+      { id: 'demo-4', title: 'Trek Dağ Bisikleti (27.5 Jant)', wanted: 'PlayStation 4 veya Aksiyon Kamerası', user: 'Caner K.', city: 'Kastamonu', category: 'Hobi & Müzik', type: 'item', image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.8, createdAt: Date.now() - 4000 },
+      { id: 'demo-5', title: 'Profesyonel Web Sitesi Tasarımı', wanted: 'Sıfır Ayarında Akıllı Telefon', user: 'Mert Yazılım', city: 'İstanbul', category: 'Yazılım & Tasarım', type: 'service', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.9, createdAt: Date.now() - 5000 },
+      { id: 'demo-6', title: 'Delonghi Manuel Espresso Makinesi', wanted: 'Kamp Çadırı ve Uyku Tulumu', user: 'Ayşe T.', city: 'Ankara', category: 'Ev & Yaşam', type: 'item', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.7, createdAt: Date.now() - 6000 },
+      { id: 'demo-7', title: 'Sony WH-1000XM4 Kulak Üstü Kulaklık', wanted: 'iPad (9. veya 10. Nesil)', user: 'Burak M.', city: 'İzmir', category: 'Elektronik', type: 'item', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.9, createdAt: Date.now() - 7000 },
+      { id: 'demo-8', title: 'Yağlı Boya Tablo & Atölye Dersi', wanted: 'Gitar Amfisi veya Müzik Ekipmanı', user: 'Zeynep Sanat', city: 'Kastamonu', category: 'Hobi & Müzik', type: 'service', image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=80', verified: true, rating: 5.0, createdAt: Date.now() - 8000 }
     ];
 
     let listings = [];
@@ -535,7 +478,7 @@
       return article; 
     }
 
-    // Realtime Firebase Listener (Canlı Veriler + 8 Demo İlan Birleşimi)
+    // Realtime Firebase Listener
     const q = query(collection(db, "listings"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
       const dbListings = [];
@@ -543,31 +486,39 @@
         const data = doc.data();
         dbListings.push({
           id: doc.id,
-          title: data.title || data.description || '',
-          wanted: data.target || data.wanted || '',
-          user: data.userEmail ? data.userEmail.split('@')[0] : (data.user || 'Kullanıcı'),
+          title: data.title || '',
+          wanted: data.wanted || '',
+          user: data.user || 'Kullanıcı',
           city: data.city || 'İstanbul',
           category: data.category || 'Tümü',
           type: data.type || 'item',
-          image: data.imageUrl || data.image || '',
-          verified: data.verified ?? true,
-          rating: data.rating || 5.0,
+          image: data.image || '',
+          verified: true,
+          rating: 5.0,
           createdAt: data.createdAt ? (data.createdAt.seconds || Date.now()) : Date.now()
         });
       });
-      
-      // Kullanıcının eklediği canlı ilanlar üstte, 8 demo ilan altta yer alacak şekilde birleştirilir
       listings = [...dbListings, ...DEMO_ITEMS];
-      renderListings();
-    }, (error) => {
-      console.warn("Firebase bağlantı hatası, varsayılan ilanlar gösteriliyor:", error);
-      listings = [...DEMO_ITEMS];
       renderListings();
     });
 
-    // Yeni İlan Ekleme
+    // Oturum Kontrollü İlan Ekleme
+    function checkAuthAndOpenListing() {
+      if (!currentUser) {
+        toast('İlan eklemek için lütfen önce Giriş Yapın.');
+        signInWithPopup(auth, provider);
+      } else {
+        $('listingDialog').showModal();
+      }
+    }
+
+    $('openListing').addEventListener('click', checkAuthAndOpenListing);
+    $('heroListing').addEventListener('click', checkAuthAndOpenListing);
+
     $('listingForm').addEventListener('submit', async (e) => { 
       e.preventDefault(); 
+      if (!currentUser) return toast('Lütfen giriş yapın.');
+
       const submitBtn = $('submitBtn');
       submitBtn.disabled = true;
       submitBtn.textContent = 'Kaydediliyor...';
@@ -578,7 +529,9 @@
           wanted: $('newWanted').value.trim(),
           category: $('newCategory').value,
           city: $('newCity').value,
-          user: $('newUser').value.trim(),
+          user: currentUser.displayName || 'Anonim',
+          userId: currentUser.uid,
+          userEmail: currentUser.email,
           type: $('newType').value,
           image: currentUploadedImage || 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&auto=format&fit=crop&q=80',
           verified: true,
@@ -600,7 +553,7 @@
       }
     });
 
-    // WhatsApp Teklifi Gönderme
+    // WhatsApp Teklifi
     $('offerForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const msg = $('offerMessage').value.trim();
@@ -618,8 +571,6 @@
 
     CATEGORIES.slice(1).forEach(cat => $('newCategory').append(element('option',{value:cat,textContent:cat})));
     
-    $('openListing').addEventListener('click', () => $('listingDialog').showModal()); 
-    $('heroListing').addEventListener('click', () => $('listingDialog').showModal()); 
     document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => {
       $('listingDialog').close();
       $('offerDialog').close();
