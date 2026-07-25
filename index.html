@@ -11,7 +11,7 @@
             /* Renk Paleti */
             --primary: #2D6A4F;
             --primary-dark: #1B4332;
-            --primary-light: #D8F3DC;
+            --primary-light: #C8E6C9;
             --accent: #E65100;
             --accent-hover: #F57C00;
             --bg-light: #F8FAF8;
@@ -27,11 +27,19 @@
             --shadow-accent: 0 4px 14px rgba(230, 81, 0, 0.25);
         }
 
+        /* --- DEFNE YAPRAĞI MOUSE İMLECİ --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            /* Özel Defne Yaprağı İmleci */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%231B4332" stroke="%23FFFFFF" stroke-width="1.5" d="M17 8C8 10 59 16.17 3.83 12 19 12 19 8 17Zm-5 7c-4 0-7-2-8-5 3 0 6 1 8 5Z"/></svg>'), auto;
+        }
+
+        a, button, input, select, .cat-chip, .card {
+            /* Tıklanabilir alanlarda yaprağın vurgulu hali */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23E65100" stroke="%23FFFFFF" stroke-width="1.5" d="M17 8C8 10 59 16.17 3.83 12 19 12 19 8 17Zm-5 7c-4 0-7-2-8-5 3 0 6 1 8 5Z"/></svg>'), pointer !important;
         }
 
         body {
@@ -83,7 +91,6 @@
             border-radius: var(--radius-md);
             font-weight: 600;
             font-size: 0.9rem;
-            cursor: pointer;
             transition: all 0.2s ease;
             border: none;
             display: inline-flex;
@@ -118,7 +125,7 @@
         /* --- HERO SECTION --- */
         .hero {
             background: linear-gradient(180deg, #E8F5E9 0%, var(--bg-light) 100%);
-            padding: 4rem 1.5rem 3rem;
+            padding: 3.5rem 1.5rem 3rem;
             text-align: center;
         }
 
@@ -127,25 +134,28 @@
             margin: 0 auto;
         }
 
+        /* DÜZENLENEN ROZET YAZISI (Sürdürülebilir & Doğal Takas) */
         .hero-badge {
             display: inline-block;
-            background: var(--primary-light);
+            background: #D8F3DC;
             color: var(--primary-dark);
-            font-weight: 700;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            padding: 0.35rem 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 1.05rem; /* Yazı Büyütüldü */
+            letter-spacing: 0.5px;
+            padding: 0.6rem 1.6rem;
             border-radius: 50px;
-            margin-bottom: 1.25rem;
-            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(45, 106, 79, 0.12);
+            border: 1px solid #B7E4C7;
         }
 
         .hero-title {
-            font-size: 2.5rem;
+            font-size: 2.6rem;
             font-weight: 800;
             color: var(--primary-dark);
             margin-bottom: 1rem;
-            line-height: 1.2;
+            line-height: 1.25;
         }
 
         .hero-title span {
@@ -156,7 +166,7 @@
             font-size: 1.05rem;
             color: var(--text-muted);
             margin-bottom: 2rem;
-            max-width: 600px;
+            max-width: 620px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -187,8 +197,8 @@
             font-weight: 600;
             color: var(--text-muted);
             white-space: nowrap;
-            cursor: pointer;
             transition: all 0.2s ease;
+            text-decoration: none;
         }
 
         .cat-chip:hover, .cat-chip.active {
@@ -278,6 +288,9 @@
             transition: all 0.2s ease;
             box-shadow: var(--shadow-sm);
             position: relative;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .card:hover {
@@ -347,15 +360,12 @@
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo-area">
+            <a href="javascript:void(0)" class="logo-area">
                 <!-- DEFNE YAPRAĞI LOGO (SVG) -->
                 <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
-                    <!-- Sol Yaprak -->
                     <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
-                    <!-- Sağ Yaprak -->
                     <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
-                    <!-- Birleştirici Kavis -->
                     <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
                 </svg>
                 <span class="logo-text">TAKASLA</span>
@@ -364,9 +374,9 @@
             <div class="nav-actions">
                 <button class="btn btn-outline" style="padding: 0.5rem 0.75rem;">TR</button>
                 <button class="btn btn-outline">🌙</button>
-                <button class="btn btn-outline">♡ Favoriler</button>
-                <button class="btn btn-outline">Giriş Yap</button>
-                <a href="#" class="btn btn-accent">+ İlan Ver</a>
+                <button class="btn btn-outline" onclick="alert('Favorileriniz henüz boş.')">♡ Favoriler</button>
+                <button class="btn btn-outline" onclick="alert('Giriş ekranı hazırlanıyor.')">Giriş Yap</button>
+                <a href="javascript:void(0)" class="btn btn-accent" onclick="alert('İlan verme modülü açılıyor.')">+ İlan Ver</a>
             </div>
         </div>
     </nav>
@@ -374,25 +384,25 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-container">
-            <span class="hero-badge">Sürdürülebilir & Doğal Takas</span>
+            <div class="hero-badge">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
             <h1 class="hero-title">Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span></h1>
             <p class="hero-subtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
             <div class="hero-buttons">
                 <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
-                <a href="#" class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem; background: white;">İlan Oluştur</a>
+                <a href="javascript:void(0)" class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem; background: white;" onclick="alert('İlan oluşturma adımlarına yönlendiriliyorsunuz.')">İlan Oluştur</a>
             </div>
         </div>
     </section>
 
     <!-- CATEGORIES -->
     <div class="categories-nav">
-        <div class="cat-chip active">Tümü</div>
-        <div class="cat-chip">Elektronik</div>
-        <div class="cat-chip">Ev & Yaşam</div>
-        <div class="cat-chip">Eğitim</div>
-        <div class="cat-chip">Ustalık & Hizmet</div>
-        <div class="cat-chip">Hobi & Müzik</div>
-        <div class="cat-chip">Yazılım & Tasarım</div>
+        <a href="javascript:void(0)" class="cat-chip active">Tümü</a>
+        <a href="javascript:void(0)" class="cat-chip">Elektronik</a>
+        <a href="javascript:void(0)" class="cat-chip">Ev & Yaşam</a>
+        <a href="javascript:void(0)" class="cat-chip">Eğitim</a>
+        <a href="javascript:void(0)" class="cat-chip">Ustalık & Hizmet</a>
+        <a href="javascript:void(0)" class="cat-chip">Hobi & Müzik</a>
+        <a href="javascript:void(0)" class="cat-chip">Yazılım & Tasarım</a>
     </div>
 
     <!-- MAIN CONTAINER -->
@@ -435,7 +445,7 @@
 
             <div class="grid">
                 <!-- KART 1 -->
-                <div class="card">
+                <a href="javascript:void(0)" class="card">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-item">Eşya</span>
                         <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500" class="card-img" alt="Gitar">
@@ -447,10 +457,10 @@
                             <span>Bugün</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- KART 2 -->
-                <div class="card">
+                <a href="javascript:void(0)" class="card">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-service">Hizmet</span>
                         <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500" class="card-img" alt="Badana">
@@ -462,10 +472,10 @@
                             <span>Dün</span>
                         </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- KART 3 -->
-                <div class="card">
+                <a href="javascript:void(0)" class="card">
                     <div class="card-img-wrap">
                         <span class="badge-type badge-service">Hizmet</span>
                         <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500" class="card-img" alt="Ders">
@@ -477,7 +487,7 @@
                             <span>3 gün önce</span>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </section>
     </main>
