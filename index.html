@@ -5,17 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#6d28d9">
   <meta name="description" content="Eşya ve becerilerini para harcamadan takasla.">
-  <title>Takaslasana — Eşya ve beceri takası</title>
+  <title>TAKASLA — Eşya ve Beceri Takası</title>
 
-  <!-- PWA Manifest & Apple Touch Icons -->
+  <!-- PWA Desteği -->
   <link rel="manifest" href="/manifest.json">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063822.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+  <!-- Projenizin Kendi Stil Dosyası -->
+  <link rel="stylesheet" href="css/style.css">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --ink: #172033;
@@ -44,13 +48,13 @@
     }
 
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 "Plus Jakarta Sans", sans-serif; transition: background 0.3s, color 0.3s; }
+    body { margin: 0; background: var(--bg) !important; color: var(--ink) !important; font-family: "Plus Jakarta Sans", sans-serif; transition: background 0.3s, color 0.3s; }
     button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
     .container { width: min(1180px, calc(100% - 32px)); margin-inline: auto; }
     
     /* Topbar & Logo */
-    .topbar { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .topbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
     [data-theme="dark"] .topbar { background: rgba(15, 23, 42, 0.88); }
     .nav { min-height: 80px; display: flex; align-items: center; gap: 14px; justify-content: space-between; }
     
@@ -63,9 +67,7 @@
       font-size: 26px; 
       font-weight: 900; 
       letter-spacing: -1px; 
-      transition: transform 0.2s;
     }
-    .brand:hover { transform: scale(1.02); }
     .brand-logo-icon {
       width: 44px;
       height: 44px;
@@ -82,12 +84,12 @@
 
     .nav-actions { display: flex; align-items: center; gap: 10px; }
     
-    .button { border: 0; border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--card); color: var(--ink); border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 8px; }
+    .button { border: 0; border-radius: 12px; padding: 11px 18px; font-weight: 700; background: var(--card); color: var(--ink); border: 1px solid var(--line); display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
     .button.primary { color: #fff; background: var(--violet); border: 0; box-shadow: 0 8px 18px #6d28d933; }
     .button.google { background: #fff; color: #333; border: 1px solid var(--line); }
     .theme-toggle { width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
-    /* User Profile Bar */
+    /* Profile Bar */
     .user-profile { display: flex; align-items: center; gap: 8px; }
     .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--violet); }
     
@@ -103,7 +105,7 @@
     /* Categories */
     .category-bar { position: relative; margin-top: -31px; }
     .categories { display: flex; overflow-x: auto; gap: 10px; padding: 7px 2px 12px; scrollbar-width: none; }
-    .chip { flex: 0 0 auto; padding: 10px 16px; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 13px; font-size: 13px; font-weight: 700; }
+    .chip { flex: 0 0 auto; padding: 10px 16px; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 13px; font-size: 13px; font-weight: 700; cursor: pointer; }
     .chip[aria-pressed="true"] { color: var(--violet); border-color: var(--violet); background: var(--violet-soft); }
 
     /* Main Grid */
@@ -115,8 +117,8 @@
     input, select, textarea { width: 100%; min-height: 41px; border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; color: var(--ink); background: var(--input-bg); }
     .reset { width: 100%; margin-top: 18px; padding: 9px; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 10px; font-size: 13px; font-weight: 700; }
 
-    /* Listings Head & Cards */
-    .list-head { display: flex; justify-content: space-between; align-items: end; gap: 15px; margin-bottom: 18px; }
+    /* Cards */
+    .list-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 15px; margin-bottom: 18px; }
     .list-head h2 { margin: 0; font-size: 24px; letter-spacing: -.6px; }
     .count { color: var(--muted); font-size: 13px; font-weight: 700; }
     .sort { width: 165px; }
@@ -141,19 +143,19 @@
     
     .empty { grid-column: 1/-1; padding: 45px 20px; color: var(--muted); text-align: center; background: var(--card); border: 1px dashed var(--line); border-radius: 16px; }
 
-    /* Modals & Upload */
+    /* Dialogs */
     dialog { width: min(520px, calc(100% - 28px)); max-height: 90vh; padding: 0; border: 0; border-radius: 18px; background: var(--modal-bg); color: var(--ink); box-shadow: 0 30px 90px rgba(0,0,0,0.4); }
     dialog::backdrop { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
     .dialog-content { padding: 22px; }
     .dialog-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
     .dialog-head h2 { margin: 0; font-size: 19px; }
     .close { width: 34px; height: 34px; border: 0; border-radius: 50%; font-size: 20px; background: var(--line); color: var(--ink); }
-    .form-actions { display: flex; justify-content: end; gap: 8px; margin-top: 20px; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
     
     .file-upload-box { border: 2px dashed var(--line); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; margin-top: 6px; background: var(--input-bg); }
     .file-upload-box img { max-height: 120px; border-radius: 8px; margin-top: 8px; display: none; margin-inline: auto; }
 
-    .toast { position: fixed; z-index: 30; right: 20px; bottom: 20px; max-width: 330px; padding: 12px 15px; color: #fff; background: #0f172a; border-radius: 12px; box-shadow: 0 12px 25px rgba(0,0,0,0.3); transform: translateY(90px); opacity: 0; transition: .25s; }
+    .toast { position: fixed; z-index: 300; right: 20px; bottom: 20px; max-width: 330px; padding: 12px 15px; color: #fff; background: #0f172a; border-radius: 12px; box-shadow: 0 12px 25px rgba(0,0,0,0.3); transform: translateY(90px); opacity: 0; transition: .25s; }
     .toast.show { transform: translateY(0); opacity: 1; }
 
     @media (max-width: 760px) {
@@ -163,7 +165,7 @@
       main { grid-template-columns: 1fr; }
       .filters { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
       .filters h2, .reset { grid-column: 1/-1; }
-      .list-head { align-items: start; flex-direction: column; }
+      .list-head { align-items: flex-start; flex-direction: column; }
       .sort { width: 100%; }
     }
   </style>
@@ -176,13 +178,14 @@
       <div class="brand-logo-icon">
         <svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
       </div>
-      TAKASLA<span>SANA</span>
+      TAKASLA
     </a>
     <div class="nav-actions">
+      <!-- Gece/Gündüz Modu Butonu -->
       <button class="theme-toggle" id="themeBtn" type="button" aria-label="Tema değiştir">🌙</button>
       <button class="button secondary" id="favoritesButton" type="button">♡ Favoriler</button>
       
-      <!-- Giriş Yap & Profil Alanı -->
+      <!-- Google Login Kutusu -->
       <div id="authContainer">
         <button class="button google" id="loginBtn" type="button">
           <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
@@ -196,31 +199,31 @@
 
   <!-- Hero -->
   <section id="top" class="hero"><div class="container">
-    <div class="eyebrow" id="heroEyebrow">Para değil, değer takas et</div>
-    <h1 id="heroTitle">Eşyanı veya becerini takasla, <span id="heroSpan">ihtiyacını karşıla.</span></h1>
-    <p id="heroDesc">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete ulaş.</p>
+    <div class="eyebrow">Para değil, değer takas et</div>
+    <h1>Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span></h1>
+    <p>Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete ulaş.</p>
     <div class="hero-actions">
-      <a class="button primary" id="heroExplore" href="#ilanlar">İlanları Keşfet</a>
+      <a class="button primary" href="#ilanlar">İlanları Keşfet</a>
       <button class="button secondary" id="heroListing" type="button">İlan Oluştur</button>
     </div>
   </div></section>
 
-  <!-- Category Bar -->
+  <!-- Kategori Barı -->
   <div class="container category-bar"><div class="categories" id="categories"></div></div>
 
-  <!-- Main Content -->
+  <!-- İlan Alanı -->
   <main class="container" id="ilanlar">
     <aside class="panel filters">
-      <h2 id="filterTitle">Filtrele</h2>
-      <div><label for="search" id="lblSearch">Ara</label><input id="search" type="search" placeholder="İlan, takas veya kişi ara"></div>
-      <div><label for="type" id="lblType">Takas türü</label>
+      <h2>Filtrele</h2>
+      <div><label for="search">Ara</label><input id="search" type="search" placeholder="İlan, takas veya kişi ara"></div>
+      <div><label for="type">Takas türü</label>
         <select id="type">
           <option value="all">Tümü</option>
           <option value="item">Eşya</option>
           <option value="service">Hizmet</option>
         </select>
       </div>
-      <div><label for="city" id="lblCity">Şehir</label>
+      <div><label for="city">Şehir</label>
         <select id="city">
           <option value="all">Tüm şehirler</option>
           <option>İstanbul</option>
@@ -234,7 +237,7 @@
 
     <section>
       <div class="list-head">
-        <div><h2 id="listTitle">Aktif İlanlar</h2><span class="count" id="count">Yükleniyor...</span></div>
+        <div><h2>Aktif İlanlar</h2><span class="count" id="count">Yükleniyor...</span></div>
         <select id="sort" class="sort">
           <option value="new">En yeniler</option>
           <option value="rating">Puanı yüksek olanlar</option>
@@ -244,7 +247,7 @@
     </section>
   </main>
 
-  <!-- İlan Ekleme Modal -->
+  <!-- İlan Ekle Modalı -->
   <dialog id="listingDialog">
     <form id="listingForm" class="dialog-content" method="dialog">
       <div class="dialog-head"><h2>Yeni İlan Oluştur</h2><button class="close" type="button" data-close>×</button></div>
@@ -286,10 +289,10 @@
     </form>
   </dialog>
 
-  <!-- Teklif Modal -->
+  <!-- Teklif Modalı -->
   <dialog id="offerDialog">
     <form id="offerForm" class="dialog-content" method="dialog">
-      <div class="dialog-head"><h2 id="offerModalTitle">Takas Teklifi Yap</h2><button class="close" type="button" data-close>×</button></div>
+      <div class="dialog-head"><h2>Takas Teklifi Yap</h2><button class="close" type="button" data-close>×</button></div>
       <p style="font-size:13px; color:var(--muted); margin-top:4px;" id="offerTargetInfo"></p>
       
       <label for="offerMessage">Teklifiniz veya Mesajınız</label>
@@ -307,7 +310,7 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- Firebase Integration & Auth & PWA Registration -->
+  <!-- Çalışan JavaScript Kodları -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -330,13 +333,33 @@
 
     let currentUser = null;
 
-    // Google ile Giriş / Çıkış Yönetimi
-    $('loginBtn')?.addEventListener('click', () => {
-      signInWithPopup(auth, provider)
-        .then(() => toast('Giriş başarılı!'))
-        .catch((err) => toast('Giriş yapılamadı: ' + err.message));
+    const $ = (id) => document.getElementById(id);
+    const toast = (text) => { const el=$('toast'); el.textContent=text; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer=setTimeout(()=>el.classList.remove('show'),2800); };
+
+    // --- GECE / GÜNDÜZ MODU MANTIĞI ---
+    const themeBtn = $('themeBtn');
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeBtn.textContent = '☀️';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeBtn.textContent = '🌙';
+      }
+    }
+    
+    // Sayfa açıldığında kaydedilmiş temayı yükle
+    const savedTheme = localStorage.getItem('takasla_theme') || 'light';
+    applyTheme(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      localStorage.setItem('takasla_theme', newTheme);
+      applyTheme(newTheme);
     });
 
+    // --- GOOGLE AUTHENTICATION ---
     onAuthStateChanged(auth, (user) => {
       currentUser = user;
       const container = $('authContainer');
@@ -359,51 +382,22 @@
       }
     });
 
+    // --- İLANLARI LİSTELEME VE DEMO VERİLER ---
     const CATEGORIES = ['Tümü','Elektronik','Ev & Yaşam','Eğitim','Ustalık','Hobi & Müzik','Yazılım & Tasarım'];
 
     const DEMO_ITEMS = [
-      { id: 'demo-1', title: 'Akustik Gitar (Fender CD-60)', wanted: 'İngilizce Konuşma Pratiği veya Özel Ders', user: 'Seda C.', city: 'Ankara', category: 'Hobi & Müzik', type: 'item', image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.9, createdAt: Date.now() - 1000 },
-      { id: 'demo-2', title: 'Ev & Ofis Boya Badana Hizmeti', wanted: 'Dizüstü Bilgisayar veya Tablet', user: 'Mustafa Usta', city: 'İstanbul', category: 'Ustalık', type: 'service', image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&auto=format&fit=crop&q=80', verified: true, rating: 5.0, createdAt: Date.now() - 2000 },
-      { id: 'demo-3', title: 'LGS & YKS Matematik Özel Dersi', wanted: 'Ergonomik Çalışma Masası', user: 'Elif Hoca', city: 'İzmir', category: 'Eğitim', type: 'service', image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80', verified: true, rating: 5.0, createdAt: Date.now() - 3000 },
-      { id: 'demo-4', title: 'Trek Dağ Bisikleti (27.5 Jant)', wanted: 'PlayStation 4 veya Aksiyon Kamerası', user: 'Caner K.', city: 'Kastamonu', category: 'Hobi & Müzik', type: 'item', image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.8, createdAt: Date.now() - 4000 },
-      { id: 'demo-5', title: 'Profesyonel Web Sitesi Tasarımı', wanted: 'Sıfır Ayarında Akıllı Telefon', user: 'Mert Yazılım', city: 'İstanbul', category: 'Yazılım & Tasarım', type: 'service', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.9, createdAt: Date.now() - 5000 },
-      { id: 'demo-6', title: 'Delonghi Manuel Espresso Makinesi', wanted: 'Kamp Çadırı ve Uyku Tulumu', user: 'Ayşe T.', city: 'Ankara', category: 'Ev & Yaşam', type: 'item', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.7, createdAt: Date.now() - 6000 },
-      { id: 'demo-7', title: 'Sony WH-1000XM4 Kulak Üstü Kulaklık', wanted: 'iPad (9. veya 10. Nesil)', user: 'Burak M.', city: 'İzmir', category: 'Elektronik', type: 'item', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.9, createdAt: Date.now() - 7000 },
-      { id: 'demo-8', title: 'Yağlı Boya Tablo & Atölye Dersi', wanted: 'Gitar Amfisi veya Müzik Ekipmanı', user: 'Zeynep Sanat', city: 'Kastamonu', category: 'Hobi & Müzik', type: 'service', image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=80', verified: true, rating: 5.0, createdAt: Date.now() - 8000 }
+      { id: 'demo-1', title: 'Akustik Gitar (Fender CD-60)', wanted: 'İngilizce Özel Ders', user: 'Seda C.', city: 'Ankara', category: 'Hobi & Müzik', type: 'item', image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.9, createdAt: Date.now() - 1000 },
+      { id: 'demo-2', title: 'Ev & Ofis Boya Badana Hizmeti', wanted: 'Dizüstü Bilgisayar', user: 'Mustafa Usta', city: 'İstanbul', category: 'Ustalık', type: 'service', image: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&auto=format&fit=crop&q=80', verified: true, rating: 5.0, createdAt: Date.now() - 2000 },
+      { id: 'demo-3', title: 'LGS & YKS Matematik Özel Dersi', wanted: 'Çalışma Masası', user: 'Elif Hoca', city: 'İzmir', category: 'Eğitim', type: 'service', image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80', verified: true, rating: 5.0, createdAt: Date.now() - 3000 },
+      { id: 'demo-4', title: 'Trek Dağ Bisikleti (27.5 Jant)', wanted: 'PlayStation 4', user: 'Caner K.', city: 'Kastamonu', category: 'Hobi & Müzik', type: 'item', image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&auto=format&fit=crop&q=80', verified: true, rating: 4.8, createdAt: Date.now() - 4000 }
     ];
 
-    let listings = [];
+    let listings = [...DEMO_ITEMS];
     let favorites = new Set(JSON.parse(localStorage.getItem('takasla_favs') || '[]'));
     let onlyFavorites = false;
     let activeCategory = 'Tümü';
     let currentUploadedImage = null;
     let selectedOfferItem = null;
-
-    const $ = (id) => document.getElementById(id);
-    const toast = (text) => { const el=$('toast'); el.textContent=text; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer=setTimeout(()=>el.classList.remove('show'),2800); };
-
-    // Dark Mode
-    $('themeBtn').addEventListener('click', () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      $('themeBtn').textContent = isDark ? '🌙' : '☀️';
-    });
-
-    // Image Upload
-    $('uploadBox').addEventListener('click', () => $('imageFile').click());
-    $('imageFile').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          currentUploadedImage = event.target.result;
-          $('imagePreview').src = currentUploadedImage;
-          $('imagePreview').style.display = 'block';
-          $('uploadStatus').textContent = '✅ Görsel Seçildi';
-        };
-        reader.readAsDataURL(file);
-      }
-    });
 
     function renderCategories() { 
       const holder=$('categories'); 
@@ -485,31 +479,53 @@
       return article; 
     }
 
-    // Realtime Firebase Listener
-    const q = query(collection(db, "listings"), orderBy("createdAt", "desc"));
-    onSnapshot(q, (snapshot) => {
-      const dbListings = [];
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        dbListings.push({
-          id: doc.id,
-          title: data.title || '',
-          wanted: data.wanted || '',
-          user: data.user || 'Kullanıcı',
-          city: data.city || 'İstanbul',
-          category: data.category || 'Tümü',
-          type: data.type || 'item',
-          image: data.image || '',
-          verified: true,
-          rating: 5.0,
-          createdAt: data.createdAt ? (data.createdAt.seconds || Date.now()) : Date.now()
+    // --- FIREBASE VERİLERİNİ CANLI BİRLEŞTİR ---
+    try {
+      const q = query(collection(db, "listings"), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snapshot) => {
+        const dbListings = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          dbListings.push({
+            id: doc.id,
+            title: data.title || '',
+            wanted: data.wanted || '',
+            user: data.user || 'Kullanıcı',
+            city: data.city || 'İstanbul',
+            category: data.category || 'Tümü',
+            type: data.type || 'item',
+            image: data.image || '',
+            verified: true,
+            rating: 5.0,
+            createdAt: data.createdAt ? (data.createdAt.seconds || Date.now()) : Date.now()
+          });
         });
+        listings = [...dbListings, ...DEMO_ITEMS];
+        renderListings();
+      }, (error) => {
+        console.warn("Firestore dinleme hatası (Demo veriler kullanılıyor):", error);
+        renderListings();
       });
-      listings = [...dbListings, ...DEMO_ITEMS];
+    } catch(e) {
       renderListings();
+    }
+
+    // Modal & Görsel Dinleyicileri
+    $('uploadBox').addEventListener('click', () => $('imageFile').click());
+    $('imageFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          currentUploadedImage = event.target.result;
+          $('imagePreview').src = currentUploadedImage;
+          $('imagePreview').style.display = 'block';
+          $('uploadStatus').textContent = '✅ Görsel Seçildi';
+        };
+        reader.readAsDataURL(file);
+      }
     });
 
-    // Oturum Kontrollü İlan Ekleme
     function checkAuthAndOpenListing() {
       if (!currentUser) {
         toast('İlan eklemek için lütfen önce Giriş Yapın.');
@@ -560,7 +576,6 @@
       }
     });
 
-    // WhatsApp Teklifi
     $('offerForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const msg = $('offerMessage').value.trim();
@@ -568,8 +583,7 @@
       const targetPhone = selectedOfferItem?.phone || '905550000000';
       
       const fullText = `Merhaba ${selectedOfferItem.user}, Takaslasana üzerindeki "${selectedOfferItem.title}" ilanınız için teklifim:\n\n${msg}${phone ? '\n\nİletişim Numaram: ' + phone : ''}`;
-      const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(fullText)}`;
-      window.open(waUrl, '_blank');
+      window.open(`https://wa.me/${targetPhone}?text=${encodeURIComponent(fullText)}`, '_blank');
       
       $('offerDialog').close();
       $('offerForm').reset();
@@ -596,14 +610,14 @@
       renderListings(); 
     });
 
+    // Başlangıç Kurulumları
     renderCategories();
+    renderListings();
 
-    // Register Service Worker for PWA
+    // Service Worker Kaydı
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(() => console.log('ServiceWorker başarıyla kaydedildi.'))
-          .catch((err) => console.log('ServiceWorker hatası:', err));
+        navigator.serviceWorker.register('/sw.js').catch((err) => console.log('SW Hata:', err));
       });
     }
   </script>
