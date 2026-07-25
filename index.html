@@ -495,46 +495,6 @@
             margin-bottom: 1.5rem;
         }
 
-        .btn-google {
-            width: 100%;
-            background: #FFFFFF;
-            color: #3C4043;
-            border: 1px solid #DADCE0;
-            border-radius: var(--radius-md);
-            padding: 0.75rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            transition: background-color 0.2s, box-shadow 0.2s;
-            margin-bottom: 1.25rem;
-        }
-
-        .btn-google:hover {
-            background: #F8F9FA;
-            box-shadow: 0 1px 3px rgba(60,64,67,0.15);
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .divider::before { margin-right: .5em; }
-        .divider::after { margin-left: .5em; }
-
         .security-badge {
             display: flex;
             align-items: center;
@@ -575,22 +535,22 @@
                     </svg>
                     <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
                 </a>
-                <span class="logo-tagline" data-i18n="tagline">Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!</span>
+                <span class="logo-tagline">Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!</span>
             </div>
 
             <div class="nav-actions">
                 <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
-                <button class="btn btn-outline" data-i18n="navFav" onclick="showModal('favoritesModal')">♡ Favoriler</button>
+                <button class="btn btn-outline" onclick="checkAuthAndAction('favorites')">♡ Favoriler</button>
                 
-                <!-- Kimlik Doğrulama Bölümü (Giriş / Kayıt veya Kullanıcı Profili) -->
+                <!-- Kimlik Doğrulama Bölümü -->
                 <div id="authButtons" style="display: flex; gap: 0.75rem; align-items: center;">
-                    <button class="btn btn-outline" data-i18n="navLogin" onclick="showModal('loginModal')">Giriş Yap</button>
-                    <button class="btn btn-outline" style="border-color: var(--primary-dark); color: var(--primary-dark);" data-i18n="navRegister" onclick="showModal('registerModal')">Kayıt Ol</button>
+                    <button class="btn btn-outline" onclick="showModal('loginModal')">Giriş Yap</button>
+                    <button class="btn btn-outline" style="border-color: var(--primary-dark); color: var(--primary-dark);" onclick="showModal('registerModal')">Kayıt Ol</button>
                 </div>
                 <div id="userProfileContainer" style="display: none; align-items: center;"></div>
 
-                <button class="btn btn-accent" data-i18n="navPost" onclick="handlePostAdClick()">+ İlan Ver</button>
+                <button class="btn btn-accent" onclick="handlePostAdClick()">+ İlan Ver</button>
             </div>
         </div>
     </nav>
@@ -598,47 +558,47 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-container">
-            <div class="hero-badge" data-i18n="heroBadge">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
-            <h1 class="hero-title" id="heroTitle">Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span></h1>
-            <p class="hero-subtitle" data-i18n="heroSub">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
+            <div class="hero-badge">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
+            <h1 class="hero-title">Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span></h1>
+            <p class="hero-subtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
             <div class="hero-buttons">
-                <a href="#ilanlar" class="btn btn-accent" data-i18n="btnExplore" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
-                <button class="btn btn-outline" data-i18n="btnCreate" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="handlePostAdClick()">İlan Oluştur</button>
+                <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
+                <button class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="handlePostAdClick()">İlan Oluştur</button>
             </div>
         </div>
     </section>
 
     <!-- CATEGORIES -->
     <div class="categories-nav">
-        <button class="cat-chip active" data-cat="all" data-i18n="catAll" onclick="setCategory(this)">Tümü</button>
-        <button class="cat-chip" data-cat="Elektronik" data-i18n="catElec" onclick="setCategory(this)">Elektronik</button>
-        <button class="cat-chip" data-cat="Ev & Yaşam" data-i18n="catHome" onclick="setCategory(this)">Ev & Yaşam</button>
-        <button class="cat-chip" data-cat="Eğitim" data-i18n="catEdu" onclick="setCategory(this)">Eğitim</button>
-        <button class="cat-chip" data-cat="Hizmet" data-i18n="catServ" onclick="setCategory(this)">Ustalık & Hizmet</button>
-        <button class="cat-chip" data-cat="Hobi & Müzik" data-i18n="catMusic" onclick="setCategory(this)">Hobi & Müzik</button>
+        <button class="cat-chip active" data-cat="all" onclick="setCategory(this)">Tümü</button>
+        <button class="cat-chip" data-cat="Elektronik" onclick="setCategory(this)">Elektronik</button>
+        <button class="cat-chip" data-cat="Ev & Yaşam" onclick="setCategory(this)">Ev & Yaşam</button>
+        <button class="cat-chip" data-cat="Eğitim" onclick="setCategory(this)">Eğitim</button>
+        <button class="cat-chip" data-cat="Hizmet" onclick="setCategory(this)">Ustalık & Hizmet</button>
+        <button class="cat-chip" data-cat="Hobi & Müzik" onclick="setCategory(this)">Hobi & Müzik</button>
     </div>
 
     <!-- MAIN CONTAINER -->
     <main class="main-container" id="ilanlar">
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            <h2 class="filter-title" data-i18n="filterTitle">Filtrele</h2>
+            <h2 class="filter-title">Filtrele</h2>
             <div class="form-group">
-                <label class="form-label" data-i18n="searchLabel">Arama</label>
-                <input type="text" class="form-input" id="searchInput" placeholder="İlan ara..." data-i18n-ph="searchPh">
+                <label class="form-label">Arama</label>
+                <input type="text" class="form-input" id="searchInput" placeholder="İlan ara...">
             </div>
             <div class="form-group">
-                <label class="form-label" data-i18n="typeLabel">Takas Türü</label>
+                <label class="form-label">Takas Türü</label>
                 <select class="form-select" id="typeSelect" onchange="filterListings()">
-                    <option value="all" data-i18n="optAll">Tümü</option>
-                    <option value="item" data-i18n="optItem">Eşya Takası</option>
-                    <option value="service" data-i18n="optService">Hizmet Takası</option>
+                    <option value="all">Tümü</option>
+                    <option value="item">Eşya Takası</option>
+                    <option value="service">Hizmet Takası</option>
                 </select>
             </div>
             <div class="form-group">
-                <label class="form-label" data-i18n="cityLabel">Şehir</label>
+                <label class="form-label">Şehir</label>
                 <select class="form-select" id="citySelect" onchange="filterListings()">
-                    <option value="all" data-i18n="optAllCities">Tüm Şehirler</option>
+                    <option value="all">Tüm Şehirler</option>
                     <option value="İstanbul">İstanbul</option>
                     <option value="Ankara">Ankara</option>
                     <option value="İzmir">İzmir</option>
@@ -651,16 +611,14 @@
         <!-- LISTINGS -->
         <section>
             <div class="listings-header">
-                <h2 style="font-size: 1.5rem; font-weight: 700;" id="listingsCountHeader">Aktif İlanlar (25)</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 700;" id="listingsCountHeader">Aktif İlanlar (10)</h2>
                 <select class="form-select" style="width: auto;">
-                    <option data-i18n="optNewest">En yeniler</option>
-                    <option data-i18n="optPopular">Popüler olanlar</option>
+                    <option>En yeniler</option>
+                    <option>Popüler olanlar</option>
                 </select>
             </div>
 
-            <div class="grid" id="listingsGrid">
-                <!-- JS Tarafından Doldurulacak -->
-            </div>
+            <div class="grid" id="listingsGrid"></div>
         </section>
     </main>
 
@@ -677,7 +635,7 @@
                     </svg>
                     <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
                 </a>
-                <p data-i18n="footerDesc">Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
+                <p>Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
                 <div class="footer-contact">
                     <span>📧 destek@takaslasana.com</span>
                     <span>📞 +90 (850) 123 45 67</span>
@@ -686,38 +644,38 @@
             </div>
 
             <div>
-                <h3 class="footer-title" data-i18n="fCol1Title">Kurumsal</h3>
+                <h3 class="footer-title">Kurumsal</h3>
                 <ul class="footer-links">
-                    <li><a href="#" onclick="alert('Biz Kimiz')" data-i18n="fAbout">Biz Kimiz</a></li>
-                    <li><a href="#" onclick="alert('Vizyonumuz')" data-i18n="fVision">Vizyonumuz & Misyonumuz</a></li>
-                    <li><a href="#" onclick="alert('Kariyer')" data-i18n="fCareers">Kariyer</a></li>
-                    <li><a href="#" onclick="alert('Sürdürülebilirlik')" data-i18n="fSust">Sürdürülebilirlik</a></li>
+                    <li><a href="#" onclick="alert('Biz Kimiz')">Biz Kimiz</a></li>
+                    <li><a href="#" onclick="alert('Vizyonumuz')">Vizyonumuz & Misyonumuz</a></li>
+                    <li><a href="#" onclick="alert('Kariyer')">Kariyer</a></li>
+                    <li><a href="#" onclick="alert('Sürdürülebilirlik')">Sürdürülebilirlik</a></li>
                 </ul>
             </div>
 
             <div>
-                <h3 class="footer-title" data-i18n="fCol2Title">Destek & Yardım</h3>
+                <h3 class="footer-title">Destek & Yardım</h3>
                 <ul class="footer-links">
-                    <li><a href="#" onclick="alert('Nasıl Çalışır')" data-i18n="fHowItWorks">Nasıl Çalışır?</a></li>
-                    <li><a href="#" onclick="alert('Güvenli Takas')" data-i18n="fSafety">Güvenli Takas Rehberi</a></li>
-                    <li><a href="#" onclick="alert('SSS')" data-i18n="fFaq">Sıkça Sorulan Sorular</a></li>
-                    <li><a href="#" onclick="alert('İletişim')" data-i18n="fContact">İletişim</a></li>
+                    <li><a href="#" onclick="alert('Nasıl Çalışır')">Nasıl Çalışır?</a></li>
+                    <li><a href="#" onclick="alert('Güvenli Takas')">Güvenli Takas Rehberi</a></li>
+                    <li><a href="#" onclick="alert('SSS')">Sıkça Sorulan Sorular</a></li>
+                    <li><a href="#" onclick="alert('İletişim')">İletişim</a></li>
                 </ul>
             </div>
 
             <div>
-                <h3 class="footer-title" data-i18n="fCol3Title">Yasal</h3>
+                <h3 class="footer-title">Yasal</h3>
                 <ul class="footer-links">
-                    <li><a href="#" onclick="alert('Kullanım Koşulları')" data-i18n="fTerms">Kullanım Koşulları</a></li>
-                    <li><a href="#" onclick="alert('Gizlilik Politikası')" data-i18n="fPrivacy">Gizlilik Politikası</a></li>
-                    <li><a href="#" onclick="alert('KVKK')" data-i18n="fKvkk">KVKK Aydınlatma Metni</a></li>
-                    <li><a href="#" onclick="alert('Çerezler')" data-i18n="fCookies">Çerez Tercihleri</a></li>
+                    <li><a href="#" onclick="alert('Kullanım Koşulları')">Kullanım Koşulları</a></li>
+                    <li><a href="#" onclick="alert('Gizlilik Politikası')">Gizlilik Politikası</a></li>
+                    <li><a href="#" onclick="alert('KVKK')">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="#" onclick="alert('Çerezler')">Çerez Tercihleri</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <span>© 2026 TAKASLASANA. <span data-i18n="copyRights">Tüm hakları saklıdır.</span></span>
+            <span>© 2026 TAKASLASANA. Tüm hakları saklıdır.</span>
             <span>Made for a Sustainable Future 🌱</span>
         </div>
     </footer>
@@ -727,40 +685,28 @@
     <div class="modal-overlay" id="loginModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
-            <h2 class="modal-title" data-i18n="modalLoginTitle">Takaslasana'ya Giriş Yap</h2>
-            <p class="modal-sub" data-i18n="modalLoginSub">İlan vermek ve takas yapmak için giriş yapın</p>
-            
-            <button class="btn-google" onclick="mockGoogleLogin()">
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <span data-i18n="googleLogin">Google ile Devam Et</span>
-            </button>
-
-            <div class="divider" data-i18n="dividerOr">veya e-posta ile</div>
+            <h2 class="modal-title">Giriş Yap</h2>
+            <p class="modal-sub">Hesabınıza erişmek için bilgilerinizi girin</p>
 
             <form onsubmit="handleLoginFormSubmit(event)">
                 <div class="form-group">
-                    <label class="form-label" data-i18n="emailLabel">E-Posta Adresi</label>
-                    <input type="email" class="form-input" placeholder="ornek@gmail.com" required>
+                    <label class="form-label">E-Posta Adresi</label>
+                    <input type="email" class="form-input" id="loginEmail" placeholder="ornek@gmail.com" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="passLabel">Şifre</label>
-                    <input type="password" class="form-input" placeholder="••••••••" required>
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-input" id="loginPass" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitLogin">Oturum Aç</button>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">Oturum Aç</button>
             </form>
 
             <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
-                <span data-i18n="noAccount">Hesabın yok mu?</span> 
-                <a href="#" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" data-i18n="registerLink">Kayıt Ol</a>
+                <span>Hesabın yok mu?</span> 
+                <a href="#" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;">Kayıt Ol</a>
             </div>
 
             <div class="security-badge">
-                🔒 <span data-i18n="securityText">256-bit SSL ile Güvenli Giriş</span>
+                🔒 256-bit SSL ile Güvenli Giriş
             </div>
         </div>
     </div>
@@ -769,44 +715,32 @@
     <div class="modal-overlay" id="registerModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('registerModal')">&times;</button>
-            <h2 class="modal-title" data-i18n="modalRegisterTitle">Takaslasana'ya Kayıt Ol</h2>
-            <p class="modal-sub" data-i18n="modalRegisterSub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
-            
-            <button class="btn-google" onclick="mockGoogleLogin()">
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <span data-i18n="googleLogin">Google ile Devam Et</span>
-            </button>
-
-            <div class="divider" data-i18n="dividerOr">veya e-posta ile</div>
+            <h2 class="modal-title">Kayıt Ol</h2>
+            <p class="modal-sub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
 
             <form onsubmit="handleRegisterFormSubmit(event)">
                 <div class="form-group">
-                    <label class="form-label" data-i18n="nameLabel">Ad Soyad</label>
+                    <label class="form-label">Ad Soyad</label>
                     <input type="text" class="form-input" id="regName" placeholder="Adınız Soyadınız" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="emailLabel">E-Posta Adresi</label>
-                    <input type="email" class="form-input" placeholder="ornek@gmail.com" required>
+                    <label class="form-label">E-Posta Adresi</label>
+                    <input type="email" class="form-input" id="regEmail" placeholder="ornek@gmail.com" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="passLabel">Şifre</label>
-                    <input type="password" class="form-input" placeholder="••••••••" required>
+                    <label class="form-label">Şifre</label>
+                    <input type="password" class="form-input" id="regPass" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitRegister">Hesap Oluştur</button>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">Hesap Oluştur</button>
             </form>
 
             <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
-                <span data-i18n="hasAccount">Zaten hesabın var mı?</span> 
-                <a href="#" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" data-i18n="loginLink">Giriş Yap</a>
+                <span>Zaten hesabın var mı?</span> 
+                <a href="#" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;">Giriş Yap</a>
             </div>
 
             <div class="security-badge">
-                🔒 <span data-i18n="securityText">256-bit SSL ile Güvenli Kayıt</span>
+                🔒 256-bit SSL ile Güvenli Kayıt
             </div>
         </div>
     </div>
@@ -815,39 +749,43 @@
     <div class="modal-overlay" id="profileModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
-            <h2 class="modal-title" data-i18n="profileModalTitle">Kullanıcı Ayarları & Profil</h2>
-            <p class="modal-sub" data-i18n="profileModalSub">Profil bilgilerinizi, resminizi ve iletişim detaylarınızı güncelleyin</p>
+            <h2 class="modal-title">Kullanıcı Ayarları & Profil</h2>
+            <p class="modal-sub">Profil bilgilerinizi, resminizi ve iletişim detaylarınızı güncelleyin</p>
             
             <form onsubmit="handleProfileUpdate(event)">
+                <!-- Profil Resmi Sürükle Bırak / Seçim Alanı -->
                 <div class="form-group" style="text-align: center; margin-bottom: 1.5rem;">
-                    <div id="avatarPreviewContainer" style="width: 80px; height: 80px; border-radius: 50%; background: var(--border); margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 1.8rem; border: 2px solid var(--primary-dark);">
-                        👤
+                    <div id="dropZone" 
+                         style="width: 90px; height: 90px; border-radius: 50%; background: var(--border); margin: 0 auto 0.75rem; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 2rem; border: 2px dashed var(--primary-dark); position: relative; cursor: pointer;" 
+                         onclick="document.getElementById('avatarFileInput').click()"
+                         ondragover="handleDragOver(event)"
+                         ondragleave="handleDragLeave(event)"
+                         ondrop="handleDrop(event)">
+                        <span id="avatarPreviewContent">👤</span>
                     </div>
-                    <label class="form-label" style="text-transform: none; color: var(--accent); cursor: pointer;">
-                        Resim URL Adresi Girin
-                        <input type="text" class="form-input" id="profileAvatarUrl" placeholder="https://ornek.com/resim.jpg" style="margin-top: 0.4rem;" oninput="updateAvatarPreview(this.value)">
-                    </label>
+                    <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">Fotoğrafı buraya sürükleyin veya tıklayarak seçin</p>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" data-i18n="nameLabel">Ad Soyad</label>
+                    <label class="form-label">Ad Soyad</label>
                     <input type="text" class="form-input" id="profileFullName" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" data-i18n="phoneLabel">Telefon Numarası</label>
+                    <label class="form-label">Telefon Numarası</label>
                     <input type="tel" class="form-input" id="profilePhone" placeholder="05XXXXXXXXX">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" data-i18n="addressLabel">Adres</label>
+                    <label class="form-label">Adres</label>
                     <input type="text" class="form-input" id="profileAddress" placeholder="Şehir, İlçe">
                 </div>
 
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="saveChangesBtn">Değişiklikleri Kaydet</button>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">Değişiklikleri Kaydet</button>
             </form>
 
-            <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.75rem; border-color: #EF4444; color: #EF4444;" onclick="handleLogout()" data-i18n="logoutBtn">Oturumu Kapat</button>
+            <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.75rem; border-color: #EF4444; color: #EF4444;" onclick="handleLogout()">Oturumu Kapat</button>
         </div>
     </div>
 
@@ -855,15 +793,15 @@
     <div class="modal-overlay" id="postModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
-            <h2 class="modal-title" data-i18n="modalPostTitle">Yeni İlan Oluştur</h2>
-            <p class="modal-sub" data-i18n="modalPostSub">Eşya veya hizmetinizi takasa çıkarın</p>
+            <h2 class="modal-title">Yeni İlan Oluştur</h2>
+            <p class="modal-sub">Eşya veya hizmetinizi takasa çıkarın</p>
             <form onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
-                    <label class="form-label" data-i18n="postTitleLabel">İlan Başlığı</label>
+                    <label class="form-label">İlan Başlığı</label>
                     <input type="text" class="form-input" placeholder="Örn: Bisiklet, Ders..." required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="postCatLabel">Kategori</label>
+                    <label class="form-label">Kategori</label>
                     <select class="form-select">
                         <option>Elektronik</option>
                         <option>Hizmet & Ustalık</option>
@@ -873,10 +811,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" data-i18n="postDescLabel">Ne ile takas etmek istersiniz?</label>
+                    <label class="form-label">Ne ile takas etmek istersiniz?</label>
                     <textarea class="form-textarea" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitPost">İlanı Yayınla</button>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">İlanı Yayınla</button>
             </form>
         </div>
     </div>
@@ -885,12 +823,12 @@
     <div class="modal-overlay" id="favoritesModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('favoritesModal')">&times;</button>
-            <h2 class="modal-title" data-i18n="favTitle">♡ Favori İlanlarım</h2>
+            <h2 class="modal-title">♡ Favori İlanlarım</h2>
             <div style="border-bottom: 1px solid var(--border); padding: 1rem 0; margin-bottom: 1rem;">
                 <p style="font-weight: 700;">Fender Akustik Gitar</p>
                 <p style="font-size: 0.85rem; color: var(--text-muted);">İstanbul • Eşya Takası</p>
             </div>
-            <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;" data-i18n="closeBtn">Kapat</button>
+            <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;">Kapat</button>
         </div>
     </div>
 
@@ -902,192 +840,20 @@
             <p id="dCategory" style="font-size: 0.85rem; color: var(--accent); font-weight:700; margin-bottom: 0.5rem;"></p>
             <p id="dDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; line-height:1.6;"></p>
             <div style="display:flex; gap:0.5rem;">
-                <button class="btn btn-accent" style="flex:1; justify-content:center;" onclick="alert('Takas teklifiniz iletildi!')" data-i18n="offerBtn">Takas Teklifi Et</button>
-                <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="alert('Mesajlaşma paneli açılıyor...')" data-i18n="msgBtn">Mesaj Gönder</button>
+                <button class="btn btn-accent" style="flex:1; justify-content:center;" onclick="checkAuthAndAction('offer')">Takas Teklifi Et</button>
+                <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="checkAuthAndAction('msg')">Mesaj Gönder</button>
             </div>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        let currentUser = {
-            isLoggedIn: false,
-            name: '',
-            email: '',
-            phone: '',
-            address: '',
-            avatar: ''
-        };
+        // Tarayıcı hafızasından kayıtlı kullanıcıları ve mevcut oturumu yükle
+        let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false };
 
         let selectedCategory = 'all';
         let currentLang = 'tr';
-
-        const i18n = {
-            tr: {
-                tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
-                navFav: "♡ Favoriler",
-                navLogin: "Giriş Yap",
-                navRegister: "Kayıt Ol",
-                navPost: "+ İlan Ver",
-                heroBadge: "SÜRDÜRÜLEBİLİR & DOĞAL TAKAS",
-                heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
-                heroSub: "Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.",
-                btnExplore: "İlanları Keşfet",
-                btnCreate: "İlan Oluştur",
-                catAll: "Tümü",
-                catElec: "Elektronik",
-                catHome: "Ev & Yaşam",
-                catEdu: "Eğitim",
-                catServ: "Ustalık & Hizmet",
-                catMusic: "Hobi & Müzik",
-                filterTitle: "Filtrele",
-                searchLabel: "Arama",
-                searchPh: "İlan ara...",
-                typeLabel: "Takas Türü",
-                optAll: "Tümü",
-                optItem: "Eşya Takası",
-                optService: "Hizmet Takası",
-                cityLabel: "Şehir",
-                optAllCities: "Tüm Şehirler",
-                optNewest: "En yeniler",
-                optPopular: "Popüler olanlar",
-                footerDesc: "Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.",
-                fCol1Title: "Kurumsal",
-                fAbout: "Biz Kimiz",
-                fVision: "Vizyonumuz & Misyonumuz",
-                fCareers: "Kariyer",
-                fSust: "Sürdürülebilirlik",
-                fCol2Title: "Destek & Yardım",
-                fHowItWorks: "Nasıl Çalışır?",
-                fSafety: "Güvenli Takas Rehberi",
-                fFaq: "Sıkça Sorulan Sorular",
-                fContact: "İletişim",
-                fCol3Title: "Yasal",
-                fTerms: "Kullanım Koşulları",
-                fPrivacy: "Gizlilik Politikası",
-                fKvkk: "KVKK Aydınlatma Metni",
-                fCookies: "Çerez Tercihleri",
-                copyRights: "Tüm hakları saklıdır.",
-                modalLoginTitle: "Takaslasana'ya Giriş Yap",
-                modalLoginSub: "İlan vermek ve takas yapmak için giriş yapın",
-                modalRegisterTitle: "Takaslasana'ya Kayıt Ol",
-                modalRegisterSub: "Hemen ücretsiz hesap oluştur ve takasa başla",
-                googleLogin: "Google ile Devam Et",
-                dividerOr: "veya e-posta ile",
-                nameLabel: "Ad Soyad",
-                emailLabel: "E-Posta Adresi",
-                passLabel: "Şifre",
-                submitLogin: "Oturum Aç",
-                submitRegister: "Hesap Oluştur",
-                noAccount: "Hesabın yok mu?",
-                registerLink: "Kayıt Ol",
-                hasAccount: "Zaten hesabın var mı?",
-                loginLink: "Giriş Yap",
-                securityText: "256-bit SSL ile Güvenli İşlem",
-                profileModalTitle: "Kullanıcı Ayarları & Profil",
-                profileModalSub: "Profil bilgilerinizi, resminizi ve iletişim detaylarınızı güncelleyin",
-                phoneLabel: "Telefon Numarası",
-                addressLabel: "Adres",
-                saveChangesBtn: "Değişiklikleri Kaydet",
-                logoutBtn: "Oturumu Kapat",
-                modalPostTitle: "Yeni İlan Oluştur",
-                modalPostSub: "Eşya veya hizmetinizi takasa çıkarın",
-                postTitleLabel: "İlan Başlığı",
-                postCatLabel: "Kategori",
-                postDescLabel: "Ne ile takas etmek istersiniz?",
-                submitPost: "İlanı Yayınla",
-                favTitle: "♡ Favori İlanlarım",
-                closeBtn: "Kapat",
-                offerBtn: "Takas Teklifi Et",
-                msgBtn: "Mesaj Gönder",
-                activeListings: "Aktif İlanlar",
-                itemBadge: "Eşya",
-                serviceBadge: "Hizmet",
-                noResults: "Aramanıza uygun ilan bulunamadı."
-            },
-            en: {
-                tagline: "No money needed; swap with your skills or items!",
-                navFav: "♡ Favorites",
-                navLogin: "Sign In",
-                navRegister: "Sign Up",
-                navPost: "+ Post Ad",
-                heroBadge: "SUSTAINABLE & NATURAL SWAP",
-                heroTitle: "Barter your items or skills, <span>get what you need.</span>",
-                heroSub: "Share your unused items or skills; get the products or services you want without spending money.",
-                btnExplore: "Explore Ads",
-                btnCreate: "Create Listing",
-                catAll: "All",
-                catElec: "Electronics",
-                catHome: "Home & Living",
-                catEdu: "Education",
-                catServ: "Services & Skills",
-                catMusic: "Hobbies & Music",
-                filterTitle: "Filter",
-                searchLabel: "Search",
-                searchPh: "Search listings...",
-                typeLabel: "Barter Type",
-                optAll: "All",
-                optItem: "Item Swap",
-                optService: "Service Swap",
-                cityLabel: "City",
-                optAllCities: "All Cities",
-                optNewest: "Newest",
-                optPopular: "Popular",
-                footerDesc: "Community-driven, sustainable, and secure barter platform without money.",
-                fCol1Title: "Corporate",
-                fAbout: "About Us",
-                fVision: "Vision & Mission",
-                fCareers: "Careers",
-                fSust: "Sustainability",
-                fCol2Title: "Support & Help",
-                fHowItWorks: "How It Works?",
-                fSafety: "Safe Swap Guide",
-                fFaq: "FAQ",
-                fContact: "Contact",
-                fCol3Title: "Legal",
-                fTerms: "Terms of Use",
-                fPrivacy: "Privacy Policy",
-                fKvkk: "Data Protection (KVKK)",
-                fCookies: "Cookie Preferences",
-                copyRights: "All rights reserved.",
-                modalLoginTitle: "Login to Takaslasana",
-                modalLoginSub: "Log in to post ads and swap items",
-                modalRegisterTitle: "Sign Up for Takaslasana",
-                modalRegisterSub: "Create a free account instantly and start swapping",
-                googleLogin: "Continue with Google",
-                dividerOr: "or via email",
-                nameLabel: "Full Name",
-                emailLabel: "Email Address",
-                passLabel: "Password",
-                submitLogin: "Sign In",
-                submitRegister: "Create Account",
-                noAccount: "Don't have an account?",
-                registerLink: "Sign Up",
-                hasAccount: "Already have an account?",
-                loginLink: "Sign In",
-                securityText: "Secured with 256-bit SSL",
-                profileModalTitle: "User Settings & Profile",
-                profileModalSub: "Update your profile info, avatar and contact details",
-                phoneLabel: "Phone Number",
-                addressLabel: "Address",
-                saveChangesBtn: "Save Changes",
-                logoutBtn: "Log Out",
-                modalPostTitle: "Create New Listing",
-                modalPostSub: "Put your item or service up for swap",
-                postTitleLabel: "Listing Title",
-                postCatLabel: "Category",
-                postDescLabel: "What would you like to swap for?",
-                submitPost: "Publish Listing",
-                favTitle: "♡ My Favorites",
-                closeBtn: "Close",
-                offerBtn: "Make Swap Offer",
-                msgBtn: "Send Message",
-                activeListings: "Active Listings",
-                itemBadge: "Item",
-                serviceBadge: "Service",
-                noResults: "No listings found matching your search."
-            }
-        };
 
         const rawListings = [
             { id: 1, title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
@@ -1098,7 +864,7 @@
             { id: 6, title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
             { id: 7, title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
             { id: 8, title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
-            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzikal", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
+            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
@@ -1113,7 +879,6 @@
                     { freq: 880.00, time: 0.88, duration: 0.4 },
                     { freq: 1046.50, time: 1.35, duration: 0.5 }
                 ];
-
                 melody.forEach(note => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
@@ -1132,28 +897,27 @@
         function renderListings(items = rawListings) {
             const grid = document.getElementById('listingsGrid');
             const headerCount = document.getElementById('listingsCountHeader');
-            
             if (headerCount) {
-                headerCount.textContent = `${i18n[currentLang].activeListings} (${items.length})`;
+                headerCount.textContent = `Aktif İlanlar (${items.length})`;
             }
 
             if (items.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">${i18n[currentLang].noResults}</p>`;
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">Aramanıza uygun ilan bulunamadı.</p>`;
                 return;
             }
 
             grid.innerHTML = items.map(item => `
                 <div class="card" onclick="openDetailModal(${item.id})">
                     <div class="card-img-wrap">
-                        <img src="${item.img}" alt="${item.title[currentLang]}" class="card-img" loading="lazy">
+                        <img src="${item.img}" alt="${item.title.tr}" class="card-img" loading="lazy">
                         <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
-                            ${item.type === 'item' ? i18n[currentLang].itemBadge : i18n[currentLang].serviceBadge}
+                            ${item.type === 'item' ? 'Eşya' : 'Hizmet'}
                         </span>
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">${item.title[currentLang]}</h3>
+                        <h3 class="card-title">${item.title.tr}</h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
-                            ${item.desc[currentLang]}
+                            ${item.desc.tr}
                         </p>
                         <div class="card-footer">
                             <span>📍 ${item.city}</span>
@@ -1170,13 +934,11 @@
             const cityVal = document.getElementById('citySelect')?.value || 'all';
 
             const filtered = rawListings.filter(item => {
-                const matchesSearch = item.title[currentLang].toLowerCase().includes(searchVal) || 
-                                      item.desc[currentLang].toLowerCase().includes(searchVal);
+                const matchesSearch = item.title.tr.toLowerCase().includes(searchVal) || 
+                                      item.desc.tr.toLowerCase().includes(searchVal);
                 const matchesType = typeVal === 'all' || item.type === typeVal;
                 const matchesCity = cityVal === 'all' || item.city === cityVal;
-                const matchesCat = selectedCategory === 'all' || 
-                                   item.cat.includes(selectedCategory) || 
-                                   (selectedCategory === 'Hizmet' && item.cat === 'Hizmet');
+                const matchesCat = selectedCategory === 'all' || item.cat.includes(selectedCategory);
 
                 return matchesSearch && matchesType && matchesCity && matchesCat;
             });
@@ -1189,27 +951,6 @@
             btn.classList.add('active');
             selectedCategory = btn.getAttribute('data-cat') || 'all';
             filterListings();
-        }
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'tr' ? 'en' : 'tr';
-            document.getElementById('langBtn').textContent = currentLang === 'tr' ? 'TR 🇹🇷' : 'EN 🇬🇧';
-
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (i18n[currentLang][key]) {
-                    el.innerHTML = i18n[currentLang][key];
-                }
-            });
-
-            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-                const key = el.getAttribute('data-i18n-ph');
-                if (i18n[currentLang][key]) {
-                    el.placeholder = i18n[currentLang][key];
-                }
-            });
-
-            renderListings();
         }
 
         function showModal(id) {
@@ -1225,8 +966,28 @@
             showModal(openId);
         }
 
+        // --- YETKİ KONTROLÜ (Giriş yapmamış kullanıcı işlem yapamaz) ---
+        function checkAuthAndAction(actionType) {
+            if (!currentUser.isLoggedIn) {
+                alert('Bu işlemi yapabilmek için önce giriş yapmalısınız veya kayıt olmalısınız.');
+                showModal('loginModal');
+                return false;
+            }
+            if (actionType === 'favorites') {
+                showModal('favoritesModal');
+            } else if (actionType === 'offer') {
+                alert('Takas teklifiniz başarıyla iletildi!');
+                closeModal('detailModal');
+            } else if (actionType === 'msg') {
+                alert('Mesajlaşma paneli açılıyor...');
+                closeModal('detailModal');
+            }
+            return true;
+        }
+
         function handlePostAdClick() {
             if (!currentUser.isLoggedIn) {
+                alert('İlan verebilmek için önce giriş yapmalısınız!');
                 showModal('loginModal');
             } else {
                 showModal('postModal');
@@ -1236,56 +997,72 @@
         function openDetailModal(id) {
             const item = rawListings.find(x => x.id === id);
             if (!item) return;
-            document.getElementById('dTitle').textContent = item.title[currentLang];
-            document.getElementById('dCategory').textContent = `${item.cat} • ${item.city} (${item.type === 'item' ? i18n[currentLang].optItem : i18n[currentLang].optService})`;
-            document.getElementById('dDesc').textContent = item.desc[currentLang];
+            document.getElementById('dTitle').textContent = item.title.tr;
+            document.getElementById('dCategory').textContent = `${item.cat} • ${item.city} (${item.type === 'item' ? 'Eşya Takası' : 'Hizmet Takası'})`;
+            document.getElementById('dDesc').textContent = item.desc.tr;
             showModal('detailModal');
         }
 
-        function mockGoogleLogin() {
-            currentUser = {
-                isLoggedIn: true,
-                name: 'Ahmet Yılmaz',
-                email: 'ahmet@gmail.com',
-                phone: '0555 444 33 22',
-                address: 'İstanbul, Kadıköy',
-                avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'
-            };
-            updateUserUI();
-            closeModal('loginModal');
-            closeModal('registerModal');
-            alert(currentLang === 'tr' ? 'Google ile başarıyla giriş yapıldı!' : 'Successfully logged in with Google!');
-        }
-
-        function handleLoginFormSubmit(e) {
-            e.preventDefault();
-            currentUser = {
-                isLoggedIn: true,
-                name: 'Mehmet Demir',
-                email: 'mehmet@gmail.com',
-                phone: '0532 111 22 33',
-                address: 'Ankara, Çankaya',
-                avatar: ''
-            };
-            updateUserUI();
-            closeModal('loginModal');
-            alert(currentLang === 'tr' ? 'Giriş başarılı!' : 'Login successful!');
-        }
-
+        // --- GİRİŞ VE KAYIT İŞLEMLERİ (Lokal Hafıza Kontrollü) ---
         function handleRegisterFormSubmit(e) {
             e.preventDefault();
-            const nameInput = document.getElementById('regName').value;
-            currentUser = {
-                isLoggedIn: true,
-                name: nameInput || 'Yeni Kullanıcı',
-                email: 'yeni@gmail.com',
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPass').value;
+
+            // E-posta ile daha önce kayıt olunmuş mu kontrol et
+            const existingUser = users.find(u => u.email === email);
+            if (existingUser) {
+                alert('Bu e-posta adresi ile zaten bir hesap var! Lütfen giriş yapın.');
+                switchModal('registerModal', 'loginModal');
+                return;
+            }
+
+            const newUser = {
+                name,
+                email,
+                password,
                 phone: '',
                 address: '',
                 avatar: ''
             };
+
+            users.push(newUser);
+            localStorage.setItem('takaslasana_users', JSON.stringify(users));
+
+            currentUser = { isLoggedIn: true, ...newUser };
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+
             updateUserUI();
             closeModal('registerModal');
-            alert(currentLang === 'tr' ? 'Kayıt işlemi başarılı! Hoş geldiniz.' : 'Registration successful! Welcome.');
+            alert(`Kayıt başarılı! Hoş geldiniz, ${name}.`);
+        }
+
+        function handleLoginFormSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPass').value;
+
+            // Kullanıcı kayıtlı mı kontrol et
+            const user = users.find(u => u.email === email);
+            if (!user) {
+                alert('Bu e-posta adresi ile kayıtlı bir hesap bulunamadı! Lütfen önce kayıt olun.');
+                switchModal('loginModal', 'registerModal');
+                return;
+            }
+
+            if (user.password !== password) {
+                alert('Girdiğiniz şifre hatalı!');
+                return;
+            }
+
+            // Doğru kullanıcıyı yükle
+            currentUser = { isLoggedIn: true, ...user };
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+
+            updateUserUI();
+            closeModal('loginModal');
+            alert(`Tekrar hoş geldiniz, ${user.name}!`);
         }
 
         function updateUserUI() {
@@ -1313,18 +1090,60 @@
         }
 
         function openProfileSettings() {
-            document.getElementById('profileFullName').value = currentUser.name;
-            document.getElementById('profilePhone').value = currentUser.phone;
-            document.getElementById('profileAddress').value = currentUser.address;
-            document.getElementById('profileAvatarUrl').value = currentUser.avatar;
-            updateAvatarPreview(currentUser.avatar);
+            document.getElementById('profileFullName').value = currentUser.name || '';
+            document.getElementById('profilePhone').value = currentUser.phone || '';
+            document.getElementById('profileAddress').value = currentUser.address || '';
+            updateAvatarPreview(currentUser.avatar || '');
             showModal('profileModal');
         }
 
+        // --- RESİM YÜKLEME (Sürükle-Bırak & Dosya Seçimi) ---
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').style.borderColor = 'var(--accent)';
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').style.borderColor = 'var(--primary-dark)';
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').style.borderColor = 'var(--primary-dark)';
+            const files = e.dataTransfer.files;
+            if (files && files[0]) {
+                processImageFile(files[0]);
+            }
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            if (files && files[0]) {
+                processImageFile(files[0]);
+            }
+        }
+
+        function processImageFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Lütfen geçerli bir resim dosyası seçin.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                currentUser.avatar = event.target.result;
+                updateAvatarPreview(currentUser.avatar);
+            };
+            reader.readAsDataURL(file);
+        }
+
         function updateAvatarPreview(url) {
-            const container = document.getElementById('avatarPreviewContainer');
+            const container = document.getElementById('avatarPreviewContent');
             if (url && url.trim() !== '') {
-                container.innerHTML = `<img src="${url}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.parentNode.innerHTML='👤';">`;
+                container.innerHTML = `<img src="${url}" style="width: 100%; height: 100%; object-fit: cover;">`;
             } else {
                 container.innerHTML = `👤`;
             }
@@ -1332,33 +1151,34 @@
 
         function handleProfileUpdate(e) {
             e.preventDefault();
-            currentUser.name = document.getElementById('profileFullName').value;
-            currentUser.phone = document.getElementById('profilePhone').value;
-            currentUser.address = document.getElementById('profileAddress').value;
-            currentUser.avatar = document.getElementById('profileAvatarUrl').value;
+            currentUser.name = document.getElementById('profileFullName').value.trim();
+            currentUser.phone = document.getElementById('profilePhone').value.trim();
+            currentUser.address = document.getElementById('profileAddress').value.trim();
 
+            // Kullanıcıyı ana listemde güncelle ve kaydet
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex] = { ...currentUser };
+                localStorage.setItem('takaslasana_users', JSON.stringify(users));
+            }
+
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
             updateUserUI();
             closeModal('profileModal');
-            alert(currentLang === 'tr' ? 'Profil bilgileriniz güncellendi!' : 'Profile updated successfully!');
+            alert('Profil bilgileriniz güncellendi!');
         }
 
         function handleLogout() {
-            currentUser = {
-                isLoggedIn: false,
-                name: '',
-                email: '',
-                phone: '',
-                address: '',
-                avatar: ''
-            };
+            currentUser = { isLoggedIn: false };
+            localStorage.removeItem('takaslasana_current_user');
             updateUserUI();
             closeModal('profileModal');
-            alert(currentLang === 'tr' ? 'Oturum kapatıldı.' : 'Logged out successfully.');
+            alert('Oturum kapatıldı.');
         }
 
         function handleFormSubmit(e) {
             e.preventDefault();
-            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Your listing has been published!');
+            alert('İlanınız başarıyla yayınlandı!');
             e.target.reset();
             closeModal('postModal');
         }
@@ -1369,6 +1189,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             renderListings();
+            updateUserUI(); // Sayfa açıldığında giriş durumunu kontrol et
 
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
