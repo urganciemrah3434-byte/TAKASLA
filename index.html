@@ -203,7 +203,7 @@
             gap: 1rem;
         }
 
-        /* --- CATEGories --- */
+        /* --- CATEGORIES --- */
         .categories-nav {
             max-width: 1280px;
             margin: 0 auto 2rem;
@@ -961,42 +961,56 @@
         ];
 
         function playLogoSound() {
-            // Melodik jingle efekti (Web Audio API)
+            // Şarkı akoru havası veren neşeli jingle (Web Audio API)
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const notes = [523.25, 659.25, 783.99]; // C5, E5, G5 (Mutlu akor tonu)
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Mutlu ve geniş akor tonu)
                 notes.forEach((freq, index) => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.08);
-                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime + index * 0.08);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + index * 0.08 + 0.3);
+                    osc.type = 'triangle'; // Yumuşak, flüt benzeri ton
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.1);
+                    gain.gain.setValueAtTime(0.06, audioCtx.currentTime + index * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + index * 0.1 + 0.35);
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-                    osc.start(audioCtx.currentTime + index * 0.08);
-                    osc.stop(audioCtx.currentTime + index * 0.08 + 0.3);
+                    osc.start(audioCtx.currentTime + index * 0.1);
+                    osc.stop(audioCtx.currentTime + index * 0.1 + 0.35);
                 });
             } catch(e) {}
 
-            // Melodik Kadın Sesi ile "Takaslasana"
+            // Şarkı söyler gibi melodiik kadın sesi
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Önceki sesleri kes
-                const utterance = new SpeechSynthesisUtterance('Takaslasana');
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance('Takaslasanaaa');
                 utterance.lang = 'tr-TR';
-                utterance.pitch = 1.35; // Daha tatlı, neşeli ve kadınsı tiz ton
-                utterance.rate = 0.95;  // Akıcı ve kulağa hoş gelen hız
+                utterance.pitch = 1.8; // Kesinlikle ince, tatlı ve kadınsı tını
+                utterance.rate = 0.9;  // Şarkı söyler gibi yumuşak ve akıcı hız
 
-                // Türkçe kadın sesini bulmaya çalış
                 const voices = window.speechSynthesis.getVoices();
-                const femaleVoice = voices.find(v => v.lang.startsWith('tr') && (v.name.toLowerCase().includes('female') || v.name.includes('Yelda') || v.name.includes('Filiz') || v.name.includes('Google')));
+                // Türkçe kadın seslerini veya yaygın kadın ses tanımlayıcılarını yakala
+                const femaleVoice = voices.find(v => 
+                    v.lang.toLowerCase().includes('tr') && 
+                    (v.name.toLowerCase().includes('female') || 
+                     v.name.toLowerCase().includes('kadın') || 
+                     v.name.toLowerCase().includes('yelda') || 
+                     v.name.toLowerCase().includes('filiz') || 
+                     v.name.toLowerCase().includes('zira') ||
+                     v.name.toLowerCase().includes('seda'))
+                );
+                
                 if (femaleVoice) {
                     utterance.voice = femaleVoice;
+                } else {
+                    const trVoices = voices.filter(v => v.lang.toLowerCase().includes('tr'));
+                    if (trVoices.length > 0) {
+                        utterance.voice = trVoices[0];
+                    }
                 }
 
                 setTimeout(() => {
                     window.speechSynthesis.speak(utterance);
-                }, 150);
+                }, 100);
             }
         }
 
@@ -1150,7 +1164,6 @@
                 searchInput.addEventListener('input', filterListings);
             }
             
-            // Seslerin yüklenmesi için tetikleme
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.getVoices();
             }
