@@ -564,7 +564,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo-wrapper">
-                <a href="#" class="logo-area" onclick="playLogoSound(); return false;" title="Dinlemek için tıklayın">
+                <a href="#" class="logo-area" onclick="playLogoSound(); return false;" title="Jingle'ı dinlemek için tıklayın">
                     <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
                         <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
                         <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
@@ -956,62 +956,42 @@
             { id: 6, title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
             { id: 7, title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
             { id: 8, title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
-            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
+            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzikal", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
         function playLogoSound() {
-            // Şarkı akoru havası veren neşeli jingle (Web Audio API)
+            // Şarkı ritmini ve melodisini veren Web Audio API jingle motoru ("Takaslasana...")
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Mutlu ve geniş akor tonu)
-                notes.forEach((freq, index) => {
+                
+                // Nota frekansları (Melodik şarkı formu: Ta-kas-la-sa-na, Pa-ra-ya ge-rek yok...)
+                const melody = [
+                    { freq: 523.25, time: 0.00, duration: 0.2 }, // Ta
+                    { freq: 587.33, time: 0.22, duration: 0.2 }, // kas
+                    { freq: 659.25, time: 0.44, duration: 0.2 }, // la
+                    { freq: 783.99, time: 0.66, duration: 0.2 }, // sa
+                    { freq: 880.00, time: 0.88, duration: 0.4 }, // na~~~
+                    { freq: 1046.50, time: 1.35, duration: 0.5 } // Ffinal vuruş
+                ];
+
+                melody.forEach(note => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
-                    osc.type = 'triangle'; // Yumuşak, flüt benzeri ton
-                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.1);
-                    gain.gain.setValueAtTime(0.06, audioCtx.currentTime + index * 0.1);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + index * 0.1 + 0.35);
+                    
+                    osc.type = 'sine'; // Yumuşak ve tatlı vokal benzeri ton
+                    osc.frequency.setValueAtTime(note.freq, audioCtx.currentTime + note.time);
+                    
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime + note.time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + note.duration);
+                    
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-                    osc.start(audioCtx.currentTime + index * 0.1);
-                    osc.stop(audioCtx.currentTime + index * 0.1 + 0.35);
+                    
+                    osc.start(audioCtx.currentTime + note.time);
+                    osc.stop(audioCtx.currentTime + note.time + note.duration);
                 });
             } catch(e) {}
-
-            // Şarkı söyler gibi melodiik kadın sesi
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance('Takaslasanaaa');
-                utterance.lang = 'tr-TR';
-                utterance.pitch = 1.8; // Kesinlikle ince, tatlı ve kadınsı tını
-                utterance.rate = 0.9;  // Şarkı söyler gibi yumuşak ve akıcı hız
-
-                const voices = window.speechSynthesis.getVoices();
-                // Türkçe kadın seslerini veya yaygın kadın ses tanımlayıcılarını yakala
-                const femaleVoice = voices.find(v => 
-                    v.lang.toLowerCase().includes('tr') && 
-                    (v.name.toLowerCase().includes('female') || 
-                     v.name.toLowerCase().includes('kadın') || 
-                     v.name.toLowerCase().includes('yelda') || 
-                     v.name.toLowerCase().includes('filiz') || 
-                     v.name.toLowerCase().includes('zira') ||
-                     v.name.toLowerCase().includes('seda'))
-                );
-                
-                if (femaleVoice) {
-                    utterance.voice = femaleVoice;
-                } else {
-                    const trVoices = voices.filter(v => v.lang.toLowerCase().includes('tr'));
-                    if (trVoices.length > 0) {
-                        utterance.voice = trVoices[0];
-                    }
-                }
-
-                setTimeout(() => {
-                    window.speechSynthesis.speak(utterance);
-                }, 100);
-            }
         }
 
         function renderListings(items = rawListings) {
@@ -1162,10 +1142,6 @@
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
                 searchInput.addEventListener('input', filterListings);
-            }
-            
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.getVoices();
             }
         });
     </script>
