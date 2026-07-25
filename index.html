@@ -45,7 +45,7 @@
             cursor: default;
         }
 
-        a, button, input, select, .cat-chip, .card, .close-btn, .google-account-item {
+        a, button, input, select, .cat-chip, .card, .close-btn {
             cursor: pointer;
         }
 
@@ -515,66 +515,6 @@
             box-shadow: 0 1px 3px rgba(60,64,67,0.15);
         }
 
-        /* --- GOOGLE ACCOUNT CHOOSER STYLES --- */
-        .google-account-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .google-account-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            background: var(--surface);
-            transition: background 0.2s, border-color 0.2s;
-            text-align: left;
-            width: 100%;
-        }
-
-        .google-account-item:hover {
-            background: var(--bg-body);
-            border-color: #4285F4;
-        }
-
-        .google-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #4285F4;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-
-        .google-info {
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .google-name {
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: var(--text-main);
-        }
-
-        .google-email {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
         .divider {
             display: flex;
             align-items: center;
@@ -640,7 +580,8 @@
                 <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
                 <button class="btn btn-outline" data-i18n="navFav" onclick="showModal('favoritesModal')">♡ Favoriler</button>
-                <button class="btn btn-outline" id="loginNavBtn" data-i18n="navLogin" onclick="handleLoginButtonClick()">Giriş Yap</button>
+                <button class="btn btn-outline" id="loginNavBtn" data-i18n="navLogin" onclick="showModal('loginModal')">Giriş Yap</button>
+                <button class="btn btn-outline" style="border-color: var(--primary-dark); color: var(--primary-dark);" data-i18n="navRegister" onclick="showModal('registerModal')">Kayıt Ol</button>
                 <button class="btn btn-accent" data-i18n="navPost" onclick="handlePostAdClick()">+ İlan Ver</button>
             </div>
         </div>
@@ -780,7 +721,7 @@
             <h2 class="modal-title" data-i18n="modalLoginTitle">Takaslasana'ya Giriş Yap</h2>
             <p class="modal-sub" data-i18n="modalLoginSub">İlan vermek ve takas yapmak için giriş yapın</p>
             
-            <button class="btn-google" onclick="openGoogleAccountChooser()">
+            <button class="btn-google" onclick="googleLogin()">
                 <svg width="20" height="20" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -795,7 +736,7 @@
             <form onsubmit="handleLoginFormSubmit(event)">
                 <div class="form-group">
                     <label class="form-label" data-i18n="emailLabel">E-Posta Adresi</label>
-                    <input type="email" id="loginEmail" class="form-input" placeholder="ornek@gmail.com" required>
+                    <input type="email" class="form-input" placeholder="ornek@gmail.com" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" data-i18n="passLabel">Şifre</label>
@@ -804,117 +745,59 @@
                 <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitLogin">Oturum Aç</button>
             </form>
 
+            <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+                <span data-i18n="noAccount">Hesabın yok mu?</span> 
+                <a href="#" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" data-i18n="registerLink">Kayıt Ol</a>
+            </div>
+
             <div class="security-badge">
                 🔒 <span data-i18n="securityText">256-bit SSL ile Güvenli Giriş</span>
             </div>
         </div>
     </div>
 
-    <!-- 1. GOOGLE HESAP SEÇİCİ MODALI -->
-    <div class="modal-overlay" id="googleAccountModal">
+    <!-- KAYIT OL MODALI -->
+    <div class="modal-overlay" id="registerModal">
         <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('googleAccountModal')">&times;</button>
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <svg width="36" height="36" viewBox="0 0 24 24" style="margin-bottom: 0.5rem;">
+            <button class="close-btn" onclick="closeModal('registerModal')">&times;</button>
+            <h2 class="modal-title" data-i18n="modalRegisterTitle">Takaslasana'ya Kayıt Ol</h2>
+            <p class="modal-sub" data-i18n="modalRegisterSub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
+            
+            <button class="btn-google" onclick="googleLogin()">
+                <svg width="20" height="20" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                 </svg>
-                <h2 style="font-size: 1.2rem; font-weight: 700;">Google ile oturum açın</h2>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">takaslasana.com web sitesine devam etmek için bir hesap seçin</p>
-            </div>
+                <span data-i18n="googleLogin">Google ile Devam Et</span>
+            </button>
 
-            <div class="google-account-list">
-                <button class="google-account-item" onclick="proceedToPassword('Kullanıcı Hesabım', 'kullanici@gmail.com')">
-                    <div class="google-avatar" style="background: #2D6A4F;">K</div>
-                    <div class="google-info">
-                        <span class="google-name">Kullanıcı Hesabım</span>
-                        <span class="google-email">kullanici@gmail.com</span>
-                    </div>
-                </button>
+            <div class="divider" data-i18n="dividerOr">veya e-posta ile</div>
 
-                <button class="google-account-item" onclick="proceedToPassword('Ahmet (Test Hesabı)', 'ahmet.test@gmail.com')">
-                    <div class="google-avatar" style="background: #4285F4;">A</div>
-                    <div class="google-info">
-                        <span class="google-name">Ahmet (Test Hesabı)</span>
-                        <span class="google-email">ahmet.test@gmail.com</span>
-                    </div>
-                </button>
-
-                <button class="google-account-item" onclick="openNewGoogleEmailModal()">
-                    <div class="google-avatar" style="background: #6B7280;">+</div>
-                    <div class="google-info">
-                        <span class="google-name">Başka bir hesap ekle</span>
-                        <span class="google-email">Yeni bir Gmail adresi girin</span>
-                    </div>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. YENİ GMAIL GİRİŞ MODALI (Eğer "Başka hesap ekle" denirse) -->
-    <div class="modal-overlay" id="googleEmailModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('googleEmailModal')">&times;</button>
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-                <svg width="32" height="32" viewBox="0 0 24 24" style="margin-bottom: 0.5rem;">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <h2 style="font-size: 1.2rem; font-weight: 700;">Oturum açın</h2>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Google Hesabınızı kullanın</p>
-            </div>
-            <form onsubmit="handleCustomEmailSubmit(event)">
+            <form onsubmit="handleRegisterFormSubmit(event)">
                 <div class="form-group">
-                    <input type="email" id="customGmailInput" class="form-input" placeholder="E-posta veya telefon" required>
+                    <label class="form-label" data-i18n="nameLabel">Ad Soyad</label>
+                    <input type="text" class="form-input" placeholder="Adınız Soyadınız" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
-                    <button type="button" class="btn btn-outline" onclick="backToAccountChooser()">Geri</button>
-                    <button type="submit" class="btn btn-accent">İleri</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 3. GOOGLE ŞİFRE GİRİŞ MODALI (GERÇEKÇİ ADIM) -->
-    <div class="modal-overlay" id="googlePasswordModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('googlePasswordModal')">&times;</button>
-            <div style="text-align: center; margin-bottom: 1.2rem;">
-                <svg width="32" height="32" viewBox="0 0 24 24" style="margin-bottom: 0.5rem;">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                </svg>
-                <h2 style="font-size: 1.2rem; font-weight: 700;">Hoş Geldiniz</h2>
-                <p id="passwordPromptEmail" style="font-size: 0.85rem; color: var(--primary-dark); font-weight: 600; margin-top: 0.3rem;"></p>
-            </div>
-            <form onsubmit="handleGooglePasswordSubmit(event)">
                 <div class="form-group">
-                    <label class="form-label">Google Şifrenizi Girin</label>
-                    <input type="password" id="googlePasswordInput" class="form-input" placeholder="••••••••" required>
+                    <label class="form-label" data-i18n="emailLabel">E-Posta Adresi</label>
+                    <input type="email" class="form-input" placeholder="ornek@gmail.com" required>
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
-                    <button type="button" class="btn btn-outline" onclick="backToAccountChooser()">Başka hesap?</button>
-                    <button type="submit" class="btn btn-accent">Giriş Yap</button>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="passLabel">Şifre</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required>
                 </div>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitRegister">Hesap Oluştur</button>
             </form>
-        </div>
-    </div>
 
-    <!-- PROFİL / ÇIKIŞ YAP MODALI -->
-    <div class="modal-overlay" id="profileModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
-            <h2 class="modal-title" id="profileModalTitle">Hesabım</h2>
-            <p class="modal-sub" id="profileModalEmail"></p>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
-                <button class="btn btn-outline" onclick="closeModal('profileModal'); showModal('favoritesModal');" data-i18n="navFav">♡ Favorilerim</button>
-                <button class="btn btn-accent" style="background: #DC2626; justify-content: center;" onclick="logout()" data-i18n="logoutBtn">Oturumu Kapat / Çıkış Yap</button>
+            <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+                <span data-i18n="hasAccount">Zaten hesabın var mı?</span> 
+                <a href="#" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" data-i18n="loginLink">Giriş Yap</a>
+            </div>
+
+            <div class="security-badge">
+                🔒 <span data-i18n="securityText">256-bit SSL ile Güvenli Kayıt</span>
             </div>
         </div>
     </div>
@@ -927,13 +810,13 @@
             <form onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
                     <label class="form-label" data-i18n="postTitleLabel">İlan Başlığı</label>
-                    <input type="text" class="form-input" id="newAdTitle" placeholder="Örn: Bisiklet, Ders..." required>
+                    <input type="text" class="form-input" placeholder="Örn: Bisiklet, Ders..." required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" data-i18n="postCatLabel">Kategori</label>
-                    <select class="form-input" id="newAdCat">
+                    <select class="form-select">
                         <option>Elektronik</option>
-                        <option>Hizmet</option>
+                        <option>Hizmet & Ustalık</option>
                         <option>Eğitim</option>
                         <option>Ev & Yaşam</option>
                         <option>Hobi & Müzik</option>
@@ -941,7 +824,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" data-i18n="postDescLabel">Ne ile takas etmek istersiniz?</label>
-                    <textarea class="form-textarea" id="newAdDesc" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
+                    <textarea class="form-textarea" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
                 </div>
                 <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitPost">İlanı Yayınla</button>
             </form>
@@ -975,20 +858,16 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        let currentUser = JSON.parse(localStorage.getItem('takas_user')) || null;
-        let isLoggedIn = currentUser !== null;
+        let isLoggedIn = false;
         let selectedCategory = 'all';
         let currentLang = 'tr';
-        
-        // Geçici tutulan kimlik doğrulama değişkenleri
-        let pendingName = '';
-        let pendingEmail = '';
 
         const i18n = {
             tr: {
                 tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
                 navFav: "♡ Favoriler",
                 navLogin: "Giriş Yap",
+                navRegister: "Kayıt Ol",
                 navPost: "+ İlan Ver",
                 heroBadge: "SÜRDÜRÜLEBİLİR & DOĞAL TAKAS",
                 heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
@@ -1031,12 +910,20 @@
                 copyRights: "Tüm hakları saklıdır.",
                 modalLoginTitle: "Takaslasana'ya Giriş Yap",
                 modalLoginSub: "İlan vermek ve takas yapmak için giriş yapın",
+                modalRegisterTitle: "Takaslasana'ya Kayıt Ol",
+                modalRegisterSub: "Hemen ücretsiz hesap oluştur ve takasa başla",
                 googleLogin: "Google ile Devam Et",
                 dividerOr: "veya e-posta ile",
+                nameLabel: "Ad Soyad",
                 emailLabel: "E-Posta Adresi",
                 passLabel: "Şifre",
                 submitLogin: "Oturum Aç",
-                securityText: "256-bit SSL ile Güvenli Giriş",
+                submitRegister: "Hesap Oluştur",
+                noAccount: "Hesabın yok mu?",
+                registerLink: "Kayıt Ol",
+                hasAccount: "Zaten hesabın var mı?",
+                loginLink: "Giriş Yap",
+                securityText: "256-bit SSL ile Güvenli İşlem",
                 modalPostTitle: "Yeni İlan Oluştur",
                 modalPostSub: "Eşya veya hizmetinizi takasa çıkarın",
                 postTitleLabel: "İlan Başlığı",
@@ -1050,13 +937,13 @@
                 activeListings: "Aktif İlanlar",
                 itemBadge: "Eşya",
                 serviceBadge: "Hizmet",
-                noResults: "Aramanıza uygun ilan bulunamadı.",
-                logoutBtn: "Oturumu Kapat / Çıkış Yap"
+                noResults: "Aramanıza uygun ilan bulunamadı."
             },
             en: {
                 tagline: "No money needed; swap with your skills or items!",
                 navFav: "♡ Favorites",
                 navLogin: "Sign In",
+                navRegister: "Sign Up",
                 navPost: "+ Post Ad",
                 heroBadge: "SUSTAINABLE & NATURAL SWAP",
                 heroTitle: "Barter your items or skills, <span>get what you need.</span>",
@@ -1099,11 +986,19 @@
                 copyRights: "All rights reserved.",
                 modalLoginTitle: "Login to Takaslasana",
                 modalLoginSub: "Log in to post ads and swap items",
+                modalRegisterTitle: "Sign Up for Takaslasana",
+                modalRegisterSub: "Create a free account instantly and start swapping",
                 googleLogin: "Continue with Google",
                 dividerOr: "or via email",
+                nameLabel: "Full Name",
                 emailLabel: "Email Address",
                 passLabel: "Password",
                 submitLogin: "Sign In",
+                submitRegister: "Create Account",
+                noAccount: "Don't have an account?",
+                registerLink: "Sign Up",
+                hasAccount: "Already have an account?",
+                loginLink: "Sign In",
                 securityText: "Secured with 256-bit SSL",
                 modalPostTitle: "Create New Listing",
                 modalPostSub: "Put your item or service up for swap",
@@ -1118,8 +1013,7 @@
                 activeListings: "Active Listings",
                 itemBadge: "Item",
                 serviceBadge: "Service",
-                noResults: "No listings found matching your search.",
-                logoutBtn: "Sign Out"
+                noResults: "No listings found matching your search."
             }
         };
 
@@ -1132,7 +1026,7 @@
             { id: 6, title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
             { id: 7, title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
             { id: 8, title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
-            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
+            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzikal", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
@@ -1151,16 +1045,12 @@
                 melody.forEach(note => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
-                    
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(note.freq, audioCtx.currentTime + note.time);
-                    
                     gain.gain.setValueAtTime(0.08, audioCtx.currentTime + note.time);
                     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + note.duration);
-                    
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
-                    
                     osc.start(audioCtx.currentTime + note.time);
                     osc.stop(audioCtx.currentTime + note.time + note.duration);
                 });
@@ -1258,14 +1148,9 @@
             document.getElementById(id)?.classList.remove('active');
         }
 
-        function handleLoginButtonClick() {
-            if (!isLoggedIn) {
-                showModal('loginModal');
-            } else {
-                document.getElementById('profileModalTitle').textContent = currentUser.name;
-                document.getElementById('profileModalEmail').textContent = currentUser.email;
-                showModal('profileModal');
-            }
+        function switchModal(closeId, openId) {
+            closeModal(closeId);
+            showModal(openId);
         }
 
         function handlePostAdClick() {
@@ -1285,121 +1170,40 @@
             showModal('detailModal');
         }
 
-        function authenticateUser(name, email) {
-            currentUser = { name, email };
+        function googleLogin() {
             isLoggedIn = true;
-            localStorage.setItem('takas_user', JSON.stringify(currentUser));
-            updateUserUI(name);
-        }
-
-        // --- GOOGLE GİRİŞ AKIŞI YÖNETİMİ ---
-        function openGoogleAccountChooser() {
+            updateUserUI('Google User');
             closeModal('loginModal');
-            showModal('googleAccountModal');
-        }
-
-        // Listeden bir hesap seçildiğinde şifre ekranına geç
-        function proceedToPassword(name, email) {
-            pendingName = name;
-            pendingEmail = email;
-            closeModal('googleAccountModal');
-            document.getElementById('passwordPromptEmail').textContent = email;
-            document.getElementById('googlePasswordInput').value = '';
-            showModal('googlePasswordModal');
-        }
-
-        // "Başka bir hesap ekle" tıklandığında e-posta giriş modalını aç
-        function openNewGoogleEmailModal() {
-            closeModal('googleAccountModal');
-            document.getElementById('customGmailInput').value = '';
-            showModal('googleEmailModal');
-        }
-
-        // Özel e-posta girilip "İleri" denildiğinde şifre ekranına geç
-        function handleCustomEmailSubmit(e) {
-            e.preventDefault();
-            const emailInput = document.getElementById('customGmailInput').value;
-            if (emailInput && emailInput.includes('@')) {
-                const namePart = emailInput.split('@')[0];
-                pendingName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
-                pendingEmail = emailInput;
-                
-                closeModal('googleEmailModal');
-                document.getElementById('passwordPromptEmail').textContent = pendingEmail;
-                document.getElementById('googlePasswordInput').value = '';
-                showModal('googlePasswordModal');
-            }
-        }
-
-        // Şifre girilip onaylandığında oturum açma işlemini tamamla
-        function handleGooglePasswordSubmit(e) {
-            e.preventDefault();
-            const password = document.getElementById('googlePasswordInput').value;
-            if (password.length > 0) {
-                authenticateUser(pendingName, pendingEmail);
-                closeModal('googlePasswordModal');
-                alert(currentLang === 'tr' ? `${pendingEmail} hesabı ile giriş yapıldı!` : `Logged in with ${pendingEmail}!`);
-            }
-        }
-
-        // Şifre veya e-posta ekranından hesap listesine geri dönme
-        function backToAccountChooser() {
-            closeModal('googlePasswordModal');
-            closeModal('googleEmailModal');
-            showModal('googleAccountModal');
+            closeModal('registerModal');
+            alert(currentLang === 'tr' ? 'Google ile başarıyla giriş yapıldı!' : 'Successfully logged in with Google!');
         }
 
         function handleLoginFormSubmit(e) {
             e.preventDefault();
-            const emailInput = document.getElementById('loginEmail').value;
-            const namePart = emailInput.split('@')[0];
-            const formattedName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
-            
-            authenticateUser(formattedName, emailInput);
+            isLoggedIn = true;
+            updateUserUI('Kullanıcı');
             closeModal('loginModal');
             alert(currentLang === 'tr' ? 'Giriş başarılı!' : 'Login successful!');
         }
 
-        function logout() {
-            localStorage.removeItem('takas_user');
-            isLoggedIn = false;
-            currentUser = null;
-            
-            const btn = document.getElementById('loginNavBtn');
-            if (btn) {
-                btn.textContent = i18n[currentLang].navLogin;
-            }
-            closeModal('profileModal');
-            alert(currentLang === 'tr' ? 'Oturum kapatıldı.' : 'Logged out successfully.');
+        function handleRegisterFormSubmit(e) {
+            e.preventDefault();
+            isLoggedIn = true;
+            updateUserUI('Yeni Üye');
+            closeModal('registerModal');
+            alert(currentLang === 'tr' ? 'Kayıt işlemi başarılı! Hoş geldiniz.' : 'Registration successful! Welcome.');
         }
 
         function updateUserUI(name) {
             const btn = document.getElementById('loginNavBtn');
             if (btn) {
                 btn.textContent = `👤 ${name}`;
+                btn.onclick = () => alert(currentLang === 'tr' ? 'Profil yönetimi paneli.' : 'Profile management panel.');
             }
         }
 
         function handleFormSubmit(e) {
             e.preventDefault();
-            const title = document.getElementById('newAdTitle').value;
-            const cat = document.getElementById('newAdCat').value;
-            const desc = document.getElementById('newAdDesc').value;
-
-            const newListing = {
-                id: rawListings.length + 1,
-                title: { tr: title, en: title },
-                type: cat === 'Hizmet' ? 'service' : 'item',
-                cat: cat,
-                city: 'İstanbul',
-                date: currentLang === 'tr' ? 'Bugün' : 'Today',
-                img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500",
-                desc: { tr: desc, en: desc }
-            };
-
-            rawListings.unshift(newListing);
-            renderListings();
-
             alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Your listing has been published!');
             e.target.reset();
             closeModal('postModal');
@@ -1410,9 +1214,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (isLoggedIn && currentUser) {
-                updateUserUI(currentUser.name);
-            }
             renderListings();
 
             const searchInput = document.getElementById('searchInput');
