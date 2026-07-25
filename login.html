@@ -12,11 +12,11 @@
     <div class="card">
         <img src="logo.svg" style="width:150px;display:block;margin:0 auto;" alt="Logo">
         <h2 style="text-align:center;">TAKASLASANA</h2>
-        <p style="text-align:center;">
-            Para Değil, Değer Takas Et.
-        </p>
+        <p style="text-align:center;">Para Değil, Değer Takas Et.</p>
 
-        <!-- Tarayıcı autofill sorununu engellemek için autocomplete="off" eklendi -->
+        <!-- Ekranda anlık durum/hata görmek için alan -->
+        <div id="status-box" style="padding: 10px; margin-bottom: 15px; text-align: center; font-weight: bold; border-radius: 5px;"></div>
+
         <form id="login-form">
             <input
                 type="email"
@@ -48,19 +48,13 @@
         <button
             id="google-login"
             class="button"
-            style="
-                width:100%;
-                background:#ffffff;
-                color:#000;
-                border:1px solid #ddd;
-            "
+            style="width:100%; background:#ffffff; color:#000; border:1px solid #ddd;"
         >
             Google ile Giriş Yap
         </button>
 
         <p style="margin-top:20px;text-align:center;">
-            Hesabın yok mu?
-            <a href="register.html">Üye Ol</a>
+            Hesabın yok mu? <a href="register.html">Üye Ol</a>
         </p>
     </div>
 </div>
@@ -90,24 +84,28 @@
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
 
+    const statusBox = document.getElementById("status-box");
     const loginForm = document.getElementById("login-form");
+
     if (loginForm) {
         loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const email = document.getElementById("login-email").value;
             const password = document.getElementById("login-password").value;
 
-            // Firebase'e gerçekten hangi şifrenin gittiğini F12 konsolundan görebilirsiniz
-            console.log("Firebase'e gönderilen e-posta:", email);
-            console.log("Firebase'e gönderilen şifre uzunluğu:", password.length);
+            statusBox.style.color = "#000";
+            statusBox.innerText = "Bağlanıyor...";
 
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                alert("Hoş geldin! Giriş başarılı: " + userCredential.user.email);
-                window.location.href = "index.html";
+                statusBox.style.color = "green";
+                statusBox.innerText = "Başarılı! Yönlendiriliyor...";
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1000);
             } catch (error) {
-                console.error("Firebase Hata Kodu:", error.code);
-                alert("Giriş başarısız! E-posta veya şifre hatalı. (Hata: " + error.code + ")");
+                statusBox.style.color = "red";
+                statusBox.innerText = "HATA: " + error.code; // Ekranda hatayı net göreceksiniz
             }
         });
     }
@@ -118,10 +116,10 @@
             try {
                 await signOut(auth);
                 await signInWithPopup(auth, provider);
-                alert("Google ile başarıyla giriş yapıldı!");
                 window.location.href = "index.html";
             } catch (error) {
-                alert(error.message);
+                statusBox.style.color = "red";
+                statusBox.innerText = "Google Hatası: " + error.message;
             }
         });
     }
