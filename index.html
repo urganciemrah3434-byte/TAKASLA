@@ -456,7 +456,7 @@
             background: var(--surface);
             padding: 2rem;
             border-radius: var(--radius-lg);
-            max-width: 450px;
+            max-width: 480px;
             width: 90%;
             position: relative;
             box-shadow: 0 20px 40px rgba(0,0,0,0.25);
@@ -839,21 +839,20 @@
             <h2 class="modal-title" id="dTitle" style="text-align:left;">İlan Detayı</h2>
             <p id="dCategory" style="font-size: 0.85rem; color: var(--accent); font-weight:700; margin-bottom: 0.5rem;"></p>
             <p id="dDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; line-height:1.6;"></p>
-            <div style="display:flex; gap:0.5rem;">
-                <button class="btn btn-accent" style="flex:1; justify-content:center;" onclick="checkAuthAndAction('offer')">Takas Teklifi Et</button>
-                <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="checkAuthAndAction('msg')">Mesaj Gönder</button>
+            <div style="display:flex; gap:0.5rem; flex-wrap: wrap;">
+                <button class="btn btn-accent" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('offer')">Takas Teklifi</button>
+                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('msg')">Mesaj Gönder</button>
+                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center; background-color: #25D366; color: white; border-color: #25D366;" onclick="checkAuthAndAction('whatsapp')">💬 WhatsApp</button>
             </div>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Tarayıcı hafızasından kayıtlı kullanıcıları ve mevcut oturumu yükle
         let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
         let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false };
 
         let selectedCategory = 'all';
-        let currentLang = 'tr';
 
         const rawListings = [
             { id: 1, title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
@@ -966,7 +965,7 @@
             showModal(openId);
         }
 
-        // --- YETKİ KONTROLÜ (Giriş yapmamış kullanıcı işlem yapamaz) ---
+        // --- YETKİ KONTROLÜ ---
         function checkAuthAndAction(actionType) {
             if (!currentUser.isLoggedIn) {
                 alert('Bu işlemi yapabilmek için önce giriş yapmalısınız veya kayıt olmalısınız.');
@@ -980,6 +979,10 @@
                 closeModal('detailModal');
             } else if (actionType === 'msg') {
                 alert('Mesajlaşma paneli açılıyor...');
+                closeModal('detailModal');
+            } else if (actionType === 'whatsapp') {
+                const title = document.getElementById('dTitle').textContent;
+                window.open(`https://wa.me/905000000000?text=Merhaba, "${title}" ilanınızla ilgileniyorum. Takas yapmak istesem görüşebilir miyiz?`, '_blank');
                 closeModal('detailModal');
             }
             return true;
@@ -1003,14 +1006,13 @@
             showModal('detailModal');
         }
 
-        // --- GİRİŞ VE KAYIT İŞLEMLERİ (Lokal Hafıza Kontrollü) ---
+        // --- GİRİŞ VE KAYIT İŞLEMLERİ ---
         function handleRegisterFormSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('regName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPass').value;
 
-            // E-posta ile daha önce kayıt olunmuş mu kontrol et
             const existingUser = users.find(u => u.email === email);
             if (existingUser) {
                 alert('Bu e-posta adresi ile zaten bir hesap var! Lütfen giriş yapın.');
@@ -1043,7 +1045,6 @@
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPass').value;
 
-            // Kullanıcı kayıtlı mı kontrol et
             const user = users.find(u => u.email === email);
             if (!user) {
                 alert('Bu e-posta adresi ile kayıtlı bir hesap bulunamadı! Lütfen önce kayıt olun.');
@@ -1056,7 +1057,6 @@
                 return;
             }
 
-            // Doğru kullanıcıyı yükle
             currentUser = { isLoggedIn: true, ...user };
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
 
@@ -1097,7 +1097,7 @@
             showModal('profileModal');
         }
 
-        // --- RESİM YÜKLEME (Sürükle-Bırak & Dosya Seçimi) ---
+        // --- RESİM YÜKLEME ---
         function handleDragOver(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -1155,7 +1155,6 @@
             currentUser.phone = document.getElementById('profilePhone').value.trim();
             currentUser.address = document.getElementById('profileAddress').value.trim();
 
-            // Kullanıcıyı ana listemde güncelle ve kaydet
             const userIndex = users.findIndex(u => u.email === currentUser.email);
             if (userIndex !== -1) {
                 users[userIndex] = { ...currentUser };
@@ -1189,7 +1188,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             renderListings();
-            updateUserUI(); // Sayfa açıldığında giriş durumunu kontrol et
+            updateUserUI();
 
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
