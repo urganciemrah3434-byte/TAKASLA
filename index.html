@@ -85,6 +85,11 @@
             align-items: center;
             gap: 0.75rem;
             text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .logo-area:active {
+            transform: scale(0.96);
         }
 
         .logo-text {
@@ -198,7 +203,7 @@
             gap: 1rem;
         }
 
-        /* --- CATEGORIES --- */
+        /* --- CATEGories --- */
         .categories-nav {
             max-width: 1280px;
             margin: 0 auto 2rem;
@@ -559,7 +564,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo-wrapper">
-                <a href="#" class="logo-area">
+                <a href="#" class="logo-area" onclick="playLogoSound(); return false;" title="Dinlemek için tıklayın">
                     <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
                         <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
                         <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
@@ -654,7 +659,7 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
-                <a href="#" class="logo-area">
+                <a href="#" class="logo-area" onclick="playLogoSound(); return false;">
                     <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
                         <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
                         <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
@@ -955,6 +960,46 @@
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
+        function playLogoSound() {
+            // Melodik jingle efekti (Web Audio API)
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = [523.25, 659.25, 783.99]; // C5, E5, G5 (Mutlu akor tonu)
+                notes.forEach((freq, index) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + index * 0.08);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime + index * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + index * 0.08 + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(audioCtx.currentTime + index * 0.08);
+                    osc.stop(audioCtx.currentTime + index * 0.08 + 0.3);
+                });
+            } catch(e) {}
+
+            // Melodik Kadın Sesi ile "Takaslasana"
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Önceki sesleri kes
+                const utterance = new SpeechSynthesisUtterance('Takaslasana');
+                utterance.lang = 'tr-TR';
+                utterance.pitch = 1.35; // Daha tatlı, neşeli ve kadınsı tiz ton
+                utterance.rate = 0.95;  // Akıcı ve kulağa hoş gelen hız
+
+                // Türkçe kadın sesini bulmaya çalış
+                const voices = window.speechSynthesis.getVoices();
+                const femaleVoice = voices.find(v => v.lang.startsWith('tr') && (v.name.toLowerCase().includes('female') || v.name.includes('Yelda') || v.name.includes('Filiz') || v.name.includes('Google')));
+                if (femaleVoice) {
+                    utterance.voice = femaleVoice;
+                }
+
+                setTimeout(() => {
+                    window.speechSynthesis.speak(utterance);
+                }, 150);
+            }
+        }
+
         function renderListings(items = rawListings) {
             const grid = document.getElementById('listingsGrid');
             const headerCount = document.getElementById('listingsCountHeader');
@@ -1021,7 +1066,6 @@
             currentLang = currentLang === 'tr' ? 'en' : 'tr';
             document.getElementById('langBtn').textContent = currentLang === 'tr' ? 'TR 🇹🇷' : 'EN 🇬🇧';
 
-            // Text içeriklerini değiştir
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (i18n[currentLang][key]) {
@@ -1029,7 +1073,6 @@
                 }
             });
 
-            // Placeholder değiştir
             document.querySelectorAll('[data-i18n-ph]').forEach(el => {
                 const key = el.getAttribute('data-i18n-ph');
                 if (i18n[currentLang][key]) {
@@ -1105,6 +1148,11 @@
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
                 searchInput.addEventListener('input', filterListings);
+            }
+            
+            // Seslerin yüklenmesi için tetikleme
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
             }
         });
     </script>
