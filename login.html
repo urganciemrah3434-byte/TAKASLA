@@ -10,12 +10,12 @@
 
 <div class="container">
     <div class="card">
-        <img src="logo.svg" style="width:150px;display:block;margin:0 auto;" alt="Logo">
-        <h2 style="text-align:center;">TAKASLASANA</h2>
-        <p style="text-align:center;">Para Değil, Değer Takas Et.</p>
-
-        <!-- Ekranda anlık durum/hata görmek için alan -->
-        <div id="status-box" style="padding: 10px; margin-bottom: 15px; text-align: center; font-weight: bold; border-radius: 5px;"></div>
+        <h2 style="text-align:center;">TEST EKRANI</h2>
+        
+        <!-- Firebase'in verdiği yanıt buraya yazılacak -->
+        <div id="sonuc" style="padding: 15px; margin-bottom: 15px; text-align: center; font-weight: bold; background: #f0f0f0; border-radius: 5px;">
+            Durum bekleniyor...
+        </div>
 
         <form id="login-form">
             <input
@@ -39,35 +39,17 @@
             <button
                 type="submit"
                 class="button"
-                style="width:100%;margin-bottom:15px;"
+                style="width:100%;padding:15px;background:black;color:white;cursor:pointer;"
             >
-                Giriş Yap
+                Giriş Yapmayı Dene
             </button>
         </form>
-
-        <button
-            id="google-login"
-            class="button"
-            style="width:100%; background:#ffffff; color:#000; border:1px solid #ddd;"
-        >
-            Google ile Giriş Yap
-        </button>
-
-        <p style="margin-top:20px;text-align:center;">
-            Hesabın yok mu? <a href="register.html">Üye Ol</a>
-        </p>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import {
-        getAuth,
-        signInWithEmailAndPassword,
-        GoogleAuthProvider,
-        signInWithPopup,
-        signOut
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDiEf4SXghJpXUiHIrflLk8lnvaAk7LnUI",
@@ -81,48 +63,27 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: "select_account" });
 
-    const statusBox = document.getElementById("status-box");
-    const loginForm = document.getElementById("login-form");
+    const form = document.getElementById("login-form");
+    const sonucBox = document.getElementById("sonuc");
 
-    if (loginForm) {
-        loginForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("login-email").value;
-            const password = document.getElementById("login-password").value;
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
 
-            statusBox.style.color = "#000";
-            statusBox.innerText = "Bağlanıyor...";
+        sonucBox.style.color = "blue";
+        sonucBox.innerText = "Firebase'e gönderiliyor...";
 
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                statusBox.style.color = "green";
-                statusBox.innerText = "Başarılı! Yönlendiriliyor...";
-                setTimeout(() => {
-                    window.location.href = "index.html";
-                }, 1000);
-            } catch (error) {
-                statusBox.style.color = "red";
-                statusBox.innerText = "HATA: " + error.code; // Ekranda hatayı net göreceksiniz
-            }
-        });
-    }
-
-    const googleBtn = document.getElementById("google-login");
-    if (googleBtn) {
-        googleBtn.addEventListener("click", async () => {
-            try {
-                await signOut(auth);
-                await signInWithPopup(auth, provider);
-                window.location.href = "index.html";
-            } catch (error) {
-                statusBox.style.color = "red";
-                statusBox.innerText = "Google Hatası: " + error.message;
-            }
-        });
-    }
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            sonucBox.style.color = "green";
+            sonucBox.innerText = "BAŞARILI: Şifre doğru, giriş yapıldı (" + userCredential.user.email + ")";
+        } catch (error) {
+            sonucBox.style.color = "red";
+            sonucBox.innerText = "REDDEDİLDİ: Şifre yanlış! Firebase Hatası: " + error.code;
+        }
+    });
 </script>
 
 </body>
