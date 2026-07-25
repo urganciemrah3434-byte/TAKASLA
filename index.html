@@ -1,488 +1,1149 @@
 <!DOCTYPE html>
-<html lang="tr" class="light">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAKASLASANA - Güvenli Takas ve Barter Platformu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' }
-                    }
-                }
-            }
-        }
-    </script>
+    <title>TAKASLASANA - Güvenilir & Sürdürülebilir Takas Platformu</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        :root {
+            --primary: #2D6A4F;
+            --primary-dark: #1B4332;
+            --primary-light: #D8F3DC;
+            --accent: #E65100;
+            --accent-hover: #F57C00;
+            --bg-body: #F8FAF8;
+            --surface: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-accent: 0 4px 14px rgba(230, 81, 0, 0.25);
+        }
+
+        body.dark-mode {
+            --bg-body: #0F172A;
+            --surface: #1E293B;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border: #334155;
+            --primary-dark: #52B788;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: default;
+        }
+
+        a, button, input, select, .cat-chip, .card, .close-btn {
+            cursor: pointer;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            transition: background-color 0.25s, color 0.25s;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0.875rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .logo-area:active {
+            transform: scale(0.96);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-sana {
+            color: var(--accent);
+        }
+
+        .logo-tagline {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.95rem;
+            line-height: 1.2;
+            border-left: 2px solid var(--border);
+            padding-left: 1rem;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-body);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+            box-shadow: var(--shadow-accent);
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 3.5rem 1.5rem 3rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #D8F3DC;
+            color: #1B4332;
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1.4rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #B7E4C7;
+        }
+
+        .hero-title {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        .hero-title span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* --- CATEGORIES --- */
+        .categories-nav {
+            max-width: 1280px;
+            margin: 0 auto 2rem;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .cat-chip {
+            padding: 0.6rem 1.25rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .cat-chip:hover, .cat-chip.active {
+            background: var(--primary-dark);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
+        /* --- MAIN LAYOUT --- */
+        .main-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group { margin-bottom: 1.25rem; }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.65rem 0.875rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            outline: none;
+            background: var(--surface);
+            color: var(--text-main);
+        }
+
+        .listings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            background: #E5E7EB;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-type {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .badge-item { background: #2563EB; }
+        .badge-service { background: var(--accent); }
+
+        .card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 3.5rem 1.5rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            margin-bottom: 1.25rem;
+            max-width: 320px;
+        }
+
+        .footer-contact {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .footer-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- MODAL DIALOGS --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            transform: translateY(20px);
+            transition: transform 0.25s ease;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
+
+        .modal-sub {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-google {
+            width: 100%;
+            background: #FFFFFF;
+            color: #3C4043;
+            border: 1px solid #DADCE0;
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 1.25rem;
+        }
+
+        .btn-google:hover {
+            background: #F8F9FA;
+            box-shadow: 0 1px 3px rgba(60,64,67,0.15);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .divider::before { margin-right: .5em; }
+        .divider::after { margin-left: .5em; }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 1.25rem;
+        }
+
+        @media (max-width: 992px) {
+            .logo-tagline { display: none; }
+        }
+
+        @media (max-width: 900px) {
+            .main-container { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-container { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+<body>
 
-    <!-- Header -->
-    <header class="sticky top-0 z-45 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('home'); playJingle();">
-                <div class="bg-brand-500 text-white p-2.5 rounded-xl font-black text-xl flex items-center justify-center shadow-lg shadow-brand-500/30">
-                    <i class="fa-solid fa-rotate"></i>
-                </div>
-                <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-brand-600 to-emerald-500 bg-clip-text text-transparent">TAKASLASANA</span>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-wrapper">
+                <a href="#" class="logo-area" onclick="playLogoSound(); return false;" title="Jingle'ı dinlemek için tıklayın">
+                    <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
+                        <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
+                        <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
+                        <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                    </svg>
+                    <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
+                </a>
+                <span class="logo-tagline" data-i18n="tagline">Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!</span>
             </div>
-            
-            <div class="flex items-center space-x-3">
-                <!-- Dil Değiştirici -->
-                <button onclick="toggleLang()" id="langBtn" class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300 hover:scale-105 transition">
-                    EN / TR
-                </button>
-                <!-- Karanlık Mod -->
-                <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:scale-105 transition">
-                    <i class="fa-solid fa-moon dark:hidden"></i>
-                    <i class="fa-solid fa-sun hidden dark:inline"></i>
-                </button>
-                
-                <!-- Oturum Alanı -->
-                <div id="authArea">
-                    <button onclick="openLoginModal()" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-brand-500/20 transition flex items-center space-x-2 text-sm">
-                        <i class="fa-brands fa-google"></i>
-                        <span data-i18n="login">Google ile Giriş Yap</span>
-                    </button>
-                </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
+                <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
+                <button class="btn btn-outline" data-i18n="navFav" onclick="showModal('favoritesModal')">♡ Favoriler</button>
+                <button class="btn btn-outline" id="loginNavBtn" data-i18n="navLogin" onclick="showModal('loginModal')">Giriş Yap</button>
+                <button class="btn btn-accent" data-i18n="navPost" onclick="handlePostAdClick()">+ İlan Ver</button>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Content -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        
-        <!-- Home View -->
-        <div id="homeView" class="fade-in space-y-10">
-            <div class="text-center py-16 bg-gradient-to-b from-brand-50 to-transparent dark:from-slate-800/50 rounded-3xl p-8 border border-brand-500/10 shadow-sm">
-                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4" data-i18n="heroTitle">Kullanmadığın Eşyayı Değerlendir, <span class="text-brand-600">İhtiyacın Olanla Değiştir!</span></h1>
-                <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8" data-i18n="heroDesc">Nakit harcamadan, güvenli takas ağıyla binlerce ürün arasından dilediğini seç, teklifini gönder.</p>
-                <div class="flex justify-center gap-4">
-                    <button onclick="switchView('explore')" class="bg-brand-500 hover:bg-brand-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-brand-500/20 hover:scale-105 transition" data-i18n="exploreBtn">
-                        İlanları Keşfet
-                    </button>
-                    <button onclick="checkAuthAndOpenAddListing()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 text-slate-800 dark:text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition" data-i18n="addListingBtn">
-                        Hemen İlan Ver
-                    </button>
-                </div>
-            </div>
-
-            <!-- Kategoriler -->
-            <div>
-                <h3 class="text-xl font-black mb-6" data-i18n="categoriesTitle">Popüler Kategoriler</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <div onclick="filterCategory('Elektronik')" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 cursor-pointer transition shadow-sm group">
-                        <div class="w-12 h-12 bg-brand-50 dark:bg-brand-900/30 text-brand-600 rounded-xl mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-laptop"></i></div>
-                        <h4 class="font-bold text-sm">Elektronik</h4>
-                    </div>
-                    <div onclick="filterCategory('Giyim')" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 cursor-pointer transition shadow-sm group">
-                        <div class="w-12 h-12 bg-brand-50 dark:bg-brand-900/30 text-brand-600 rounded-xl mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-shirt"></i></div>
-                        <h4 class="font-bold text-sm">Giyim & Moda</h4>
-                    </div>
-                    <div onclick="filterCategory('Kitap')" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 cursor-pointer transition shadow-sm group">
-                        <div class="w-12 h-12 bg-brand-50 dark:bg-brand-900/30 text-brand-600 rounded-xl mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-book"></i></div>
-                        <h4 class="font-bold text-sm">Kitap & Hobi</h4>
-                    </div>
-                    <div onclick="filterCategory('Ev Eşyası')" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 cursor-pointer transition shadow-sm group">
-                        <div class="w-12 h-12 bg-brand-50 dark:bg-brand-900/30 text-brand-600 rounded-xl mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-couch"></i></div>
-                        <h4 class="font-bold text-sm">Ev Yaşam</h4>
-                    </div>
-                    <div onclick="filterCategory('Spor')" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 cursor-pointer transition shadow-sm group">
-                        <div class="w-12 h-12 bg-brand-50 dark:bg-brand-900/30 text-brand-600 rounded-xl mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-dumbbell"></i></div>
-                        <h4 class="font-bold text-sm">Spor & Outdoor</h4>
-                    </div>
-                    <div onclick="filterCategory('Diğer')" class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-center hover:border-brand-500 cursor-pointer transition shadow-sm group">
-                        <div class="w-12 h-12 bg-brand-50 dark:bg-brand-900/30 text-brand-600 rounded-xl mx-auto flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition"><i class="fa-solid fa-box-archive"></i></div>
-                        <h4 class="font-bold text-sm">Diğer</h4>
-                    </div>
-                </div>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-badge" data-i18n="heroBadge">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
+            <h1 class="hero-title" id="heroTitle">Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span></h1>
+            <p class="hero-subtitle" data-i18n="heroSub">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
+            <div class="hero-buttons">
+                <a href="#ilanlar" class="btn btn-accent" data-i18n="btnExplore" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
+                <button class="btn btn-outline" data-i18n="btnCreate" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="handlePostAdClick()">İlan Oluştur</button>
             </div>
         </div>
+    </section>
 
-        <!-- Explore View -->
-        <div id="exploreView" class="hidden fade-in space-y-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                    <h2 class="text-2xl font-black" data-i18n="exploreHeader">Keşfet & Takas Et</h2>
-                    <p class="text-sm text-slate-500">Platformdaki aktif ilanları inceleyin.</p>
-                </div>
-                <button onclick="switchView('home')" class="text-brand-600 font-bold hover:underline flex items-center"><i class="fa-solid fa-arrow-left mr-2"></i><span data-i18n="backHome">Ana Sayfa</span></button>
+    <!-- CATEGORIES -->
+    <div class="categories-nav">
+        <button class="cat-chip active" data-cat="all" data-i18n="catAll" onclick="setCategory(this)">Tümü</button>
+        <button class="cat-chip" data-cat="Elektronik" data-i18n="catElec" onclick="setCategory(this)">Elektronik</button>
+        <button class="cat-chip" data-cat="Ev & Yaşam" data-i18n="catHome" onclick="setCategory(this)">Ev & Yaşam</button>
+        <button class="cat-chip" data-cat="Eğitim" data-i18n="catEdu" onclick="setCategory(this)">Eğitim</button>
+        <button class="cat-chip" data-cat="Hizmet" data-i18n="catServ" onclick="setCategory(this)">Ustalık & Hizmet</button>
+        <button class="cat-chip" data-cat="Hobi & Müzik" data-i18n="catMusic" onclick="setCategory(this)">Hobi & Müzik</button>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="main-container" id="ilanlar">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <h2 class="filter-title" data-i18n="filterTitle">Filtrele</h2>
+            <div class="form-group">
+                <label class="form-label" data-i18n="searchLabel">Arama</label>
+                <input type="text" class="form-input" id="searchInput" placeholder="İlan ara..." data-i18n-ph="searchPh">
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-i18n="typeLabel">Takas Türü</label>
+                <select class="form-select" id="typeSelect" onchange="filterListings()">
+                    <option value="all" data-i18n="optAll">Tümü</option>
+                    <option value="item" data-i18n="optItem">Eşya Takası</option>
+                    <option value="service" data-i18n="optService">Hizmet Takası</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-i18n="cityLabel">Şehir</label>
+                <select class="form-select" id="citySelect" onchange="filterListings()">
+                    <option value="all" data-i18n="optAllCities">Tüm Şehirler</option>
+                    <option value="İstanbul">İstanbul</option>
+                    <option value="Ankara">Ankara</option>
+                    <option value="İzmir">İzmir</option>
+                    <option value="Bursa">Bursa</option>
+                    <option value="Antalya">Antalya</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- LISTINGS -->
+        <section>
+            <div class="listings-header">
+                <h2 style="font-size: 1.5rem; font-weight: 700;" id="listingsCountHeader">Aktif İlanlar (25)</h2>
+                <select class="form-select" style="width: auto;">
+                    <option data-i18n="optNewest">En yeniler</option>
+                    <option data-i18n="optPopular">Popüler olanlar</option>
+                </select>
             </div>
 
-            <!-- İlan Listesi Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="listingsGrid">
-                <!-- Örnek İlan 1 -->
-                <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="bg-slate-100 dark:bg-slate-700 h-52 rounded-2xl mb-4 flex items-center justify-center text-slate-400 relative overflow-hidden">
-                            <i class="fa-solid fa-camera text-4xl"></i>
-                            <span class="absolute top-3 left-3 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-xl shadow">Elektronik</span>
-                        </div>
-                        <h3 class="font-black text-lg">Akıllı Kol Saati - Az Kullanılmış</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Akustik gitar veya fotoğraf makinesi ile takas olur.</p>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
-                        <span class="text-xs font-bold text-slate-400"><i class="fa-solid fa-location-dot mr-1"></i>İstanbul</span>
-                        <button onclick="alert('Takas teklifiniz başarıyla iletildi!')" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm transition">
-                            Teklif Ver
-                        </button>
-                    </div>
-                </div>
+            <div class="grid" id="listingsGrid">
+                <!-- JS Tarafından Doldurulacak -->
             </div>
-        </div>
-
-        <!-- Müşteri Paneli (Dashboard) -->
-        <div id="dashboardView" class="hidden fade-in space-y-6">
-            <!-- Kullanıcı Profil Kartı -->
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
-                <div class="flex items-center space-x-4">
-                    <div id="userAvatar" class="w-16 h-16 rounded-2xl bg-brand-500 text-white flex items-center justify-center text-2xl font-black shadow-lg shadow-brand-500/30">A</div>
-                    <div>
-                        <h2 id="userNameDisplay" class="text-2xl font-black">Kullanıcı Adı</h2>
-                        <p id="userEmailDisplay" class="text-sm text-slate-500 dark:text-slate-400">eposta@domain.com</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <button onclick="openListingModal()" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center space-x-2">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Yeni İlan Oluştur</span>
-                    </button>
-                    <button onclick="logout()" class="bg-red-50 dark:bg-red-900/20 text-red-600 px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-red-100 transition">
-                        <i class="fa-solid fa-right-from-bracket mr-2"></i>Çıkış
-                    </button>
-                </div>
-            </div>
-
-            <!-- Panel Sekme İçerikleri -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <!-- Sol Menü -->
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-3xl border border-slate-200 dark:border-slate-700 space-y-2 h-fit shadow-sm">
-                    <button onclick="switchTab('listings')" id="tabBtn-listings" class="w-full text-left px-4 py-3 rounded-2xl font-bold bg-brand-50 dark:bg-brand-900/30 text-brand-600 transition flex items-center space-x-3"><i class="fa-solid fa-box w-5"></i><span>İlanlarım (<span id="myListingCount">1</span>)</span></button>
-                    <button onclick="switchTab('offers')" id="tabBtn-offers" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition flex items-center space-x-3"><i class="fa-solid fa-handshake w-5"></i><span>Takas Tekliflerim</span></button>
-                    <button onclick="switchTab('favorites')" id="tabBtn-favorites" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition flex items-center space-x-3"><i class="fa-solid fa-heart w-5"></i><span>Favorilerim</span></button>
-                    <button onclick="switchTab('settings')" id="tabBtn-settings" class="w-full text-left px-4 py-3 rounded-2xl font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition flex items-center space-x-3"><i class="fa-solid fa-gear w-5"></i><span>Hesap Ayarları</span></button>
-                </div>
-
-                <!-- Sağ İçerik Alanı -->
-                <div class="md:col-span-3 bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                    
-                    <!-- İlanlarım Sekmesi -->
-                    <div id="tabContent-listings" class="space-y-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <h3 class="text-xl font-black">Aktif İlanlarım</h3>
-                        </div>
-                        <div id="userListingContainer" class="space-y-3">
-                            <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
-                                <div>
-                                    <h4 class="font-bold">Akıllı Kol Saati</h4>
-                                    <p class="text-xs text-slate-500">Elektronik kategorisinde yayında</p>
-                                </div>
-                                <span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-xl text-xs font-bold border border-emerald-500/20">Aktif</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Takas Tekliflerim -->
-                    <div id="tabContent-offers" class="hidden space-y-4">
-                        <h3 class="text-xl font-black mb-2">Takas Teklifleri</h3>
-                        <p class="text-slate-500 text-sm">Gelen veya gönderdiğiniz takas teklifleri bu alanda listelenir.</p>
-                        <div class="p-6 text-center border border-dashed border-slate-200 dark:border-slate-700 rounded-2xl text-slate-400">
-                            Henüz aktif bir takas teklifiniz bulunmuyor.
-                        </div>
-                    </div>
-
-                    <!-- Favorilerim -->
-                    <div id="tabContent-favorites" class="hidden space-y-4">
-                        <h3 class="text-xl font-black mb-2">Favori Ürünleriniz</h3>
-                        <p class="text-slate-500 text-sm">Beğendiğiniz ilanları kalp simgesine tıklayarak favorilerinize ekleyebilirsiniz.</p>
-                        <div class="p-6 text-center border border-dashed border-slate-200 dark:border-slate-700 rounded-2xl text-slate-400">
-                            Favori listeniz henüz boş.
-                        </div>
-                    </div>
-
-                    <!-- Hesap Ayarları -->
-                    <div id="tabContent-settings" class="hidden space-y-4">
-                        <h3 class="text-xl font-black mb-2">Hesap Ayarları</h3>
-                        <div class="space-y-4 max-w-md pt-2">
-                            <div>
-                                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Kullanıcı Adı</label>
-                                <input type="text" id="settingsNameInput" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-bold focus:outline-none focus:border-brand-500">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase text-slate-500 mb-1">E-posta Adresi</label>
-                                <input type="text" id="settingsEmailInput" disabled class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm opacity-75 cursor-not-allowed">
-                            </div>
-                            <button onclick="updateProfileSettings()" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow transition">Değişiklikleri Kaydet</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        </section>
     </main>
 
-    <!-- Google Hesap Seçim Modalı -->
-    <div id="loginModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-md rounded-3xl p-6 border border-slate-200 dark:border-slate-700 shadow-2xl space-y-6 fade-in">
-            <div class="text-center">
-                <div class="w-12 h-12 bg-brand-50 dark:bg-brand-900/30 text-brand-600 rounded-2xl mx-auto flex items-center justify-center text-xl font-black mb-3">
-                    <i class="fa-brands fa-google"></i>
-                </div>
-                <h3 class="text-xl font-black">Google Hesabı Seçin</h3>
-                <p class="text-sm text-slate-500 mt-1">TAKASLASANA platformuna devam etmek için hesabınızı seçin.</p>
-            </div>
-
-            <div class="space-y-3">
-                <div onclick="simulateGoogleLogin('Ahmet Yılmaz', 'ahmet.yilmaz@gmail.com', 'A')" class="p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-500 cursor-pointer flex items-center space-x-3 transition group bg-slate-50/50 dark:bg-slate-900/50">
-                    <div class="w-10 h-10 rounded-full bg-brand-500 text-white font-bold flex items-center justify-center shadow">A</div>
-                    <div>
-                        <h4 class="font-bold text-sm group-hover:text-brand-600 transition">Ahmet Yılmaz</h4>
-                        <p class="text-xs text-slate-500">ahmet.yilmaz@gmail.com</p>
-                    </div>
-                </div>
-                <div onclick="simulateGoogleLogin('Zeynep Kaya', 'zeynep.kaya@gmail.com', 'Z')" class="p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-brand-500 dark:hover:border-brand-500 cursor-pointer flex items-center space-x-3 transition group bg-slate-50/50 dark:bg-slate-900/50">
-                    <div class="w-10 h-10 rounded-full bg-purple-500 text-white font-bold flex items-center justify-center shadow">Z</div>
-                    <div>
-                        <h4 class="font-bold text-sm group-hover:text-brand-600 transition">Zeynep Kaya</h4>
-                        <p class="text-xs text-slate-500">zeynep.kaya@gmail.com</p>
-                    </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo-area" onclick="playLogoSound(); return false;">
+                    <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
+                        <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
+                        <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
+                        <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                    </svg>
+                    <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
+                </a>
+                <p data-i18n="footerDesc">Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
+                <div class="footer-contact">
+                    <span>📧 destek@takaslasana.com</span>
+                    <span>📞 +90 (850) 123 45 67</span>
+                    <span>📍 Maslak Mah. Büyükdere Cad. No:142, İstanbul</span>
                 </div>
             </div>
 
-            <button onclick="closeLoginModal()" class="w-full bg-slate-100 dark:bg-slate-700 py-3 rounded-xl font-bold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-200 transition">İptal</button>
+            <div>
+                <h3 class="footer-title" data-i18n="fCol1Title">Kurumsal</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="alert('Biz Kimiz')" data-i18n="fAbout">Biz Kimiz</a></li>
+                    <li><a href="#" onclick="alert('Vizyonumuz')" data-i18n="fVision">Vizyonumuz & Misyonumuz</a></li>
+                    <li><a href="#" onclick="alert('Kariyer')" data-i18n="fCareers">Kariyer</a></li>
+                    <li><a href="#" onclick="alert('Sürdürülebilirlik')" data-i18n="fSust">Sürdürülebilirlik</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-title" data-i18n="fCol2Title">Destek & Yardım</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="alert('Nasıl Çalışır')" data-i18n="fHowItWorks">Nasıl Çalışır?</a></li>
+                    <li><a href="#" onclick="alert('Güvenli Takas')" data-i18n="fSafety">Güvenli Takas Rehberi</a></li>
+                    <li><a href="#" onclick="alert('SSS')" data-i18n="fFaq">Sıkça Sorulan Sorular</a></li>
+                    <li><a href="#" onclick="alert('İletişim')" data-i18n="fContact">İletişim</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-title" data-i18n="fCol3Title">Yasal</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="alert('Kullanım Koşulları')" data-i18n="fTerms">Kullanım Koşulları</a></li>
+                    <li><a href="#" onclick="alert('Gizlilik Politikası')" data-i18n="fPrivacy">Gizlilik Politikası</a></li>
+                    <li><a href="#" onclick="alert('KVKK')" data-i18n="fKvkk">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="#" onclick="alert('Çerezler')" data-i18n="fCookies">Çerez Tercihleri</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 TAKASLASANA. <span data-i18n="copyRights">Tüm hakları saklıdır.</span></span>
+            <span>Made for a Sustainable Future 🌱</span>
+        </div>
+    </footer>
+
+    <!-- MODALLAR -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
+            <h2 class="modal-title" data-i18n="modalLoginTitle">Takaslasana'ya Giriş Yap</h2>
+            <p class="modal-sub" data-i18n="modalLoginSub">İlan vermek ve takas yapmak için giriş yapın</p>
+            
+            <button class="btn-google" onclick="googleLogin()">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span data-i18n="googleLogin">Google ile Devam Et</span>
+            </button>
+
+            <div class="divider" data-i18n="dividerOr">veya e-posta ile</div>
+
+            <form onsubmit="handleLoginFormSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" data-i18n="emailLabel">E-Posta Adresi</label>
+                    <input type="email" class="form-input" placeholder="ornek@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="passLabel">Şifre</label>
+                    <input type="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitLogin">Oturum Aç</button>
+            </form>
+
+            <div class="security-badge">
+                🔒 <span data-i18n="securityText">256-bit SSL ile Güvenli Giriş</span>
+            </div>
         </div>
     </div>
 
-    <!-- İlan Ekleme Modalı -->
-    <div id="listingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-3xl p-6 border border-slate-200 dark:border-slate-700 shadow-2xl space-y-6 fade-in">
-            <div class="flex justify-between items-center">
-                <h3 class="text-xl font-black">Yeni İlan Ekle</h3>
-                <button onclick="closeListingModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">İlan Başlığı</label>
-                    <input type="text" id="newTitle" placeholder="Örn: Akustik Gitar" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-bold focus:outline-none focus:border-brand-500">
+    <div class="modal-overlay" id="postModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
+            <h2 class="modal-title" data-i18n="modalPostTitle">Yeni İlan Oluştur</h2>
+            <p class="modal-sub" data-i18n="modalPostSub">Eşya veya hizmetinizi takasa çıkarın</p>
+            <form onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" data-i18n="postTitleLabel">İlan Başlığı</label>
+                    <input type="text" class="form-input" placeholder="Örn: Bisiklet, Ders..." required>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Kategori</label>
-                    <select id="newCategory" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-bold focus:outline-none focus:border-brand-500">
-                        <option value="Elektronik">Elektronik</option>
-                        <option value="Giyim">Giyim & Moda</option>
-                        <option value="Kitap">Kitap & Hobi</option>
-                        <option value="Ev Eşyası">Ev Yaşam</option>
-                        <option value="Spor">Spor & Outdoor</option>
-                        <option value="Diğer">Diğer</option>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="postCatLabel">Kategori</label>
+                    <select class="form-select">
+                        <option>Elektronik</option>
+                        <option>Hizmet & Ustalık</option>
+                        <option>Eğitim</option>
+                        <option>Ev & Yaşam</option>
+                        <option>Hobi & Müzik</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-500 mb-1">Açıklama / Takas İsteği</label>
-                    <textarea id="newDesc" rows="3" placeholder="Ne ile takas etmek istersiniz?" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-bold focus:outline-none focus:border-brand-500"></textarea>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="postDescLabel">Ne ile takas etmek istersiniz?</label>
+                    <textarea class="form-textarea" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
                 </div>
-                <button onclick="saveNewListing()" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-3 rounded-xl font-bold text-sm shadow-lg shadow-brand-500/20 transition">İlanı Yayınla</button>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitPost">İlanı Yayınla</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="favoritesModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('favoritesModal')">&times;</button>
+            <h2 class="modal-title" data-i18n="favTitle">♡ Favori İlanlarım</h2>
+            <div style="border-bottom: 1px solid var(--border); padding: 1rem 0; margin-bottom: 1rem;">
+                <p style="font-weight: 700;">Fender Akustik Gitar</p>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">İstanbul • Eşya Takası</p>
+            </div>
+            <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;" data-i18n="closeBtn">Kapat</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
+            <h2 class="modal-title" id="dTitle" style="text-align:left;">İlan Detayı</h2>
+            <p id="dCategory" style="font-size: 0.85rem; color: var(--accent); font-weight:700; margin-bottom: 0.5rem;"></p>
+            <p id="dDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; line-height:1.6;"></p>
+            <div style="display:flex; gap:0.5rem;">
+                <button class="btn btn-accent" style="flex:1; justify-content:center;" onclick="alert('Takas teklifiniz iletildi!')" data-i18n="offerBtn">Takas Teklifi Et</button>
+                <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="alert('Mesajlaşma paneli açılıyor...')" data-i18n="msgBtn">Mesaj Gönder</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Kodları -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        let currentUser = null;
+        let isLoggedIn = false;
+        let selectedCategory = 'all';
         let currentLang = 'tr';
-        let userListings = [
-            { title: "Akıllı Kol Saati", category: "Elektronik", desc: "Elektronik veya akü takası olur." }
-        ];
 
-        // i18n Sözlük
-        const translations = {
+        const i18n = {
             tr: {
-                login: "Google ile Giriş Yap",
-                heroTitle: "Kullanmadığın Eşyayı Değerlendir, <span class='text-brand-600'>İhtiyacın Olanla Değiştir!</span>",
-                heroDesc: "Nakit harcamadan, güvenli takas ağıyla binlerce ürün arasından dilediğini seç, teklifini gönder.",
-                exploreBtn: "İlanları Keşfet",
-                addListingBtn: "Hemen İlan Ver",
-                categoriesTitle: "Popüler Kategoriler",
-                exploreHeader: "Keşfet & Takas Et",
-                backHome: "Ana Sayfa"
+                tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
+                navFav: "♡ Favoriler",
+                navLogin: "Giriş Yap",
+                navPost: "+ İlan Ver",
+                heroBadge: "SÜRDÜRÜLEBİLİR & DOĞAL TAKAS",
+                heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
+                heroSub: "Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.",
+                btnExplore: "İlanları Keşfet",
+                btnCreate: "İlan Oluştur",
+                catAll: "Tümü",
+                catElec: "Elektronik",
+                catHome: "Ev & Yaşam",
+                catEdu: "Eğitim",
+                catServ: "Ustalık & Hizmet",
+                catMusic: "Hobi & Müzik",
+                filterTitle: "Filtrele",
+                searchLabel: "Arama",
+                searchPh: "İlan ara...",
+                typeLabel: "Takas Türü",
+                optAll: "Tümü",
+                optItem: "Eşya Takası",
+                optService: "Hizmet Takası",
+                cityLabel: "Şehir",
+                optAllCities: "Tüm Şehirler",
+                optNewest: "En yeniler",
+                optPopular: "Popüler olanlar",
+                footerDesc: "Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.",
+                fCol1Title: "Kurumsal",
+                fAbout: "Biz Kimiz",
+                fVision: "Vizyonumuz & Misyonumuz",
+                fCareers: "Kariyer",
+                fSust: "Sürdürülebilirlik",
+                fCol2Title: "Destek & Yardım",
+                fHowItWorks: "Nasıl Çalışır?",
+                fSafety: "Güvenli Takas Rehberi",
+                fFaq: "Sıkça Sorulan Sorular",
+                fContact: "İletişim",
+                fCol3Title: "Yasal",
+                fTerms: "Kullanım Koşulları",
+                fPrivacy: "Gizlilik Politikası",
+                fKvkk: "KVKK Aydınlatma Metni",
+                fCookies: "Çerez Tercihleri",
+                copyRights: "Tüm hakları saklıdır.",
+                modalLoginTitle: "Takaslasana'ya Giriş Yap",
+                modalLoginSub: "İlan vermek ve takas yapmak için giriş yapın",
+                googleLogin: "Google ile Devam Et",
+                dividerOr: "veya e-posta ile",
+                emailLabel: "E-Posta Adresi",
+                passLabel: "Şifre",
+                submitLogin: "Oturum Aç",
+                securityText: "256-bit SSL ile Güvenli Giriş",
+                modalPostTitle: "Yeni İlan Oluştur",
+                modalPostSub: "Eşya veya hizmetinizi takasa çıkarın",
+                postTitleLabel: "İlan Başlığı",
+                postCatLabel: "Kategori",
+                postDescLabel: "Ne ile takas etmek istersiniz?",
+                submitPost: "İlanı Yayınla",
+                favTitle: "♡ Favori İlanlarım",
+                closeBtn: "Kapat",
+                offerBtn: "Takas Teklifi Et",
+                msgBtn: "Mesaj Gönder",
+                activeListings: "Aktif İlanlar",
+                itemBadge: "Eşya",
+                serviceBadge: "Hizmet",
+                noResults: "Aramanıza uygun ilan bulunamadı."
             },
             en: {
-                login: "Sign in with Google",
-                heroTitle: "Trade Your Unused Items, <span class='text-brand-600'>Get What You Need!</span>",
-                heroDesc: "Without cash, choose from thousands of items through a secure barter network.",
-                exploreBtn: "Explore Listings",
-                addListingBtn: "Post Listing",
-                categoriesTitle: "Popular Categories",
-                exploreHeader: "Explore & Barter",
-                backHome: "Home"
+                tagline: "No money needed; swap with your skills or items!",
+                navFav: "♡ Favorites",
+                navLogin: "Sign In",
+                navPost: "+ Post Ad",
+                heroBadge: "SUSTAINABLE & NATURAL SWAP",
+                heroTitle: "Barter your items or skills, <span>get what you need.</span>",
+                heroSub: "Share your unused items or skills; get the products or services you want without spending money.",
+                btnExplore: "Explore Ads",
+                btnCreate: "Create Listing",
+                catAll: "All",
+                catElec: "Electronics",
+                catHome: "Home & Living",
+                catEdu: "Education",
+                catServ: "Services & Skills",
+                catMusic: "Hobbies & Music",
+                filterTitle: "Filter",
+                searchLabel: "Search",
+                searchPh: "Search listings...",
+                typeLabel: "Barter Type",
+                optAll: "All",
+                optItem: "Item Swap",
+                optService: "Service Swap",
+                cityLabel: "City",
+                optAllCities: "All Cities",
+                optNewest: "Newest",
+                optPopular: "Popular",
+                footerDesc: "Community-driven, sustainable, and secure barter platform without money.",
+                fCol1Title: "Corporate",
+                fAbout: "About Us",
+                fVision: "Vision & Mission",
+                fCareers: "Careers",
+                fSust: "Sustainability",
+                fCol2Title: "Support & Help",
+                fHowItWorks: "How It Works?",
+                fSafety: "Safe Swap Guide",
+                fFaq: "FAQ",
+                fContact: "Contact",
+                fCol3Title: "Legal",
+                fTerms: "Terms of Use",
+                fPrivacy: "Privacy Policy",
+                fKvkk: "Data Protection (KVKK)",
+                fCookies: "Cookie Preferences",
+                copyRights: "All rights reserved.",
+                modalLoginTitle: "Login to Takaslasana",
+                modalLoginSub: "Log in to post ads and swap items",
+                googleLogin: "Continue with Google",
+                dividerOr: "or via email",
+                emailLabel: "Email Address",
+                passLabel: "Password",
+                submitLogin: "Sign In",
+                securityText: "Secured with 256-bit SSL",
+                modalPostTitle: "Create New Listing",
+                modalPostSub: "Put your item or service up for swap",
+                postTitleLabel: "Listing Title",
+                postCatLabel: "Category",
+                postDescLabel: "What would you like to swap for?",
+                submitPost: "Publish Listing",
+                favTitle: "♡ My Favorites",
+                closeBtn: "Close",
+                offerBtn: "Make Swap Offer",
+                msgBtn: "Send Message",
+                activeListings: "Active Listings",
+                itemBadge: "Item",
+                serviceBadge: "Service",
+                noResults: "No listings found matching your search."
             }
         };
 
-        function toggleLang() {
-            currentLang = currentLang === 'tr' ? 'en' : 'tr';
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key];
-                }
-            });
-        }
+        const rawListings = [
+            { id: 1, title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
+            { id: 2, title: { tr: "Boya & Badana Ustası", en: "Painting & Decorating Master" }, type: "service", cat: "Hizmet", city: "Ankara", date: "Dün", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500", desc: { tr: "Ev boya hizmeti karşılığında Web Tasarımı arıyorum.", en: "Offering house painting service in exchange for Web Design." } },
+            { id: 3, title: { tr: "Matematik Özel Dersi", en: "Private Math Lessons" }, type: "service", cat: "Eğitim", city: "İzmir", date: "3 gün önce", img: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500", desc: { tr: "LGS/YKS için matematik dersi. Tablet takasına açıktır.", en: "Math tutoring for exam prep. Open to tablet swaps." } },
+            { id: 4, title: { tr: "Sony PlayStation 5", en: "Sony PlayStation 5" }, type: "item", cat: "Elektronik", city: "Bursa", date: "Bugün", img: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500", desc: { tr: "İki kollu PS5. Gaming Laptop ile takaslanabilir.", en: "PS5 with two controllers. Open to swap with Gaming Laptop." } },
+            { id: 5, title: { tr: "Vintage Ahşap Yemek Masası", en: "Vintage Wooden Dining Table" }, type: "item", cat: "Ev & Yaşam", city: "Antalya", date: "2 gün önce", img: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=500", desc: { tr: "Gerçek meşe ağacı. Bisiklet ile takas düşünülür.", en: "Real oak wood. Willing to swap for a bicycle." } },
+            { id: 6, title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
+            { id: 7, title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
+            { id: 8, title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
+            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzikal", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
+            { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
+        ];
 
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-        }
-
-        // Web Audio API Jingle
-        function playJingle() {
+        function playLogoSound() {
+            // Şarkı ritmini ve melodisini veren Web Audio API jingle motoru ("Takaslasana...")
             try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const now = ctx.currentTime;
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, now); // C5
-                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15); // E5
-                gain.gain.setValueAtTime(0.1, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.3);
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Nota frekansları (Melodik şarkı formu: Ta-kas-la-sa-na, Pa-ra-ya ge-rek yok...)
+                const melody = [
+                    { freq: 523.25, time: 0.00, duration: 0.2 }, // Ta
+                    { freq: 587.33, time: 0.22, duration: 0.2 }, // kas
+                    { freq: 659.25, time: 0.44, duration: 0.2 }, // la
+                    { freq: 783.99, time: 0.66, duration: 0.2 }, // sa
+                    { freq: 880.00, time: 0.88, duration: 0.4 }, // na~~~
+                    { freq: 1046.50, time: 1.35, duration: 0.5 } // Ffinal vuruş
+                ];
+
+                melody.forEach(note => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'sine'; // Yumuşak ve tatlı vokal benzeri ton
+                    osc.frequency.setValueAtTime(note.freq, audioCtx.currentTime + note.time);
+                    
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime + note.time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + note.duration);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc.start(audioCtx.currentTime + note.time);
+                    osc.stop(audioCtx.currentTime + note.time + note.duration);
+                });
             } catch(e) {}
         }
 
-        function switchView(viewName) {
-            document.getElementById('homeView').classList.add('hidden');
-            document.getElementById('exploreView').classList.add('hidden');
-            document.getElementById('dashboardView').classList.add('hidden');
-
-            if(viewName === 'home') document.getElementById('homeView').classList.remove('hidden');
-            if(viewName === 'explore') document.getElementById('exploreView').classList.remove('hidden');
-            if(viewName === 'dashboard') document.getElementById('dashboardView').classList.remove('hidden');
-        }
-
-        function openLoginModal() {
-            document.getElementById('loginModal').classList.remove('hidden');
-        }
-
-        function closeLoginModal() {
-            document.getElementById('loginModal').classList.add('hidden');
-        }
-
-        function simulateGoogleLogin(name, email, initial) {
-            currentUser = { name, email, initial };
-            closeLoginModal();
+        function renderListings(items = rawListings) {
+            const grid = document.getElementById('listingsGrid');
+            const headerCount = document.getElementById('listingsCountHeader');
             
-            // Header alanını kullanıcı profiliyle güncelle
-            document.getElementById('authArea').innerHTML = `
-                <button onclick="switchView('dashboard')" class="flex items-center space-x-2.5 bg-slate-100 dark:bg-slate-700/80 px-3.5 py-2 rounded-2xl hover:scale-105 transition border border-slate-200 dark:border-slate-600">
-                    <div class="w-7 h-7 rounded-xl bg-brand-500 text-white font-black flex items-center justify-center text-xs shadow">${initial}</div>
-                    <span class="font-bold text-sm">${name}</span>
-                </button>
-            `;
-
-            // Müşteri Paneli verilerini doldur
-            document.getElementById('userNameDisplay').innerText = name;
-            document.getElementById('userEmailDisplay').innerText = email;
-            document.getElementById('userAvatar').innerText = initial;
-            document.getElementById('settingsNameInput').value = name;
-            document.getElementById('settingsEmailInput').value = email;
-
-            switchView('dashboard');
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('authArea').innerHTML = `
-                <button onclick="openLoginModal()" class="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-brand-500/20 transition flex items-center space-x-2 text-sm">
-                    <i class="fa-brands fa-google"></i>
-                    <span data-i18n="login">Google ile Giriş Yap</span>
-                </button>
-            `;
-            switchView('home');
-        }
-
-        function switchTab(tabName) {
-            ['listings', 'offers', 'favorites', 'settings'].forEach(t => {
-                document.getElementById(`tabContent-${t}`).classList.add('hidden');
-                document.getElementById(`tabBtn-${t}`).className = "w-full text-left px-4 py-3 rounded-2xl font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition flex items-center space-x-3";
-            });
-            document.getElementById(`tabContent-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tabBtn-${tabName}`).className = "w-full text-left px-4 py-3 rounded-2xl font-bold bg-brand-50 dark:bg-brand-900/30 text-brand-600 transition flex items-center space-x-3";
-        }
-
-        function checkAuthAndOpenAddListing() {
-            if(!currentUser) {
-                openLoginModal();
-            } else {
-                openListingModal();
+            if (headerCount) {
+                headerCount.textContent = `${i18n[currentLang].activeListings} (${items.length})`;
             }
-        }
 
-        function openListingModal() {
-            document.getElementById('listingModal').classList.remove('hidden');
-        }
-
-        function closeListingModal() {
-            document.getElementById('listingModal').classList.add('hidden');
-        }
-
-        function saveNewListing() {
-            const title = document.getElementById('newTitle').value;
-            const category = document.getElementById('newCategory').value;
-            const desc = document.getElementById('newDesc').value;
-
-            if(!title) {
-                alert('Lütfen ilan başlığı giriniz.');
+            if (items.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">${i18n[currentLang].noResults}</p>`;
                 return;
             }
 
-            userListings.push({ title, category, desc });
-            document.getElementById('myListingCount').innerText = userListings.length;
-            
-            // Listeyi güncelle
-            renderUserListings();
-            closeListingModal();
-            alert('İlanınız başarıyla yayınlandı!');
-            switchView('dashboard');
-            switchTab('listings');
-        }
-
-        function renderUserListings() {
-            const container = document.getElementById('userListingContainer');
-            container.innerHTML = userListings.map(item => `
-                <div class="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
-                    <div>
-                        <h4 class="font-bold">${item.title}</h4>
-                        <p class="text-xs text-slate-500">${item.category} kategorisinde yayında</p>
+            grid.innerHTML = items.map(item => `
+                <div class="card" onclick="openDetailModal(${item.id})">
+                    <div class="card-img-wrap">
+                        <img src="${item.img}" alt="${item.title[currentLang]}" class="card-img" loading="lazy">
+                        <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
+                            ${item.type === 'item' ? i18n[currentLang].itemBadge : i18n[currentLang].serviceBadge}
+                        </span>
                     </div>
-                    <span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-xl text-xs font-bold border border-emerald-500/20">Aktif</span>
+                    <div class="card-body">
+                        <h3 class="card-title">${item.title[currentLang]}</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
+                            ${item.desc[currentLang]}
+                        </p>
+                        <div class="card-footer">
+                            <span>📍 ${item.city}</span>
+                            <span>🕒 ${item.date}</span>
+                        </div>
+                    </div>
                 </div>
             `).join('');
         }
 
-        function updateProfileSettings() {
-            const newName = document.getElementById('settingsNameInput').value;
-            if(currentUser && newName) {
-                currentUser.name = newName;
-                document.getElementById('userNameDisplay').innerText = newName;
-                document.getElementById('userAvatar').innerText = newName.charAt(0).toUpperCase();
-                // Header güncelle
-                simulateGoogleLogin(currentUser.name, currentUser.email, currentUser.name.charAt(0).toUpperCase());
-                alert('Profil bilgileriniz güncellendi.');
+        function filterListings() {
+            const searchVal = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const typeVal = document.getElementById('typeSelect')?.value || 'all';
+            const cityVal = document.getElementById('citySelect')?.value || 'all';
+
+            const filtered = rawListings.filter(item => {
+                const matchesSearch = item.title[currentLang].toLowerCase().includes(searchVal) || 
+                                      item.desc[currentLang].toLowerCase().includes(searchVal);
+                const matchesType = typeVal === 'all' || item.type === typeVal;
+                const matchesCity = cityVal === 'all' || item.city === cityVal;
+                const matchesCat = selectedCategory === 'all' || 
+                                   item.cat.includes(selectedCategory) || 
+                                   (selectedCategory === 'Hizmet' && item.cat === 'Hizmet');
+
+                return matchesSearch && matchesType && matchesCity && matchesCat;
+            });
+
+            renderListings(filtered);
+        }
+
+        function setCategory(btn) {
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            selectedCategory = btn.getAttribute('data-cat') || 'all';
+            filterListings();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'tr' ? 'en' : 'tr';
+            document.getElementById('langBtn').textContent = currentLang === 'tr' ? 'TR 🇹🇷' : 'EN 🇬🇧';
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) {
+                    el.innerHTML = i18n[currentLang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (i18n[currentLang][key]) {
+                    el.placeholder = i18n[currentLang][key];
+                }
+            });
+
+            renderListings();
+        }
+
+        function showModal(id) {
+            document.getElementById(id)?.classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id)?.classList.remove('active');
+        }
+
+        function handlePostAdClick() {
+            if (!isLoggedIn) {
+                showModal('loginModal');
+            } else {
+                showModal('postModal');
             }
         }
 
-        function filterCategory(categoryName) {
-            switchView('explore');
+        function openDetailModal(id) {
+            const item = rawListings.find(x => x.id === id);
+            if (!item) return;
+            document.getElementById('dTitle').textContent = item.title[currentLang];
+            document.getElementById('dCategory').textContent = `${item.cat} • ${item.city} (${item.type === 'item' ? i18n[currentLang].optItem : i18n[currentLang].optService})`;
+            document.getElementById('dDesc').textContent = item.desc[currentLang];
+            showModal('detailModal');
         }
+
+        function googleLogin() {
+            isLoggedIn = true;
+            updateUserUI('Google User');
+            closeModal('loginModal');
+            alert(currentLang === 'tr' ? 'Google ile başarıyla giriş yapıldı!' : 'Successfully logged in with Google!');
+        }
+
+        function handleLoginFormSubmit(e) {
+            e.preventDefault();
+            isLoggedIn = true;
+            updateUserUI('User');
+            closeModal('loginModal');
+            alert(currentLang === 'tr' ? 'Giriş başarılı!' : 'Login successful!');
+        }
+
+        function updateUserUI(name) {
+            const btn = document.getElementById('loginNavBtn');
+            if (btn) {
+                btn.textContent = `👤 ${name}`;
+                btn.onclick = () => alert(currentLang === 'tr' ? 'Profil yönetimi paneli.' : 'Profile management panel.');
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Your listing has been published!');
+            e.target.reset();
+            closeModal('postModal');
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderListings();
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', filterListings);
+            }
+        });
     </script>
 </body>
 </html>
