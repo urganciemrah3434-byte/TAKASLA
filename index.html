@@ -720,6 +720,25 @@
             <h2 class="modal-title" data-i18n="modalLoginTitle">Takaslasana'ya Giriş Yap</h2>
             <p class="modal-sub" data-i18n="modalLoginSub">İlan vermek ve takas yapmak için giriş yapın</p>
             
+            <!-- Google One Tap / Doğrudan Hesap Seçim Ekranı Simülasyonu -->
+            <div style="margin-bottom: 1rem;" id="googleAccountsList">
+                <p style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem;" data-i18n="selectGoogleAccount">Kayıtlı Google Hesabınızı Seçin:</p>
+                <div onclick="selectGoogleAccount('Ahmet Yılmaz', 'ahmet.yilmaz@gmail.com', 'A')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 0.5rem; background: var(--bg-body); cursor: pointer; transition: border-color 0.2s;">
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: #2D6A4F; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">A</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Ahmet Yılmaz</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">ahmet.yilmaz@gmail.com</div>
+                    </div>
+                </div>
+                <div onclick="selectGoogleAccount('Zeynep Demir', 'zeynep.demir@gmail.com', 'Z')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-body); cursor: pointer; transition: border-color 0.2s;">
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: #E65100; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;">Z</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Zeynep Demir</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">zeynep.demir@gmail.com</div>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn-google" onclick="googleLogin()">
                 <svg width="20" height="20" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -758,13 +777,13 @@
             <form onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
                     <label class="form-label" data-i18n="postTitleLabel">İlan Başlığı</label>
-                    <input type="text" class="form-input" placeholder="Örn: Bisiklet, Ders..." required>
+                    <input type="text" class="form-input" id="newAdTitle" placeholder="Örn: Bisiklet, Ders..." required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" data-i18n="postCatLabel">Kategori</label>
-                    <select class="form-select">
+                    <select class="form-input" id="newAdCat">
                         <option>Elektronik</option>
-                        <option>Hizmet & Ustalık</option>
+                        <option>Hizmet</option>
                         <option>Eğitim</option>
                         <option>Ev & Yaşam</option>
                         <option>Hobi & Müzik</option>
@@ -772,7 +791,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label" data-i18n="postDescLabel">Ne ile takas etmek istersiniz?</label>
-                    <textarea class="form-textarea" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
+                    <textarea class="form-textarea" id="newAdDesc" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
                 </div>
                 <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" data-i18n="submitPost">İlanı Yayınla</button>
             </form>
@@ -807,6 +826,7 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         let isLoggedIn = false;
+        let currentUser = null;
         let selectedCategory = 'all';
         let currentLang = 'tr';
 
@@ -876,7 +896,8 @@
                 activeListings: "Aktif İlanlar",
                 itemBadge: "Eşya",
                 serviceBadge: "Hizmet",
-                noResults: "Aramanıza uygun ilan bulunamadı."
+                noResults: "Aramanıza uygun ilan bulunamadı.",
+                selectGoogleAccount: "Kayıtlı Google Hesabınızı Seçin:"
             },
             en: {
                 tagline: "No money needed; swap with your skills or items!",
@@ -943,7 +964,8 @@
                 activeListings: "Active Listings",
                 itemBadge: "Item",
                 serviceBadge: "Service",
-                noResults: "No listings found matching your search."
+                noResults: "No listings found matching your search.",
+                selectGoogleAccount: "Select your Google Account:"
             }
         };
 
@@ -956,30 +978,27 @@
             { id: 6, title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
             { id: 7, title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
             { id: 8, title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
-            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzikal", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
+            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
         function playLogoSound() {
-            // Şarkı ritmini ve melodisini veren Web Audio API jingle motoru ("Takaslasana...")
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Nota frekansları (Melodik şarkı formu: Ta-kas-la-sa-na, Pa-ra-ya ge-rek yok...)
                 const melody = [
-                    { freq: 523.25, time: 0.00, duration: 0.2 }, // Ta
-                    { freq: 587.33, time: 0.22, duration: 0.2 }, // kas
-                    { freq: 659.25, time: 0.44, duration: 0.2 }, // la
-                    { freq: 783.99, time: 0.66, duration: 0.2 }, // sa
-                    { freq: 880.00, time: 0.88, duration: 0.4 }, // na~~~
-                    { freq: 1046.50, time: 1.35, duration: 0.5 } // Ffinal vuruş
+                    { freq: 523.25, time: 0.00, duration: 0.2 },
+                    { freq: 587.33, time: 0.22, duration: 0.2 },
+                    { freq: 659.25, time: 0.44, duration: 0.2 },
+                    { freq: 783.99, time: 0.66, duration: 0.2 },
+                    { freq: 880.00, time: 0.88, duration: 0.4 },
+                    { freq: 1046.50, time: 1.35, duration: 0.5 }
                 ];
 
                 melody.forEach(note => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     
-                    osc.type = 'sine'; // Yumuşak ve tatlı vokal benzeri ton
+                    osc.type = 'sine';
                     osc.frequency.setValueAtTime(note.freq, audioCtx.currentTime + note.time);
                     
                     gain.gain.setValueAtTime(0.08, audioCtx.currentTime + note.time);
@@ -1102,17 +1121,23 @@
             showModal('detailModal');
         }
 
-        function googleLogin() {
+        function selectGoogleAccount(name, email, initial) {
+            currentUser = { name, email, initial };
             isLoggedIn = true;
-            updateUserUI('Google User');
+            updateUserUI(name);
             closeModal('loginModal');
-            alert(currentLang === 'tr' ? 'Google ile başarıyla giriş yapıldı!' : 'Successfully logged in with Google!');
+            alert(currentLang === 'tr' ? `Google ile başarıyla giriş yapıldı (${name})!` : `Successfully logged in with Google (${name})!`);
+        }
+
+        function googleLogin() {
+            selectGoogleAccount('Ahmet Yılmaz', 'ahmet.yilmaz@gmail.com', 'A');
         }
 
         function handleLoginFormSubmit(e) {
             e.preventDefault();
             isLoggedIn = true;
-            updateUserUI('User');
+            currentUser = { name: 'Kullanıcı', email: 'ornek@gmail.com', initial: 'K' };
+            updateUserUI('Kullanıcı');
             closeModal('loginModal');
             alert(currentLang === 'tr' ? 'Giriş başarılı!' : 'Login successful!');
         }
@@ -1121,12 +1146,30 @@
             const btn = document.getElementById('loginNavBtn');
             if (btn) {
                 btn.textContent = `👤 ${name}`;
-                btn.onclick = () => alert(currentLang === 'tr' ? 'Profil yönetimi paneli.' : 'Profile management panel.');
+                btn.onclick = () => alert(currentLang === 'tr' ? `Aktif Hesap: ${currentUser.email}\nProfil yönetimi paneli.` : `Active Account: ${currentUser.email}\nProfile management panel.`);
             }
         }
 
         function handleFormSubmit(e) {
             e.preventDefault();
+            const title = document.getElementById('newAdTitle').value;
+            const cat = document.getElementById('newAdCat').value;
+            const desc = document.getElementById('newAdDesc').value;
+
+            const newListing = {
+                id: rawListings.length + 1,
+                title: { tr: title, en: title },
+                type: cat === 'Hizmet' ? 'service' : 'item',
+                cat: cat,
+                city: currentUser && currentUser.email.includes('istanbul') ? 'İstanbul' : 'İstanbul',
+                date: currentLang === 'tr' ? 'Bugün' : 'Today',
+                img: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500",
+                desc: { tr: desc, en: desc }
+            };
+
+            rawListings.unshift(newListing);
+            renderListings();
+
             alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Your listing has been published!');
             e.target.reset();
             closeModal('postModal');
