@@ -560,6 +560,9 @@
 </head>
 <body>
 
+    <!-- Orijinal Ses Dosyası Entegrasyonu -->
+    <audio id="jingleAudio" src="TAKASLASANA (mp3cut.net).mp3" preload="auto"></audio>
+
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
@@ -961,37 +964,13 @@
         ];
 
         function playLogoSound() {
-            // Şarkı ritmini ve melodisini veren Web Audio API jingle motoru ("Takaslasana...")
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Nota frekansları (Melodik şarkı formu: Ta-kas-la-sa-na, Pa-ra-ya ge-rek yok...)
-                const melody = [
-                    { freq: 523.25, time: 0.00, duration: 0.2 }, // Ta
-                    { freq: 587.33, time: 0.22, duration: 0.2 }, // kas
-                    { freq: 659.25, time: 0.44, duration: 0.2 }, // la
-                    { freq: 783.99, time: 0.66, duration: 0.2 }, // sa
-                    { freq: 880.00, time: 0.88, duration: 0.4 }, // na~~~
-                    { freq: 1046.50, time: 1.35, duration: 0.5 } // Ffinal vuruş
-                ];
-
-                melody.forEach(note => {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    
-                    osc.type = 'sine'; // Yumuşak ve tatlı vokal benzeri ton
-                    osc.frequency.setValueAtTime(note.freq, audioCtx.currentTime + note.time);
-                    
-                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime + note.time);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + note.duration);
-                    
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    
-                    osc.start(audioCtx.currentTime + note.time);
-                    osc.stop(audioCtx.currentTime + note.time + note.duration);
+            const audio = document.getElementById('jingleAudio');
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(err => {
+                    console.log("Ses oynatılamadı:", err);
                 });
-            } catch(e) {}
+            }
         }
 
         function renderListings(items = rawListings) {
