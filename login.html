@@ -9,19 +9,14 @@
 <body>
 
 <div class="container">
-
     <div class="card">
-
-        <img src="logo.svg" style="width:150px;display:block;margin:0 auto;">
-
+        <img src="logo.svg" style="width:150px;display:block;margin:0 auto;" alt="Logo">
         <h2 style="text-align:center;">TAKASLASANA</h2>
-
         <p style="text-align:center;">
             Para Değil, Değer Takas Et.
         </p>
 
         <form id="login-form">
-
             <input
                 type="email"
                 id="login-email"
@@ -45,7 +40,6 @@
             >
                 Giriş Yap
             </button>
-
         </form>
 
         <button
@@ -65,12 +59,67 @@
             Hesabın yok mu?
             <a href="register.html">Üye Ol</a>
         </p>
-
     </div>
-
 </div>
 
-<script type="module" src="js/auth.js"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        GoogleAuthProvider,
+        signInWithPopup,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDiEf4SXghJpXUiHIrflLk8lnvaAk7LnUI",
+        authDomain: "takasla-e2013.firebaseapp.com",
+        projectId: "takasla-e2013",
+        storageBucket: "takasla-e2013.firebasestorage.app",
+        messagingSenderId: "324778736339",
+        appId: "1:324778736339:web:d1c25d9aff143c35833226",
+        measurementId: "G-CX29N06BZ7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+
+    // Giriş Formu Kontrolü
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                alert("Hoş geldin! Giriş başarılı: " + userCredential.user.email);
+                window.location.href = "index.html";
+            } catch (error) {
+                alert("Giriş başarısız! E-posta veya şifre hatalı.");
+            }
+        });
+    }
+
+    // Google ile Giriş
+    const googleBtn = document.getElementById("google-login");
+    if (googleBtn) {
+        googleBtn.addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+                const result = await signInWithPopup(auth, provider);
+                alert("Google ile başarıyla giriş yapıldı!");
+                window.location.href = "index.html";
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+    }
+</script>
 
 </body>
 </html>
