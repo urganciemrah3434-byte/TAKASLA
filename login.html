@@ -16,12 +16,14 @@
             Para Değil, Değer Takas Et.
         </p>
 
+        <!-- Tarayıcı autofill sorununu engellemek için autocomplete="off" eklendi -->
         <form id="login-form">
             <input
                 type="email"
                 id="login-email"
                 placeholder="E-posta"
                 required
+                autocomplete="off"
                 style="width:100%;padding:15px;margin-bottom:15px;"
             >
 
@@ -30,6 +32,7 @@
                 id="login-password"
                 placeholder="Şifre"
                 required
+                autocomplete="new-password"
                 style="width:100%;padding:15px;margin-bottom:15px;"
             >
 
@@ -87,7 +90,6 @@
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
 
-    // Giriş Formu Kontrolü
     const loginForm = document.getElementById("login-form");
     if (loginForm) {
         loginForm.addEventListener("submit", async (e) => {
@@ -95,23 +97,27 @@
             const email = document.getElementById("login-email").value;
             const password = document.getElementById("login-password").value;
 
+            // Firebase'e gerçekten hangi şifrenin gittiğini F12 konsolundan görebilirsiniz
+            console.log("Firebase'e gönderilen e-posta:", email);
+            console.log("Firebase'e gönderilen şifre uzunluğu:", password.length);
+
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 alert("Hoş geldin! Giriş başarılı: " + userCredential.user.email);
                 window.location.href = "index.html";
             } catch (error) {
-                alert("Giriş başarısız! E-posta veya şifre hatalı.");
+                console.error("Firebase Hata Kodu:", error.code);
+                alert("Giriş başarısız! E-posta veya şifre hatalı. (Hata: " + error.code + ")");
             }
         });
     }
 
-    // Google ile Giriş
     const googleBtn = document.getElementById("google-login");
     if (googleBtn) {
         googleBtn.addEventListener("click", async () => {
             try {
                 await signOut(auth);
-                const result = await signInWithPopup(auth, provider);
+                await signInWithPopup(auth, provider);
                 alert("Google ile başarıyla giriş yapıldı!");
                 window.location.href = "index.html";
             } catch (error) {
