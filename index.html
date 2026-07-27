@@ -538,6 +538,24 @@
             margin-top: 1.25rem;
         }
 
+        /* TAB STYLES FOR PROFILE */
+        .profile-tab-btn {
+            padding: 0.45rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .profile-tab-btn.active {
+            background: var(--primary-dark);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
         @media (max-width: 992px) {
             .logo-tagline { display: none; }
         }
@@ -717,7 +735,6 @@
     <div id="chatbotWidget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
         <button id="chatbotToggleBtn" class="btn btn-accent" style="border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: var(--shadow-md);" onclick="toggleChatbot()" title="TakasBot Asistan">🤖</button>
         <div id="chatbotWindow" style="display: none; position: absolute; bottom: 75px; right: 0; width: 350px; height: 450px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); flex-direction: column; overflow: hidden;">
-            <!-- Header -->
             <div style="background: var(--primary-dark); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span>🤖</span>
@@ -725,13 +742,11 @@
                 </div>
                 <button onclick="toggleChatbot()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">&times;</button>
             </div>
-            <!-- Messages Body -->
             <div id="chatbotMessages" style="flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
                 <div id="botWelcomeMsg" style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
                     Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz (Örn: "Nasıl ilan veririm?", "Güvenli mi?", "Para geçiyor mu?").
                 </div>
             </div>
-            <!-- Input Area -->
             <div style="padding: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; background: var(--surface);">
                 <input type="text" id="chatbotInput" class="form-input" placeholder="Bir soru sorun..." onkeypress="handleChatKeyPress(event)">
                 <button class="btn btn-accent" style="padding: 0.5rem 1rem;" id="botSendBtn" onclick="sendChatMessage()">Gönder</button>
@@ -816,14 +831,14 @@
         </div>
     </div>
 
-    <!-- KULLANICI AYARLARI / PROFİL MODALI -->
+    <!-- KULLANICI AYARLARI / PROFİL MODALI (GELEN & GİDEN MESAJLAR SEKME ENTEGRASYONU) -->
     <div class="modal-overlay" id="profileModal">
-        <div class="modal-card" style="max-width: 720px; width: 95%;">
+        <div class="modal-card" style="max-width: 780px; width: 95%;">
             <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
             <h2 class="modal-title" id="profModalTitle">Kullanıcı Paneli & Profil</h2>
-            <p class="modal-sub" id="profModalSub">Profil bilgilerinizi yönetin ve takas geçmişinizi görüntüleyin</p>
+            <p class="modal-sub" id="profModalSub">Profil bilgilerinizi yönetin, takaslarınızı ve mesajlarınızı görüntüleyin</p>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
+            <div style="display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; align-items: start;">
                 <!-- Sol Kolon: Profil Ayarları -->
                 <div>
                     <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);" id="profInfoTitle">Hesap Bilgileri</h3>
@@ -861,15 +876,31 @@
                     <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;" onclick="handleLogout()" id="logoutBtn">Oturumu Kapat</button>
                 </div>
 
-                <!-- Sağ Kolon: Takaslarım / Takasladıklarım -->
-                <div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); max-height: 420px; overflow-y: auto;">
-                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); display: flex; justify-content: space-between; align-items: center;">
-                        <span id="mySwapsColTitle">Takaslarım / Takasladıklarım</span>
-                        <span style="font-size: 0.75rem; background: var(--primary-light); color: var(--primary-dark); padding: 0.15rem 0.5rem; border-radius: 20px;" id="swapCountBadge">0 İlan</span>
-                    </h3>
-                    <div id="userSwapsList" style="display: flex; flex-direction: column; gap: 0.75rem;">
-                        <!-- Dinamik doldurulacak takaslar -->
+                <!-- Sağ Kolon: TAB SİSTEMİ (Takaslarım, Gelen Mesajlar, Giden Mesajlar) -->
+                <div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); min-height: 380px; max-height: 440px; display: flex; flex-direction: column;">
+                    
+                    <!-- TAB BUTONLARI -->
+                    <div style="display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; overflow-x: auto;">
+                        <button class="profile-tab-btn active" id="tabSwapsBtn" onclick="switchProfileTab('swaps')">📦 <span id="tabSwapsText">Takaslarım</span></button>
+                        <button class="profile-tab-btn" id="tabIncomingBtn" onclick="switchProfileTab('incoming')">📥 <span id="tabIncomingText">Gelen Mesajlar</span></button>
+                        <button class="profile-tab-btn" id="tabOutgoingBtn" onclick="switchProfileTab('outgoing')">📤 <span id="tabOutgoingText">Giden Mesajlar</span></button>
                     </div>
+
+                    <!-- TAB 1: TAKASLARIM LISTESİ -->
+                    <div id="tabContentSwaps" style="flex: 1; overflow-y: auto;">
+                        <div id="userSwapsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+                    </div>
+
+                    <!-- TAB 2: GELEN MESAJLAR LISTESİ -->
+                    <div id="tabContentIncoming" style="display: none; flex: 1; overflow-y: auto;">
+                        <div id="userIncomingMsgsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+                    </div>
+
+                    <!-- TAB 3: GİDEN MESAJLAR LISTESİ -->
+                    <div id="tabContentOutgoing" style="display: none; flex: 1; overflow-y: auto;">
+                        <div id="userOutgoingMsgsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -912,9 +943,7 @@
             <h2 class="modal-title" id="favModalTitle">♡ Favori İlanlarım</h2>
             <p class="modal-sub" id="favModalSub">Favorilerinize eklediğiniz ilanlar</p>
             
-            <div id="favoritesListContainer" style="max-height: 350px; overflow-y: auto; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
-                <!-- Dinamik doldurulacak -->
-            </div>
+            <div id="favoritesListContainer" style="max-height: 350px; overflow-y: auto; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;"></div>
 
             <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;" id="favCloseBtn">Kapat</button>
         </div>
@@ -935,16 +964,14 @@
         </div>
     </div>
 
-    <!-- MESAJLAŞMA MODALI (ENTENTRE EDİLEN KISIM) -->
+    <!-- MESAJLAŞMA MODALI -->
     <div class="modal-overlay" id="messageModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('messageModal')">&times;</button>
             <h2 class="modal-title" id="msgModalTitle" style="text-align:left;">💬 Mesaj Gönder</h2>
             <p class="modal-sub" id="msgModalSub" style="text-align:left; margin-bottom: 1rem;">İlan sahibi ile canlı iletişim</p>
             
-            <div id="chatHistory" style="height: 250px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; overflow-y: auto; background: var(--bg-body); display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.85rem;">
-                <!-- Dinamik sohbet mesajları -->
-            </div>
+            <div id="chatHistory" style="height: 250px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; overflow-y: auto; background: var(--bg-body); display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.85rem;"></div>
 
             <form onsubmit="handleSendMessageSubmit(event)">
                 <div style="display: flex; gap: 0.5rem;">
@@ -962,7 +989,6 @@
         let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false, favorites: [] };
         let chatMessages = JSON.parse(localStorage.getItem('takaslasana_chats')) || {};
         let currentChatTitle = "";
-
         let selectedCategory = 'all';
 
         const rawListings = [
@@ -978,92 +1004,31 @@
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
-        // --- FOOTER İÇERİK METİNLERİ ---
         const footerInfoContent = {
             'biz-kimiz': {
                 title: { tr: "Biz Kimiz?", en: "Who Are We?" },
                 text: { 
-                    tr: "TAKASLASANA, para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas yapmayı sağlayan yenilikçi bir platformdur. Amacımız kullanılmayan eşyaların ve yeteneklerin yeniden değerlendirilmesini sağlamaktır.",
-                    en: "TAKASLASANA is an innovative, community-driven, sustainable, and secure swapping platform without spending money. Our goal is to give a second life to unused items and skills."
+                    tr: "TAKASLASANA, para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas yapmayı sağlayan yenilikçi bir platformdur.",
+                    en: "TAKASLASANA is an innovative, community-driven, sustainable, and secure swapping platform without spending money."
                 }
             },
             'vizyonumuz': {
                 title: { tr: "Vizyonumuz & Misyonumuz", en: "Vision & Mission" },
                 text: { 
-                    tr: "Vizyonumuz: Tüketim çılgınlığını azaltarak dünyada döngüsel ekonominin lider dijital takas ağı olmak.\n\nMisyonumuz: Herkesin yeteneklerini ve eşyalarını güvenle paylaşabileceği adil ve şeffaf bir ekosistem inşa etmek.",
-                    en: "Vision: To be the leading digital swap network of the circular economy by reducing overconsumption.\n\nMission: To build a fair and transparent ecosystem where everyone can safely share their skills and items."
+                    tr: "Vizyonumuz: Döngüsel ekonominin lider takas ağı olmak.\nMisyonumuz: Şeffaf ve adil bir takas ekosistemi kurmak.",
+                    en: "Vision: To be the leading circular economy swap network.\nMission: To build a transparent and fair swap ecosystem."
                 }
             },
-            'kariyer': {
-                title: { tr: "Kariyer", en: "Careers" },
-                text: { 
-                    tr: "Sürdürülebilir bir geleceğe yön vermek ve ekibimizin bir parçası olmak ister misiniz? Açık pozisyonlarımız için özgeçmişinizi ik@takaslasana.com adresine gönderebilirsiniz.",
-                    en: "Want to shape a sustainable future and join our team? You can send your CV to ik@takaslasana.com for open positions."
-                }
-            },
-            'surdurulebilirlik': {
-                title: { tr: "Sürdürülebilirlik", en: "Sustainability" },
-                text: { 
-                    tr: "Doğal kaynakların korunduğu, atıkların en aza indirgendiği ve dayanışma kültürünün güçlendiği bir dünya için çalışıyoruz. Her takas, doğaya bırakılan karbon ayak izini azaltır.",
-                    en: "We work for a world where natural resources are protected, waste is minimized, and solidarity culture is strengthened. Every swap reduces the carbon footprint left on nature."
-                }
-            },
-            'nasil-calisir': {
-                title: { tr: "Nasıl Çalışır?", en: "How It Works?" },
-                text: { 
-                    tr: "1. Ücretsiz üye olun.\n2. Eşya veya hizmet ilanınızı fotoğraflarıyla ekleyin.\n3. İlginizi çeken diğer ilanları inceleyin ve takas teklifi gönderin.\n4. Karşılıklı anlaşarak paranızı cebinizde tutun!",
-                    en: "1. Sign up for free.\n2. Add your item or service listing with photos.\n3. Browse other listings and send a swap offer.\n4. Agree mutually and keep your money in your pocket!"
-                }
-            },
-            'guvenli-takas': {
-                title: { tr: "Güvenli Takas Rehberi", en: "Safe Swap Guide" },
-                text: { 
-                    tr: "• Yüz yüze takaslarda kalabalık ve merkezi yerleri tercih edin.\n• Karşı tarafın profil rozetlerini ve geçmişini inceleyin.\n• Ürünü buluşma noktasında detaylıca kontrol edin.\n• Platform dışı para transferlerinden kaçının.",
-                    en: "• Choose crowded and central locations for face-to-face swaps.\n• Review the other party's profile badges and history.\n• Inspect the product thoroughly at the meeting point.\n• Avoid out-of-platform money transfers."
-                }
-            },
-            'sss': {
-                title: { tr: "Sıkça Sorulan Sorular", en: "Frequently Asked Questions" },
-                text: { 
-                    tr: "S: Takaslasana'da para geçiyor mu?\nC: Hayır, tamamen takas odaklıdır.\n\nS: İlan vermek ücretli mi?\nC: Hayır, ilan vermek ve teklif yapmak tamamen ücretsizdir.",
-                    en: "Q: Is money used in Takaslasana?\nA: No, it is entirely swap-focused.\n\nQ: Is posting listings free?\nA: Yes, posting listings and making offers are completely free."
-                }
-            },
-            'iletisim': {
-                title: { tr: "İletişim", en: "Contact" },
-                text: { 
-                    tr: "Adres: Maslak Mah. Büyükdere Cad. No:142, İstanbul\nE-posta: destek@takaslasana.com\nTelefon: +90 (850) 123 45 67",
-                    en: "Address: Maslak Mah. Buyukdere Cad. No:142, Istanbul\nEmail: destek@takaslasana.com\nPhone: +90 (850) 123 45 67"
-                }
-            },
-            'kullanim-kosullari': {
-                title: { tr: "Kullanım Koşulları", en: "Terms of Use" },
-                text: { 
-                    tr: "Platformumuzu kullanan tüm üyeler topluluk kurallarına, dürüstlük prensibine ve yasal mevzuata uymayı kabul eder. Kurallara aykırı ilanlar yayından kaldırılır.",
-                    en: "All members using our platform agree to comply with community rules, honesty principles, and legal regulations. Listings violating rules will be removed."
-                }
-            },
-            'gizlilik': {
-                title: { tr: "Gizlilik Politikası", en: "Privacy Policy" },
-                text: { 
-                    tr: "Kişisel verileriniz 256-bit SSL sertifikası ile şifrelenerek korunur. Bilgileriniz asla üçüncü şahıslarla ticari amaçla paylaşılmaz.",
-                    en: "Your personal data is protected by 256-bit SSL encryption. Your information is never shared with third parties for commercial purposes."
-                }
-            },
-            'kvkk': {
-                title: { tr: "KVKK Aydınlatma Metni", en: "KVKK Clarification Text" },
-                text: { 
-                    tr: "6698 sayılı Kişisel Verilerin Korunması Kanunu uyarınca, üyelerimizin verileri güvenli veri tabanlarında yasalara uygun olarak işlenmektedir.",
-                    en: "In accordance with the Law on Protection of Personal Data No. 6698, our members' data is processed securely in compliance with the laws."
-                }
-            },
-            'cerezler': {
-                title: { tr: "Çerez Tercihleri", en: "Cookie Preferences" },
-                text: { 
-                    tr: "Sitemizde kullanıcı deneyiminizi iyileştirmek, oturum güvenliğini sağlamak ve site trafiğini analiz etmek amacıyla temel çerezler kullanılmaktadır.",
-                    en: "Essential cookies are used on our site to improve your user experience, ensure session security, and analyze site traffic."
-                }
-            }
+            'kariyer': { title: { tr: "Kariyer", en: "Careers" }, text: { tr: "CV'lerinizi ik@takaslasana.com adresine gönderebilirsiniz.", en: "Send CVs to ik@takaslasana.com." } },
+            'surdurulebilirlik': { title: { tr: "Sürdürülebilirlik", en: "Sustainability" }, text: { tr: "Her takas karbon ayak izini azaltır.", en: "Every swap reduces carbon footprint." } },
+            'nasil-calisir': { title: { tr: "Nasıl Çalışır?", en: "How It Works?" }, text: { tr: " Üyelik oluştur, İlan ver, Teklif yap!", en: "Register, Post, Make Offers!" } },
+            'guvenli-takas': { title: { tr: "Güvenli Takas Rehberi", en: "Safe Swap Guide" }, text: { tr: "Yüz yüze takaslarda kamusal alanları tercih edin.", en: "Prefer public places for face-to-face swaps." } },
+            'sss': { title: { tr: "Sıkça Sorulan Sorular", en: "FAQ" }, text: { tr: "S: Ücretsiz mi? C: Evet, tamamen ücretsiz!", en: "Q: Is it free? A: Yes, completely free!" } },
+            'iletisim': { title: { tr: "İletişim", en: "Contact" }, text: { tr: "E-posta: destek@takaslasana.com", en: "Email: destek@takaslasana.com" } },
+            'kullanim-kosullari': { title: { tr: "Kullanım Koşulları", en: "Terms" }, text: { tr: "Topluluk kurallarına uymak zorunludur.", en: "Complying with rules is required." } },
+            'gizlilik': { title: { tr: "Gizlilik Politikası", en: "Privacy" }, text: { tr: "Verileriniz 256-bit SSL ile korunur.", en: "Data secured by 256-bit SSL." } },
+            'kvkk': { title: { tr: "KVKK", en: "KVKK" }, text: { tr: "Verileriniz kanunlara uygun işlenir.", en: "Data processed lawfully." } },
+            'cerezler': { title: { tr: "Çerezler", en: "Cookies" }, text: { tr: "Temel çerezler kullanılmaktadır.", en: "Essential cookies used." } }
         };
 
         function openInfoModal(key) {
@@ -1101,7 +1066,7 @@
                 footerCol3Title: "Yasal",
                 footerCopy: "© 2026 TAKASLASANA. Tüm hakları saklıdır.",
                 botNameTitle: "TakasBot Canlı Asistan",
-                botWelcome: "Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz (Örn: \"Nasıl ilan veririm?\", \"Güvenli mi?\", \"Para geçiyor mu?\").",
+                botWelcome: "Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz.",
                 botPlaceholder: "Bir soru sorun...",
                 botSend: "Gönder",
                 loginTitle: "Giriş Yap",
@@ -1120,14 +1085,16 @@
                 loginLink: "Giriş Yap",
                 sslReg: "🔒 256-bit SSL ile Güvenli Kayıt",
                 profTitle: "Kullanıcı Paneli & Profil",
-                profSub: "Profil bilgilerinizi yönetin ve takas geçmişinizi görüntüleyin",
+                profSub: "Profil bilgilerinizi yönetin, takaslarınızı ve mesajlarınızı görüntüleyin",
                 profInfo: "Hesap Bilgileri",
                 avatarText: "Fotoğrafı değiştirmek için tıkla",
                 phoneLabel: "Telefon Numarası",
                 addressLabel: "Adres",
                 updateBtn: "Güncelle",
                 logoutBtn: "Oturumu Kapat",
-                mySwapsTitle: "Takaslarım / Takasladıklarım",
+                tabSwaps: "Takaslarım",
+                tabIncoming: "Gelen Mesajlar",
+                tabOutgoing: "Giden Mesajlar",
                 postTitle: "Yeni İlan Oluştur",
                 postSub: "Eşya veya hizmetinizi takasa çıkarın",
                 postTitleLabel: "İlan Başlığı",
@@ -1171,7 +1138,7 @@
                 footerCol3Title: "Legal",
                 footerCopy: "© 2026 TAKASLASANA. All rights reserved.",
                 botNameTitle: "TakasBot Live Assistant",
-                botWelcome: "Hello! I am TakasBot 🤖. You can ask me anything about Takaslasana (e.g., \"How to post an ad?\", \"Is it safe?\", \"Is money used?\").",
+                botWelcome: "Hello! I am TakasBot 🤖. Ask me anything about Takaslasana.",
                 botPlaceholder: "Ask a question...",
                 botSend: "Send",
                 loginTitle: "Login",
@@ -1190,14 +1157,16 @@
                 loginLink: "Login",
                 sslReg: "🔒 Secure Registration with 256-bit SSL",
                 profTitle: "User Panel & Profile",
-                profSub: "Manage your profile information and view swap history",
+                profSub: "Manage your profile, view your swaps and messages",
                 profInfo: "Account Information",
                 avatarText: "Click to change photo",
                 phoneLabel: "Phone Number",
                 addressLabel: "Address",
                 updateBtn: "Update",
                 logoutBtn: "Log Out",
-                mySwapsTitle: "My Swaps / Swapped Items",
+                tabSwaps: "My Swaps",
+                tabIncoming: "Incoming Msgs",
+                tabOutgoing: "Outgoing Msgs",
                 postTitle: "Create New Listing",
                 postSub: "Put your item or service up for swap",
                 postTitleLabel: "Listing Title",
@@ -1221,9 +1190,7 @@
         function toggleLanguage() {
             currentLang = currentLang === 'tr' ? 'en' : 'tr';
             const langBtn = document.getElementById('langBtn');
-            if (langBtn) {
-                langBtn.textContent = currentLang === 'tr' ? 'TR 🇹🇷' : 'EN 🇬🇧';
-            }
+            if (langBtn) langBtn.textContent = currentLang === 'tr' ? 'TR 🇹🇷' : 'EN 🇬🇧';
 
             const t = translations[currentLang];
             document.getElementById('taglineText').textContent = t.tagline;
@@ -1283,7 +1250,9 @@
             document.getElementById('profAddressLabel').textContent = t.addressLabel;
             document.getElementById('profUpdateBtn').textContent = t.updateBtn;
             document.getElementById('logoutBtn').textContent = t.logoutBtn;
-            document.getElementById('mySwapsColTitle').textContent = t.mySwapsTitle;
+            document.getElementById('tabSwapsText').textContent = t.tabSwaps;
+            document.getElementById('tabIncomingText').textContent = t.tabIncoming;
+            document.getElementById('tabOutgoingText').textContent = t.tabOutgoing;
 
             document.getElementById('postModalTitle').textContent = t.postTitle;
             document.getElementById('postModalSub').textContent = t.postSub;
@@ -1307,20 +1276,13 @@
             renderFavoritesModal();
         }
 
-        // --- TAKASBOT OTOMATİK YANIT SİSTEMİ ---
         function toggleChatbot() {
             const win = document.getElementById('chatbotWindow');
-            if (win.style.display === 'none' || win.style.display === '') {
-                win.style.display = 'flex';
-            } else {
-                win.style.display = 'none';
-            }
+            win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
         }
 
         function handleChatKeyPress(e) {
-            if (e.key === 'Enter') {
-                sendChatMessage();
-            }
+            if (e.key === 'Enter') sendChatMessage();
         }
 
         function sendChatMessage() {
@@ -1329,7 +1291,6 @@
             if (!msg) return;
 
             const messagesContainer = document.getElementById('chatbotMessages');
-
             messagesContainer.innerHTML += `
                 <div style="background: var(--primary-light); color: var(--primary-dark); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-end; max-width: 85%; font-weight: 600;">
                     ${escapeHtml(msg)}
@@ -1340,22 +1301,8 @@
 
             setTimeout(() => {
                 let reply = currentLang === 'tr' 
-                    ? "Bu konuda tam emin değilim ama destek ekibimize destek@takaslasana.com adresinden her zaman ulaşabilirsiniz!" 
-                    : "I am not entirely sure about this, but you can always reach our support team at destek@takaslasana.com!";
-                const lowerMsg = msg.toLowerCase();
-
-                if (lowerMsg.includes('merhaba') || lowerMsg.includes('selam') || lowerMsg.includes('hey') || lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
-                    reply = currentLang === 'tr' ? "Merhaba! Size takas süreci veya ilanlar nasıl yardımcı olabilirim?" : "Hello! How can I help you with the swapping process or listings?";
-                } else if (lowerMsg.includes('ilan') || lowerMsg.includes('ver') || lowerMsg.includes('ekle') || lowerMsg.includes('ad') || lowerMsg.includes('post')) {
-                    reply = currentLang === 'tr' ? "İlan verebilmek için sağ üst köşedeki '+ İlan Ver' butonuna tıklayabilirsiniz. (Giriş yapmanız gerekir)." : "You can click the '+ Create Listing' button at the top right to post an ad. (You need to be logged in).";
-                } else if (lowerMsg.includes('güven') || lowerMsg.includes('dolandır') || lowerMsg.includes('safe')) {
-                    reply = currentLang === 'tr' ? "Takaslasana'da kullanıcı kimlikleri doğrulanır ve güvenli takas yönergeleri sunulur." : "User identities are verified on Takaslasana and safe swap guidelines are provided.";
-                } else if (currentLang === 'en' && (lowerMsg.includes('money') || lowerMsg.includes('price') || lowerMsg.includes('fee'))) {
-                    reply = "Takaslasana is a sustainable platform where you can swap items and skills without spending money. Posting and swapping are completely free! 🌱";
-                } else if (lowerMsg.includes('fiyat') || lowerMsg.includes('ücret') || lowerMsg.includes('para')) {
-                    reply = "Takaslasana tamamen para harcamadan eşya ve yetenek takası yapabileceğiniz sürdürülebilir bir platformdur. Ücretsizdir! 🌱";
-                }
-
+                    ? "Bu konuda bilgi almak için destek@takaslasana.com adresinden bizimle iletişime geçebilirsiniz." 
+                    : "You can contact support@takaslasana.com for assistance.";
                 messagesContainer.innerHTML += `
                     <div style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
                         ${reply}
@@ -1376,10 +1323,7 @@
                 const melody = [
                     { freq: 523.25, time: 0.00, duration: 0.2 },
                     { freq: 587.33, time: 0.22, duration: 0.2 },
-                    { freq: 659.25, time: 0.44, duration: 0.2 },
-                    { freq: 783.99, time: 0.66, duration: 0.2 },
-                    { freq: 880.00, time: 0.88, duration: 0.4 },
-                    { freq: 1046.50, time: 1.35, duration: 0.5 }
+                    { freq: 659.25, time: 0.44, duration: 0.2 }
                 ];
                 melody.forEach(note => {
                     const osc = audioCtx.createOscillator();
@@ -1400,17 +1344,14 @@
             const grid = document.getElementById('listingsGrid');
             const headerCount = document.getElementById('listingsCountHeader');
             const t = translations[currentLang];
-            if (headerCount) {
-                headerCount.textContent = `${currentLang === 'tr' ? 'Aktif İlanlar' : 'Active Listings'} (${items.length})`;
-            }
+            if (headerCount) headerCount.textContent = `${currentLang === 'tr' ? 'Aktif İlanlar' : 'Active Listings'} (${items.length})`;
 
             if (items.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">${currentLang === 'tr' ? 'Aramanıza uygun ilan bulunamadı.' : 'No listings found matching your search.'}</p>`;
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">${currentLang === 'tr' ? 'Aramanıza uygun ilan bulunamadı.' : 'No listings found.'}</p>`;
                 return;
             }
 
             const favorites = currentUser.favorites || [];
-
             grid.innerHTML = items.map(item => {
                 const isFav = favorites.includes(item.id);
                 return `
@@ -1420,7 +1361,7 @@
                             <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
                                 ${item.type === 'item' ? t.itemBadge : t.serviceBadge}
                             </span>
-                            <button class="card-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, ${item.id})" title="${isFav ? (currentLang === 'tr' ? 'Favorilerden Çıkar' : 'Remove from Favorites') : (currentLang === 'tr' ? 'Favorilere Ekle' : 'Add to Favorites')}">
+                            <button class="card-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, ${item.id})">
                                 ${isFav ? '★' : '☆'}
                             </button>
                         </div>
@@ -1442,21 +1383,14 @@
         function toggleFavorite(event, id) {
             event.stopPropagation();
             if (!currentUser.isLoggedIn) {
-                alert(currentLang === 'tr' ? 'Favorilere eklemek için önce giriş yapmalısınız.' : 'You must log in to add favorites.');
+                alert(currentLang === 'tr' ? 'Favorilere eklemek için önce giriş yapmalısınız.' : 'Please log in to add favorites.');
                 showModal('loginModal');
                 return;
             }
-
-            if (!currentUser.favorites) {
-                currentUser.favorites = [];
-            }
-
+            if (!currentUser.favorites) currentUser.favorites = [];
             const index = currentUser.favorites.indexOf(id);
-            if (index > -1) {
-                currentUser.favorites.splice(index, 1);
-            } else {
-                currentUser.favorites.push(id);
-            }
+            if (index > -1) currentUser.favorites.splice(index, 1);
+            else currentUser.favorites.push(id);
 
             const userIndex = users.findIndex(u => u.email === currentUser.email);
             if (userIndex !== -1) {
@@ -1464,7 +1398,6 @@
                 localStorage.setItem('takaslasana_users', JSON.stringify(users));
             }
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
-
             filterListings();
             renderFavoritesModal();
         }
@@ -1472,13 +1405,11 @@
         function renderFavoritesModal() {
             const container = document.getElementById('favoritesListContainer');
             if (!container) return;
-
             const favorites = currentUser.favorites || [];
             if (favorites.length === 0) {
                 container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz favori ilanınız yok.' : 'No favorite listings yet.'}</p>`;
                 return;
             }
-
             const favItems = rawListings.filter(item => favorites.includes(item.id));
             container.innerHTML = favItems.map(item => `
                 <div style="background: var(--bg-body); border: 1px solid var(--border); padding: 0.75rem; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="closeModal('favoritesModal'); openDetailModal(${item.id})">
@@ -1489,7 +1420,7 @@
                             <p style="font-size: 0.75rem; color: var(--text-muted);">📍 ${item.city} • ${item.cat}</p>
                         </div>
                     </div>
-                    <button onclick="toggleFavorite(event, ${item.id})" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #EF4444;" title="Kaldır">❌</button>
+                    <button onclick="toggleFavorite(event, ${item.id})" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #EF4444;">❌</button>
                 </div>
             `).join('');
         }
@@ -1500,15 +1431,12 @@
             const cityVal = document.getElementById('citySelect')?.value || 'all';
 
             const filtered = rawListings.filter(item => {
-                const matchesSearch = item.title[currentLang].toLowerCase().includes(searchVal) || 
-                                      item.desc[currentLang].toLowerCase().includes(searchVal);
+                const matchesSearch = item.title[currentLang].toLowerCase().includes(searchVal) || item.desc[currentLang].toLowerCase().includes(searchVal);
                 const matchesType = typeVal === 'all' || item.type === typeVal;
                 const matchesCity = cityVal === 'all' || item.city === cityVal;
                 const matchesCat = selectedCategory === 'all' || item.cat.includes(selectedCategory);
-
                 return matchesSearch && matchesType && matchesCity && matchesCat;
             });
-
             renderListings(filtered);
         }
 
@@ -1522,7 +1450,7 @@
         function showModal(id) {
             if (id === 'favoritesModal') {
                 if (!currentUser.isLoggedIn) {
-                    alert(currentLang === 'tr' ? 'Favorilerinizi görebilmek için önce giriş yapmalısınız.' : 'You must log in to view your favorites.');
+                    alert(currentLang === 'tr' ? 'Favorilerinizi görebilmek için önce giriş yapmalısınız.' : 'Please log in first.');
                     showModal('loginModal');
                     return;
                 }
@@ -1540,7 +1468,7 @@
             showModal(openId);
         }
 
-        /* MESAJLAŞMA ENTEGRASYONU FONKSİYONLARI */
+        /* CANLI MESAJLAŞMA VE SOHBET ENTEGRASYONU */
         function openChatModal(listingTitle) {
             currentChatTitle = listingTitle || "İlan";
             document.getElementById('msgModalSub').textContent = `${currentChatTitle} - ${currentLang === 'tr' ? 'İlan Sahibi' : 'Seller'}`;
@@ -1553,14 +1481,14 @@
             if (!container) return;
 
             const history = chatMessages[currentChatTitle] || [
-                { sender: "Sistem", text: currentLang === 'tr' ? "İlan sahibi ile sohbetiniz başladı. Teklif veya sorularınızı yazabilirsiniz." : "Chat started with the seller. You can send your offers or questions.", time: "Sistem", isSystem: true }
+                { sender: "Sistem", text: currentLang === 'tr' ? "İlan sahibi ile sohbetiniz başladı. Teklif veya sorularınızı yazabilirsiniz." : "Chat started with the seller. You can send your offers.", time: "Sistem", isSystem: true }
             ];
 
             container.innerHTML = history.map(msg => {
                 if (msg.isSystem) {
                     return `<div style="text-align: center; color: var(--text-muted); font-size: 0.75rem; font-style: italic; margin: 0.25rem 0;">${msg.text}</div>`;
                 }
-                const isMe = msg.sender === currentUser.name;
+                const isMe = msg.sender === (currentUser.name || "Kullanıcı");
                 return `
                     <div style="align-self: ${isMe ? 'flex-end' : 'flex-start'}; max-width: 80%; background: ${isMe ? 'var(--primary-light)' : 'var(--surface)'}; color: ${isMe ? 'var(--primary-dark)' : 'var(--text-main)'}; border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);">
                         <div style="font-size: 0.7rem; font-weight: 700; opacity: 0.8;">${msg.sender} • ${msg.time}</div>
@@ -1580,7 +1508,7 @@
 
             if (!chatMessages[currentChatTitle]) {
                 chatMessages[currentChatTitle] = [
-                    { sender: "Sistem", text: currentLang === 'tr' ? "İlan sahibi ile sohbetiniz başladı. Teklif veya sorularınızı yazabilirsiniz." : "Chat started with the seller. You can send your offers or questions.", time: "Sistem", isSystem: true }
+                    { sender: "Sistem", text: currentLang === 'tr' ? "İlan sahibi ile sohbetiniz başladı." : "Chat started with the seller.", time: "Sistem", isSystem: true }
                 ];
             }
 
@@ -1597,30 +1525,141 @@
             input.value = '';
             renderChatMessages();
 
-            // İlan sahibi yanıt simülasyonu
+            // İlan Sahibi Otomatik Yanıt Simülasyonu
             setTimeout(() => {
                 if (chatMessages[currentChatTitle]) {
                     chatMessages[currentChatTitle].push({
                         sender: "İlan Sahibi",
-                        text: currentLang === 'tr' ? "Mesajınızı aldım, teklifinizi değerlendirip en kısa sürede dönüş yapacağım!" : "I received your message, I will review your offer and get back to you shortly!",
+                        text: currentLang === 'tr' ? "Mesajınızı aldım! Teklifinizi değerlendirip en kısa sürede dönüş yapacağım." : "I received your message! I'll reply shortly.",
                         time: timeStr
                     });
                     localStorage.setItem('takaslasana_chats', JSON.stringify(chatMessages));
                     renderChatMessages();
+                    
+                    // Eğer profil modalı açıksa giden/gelen kutularını güncelle
+                    if (document.getElementById('profileModal').classList.contains('active')) {
+                        renderIncomingMessages();
+                        renderOutgoingMessages();
+                    }
                 }
             }, 1000);
         }
 
+        /* --- PROFİL PANELİ GELEN & GİDEN MESAJ SİSTEMİ --- */
+        function switchProfileTab(tabName) {
+            document.querySelectorAll('.profile-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tabContentSwaps').style.display = 'none';
+            document.getElementById('tabContentIncoming').style.display = 'none';
+            document.getElementById('tabContentOutgoing').style.display = 'none';
+
+            if (tabName === 'swaps') {
+                document.getElementById('tabSwapsBtn').classList.add('active');
+                document.getElementById('tabContentSwaps').style.display = 'block';
+                renderUserSwaps();
+            } else if (tabName === 'incoming') {
+                document.getElementById('tabIncomingBtn').classList.add('active');
+                document.getElementById('tabContentIncoming').style.display = 'block';
+                renderIncomingMessages();
+            } else if (tabName === 'outgoing') {
+                document.getElementById('tabOutgoingBtn').classList.add('active');
+                document.getElementById('tabContentOutgoing').style.display = 'block';
+                renderOutgoingMessages();
+            }
+        }
+
+        function renderIncomingMessages() {
+            const container = document.getElementById('userIncomingMsgsList');
+            if (!container) return;
+
+            let incomingList = [];
+            const myName = currentUser.name || "Kullanıcı";
+
+            // chatMessages nesnesindeki tüm sohbetleri tara
+            for (let chatTitle in chatMessages) {
+                const msgs = chatMessages[chatTitle];
+                // Benim gönderdiğim dışındaki mesajlar
+                const incMsgs = msgs.filter(m => !m.isSystem && m.sender !== myName);
+                if (incMsgs.length > 0) {
+                    const lastMsg = incMsgs[incMsgs.length - 1];
+                    incomingList.push({
+                        title: chatTitle,
+                        sender: lastMsg.sender,
+                        text: lastMsg.text,
+                        time: lastMsg.time
+                    });
+                }
+            }
+
+            if (incomingList.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz gelen bir mesajınız bulunmuyor.' : 'No incoming messages yet.'}</p>`;
+                return;
+            }
+
+            container.innerHTML = incomingList.map(item => `
+                <div style="background: var(--surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.4rem; cursor: pointer;" onclick="openChatFromProfile('${escapeHtml(item.title)}')">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.85rem; font-weight: 800; color: var(--primary-dark);">📢 ${escapeHtml(item.title)}</span>
+                        <span style="font-size: 0.7rem; color: var(--text-muted);">🕒 ${item.time}</span>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-main); font-weight: 600;">👤 ${escapeHtml(item.sender)}: "${escapeHtml(item.text)}"</p>
+                    <button class="btn btn-outline" style="align-self: flex-end; padding: 0.2rem 0.6rem; font-size: 0.75rem;" onclick="event.stopPropagation(); openChatFromProfile('${escapeHtml(item.title)}')">💬 Sohbeti Aç</button>
+                </div>
+            `).join('');
+        }
+
+        function renderOutgoingMessages() {
+            const container = document.getElementById('userOutgoingMsgsList');
+            if (!container) return;
+
+            let outgoingList = [];
+            const myName = currentUser.name || "Kullanıcı";
+
+            for (let chatTitle in chatMessages) {
+                const msgs = chatMessages[chatTitle];
+                // Benim gönderdiğim mesajlar
+                const outMsgs = msgs.filter(m => !m.isSystem && m.sender === myName);
+                if (outMsgs.length > 0) {
+                    const lastMsg = outMsgs[outMsgs.length - 1];
+                    outgoingList.push({
+                        title: chatTitle,
+                        text: lastMsg.text,
+                        time: lastMsg.time
+                    });
+                }
+            }
+
+            if (outgoingList.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz giden bir mesajınız bulunmuyor.' : 'No outgoing messages yet.'}</p>`;
+                return;
+            }
+
+            container.innerHTML = outgoingList.map(item => `
+                <div style="background: var(--surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.4rem; cursor: pointer;" onclick="openChatFromProfile('${escapeHtml(item.title)}')">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.85rem; font-weight: 800; color: var(--accent);">📤 ${escapeHtml(item.title)}</span>
+                        <span style="font-size: 0.7rem; color: var(--text-muted);">🕒 ${item.time}</span>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-main);">" ${escapeHtml(item.text)} "</p>
+                    <button class="btn btn-outline" style="align-self: flex-end; padding: 0.2rem 0.6rem; font-size: 0.75rem;" onclick="event.stopPropagation(); openChatFromProfile('${escapeHtml(item.title)}')">💬 Sohbeti Gör</button>
+                </div>
+            `).join('');
+        }
+
+        function openChatFromProfile(chatTitle) {
+            closeModal('profileModal');
+            openChatModal(chatTitle);
+        }
+
         function checkAuthAndAction(actionType) {
             if (!currentUser.isLoggedIn) {
-                alert(currentLang === 'tr' ? 'Bu işlemi yapabilmek için önce giriş yapmalısınız.' : 'You must log in first to perform this action.');
+                alert(currentLang === 'tr' ? 'Bu işlemi yapabilmek için önce giriş yapmalısınız.' : 'Please log in first.');
                 showModal('loginModal');
                 return false;
             }
             if (actionType === 'favorites') {
                 showModal('favoritesModal');
             } else if (actionType === 'offer') {
-                alert(currentLang === 'tr' ? 'Takas teklifiniz başarıyla iletildi!' : 'Your swap offer has been successfully sent!');
+                alert(currentLang === 'tr' ? 'Takas teklifiniz başarıyla iletildi!' : 'Your offer has been sent!');
                 closeModal('detailModal');
             } else if (actionType === 'msg') {
                 const title = document.getElementById('dTitle').textContent;
@@ -1628,7 +1667,7 @@
                 closeModal('detailModal');
             } else if (actionType === 'whatsapp') {
                 const title = document.getElementById('dTitle').textContent;
-                window.open(`https://wa.me/905000000000?text=Merhaba, "${title}" ilanınızla ilgileniyorum. Takas yapmak istesem görüşebilir miyiz?`, '_blank');
+                window.open(`https://wa.me/905000000000?text=Merhaba, "${title}" ilanınızla ilgileniyorum.`, '_blank');
                 closeModal('detailModal');
             }
             return true;
@@ -1636,7 +1675,7 @@
 
         function handlePostAdClick() {
             if (!currentUser.isLoggedIn) {
-                alert(currentLang === 'tr' ? 'İlan verebilmek için önce giriş yapmalısınız!' : 'You must log in to post an ad!');
+                alert(currentLang === 'tr' ? 'İlan verebilmek için önce giriş yapmalısınız!' : 'Please log in to post an ad!');
                 showModal('loginModal');
             } else {
                 showModal('postModal');
@@ -1661,22 +1700,14 @@
 
             const existingUser = users.find(u => u.email === email);
             if (existingUser) {
-                alert(currentLang === 'tr' ? 'Bu e-posta adresi ile zaten bir hesap var!' : 'An account with this email already exists!');
+                alert(currentLang === 'tr' ? 'Bu e-posta adresi ile zaten bir hesap var!' : 'Account already exists!');
                 switchModal('registerModal', 'loginModal');
                 return;
             }
 
             const newUser = {
-                name,
-                email,
-                password,
-                phone: '',
-                address: '',
-                avatar: '',
-                favorites: [],
-                mySwaps: [
-                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
-                ]
+                name, email, password, phone: '', address: '', avatar: '', favorites: [],
+                mySwaps: [{ title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }]
             };
 
             users.push(newUser);
@@ -1687,7 +1718,7 @@
 
             updateUserUI();
             closeModal('registerModal');
-            alert(currentLang === 'tr' ? `Kayıt başarılı! Hoş geldiniz, ${name}.` : `Registration successful! Welcome, ${name}.`);
+            alert(currentLang === 'tr' ? `Kayıt başarılı! Hoş geldiniz, ${name}.` : `Welcome, ${name}.`);
         }
 
         function handleLoginFormSubmit(e) {
@@ -1697,7 +1728,7 @@
 
             const user = users.find(u => u.email === email);
             if (!user) {
-                alert(currentLang === 'tr' ? 'Bu e-posta ile kayıtlı hesap bulunamadı!' : 'No account found with this email!');
+                alert(currentLang === 'tr' ? 'Bu e-posta ile kayıtlı hesap bulunamadı!' : 'User not found!');
                 switchModal('loginModal', 'registerModal');
                 return;
             }
@@ -1708,11 +1739,7 @@
             }
 
             if (!user.favorites) user.favorites = [];
-            if (!user.mySwaps) {
-                user.mySwaps = [
-                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
-                ];
-            }
+            if (!user.mySwaps) user.mySwaps = [{ title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }];
 
             currentUser = { isLoggedIn: true, ...user };
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
@@ -1752,17 +1779,16 @@
             document.getElementById('profilePhone').value = currentUser.phone || '';
             document.getElementById('profileAddress').value = currentUser.address || '';
             updateAvatarPreview(currentUser.avatar || '');
-            renderUserSwaps();
+            switchProfileTab('swaps');
             showModal('profileModal');
         }
 
         function renderUserSwaps() {
             const container = document.getElementById('userSwapsList');
             const swaps = currentUser.mySwaps || [];
-            document.getElementById('swapCountBadge').textContent = `${swaps.length} ${currentLang === 'tr' ? 'İlan' : 'Ads'}`;
 
             if (swaps.length === 0) {
-                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz eklenmiş takas ilanınız yok.' : 'No swap listings added yet.'}</p>`;
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz eklenmiş takas ilanınız yok.' : 'No swap listings yet.'}</p>`;
                 return;
             }
 
@@ -1794,23 +1820,16 @@
             e.stopPropagation();
             document.getElementById('dropZone').style.borderColor = 'var(--primary-dark)';
             const files = e.dataTransfer.files;
-            if (files && files[0]) {
-                processImageFile(files[0]);
-            }
+            if (files && files[0]) processImageFile(files[0]);
         }
 
         function handleFileSelect(e) {
             const files = e.target.files;
-            if (files && files[0]) {
-                processImageFile(files[0]);
-            }
+            if (files && files[0]) processImageFile(files[0]);
         }
 
         function processImageFile(file) {
-            if (!file.type.startsWith('image/')) {
-                alert(currentLang === 'tr' ? 'Lütfen geçerli bir resim dosyası seçin.' : 'Please select a valid image file.');
-                return;
-            }
+            if (!file.type.startsWith('image/')) return;
             const reader = new FileReader();
             reader.onload = function(event) {
                 currentUser.avatar = event.target.result;
@@ -1843,7 +1862,7 @@
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
             updateUserUI();
             closeModal('profileModal');
-            alert(currentLang === 'tr' ? 'Profil bilgileriniz güncellendi!' : 'Profile updated successfully!');
+            alert(currentLang === 'tr' ? 'Profil bilgileriniz güncellendi!' : 'Profile updated!');
         }
 
         function handleLogout() {
@@ -1875,7 +1894,7 @@
             }
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
 
-            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Listing published successfully!');
+            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Listing published!');
             e.target.reset();
             closeModal('postModal');
         }
@@ -1887,11 +1906,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderListings();
             updateUserUI();
-
             const searchInput = document.getElementById('searchInput');
-            if (searchInput) {
-                searchInput.addEventListener('input', filterListings);
-            }
+            if (searchInput) searchInput.addEventListener('input', filterListings);
         });
     </script>
 </body>
