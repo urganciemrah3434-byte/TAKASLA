@@ -45,8 +45,12 @@
             cursor: default;
         }
 
-        a, button, input, select, .cat-chip, .card, .close-btn, .card-fav-btn {
+        a, button, input, select, textarea, .cat-chip, .card, .close-btn, .card-fav-btn {
             cursor: pointer;
+        }
+
+        input, textarea {
+            cursor: text;
         }
 
         body {
@@ -276,6 +280,11 @@
             outline: none;
             background: var(--surface);
             color: var(--text-main);
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
         }
 
         .listings-header {
@@ -875,30 +884,31 @@
         </div>
     </div>
 
-    <!-- İLAN VER MODALI -->
+    <!-- İLAN VER MODALI (Firebase Entegreli) -->
     <div class="modal-overlay" id="postModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
             <h2 class="modal-title" id="postModalTitle">Yeni İlan Oluştur</h2>
             <p class="modal-sub" id="postModalSub">Eşya veya hizmetinizi takasa çıkarın</p>
-            <form onsubmit="handleFormSubmit(event)">
+            <form id="listingForm" onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
                     <label class="form-label" id="postTitleLabel">İlan Başlığı</label>
                     <input type="text" class="form-input" id="newAdTitle" placeholder="Örn: Bisiklet, Ders..." required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" id="postCatLabel">Kategori</label>
-                    <select class="form-select" id="newAdCat">
-                        <option>Elektronik</option>
-                        <option>Hizmet & Ustalık</option>
-                        <option>Eğitim</option>
-                        <option>Ev & Yaşam</option>
-                        <option>Hobi & Müzik</option>
+                    <select class="form-select" id="newAdCat" required>
+                        <option value="" disabled selected>Kategori Seçin</option>
+                        <option value="Elektronik">Elektronik</option>
+                        <option value="Hizmet & Ustalık">Hizmet & Ustalık</option>
+                        <option value="Eğitim">Eğitim</option>
+                        <option value="Ev & Yaşam">Ev & Yaşam</option>
+                        <option value="Hobi & Müzik">Hobi & Müzik</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" id="postDescLabel">Ne ile takas etmek istersiniz?</label>
-                    <textarea class="form-textarea" id="newAdDesc" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
+                    <label class="form-label" id="postDescLabel">Ne ile takas etmek istersiniz / Detaylar?</label>
+                    <textarea class="form-textarea" id="newAdDesc" rows="3" placeholder="Aradığınız ürün veya hizmeti detaylıca belirtin..." required></textarea>
                 </div>
                 <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="postSubmitBtn">İlanı Yayınla</button>
             </form>
@@ -935,7 +945,33 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT & FIREBASE ENTEGRASYONU -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "BURAYA_API_KEY_GIRIN",
+            authDomain: "takasla-63add.firebaseapp.com",
+            projectId: "takasla-63add",
+            storageBucket: "takasla-63add.appspot.com",
+            messagingSenderId: "BURAYA_SENDER_ID_GIRIN",
+            appId: "BURAYA_APP_ID_GIRIN"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Global hale getiriyoruz ki fonksiyonlar dışarıdan erişebilsin
+        window.firebaseDb = db;
+        window.firebaseAuth = auth;
+        window.firebaseAddDoc = addDoc;
+        window.firebaseCollection = collection;
+        window.firebaseServerTimestamp = serverTimestamp;
+    </script>
+
     <script>
         let currentLang = 'tr';
         let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
@@ -1110,7 +1146,7 @@
                 postSub: "Eşya veya hizmetinizi takasa çıkarın",
                 postTitleLabel: "İlan Başlığı",
                 postCatLabel: "Kategori",
-                postDescLabel: "Ne ile takas etmek istersiniz?",
+                postDescLabel: "Ne ile takas etmek istersiniz / Detaylar?",
                 postSubmitBtn: "İlanı Yayınla",
                 favTitle: "♡ Favori İlanlarım",
                 favSub: "Favorilerinize eklediğiniz ilanlar",
@@ -1177,7 +1213,7 @@
                 postSub: "Put your item or service up for swap",
                 postTitleLabel: "Listing Title",
                 postCatLabel: "Category",
-                postDescLabel: "What would you like to swap with?",
+                postDescLabel: "What would you like to swap with / Details?",
                 postSubmitBtn: "Publish Listing",
                 favTitle: "♡ My Favorite Listings",
                 favSub: "Listings you have added to your favorites",
@@ -1751,29 +1787,52 @@
             alert(currentLang === 'tr' ? 'Oturum kapatıldı.' : 'Logged out.');
         }
 
-        function handleFormSubmit(e) {
+        // --- FIREBASE FIRESTORE İLAN KAYIT FONKSİYONU ---
+        async function handleFormSubmit(e) {
             e.preventDefault();
             const title = document.getElementById('newAdTitle').value;
-            const cat = document.getElementById('newAdCat').value;
+            const category = document.getElementById('newAdCat').value;
+            const description = document.getElementById('newAdDesc').value;
 
-            if (!currentUser.mySwaps) currentUser.mySwaps = [];
-            currentUser.mySwaps.unshift({
-                title: title,
-                status: 'Aktif',
-                date: 'Bugün',
-                cat: cat
-            });
-
-            const userIndex = users.findIndex(u => u.email === currentUser.email);
-            if (userIndex !== -1) {
-                users[userIndex] = { ...currentUser };
-                localStorage.setItem('takaslasana_users', JSON.stringify(users));
+            if (!currentUser.isLoggedIn) {
+                alert(currentLang === 'tr' ? "İlan vermek için lütfen önce giriş yapın!" : "Please log in first to post an ad!");
+                return;
             }
-            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
 
-            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Listing published successfully!');
-            e.target.reset();
-            closeModal('postModal');
+            try {
+                // Firebase Firestore'a kayıt gönderimi
+                await window.firebaseAddDoc(window.firebaseCollection(window.firebaseDb, "products"), {
+                    userId: currentUser.email,
+                    title: title,
+                    category: category,
+                    description: description,
+                    status: "active",
+                    createdAt: window.firebaseServerTimestamp()
+                });
+
+                // Yerel panel için de listeye ekleyelim
+                if (!currentUser.mySwaps) currentUser.mySwaps = [];
+                currentUser.mySwaps.unshift({
+                    title: title,
+                    status: 'Aktif',
+                    date: 'Bugün',
+                    cat: category
+                });
+
+                const userIndex = users.findIndex(u => u.email === currentUser.email);
+                if (userIndex !== -1) {
+                    users[userIndex] = { ...currentUser };
+                    localStorage.setItem('takaslasana_users', JSON.stringify(users));
+                }
+                localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+
+                alert(currentLang === 'tr' ? 'İlanınız başarıyla Firebase veri tabanına kaydedildi!' : 'Your listing was successfully saved to Firebase database!');
+                e.target.reset();
+                closeModal('postModal');
+            } catch (error) {
+                console.error("İlan eklenirken hata oluştu: ", error);
+                alert((currentLang === 'tr' ? "İlan yayınlanırken bir sorun oluştu: " : "An error occurred while publishing: ") + error.message);
+            }
         }
 
         function toggleDarkMode() {
