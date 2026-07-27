@@ -889,11 +889,11 @@
                 <div class="form-group">
                     <label class="form-label" id="postCatLabel">Kategori</label>
                     <select class="form-select" id="newAdCat">
-                        <option>Elektronik</option>
-                        <option>Hizmet & Ustalık</option>
-                        <option>Eğitim</option>
-                        <option>Ev & Yaşam</option>
-                        <option>Hobi & Müzik</option>
+                        <option value="Elektronik">Elektronik</option>
+                        <option value="Hizmet">Ustalık & Hizmet</option>
+                        <option value="Eğitim">Eğitim</option>
+                        <option value="Ev & Yaşam">Ev & Yaşam</option>
+                        <option value="Hobi & Müzik">Hobi & Müzik</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -943,7 +943,7 @@
 
         let selectedCategory = 'all';
 
-        const rawListings = [
+        const defaultListings = [
             { id: 1, title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
             { id: 2, title: { tr: "Boya & Badana Ustası", en: "Painting & Decorating Master" }, type: "service", cat: "Hizmet", city: "Ankara", date: "Dün", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500", desc: { tr: "Ev boya hizmeti karşılığında Web Tasarımı arıyorum.", en: "Offering house painting service in exchange for Web Design." } },
             { id: 3, title: { tr: "Matematik Özel Dersi", en: "Private Math Lessons" }, type: "service", cat: "Eğitim", city: "İzmir", date: "3 gün önce", img: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500", desc: { tr: "LGS/YKS için matematik dersi. Tablet takasına açıktır.", en: "Math tutoring for exam prep. Open to tablet swaps." } },
@@ -955,6 +955,8 @@
             { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
+
+        let rawListings = JSON.parse(localStorage.getItem('takaslasana_listings')) || defaultListings;
 
         // --- FOOTER İÇERİK METİNLERİ ---
         const footerInfoContent = {
@@ -1381,10 +1383,12 @@
 
             grid.innerHTML = items.map(item => {
                 const isFav = favorites.includes(item.id);
+                const itemTitle = typeof item.title === 'object' ? item.title[currentLang] : item.title;
+                const itemDesc = typeof item.desc === 'object' ? item.desc[currentLang] : item.desc;
                 return `
                     <div class="card" onclick="openDetailModal(${item.id})">
                         <div class="card-img-wrap">
-                            <img src="${item.img}" alt="${item.title[currentLang]}" class="card-img" loading="lazy">
+                            <img src="${item.img}" alt="${itemTitle}" class="card-img" loading="lazy">
                             <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
                                 ${item.type === 'item' ? t.itemBadge : t.serviceBadge}
                             </span>
@@ -1393,9 +1397,9 @@
                             </button>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">${item.title[currentLang]}</h3>
+                            <h3 class="card-title">${itemTitle}</h3>
                             <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
-                                ${item.desc[currentLang]}
+                                ${itemDesc}
                             </p>
                             <div class="card-footer">
                                 <span>📍 ${item.city}</span>
@@ -1448,18 +1452,21 @@
             }
 
             const favItems = rawListings.filter(item => favorites.includes(item.id));
-            container.innerHTML = favItems.map(item => `
+            container.innerHTML = favItems.map(item => {
+                const itemTitle = typeof item.title === 'object' ? item.title[currentLang] : item.title;
+                return `
                 <div style="background: var(--bg-body); border: 1px solid var(--border); padding: 0.75rem; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="closeModal('favoritesModal'); openDetailModal(${item.id})">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <img src="${item.img}" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px;">
                         <div>
-                            <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${item.title[currentLang]}</p>
+                            <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${itemTitle}</p>
                             <p style="font-size: 0.75rem; color: var(--text-muted);">📍 ${item.city} • ${item.cat}</p>
                         </div>
                     </div>
                     <button onclick="toggleFavorite(event, ${item.id})" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #EF4444;" title="Kaldır">❌</button>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function filterListings() {
@@ -1468,8 +1475,10 @@
             const cityVal = document.getElementById('citySelect')?.value || 'all';
 
             const filtered = rawListings.filter(item => {
-                const matchesSearch = item.title[currentLang].toLowerCase().includes(searchVal) || 
-                                      item.desc[currentLang].toLowerCase().includes(searchVal);
+                const itemTitle = typeof item.title === 'object' ? item.title[currentLang] : item.title;
+                const itemDesc = typeof item.desc === 'object' ? item.desc[currentLang] : item.desc;
+                const matchesSearch = itemTitle.toLowerCase().includes(searchVal) || 
+                                      itemDesc.toLowerCase().includes(searchVal);
                 const matchesType = typeVal === 'all' || item.type === typeVal;
                 const matchesCity = cityVal === 'all' || item.city === cityVal;
                 const matchesCat = selectedCategory === 'all' || item.cat.includes(selectedCategory);
@@ -1543,9 +1552,11 @@
             const item = rawListings.find(x => x.id === id);
             const t = translations[currentLang];
             if (!item) return;
-            document.getElementById('dTitle').textContent = item.title[currentLang];
+            const itemTitle = typeof item.title === 'object' ? item.title[currentLang] : item.title;
+            const itemDesc = typeof item.desc === 'object' ? item.desc[currentLang] : item.desc;
+            document.getElementById('dTitle').textContent = itemTitle;
             document.getElementById('dCategory').textContent = `${item.cat} • ${item.city} (${item.type === 'item' ? t.itemBadge : t.serviceBadge})`;
-            document.getElementById('dDesc').textContent = item.desc[currentLang];
+            document.getElementById('dDesc').textContent = itemDesc;
             showModal('detailModal');
         }
 
@@ -1570,9 +1581,7 @@
                 address: '',
                 avatar: '',
                 favorites: [],
-                mySwaps: [
-                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
-                ]
+                mySwaps: []
             };
 
             users.push(newUser);
@@ -1604,11 +1613,7 @@
             }
 
             if (!user.favorites) user.favorites = [];
-            if (!user.mySwaps) {
-                user.mySwaps = [
-                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
-                ];
-            }
+            if (!user.mySwaps) user.mySwaps = [];
 
             currentUser = { isLoggedIn: true, ...user };
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
@@ -1654,23 +1659,28 @@
 
         function renderUserSwaps() {
             const container = document.getElementById('userSwapsList');
-            const swaps = currentUser.mySwaps || [];
-            document.getElementById('swapCountBadge').textContent = `${swaps.length} ${currentLang === 'tr' ? 'İlan' : 'Ads'}`;
+            const userEmail = currentUser.email;
+            // Kullanıcının kendi eklediği ilanları filtrele
+            const userListings = rawListings.filter(s => s.ownerEmail === userEmail);
+            document.getElementById('swapCountBadge').textContent = `${userListings.length} ${currentLang === 'tr' ? 'İlan' : 'Ads'}`;
 
-            if (swaps.length === 0) {
+            if (userListings.length === 0) {
                 container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz eklenmiş takas ilanınız yok.' : 'No swap listings added yet.'}</p>`;
                 return;
             }
 
-            container.innerHTML = swaps.map(s => `
+            container.innerHTML = userListings.map(s => {
+                const itemTitle = typeof s.title === 'object' ? s.title[currentLang] : s.title;
+                return `
                 <div style="background: var(--surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
                     <div>
-                        <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${s.title}</p>
+                        <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${itemTitle}</p>
                         <p style="font-size: 0.75rem; color: var(--text-muted);">${s.cat} • ${s.date}</p>
                     </div>
-                    <span style="font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; background: ${s.status === 'Aktif' ? '#D8F3DC; color: #1B4332;' : '#E5E7EB; color: #4B5563;'}">${s.status}</span>
+                    <span style="font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; background: #D8F3DC; color: #1B4332;">Aktif</span>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function handleDragOver(e) {
@@ -1753,16 +1763,29 @@
 
         function handleFormSubmit(e) {
             e.preventDefault();
-            const title = document.getElementById('newAdTitle').value;
+            const title = document.getElementById('newAdTitle').value.trim();
             const cat = document.getElementById('newAdCat').value;
+            const desc = document.getElementById('newAdDesc').value.trim();
 
-            if (!currentUser.mySwaps) currentUser.mySwaps = [];
-            currentUser.mySwaps.unshift({
-                title: title,
-                status: 'Aktif',
+            const newListing = {
+                id: Date.now(),
+                title: { tr: title, en: title },
+                type: cat === 'Hizmet' ? 'service' : 'item',
+                cat: cat,
+                city: currentUser.address ? currentUser.address.split(',')[0].trim() : 'İstanbul',
                 date: 'Bugün',
-                cat: cat
-            });
+                img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
+                desc: { tr: desc, en: desc },
+                ownerEmail: currentUser.email
+            };
+
+            // Ana listeye ve localStorage'a kaydet
+            rawListings.unshift(newListing);
+            localStorage.setItem('takaslasana_listings', JSON.stringify(rawListings));
+
+            // Kullanıcı nesnesine de ekle
+            if (!currentUser.mySwaps) currentUser.mySwaps = [];
+            currentUser.mySwaps.unshift(newListing);
 
             const userIndex = users.findIndex(u => u.email === currentUser.email);
             if (userIndex !== -1) {
@@ -1771,7 +1794,8 @@
             }
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
 
-            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Listing published successfully!');
+            filterListings();
+            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı ve ana sayfaya eklendi!' : 'Listing published successfully and added to homepage!');
             e.target.reset();
             closeModal('postModal');
         }
