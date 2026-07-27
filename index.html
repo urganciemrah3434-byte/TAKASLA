@@ -745,47 +745,62 @@
         </div>
     </div>
 
-    <!-- KULLANICI AYARLARI / PROFİL MODALI -->
+    <!-- KULLANICI AYARLARI / PROFİL MODALI (TAKASLARIM / TAKASLADIKLARIM SÜTÜNÜ İLE GÜNCELLENDİ) -->
     <div class="modal-overlay" id="profileModal">
-        <div class="modal-card">
+        <div class="modal-card" style="max-width: 720px; width: 95%;">
             <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
-            <h2 class="modal-title">Kullanıcı Ayarları & Profil</h2>
-            <p class="modal-sub">Profil bilgilerinizi, resminizi ve iletişim detaylarınızı güncelleyin</p>
+            <h2 class="modal-title">Kullanıcı Paneli & Profil</h2>
+            <p class="modal-sub">Profil bilgilerinizi yönetin ve takas geçmişinizi görüntüleyin</p>
             
-            <form onsubmit="handleProfileUpdate(event)">
-                <!-- Profil Resmi Sürükle Bırak / Seçim Alanı -->
-                <div class="form-group" style="text-align: center; margin-bottom: 1.5rem;">
-                    <div id="dropZone" 
-                         style="width: 90px; height: 90px; border-radius: 50%; background: var(--border); margin: 0 auto 0.75rem; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 2rem; border: 2px dashed var(--primary-dark); position: relative; cursor: pointer;" 
-                         onclick="document.getElementById('avatarFileInput').click()"
-                         ondragover="handleDragOver(event)"
-                         ondragleave="handleDragLeave(event)"
-                         ondrop="handleDrop(event)">
-                        <span id="avatarPreviewContent">👤</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
+                <!-- Sol Kolon: Profil Ayarları -->
+                <div>
+                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">Hesap Bilgileri</h3>
+                    <form onsubmit="handleProfileUpdate(event)">
+                        <div class="form-group" style="text-align: center; margin-bottom: 1rem;">
+                            <div id="dropZone" 
+                                 style="width: 75px; height: 75px; border-radius: 50%; background: var(--border); margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 1.75rem; border: 2px dashed var(--primary-dark); position: relative; cursor: pointer;" 
+                                 onclick="document.getElementById('avatarFileInput').click()"
+                                 ondragover="handleDragOver(event)"
+                                 ondragleave="handleDragLeave(event)"
+                                 ondrop="handleDrop(event)">
+                                <span id="avatarPreviewContent">👤</span>
+                            </div>
+                            <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                            <p style="font-size: 0.7rem; color: var(--text-muted);">Fotoğrafı değiştirmek için tıkla</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Ad Soyad</label>
+                            <input type="text" class="form-input" id="profileFullName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Telefon Numarası</label>
+                            <input type="tel" class="form-input" id="profilePhone" placeholder="05XXXXXXXXX">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Adres</label>
+                            <input type="text" class="form-input" id="profileAddress" placeholder="Şehir, İlçe">
+                        </div>
+
+                        <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">Güncelle</button>
+                    </form>
+                    <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;" onclick="handleLogout()">Oturumu Kapat</button>
+                </div>
+
+                <!-- Sağ Kolon: Takaslarım / Takasladıklarım -->
+                <div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); max-height: 420px; overflow-y: auto;">
+                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); display: flex; justify-content: space-between; align-items: center;">
+                        <span>Takaslarım / Takasladıklarım</span>
+                        <span style="font-size: 0.75rem; background: var(--primary-light); color: var(--primary-dark); padding: 0.15rem 0.5rem; border-radius: 20px;" id="swapCountBadge">0 İlan</span>
+                    </h3>
+                    <div id="userSwapsList" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <!-- Dinamik doldurulacak takaslar -->
                     </div>
-                    <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
-                    <p style="font-size: 0.75rem; color: var(--text-muted);">Fotoğrafı buraya sürükleyin veya tıklayarak seçin</p>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label">Ad Soyad</label>
-                    <input type="text" class="form-input" id="profileFullName" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Telefon Numarası</label>
-                    <input type="tel" class="form-input" id="profilePhone" placeholder="05XXXXXXXXX">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Adres</label>
-                    <input type="text" class="form-input" id="profileAddress" placeholder="Şehir, İlçe">
-                </div>
-
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">Değişiklikleri Kaydet</button>
-            </form>
-
-            <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.75rem; border-color: #EF4444; color: #EF4444;" onclick="handleLogout()">Oturumu Kapat</button>
+            </div>
         </div>
     </div>
 
@@ -798,11 +813,11 @@
             <form onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
                     <label class="form-label">İlan Başlığı</label>
-                    <input type="text" class="form-input" placeholder="Örn: Bisiklet, Ders..." required>
+                    <input type="text" class="form-input" id="newAdTitle" placeholder="Örn: Bisiklet, Ders..." required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Kategori</label>
-                    <select class="form-select">
+                    <select class="form-select" id="newAdCat">
                         <option>Elektronik</option>
                         <option>Hizmet & Ustalık</option>
                         <option>Eğitim</option>
@@ -812,7 +827,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Ne ile takas etmek istersiniz?</label>
-                    <textarea class="form-textarea" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
+                    <textarea class="form-textarea" id="newAdDesc" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
                 </div>
                 <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">İlanı Yayınla</button>
             </form>
@@ -1026,7 +1041,11 @@
                 password,
                 phone: '',
                 address: '',
-                avatar: ''
+                avatar: '',
+                mySwaps: [
+                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" },
+                    { title: "Kitap Seti", status: "Tamamlandı", date: "Geçen Hafta", cat: "Eğitim" }
+                ]
             };
 
             users.push(newUser);
@@ -1055,6 +1074,13 @@
             if (user.password !== password) {
                 alert('Girdiğiniz şifre hatalı!');
                 return;
+            }
+
+            // Eğer eski kullanıcılarda mySwaps yoksa varsayılan ekleyelim
+            if (!user.mySwaps) {
+                user.mySwaps = [
+                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
+                ];
             }
 
             currentUser = { isLoggedIn: true, ...user };
@@ -1094,7 +1120,29 @@
             document.getElementById('profilePhone').value = currentUser.phone || '';
             document.getElementById('profileAddress').value = currentUser.address || '';
             updateAvatarPreview(currentUser.avatar || '');
+            renderUserSwaps();
             showModal('profileModal');
+        }
+
+        function renderUserSwaps() {
+            const container = document.getElementById('userSwapsList');
+            const swaps = currentUser.mySwaps || [];
+            document.getElementById('swapCountBadge').textContent = `${swaps.length} İlan`;
+
+            if (swaps.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">Henüz eklenmiş takas ilanınız yok.</p>`;
+                return;
+            }
+
+            container.innerHTML = swaps.map(s => `
+                <div style="background: var(--surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${s.title}</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">${s.cat} • ${s.date}</p>
+                    </div>
+                    <span style="font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; background: ${s.status === 'Aktif' ? '#D8F3DC; color: #1B4332;' : '#E5E7EB; color: #4B5563;'}">${s.status}</span>
+                </div>
+            `).join('');
         }
 
         // --- RESİM YÜKLEME ---
@@ -1177,7 +1225,26 @@
 
         function handleFormSubmit(e) {
             e.preventDefault();
-            alert('İlanınız başarıyla yayınlandı!');
+            const title = document.getElementById('newAdTitle').value;
+            const cat = document.getElementById('newAdCat').value;
+
+            if (!currentUser.mySwaps) currentUser.mySwaps = [];
+            currentUser.mySwaps.unshift({
+                title: title,
+                status: 'Aktif',
+                date: 'Bugün',
+                cat: cat
+            });
+
+            // Update user in storage
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex] = { ...currentUser };
+                localStorage.setItem('takaslasana_users', JSON.stringify(users));
+            }
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+
+            alert('İlanınız başarıyla yayınlandı ve "Takaslarım" sütununa eklendi!');
             e.target.reset();
             closeModal('postModal');
         }
