@@ -980,6 +980,7 @@
         let selectedCategory = 'all';
         let currentMsgTab = 'inbox';
         let activeChatUserId = null;
+        let windowCurrentSelectedListingId = null;
 
         const rawListings = [
             { id: 1, title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
@@ -1591,6 +1592,35 @@
                 closeModal('detailModal');
             } else if (actionType === 'msg') {
                 closeModal('detailModal');
+                
+                // İlan ID'sine ait konuşma yoksa otomatik oluştur ve seç
+                const listing = rawListings.find(x => x.id === windowCurrentSelectedListingId);
+                if (listing) {
+                    if (!currentUser.messages) currentUser.messages = [];
+                    
+                    let existingThread = currentUser.messages.find(m => m.itemId === listing.id);
+                    if (!existingThread) {
+                        existingThread = {
+                            id: Date.now(),
+                            senderId: 'owner_' + listing.id,
+                            senderName: currentLang === 'tr' ? 'İlan Sahibi' : 'Listing Owner',
+                            itemId: listing.id,
+                            itemTitle: listing.title[currentLang],
+                            type: 'inbox',
+                            history: [
+                                { 
+                                    sender: currentLang === 'tr' ? 'İlan Sahibi' : 'Listing Owner', 
+                                    text: currentLang === 'tr' ? `Merhaba, "${listing.title[currentLang]}" ilanınızla ilgileniyorum.` : `Hello, I am interested in your listing "${listing.title[currentLang]}".`, 
+                                    time: currentLang === 'tr' ? 'Bugün' : 'Today' 
+                                }
+                            ]
+                        };
+                        currentUser.messages.unshift(existingThread);
+                        saveUserData();
+                    }
+                    activeChatUserId = existingThread.senderId;
+                }
+                
                 showModal('messagesModal');
             } else if (actionType === 'whatsapp') {
                 const title = document.getElementById('dTitle').textContent;
@@ -1602,7 +1632,7 @@
 
         // --- MESAJ KUTUSU YÖNETİMİ ---
         function initMessagesData() {
-            if (!currentUser.messages) {
+            if (!currentUser.messages || currentUser.messages.length === 0) {
                 currentUser.messages = [
                     {
                         id: 1,
@@ -1642,7 +1672,7 @@
             const filteredMsgs = (currentUser.messages || []).filter(m => m.type === currentMsgTab);
 
             if (filteredMsgs.length === 0) {
-                container.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 1rem 0;">${currentLang === 'tr' ? 'Mesaj bulunmuyor.' : 'No messages found.'}</p>`;
+                container.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 1rem 0;">${currentLang === 'tr' ? 'Henüz mesajınız yok.' : 'No messages found.'}</p>`;
                 document.getElementById('activeChatHeader').textContent = currentLang === 'tr' ? 'Sohbet seçilmedi' : 'No chat selected';
                 document.getElementById('activeChatMessages').innerHTML = '';
                 return;
@@ -1668,7 +1698,6 @@
             const thread = (currentUser.messages || []).find(m => m.senderId === senderId);
             if (!thread) return;
 
-            // List items active state refresh
             renderMessageThreads();
 
             document.getElementById('activeChatHeader').innerHTML = `💬 ${thread.senderName} <span style="font-weight: 400; font-size: 0.75rem; color: var(--text-muted);">(${thread.itemTitle})</span>`;
@@ -1733,6 +1762,7 @@
         }
 
         function openDetailModal(id) {
+            windowCurrentSelectedListingId = id;
             const item = rawListings.find(x => x.id === id);
             const t = translations[currentLang];
             if (!item) return;
