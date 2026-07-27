@@ -3,509 +3,2006 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAKASLA | Sana Takasla</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0fdf4',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <title>TAKASLASANA - Güvenilir & Sürdürülebilir Takas Platformu</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+        :root {
+            --primary: #2D6A4F;
+            --primary-dark: #1B4332;
+            --primary-light: #D8F3DC;
+            --accent: #E65100;
+            --accent-hover: #F57C00;
+            --bg-body: #F8FAF8;
+            --surface: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-accent: 0 4px 14px rgba(230, 81, 0, 0.25);
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: rgba(156, 163, 175, 0.5);
-            border-radius: 3px;
+
+        body.dark-mode {
+            --bg-body: #0F172A;
+            --surface: #1E293B;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border: #334155;
+            --primary-dark: #52B788;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: default;
+        }
+
+        a, button, input, select, .cat-chip, .card, .close-btn, .card-fav-btn {
+            cursor: pointer;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            transition: background-color 0.25s, color 0.25s;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0.875rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .logo-area:active {
+            transform: scale(0.96);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-sana {
+            color: var(--accent);
+        }
+
+        .logo-tagline {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.95rem;
+            line-height: 1.2;
+            border-left: 2px solid var(--border);
+            padding-left: 1rem;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: var(--bg-body);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+            box-shadow: var(--shadow-accent);
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 3.5rem 1.5rem 3rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #D8F3DC;
+            color: #1B4332;
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            padding: 0.5rem 1.4rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #B7E4C7;
+        }
+
+        .hero-title {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            line-height: 1.25;
+        }
+
+        .hero-title span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* --- CATEGORIES --- */
+        .categories-nav {
+            max-width: 1280px;
+            margin: 0 auto 2rem;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .cat-chip {
+            padding: 0.6rem 1.25rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .cat-chip:hover, .cat-chip.active {
+            background: var(--primary-dark);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
+        /* --- MAIN LAYOUT --- */
+        .main-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem 4rem;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            height: fit-content;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group { margin-bottom: 1.25rem; }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.65rem 0.875rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            outline: none;
+            background: var(--surface);
+            color: var(--text-main);
+        }
+
+        .listings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            background: #E5E7EB;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-type {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+            z-index: 2;
+        }
+
+        .badge-item { background: #2563EB; }
+        .badge-service { background: var(--accent); }
+
+        .card-fav-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            z-index: 2;
+        }
+
+        body.dark-mode .card-fav-btn {
+            background: rgba(30, 41, 59, 0.9);
+            color: #94A3B8;
+        }
+
+        .card-fav-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .card-fav-btn.active {
+            color: #F59E0B;
+        }
+
+        .card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 3.5rem 1.5rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            margin-bottom: 1.25rem;
+            max-width: 320px;
+        }
+
+        .footer-contact {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .footer-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- MODAL DIALOGS --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            max-width: 480px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            transform: translateY(20px);
+            transition: transform 0.25s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
+
+        .modal-sub {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 1.25rem;
+        }
+
+        @media (max-width: 992px) {
+            .logo-tagline { display: none; }
+        }
+
+        @media (max-width: 900px) {
+            .main-container { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-container { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
         }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col transition-colors duration-200">
+<body>
 
-    <!-- ÜST MENÜ / HEADER -->
-    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            
-            <!-- Logo -->
-            <div class="flex items-center space-x-2 cursor-pointer" onclick="renderListings()">
-                <div class="bg-brand-500 text-white p-2 rounded-lg font-black text-xl tracking-wider">
-                    SANA
-                </div>
-                <span class="text-2xl font-black text-gray-900 dark:text-white tracking-tight">TAKASLA</span>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-wrapper">
+                <a href="#" class="logo-area" onclick="playLogoSound(); return false;" title="Jingle'ı dinlemek için tıklayın">
+                    <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
+                        <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
+                        <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
+                        <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                    </svg>
+                    <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
+                </a>
+                <span class="logo-tagline" id="taglineText">Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!</span>
             </div>
 
-            <!-- Arama Çubuğu -->
-            <div class="hidden md:flex flex-1 max-w-md mx-8">
-                <input type="text" id="searchInput" oninput="filterListings()" placeholder="Ürün, kategori veya şehir ara..." 
-                    class="w-full px-4 py-2 rounded-l-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500">
-                <button class="bg-brand-500 hover:bg-brand-600 text-white px-5 rounded-r-lg font-medium transition">
-                    Ara
-                </button>
-            </div>
-
-            <!-- Sağ Aksiyonlar -->
-            <div class="flex items-center space-x-4">
-                <!-- Karanlık Mod Butonu -->
-                <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition" title="Tema Değiştir">
-                    <span id="themeIcon">🌙</span>
-                </button>
-
-                <!-- İlan Ver Butonu -->
-                <button onclick="openNewListingModal()" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg font-semibold shadow transition transform active:scale-95">
-                    + İlan Ver
-                </button>
-
-                <!-- Kullanıcı Profil / Giriş Alanı -->
-                <div id="authContainer">
-                    <!-- JS ile dinamik dolacak -->
+            <div class="nav-actions">
+                <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
+                <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
+                <button class="btn btn-outline" onclick="checkAuthAndAction('favorites')">♡ <span id="favBtnText">Favoriler</span></button>
+                <button class="btn btn-outline" onclick="checkAuthAndAction('messages')">✉️ <span id="msgBtnText">Mesajlar</span></button>
+                
+                <!-- Kimlik Doğrulama Bölümü -->
+                <div id="authButtons" style="display: flex; gap: 0.75rem; align-items: center;">
+                    <button class="btn btn-outline" onclick="showModal('loginModal')">Giriş Yap</button>
+                    <button class="btn btn-outline" style="border-color: var(--primary-dark); color: var(--primary-dark);" onclick="showModal('registerModal')">Kayıt Ol</button>
                 </div>
+                <div id="userProfileContainer" style="display: none; align-items: center;"></div>
+
+                <button class="btn btn-accent" onclick="handlePostAdClick()">+ İlan Ver</button>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- HERO / BANNER -->
-    <section class="bg-gradient-to-r from-brand-600 to-emerald-700 text-white py-8 px-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Kullanmadığın Eşyayı Getir, İhtiyacını Takasla!</h1>
-        <p class="text-brand-50 text-sm md:text-base">Sana özel takas fırsatlarını hemen keşfet, para harcamadan değiştir.</p>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-badge" id="heroBadgeText">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
+            <h1 class="hero-title" id="heroTitle">Eşyanı veya becerini takasla, <span id="heroTitleSpan">ihtiyacını karşıla.</span></h1>
+            <p class="hero-subtitle" id="heroSubtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
+            <div class="hero-buttons">
+                <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;" id="heroBtn1">İlanları Keşfet</a>
+                <button class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="handlePostAdClick()" id="heroBtn2">İlan Oluştur</button>
+            </div>
+        </div>
     </section>
 
-    <!-- ANA İÇERİK -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <h2 class="text-2xl font-bold">Öne Çıkan İlanlar</h2>
-            
-            <!-- Kategori Filtreleri -->
-            <div class="flex space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-                <button onclick="filterCategory('Tümü')" class="px-3 py-1.5 rounded-full text-sm font-medium bg-brand-500 text-white">Tümü</button>
-                <button onclick="filterCategory('Elektronik')" class="px-3 py-1.5 rounded-full text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Elektronik</button>
-                <button onclick="filterCategory('Vasıta')" class="px-3 py-1.5 rounded-full text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Vasıta</button>
-                <button onclick="filterCategory('Ev / Yaşam')" class="px-3 py-1.5 rounded-full text-sm font-medium bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Ev / Yaşam</button>
-            </div>
-        </div>
+    <!-- CATEGORIES -->
+    <div class="categories-nav">
+        <button class="cat-chip active" data-cat="all" onclick="setCategory(this)">Tümü</button>
+        <button class="cat-chip" data-cat="Elektronik" onclick="setCategory(this)">Elektronik</button>
+        <button class="cat-chip" data-cat="Ev & Yaşam" onclick="setCategory(this)">Ev & Yaşam</button>
+        <button class="cat-chip" data-cat="Eğitim" onclick="setCategory(this)">Eğitim</button>
+        <button class="cat-chip" data-cat="Hizmet" onclick="setCategory(this)">Ustalık & Hizmet</button>
+        <button class="cat-chip" data-cat="Hobi & Müzik" onclick="setCategory(this)">Hobi & Müzik</button>
+    </div>
 
-        <!-- İlan Listesi Izgarası -->
-        <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- JS ile doldurulacak -->
-        </div>
+    <!-- MAIN CONTAINER -->
+    <main class="main-container" id="ilanlar">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <h2 class="filter-title" id="filterTitle">Filtrele</h2>
+            <div class="form-group">
+                <label class="form-label" id="searchLabel">Arama</label>
+                <input type="text" class="form-input" id="searchInput" placeholder="İlan ara...">
+            </div>
+            <div class="form-group">
+                <label class="form-label" id="typeLabel">Takas Türü</label>
+                <select class="form-select" id="typeSelect" onchange="filterListings()">
+                    <option value="all" id="optAllType">Tümü</option>
+                    <option value="item" id="optItem">Eşya Takası</option>
+                    <option value="service" id="optService">Hizmet Takası</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" id="cityLabel">Şehir</label>
+                <select class="form-select" id="citySelect" onchange="filterListings()">
+                    <option value="all" id="optAllCity">Tüm Şehirler</option>
+                    <option value="İstanbul">İstanbul</option>
+                    <option value="Ankara">Ankara</option>
+                    <option value="İzmir">İzmir</option>
+                    <option value="Bursa">Bursa</option>
+                    <option value="Antalya">Antalya</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- LISTINGS -->
+        <section>
+            <div class="listings-header">
+                <h2 style="font-size: 1.5rem; font-weight: 700;" id="listingsCountHeader">Aktif İlanlar (10)</h2>
+                <select class="form-select" style="width: auto;">
+                    <option id="sortNew">En yeniler</option>
+                    <option id="sortPop">Popüler olanlar</option>
+                </select>
+            </div>
+
+            <div class="grid" id="listingsGrid"></div>
+        </section>
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-300 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
-            <div>
-                <h3 class="text-lg font-bold text-white mb-3">TAKASLA</h3>
-                <p class="text-gray-400">Türkiye'nin yenilikçi eşya takas platformu. Güvenle takas yapın, tasarruf edin.</p>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo-area" onclick="playLogoSound(); return false;">
+                    <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
+                        <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
+                        <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
+                        <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                    </svg>
+                    <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
+                </a>
+                <p id="footerDesc">Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
+                <div class="footer-contact">
+                    <span>📧 destek@takaslasana.com</span>
+                    <span>📞 +90 (850) 123 45 67</span>
+                    <span>📍 Maslak Mah. Büyükdere Cad. No:142, İstanbul</span>
+                </div>
             </div>
+
             <div>
-                <h4 class="font-semibold text-white mb-3">Hızlı Bağlantılar</h4>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="#" class="hover:underline">Hakkımızda</a></li>
-                    <li><a href="#" class="hover:underline">Takas Kuralları</a></li>
-                    <li><a href="#" class="hover:underline">Sıkça Sorulan Sorular</a></li>
+                <h3 class="footer-title" id="footerCol1Title">Kurumsal</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="openInfoModal('biz-kimiz'); return false;">Biz Kimiz</a></li>
+                    <li><a href="#" onclick="openInfoModal('vizyonumuz'); return false;">Vizyonumuz & Misyonumuz</a></li>
+                    <li><a href="#" onclick="openInfoModal('kariyer'); return false;">Kariyer</a></li>
+                    <li><a href="#" onclick="openInfoModal('surdurulebilirlik'); return false;">Sürdürülebilirlik</a></li>
                 </ul>
             </div>
+
             <div>
-                <h4 class="font-semibold text-white mb-3">İletişim & Destek</h4>
-                <p class="text-gray-400">Destek Merkezi: 0850 000 00 00</p>
-                <p class="text-gray-400">E-Posta: destek@takasla.com</p>
+                <h3 class="footer-title" id="footerCol2Title">Destek & Yardım</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="openInfoModal('nasil-calisir'); return false;">Nasıl Çalışır?</a></li>
+                    <li><a href="#" onclick="openInfoModal('guvenli-takas'); return false;">Güvenli Takas Rehberi</a></li>
+                    <li><a href="#" onclick="openInfoModal('sss'); return false;">Sıkça Sorulan Sorular</a></li>
+                    <li><a href="#" onclick="openInfoModal('iletisim'); return false;">İletişim</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-title" id="footerCol3Title">Yasal</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="openInfoModal('kullanim-kosullari'); return false;">Kullanım Koşulları</a></li>
+                    <li><a href="#" onclick="openInfoModal('gizlilik'); return false;">Gizlilik Politikası</a></li>
+                    <li><a href="#" onclick="openInfoModal('kvkk'); return false;">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="#" onclick="openInfoModal('cerezler'); return false;">Çerez Tercihleri</a></li>
+                </ul>
             </div>
         </div>
-        <div class="text-center py-4 border-t border-gray-800 text-xs text-gray-500">
-            &copy; 2026 TAKASLA. Tüm hakları saklıdır.
+
+        <div class="footer-bottom">
+            <span id="footerCopy">© 2026 TAKASLASANA. Tüm hakları saklıdır.</span>
+            <span>Made for a Sustainable Future 🌱</span>
         </div>
     </footer>
 
-    <!-- CANLI DESTEK CHAT BOTİÇ -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <button onclick="toggleChatbot()" class="bg-brand-500 hover:bg-brand-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition">
-            💬 <span class="ml-2 font-bold hidden sm:inline">Canlı Destek</span>
-        </button>
-
-        <div id="chatbotBox" class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col h-96 overflow-hidden">
-            <div class="bg-brand-500 text-white p-3 font-bold flex justify-between items-center">
-                <span>TAKASLA Canlı Destek Botu</span>
-                <button onclick="toggleChatbot()" class="text-white hover:text-gray-200">✕</button>
+    <!-- OTOMATİK ROBOT / CANLI DESTEK ASİSTANI -->
+    <div id="chatbotWidget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+        <button id="chatbotToggleBtn" class="btn btn-accent" style="border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: var(--shadow-md);" onclick="toggleChatbot()" title="TakasBot Asistan">🤖</button>
+        <div id="chatbotWindow" style="display: none; position: absolute; bottom: 75px; right: 0; width: 350px; height: 450px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); flex-direction: column; overflow: hidden;">
+            <!-- Header -->
+            <div style="background: var(--primary-dark); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span>🤖</span>
+                    <span style="font-weight: 700; font-size: 0.95rem;" id="botNameTitle">TakasBot Canlı Asistan</span>
+                </div>
+                <button onclick="toggleChatbot()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">&times;</button>
             </div>
-            <div id="chatbotMessages" class="flex-1 p-3 overflow-y-auto space-y-2 text-sm custom-scrollbar">
-                <div class="bg-gray-100 dark:bg-gray-700 p-2 rounded-lg max-w-[80%]">
-                    Merhaba! Takasla destek botuna hoş geldiniz. Size nasıl yardımcı olabilirim?
+            <!-- Messages Body -->
+            <div id="chatbotMessages" style="flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                <div id="botWelcomeMsg" style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
+                    Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz (Örn: "Nasıl ilan veririm?", "Güvenli mi?", "Para geçiyor mu?").
                 </div>
             </div>
-            <div class="p-2 border-t border-gray-200 dark:border-gray-700 flex gap-2">
-                <input type="text" id="chatbotInput" placeholder="Mesajınızı yazın..." onkeypress="if(event.key==='Enter') sendChatbotMessage()" class="flex-1 px-3 py-1.5 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm focus:outline-none">
-                <button onclick="sendChatbotMessage()" class="bg-brand-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold">Gönder</button>
+            <!-- Input Area -->
+            <div style="padding: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; background: var(--surface);">
+                <input type="text" id="chatbotInput" class="form-input" placeholder="Bir soru sorun..." onkeypress="handleChatKeyPress(event)">
+                <button class="btn btn-accent" style="padding: 0.5rem 1rem;" id="botSendBtn" onclick="sendChatMessage()">Gönder</button>
             </div>
         </div>
     </div>
 
-    <!-- MODALLAR (Giriş / Kayıt / İlan Ekle / Mesajlaşma) -->
-    
-    <!-- Giriş / Kayıt Modalı -->
-    <div id="authModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
-            <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400">✕</button>
-            <h3 id="authTitle" class="text-2xl font-bold mb-4 text-center">Giriş Yap</h3>
+    <!-- MODALLAR -->
+    <!-- BİLGİ / FOOTER İÇERİK MODALI -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('infoModal')">&times;</button>
+            <h2 class="modal-title" id="infoModalTitle" style="text-align: left; margin-bottom: 0.75rem;">Başlık</h2>
+            <div id="infoModalBody" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; max-height: 60vh; overflow-y: auto;">
+                İçerik buraya gelecek...
+            </div>
+            <button class="btn btn-accent" style="width: 100%; justify-content: center; margin-top: 1.5rem;" onclick="closeModal('infoModal')">Tamam</button>
+        </div>
+    </div>
+
+    <!-- GİRİŞ YAP MODALI -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
+            <h2 class="modal-title" id="loginModalTitle">Giriş Yap</h2>
+            <p class="modal-sub" id="loginModalSub">Hesabınıza erişmek için bilgilerinizi girin</p>
+
+            <form onsubmit="handleLoginFormSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" id="loginEmailLabel">E-Posta Adresi</label>
+                    <input type="email" class="form-input" id="loginEmail" placeholder="ornek@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="loginPassLabel">Şifre</label>
+                    <input type="password" class="form-input" id="loginPass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="loginSubmitBtn">Oturum Aç</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+                <span id="noAccountText">Hesabın yok mu?</span> 
+                <a href="#" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" id="goToRegLink">Kayıt Ol</a>
+            </div>
+
+            <div class="security-badge" id="sslLoginBadge">
+                🔒 256-bit SSL ile Güvenli Giriş
+            </div>
+        </div>
+    </div>
+
+    <!-- KAYIT OL MODALI -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('registerModal')">&times;</button>
+            <h2 class="modal-title" id="regModalTitle">Kayıt Ol</h2>
+            <p class="modal-sub" id="regModalSub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
+
+            <form onsubmit="handleRegisterFormSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" id="regNameLabel">Ad Soyad</label>
+                    <input type="text" class="form-input" id="regName" placeholder="Adınız Soyadınız" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="regEmailLabel">E-Posta Adresi</label>
+                    <input type="email" class="form-input" id="regEmail" placeholder="ornek@gmail.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="regPassLabel">Şifre</label>
+                    <input type="password" class="form-input" id="regPass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="regSubmitBtn">Hesap Oluştur</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+                <span id="hasAccountText">Zaten hesabın var mı?</span> 
+                <a href="#" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" id="goToLoginLink">Giriş Yap</a>
+            </div>
+
+            <div class="security-badge" id="sslRegBadge">
+                🔒 256-bit SSL ile Güvenli Kayıt
+            </div>
+        </div>
+    </div>
+
+    <!-- KULLANICI AYARLARI / PROFİL MODALI -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-card" style="max-width: 720px; width: 95%;">
+            <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
+            <h2 class="modal-title" id="profModalTitle">Kullanıcı Paneli & Profil</h2>
+            <p class="modal-sub" id="profModalSub">Profil bilgilerinizi yönetin ve takas geçmişinizi görüntüleyin</p>
             
-            <form onsubmit="handleAuth(event)" class="space-y-4">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
+                <!-- Sol Kolon: Profil Ayarları -->
                 <div>
-                    <label class="block text-sm font-medium mb-1">E-Posta</label>
-                    <input type="email" id="authEmail" required class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                </div>
-                <div id="nameField" class="hidden">
-                    <label class="block text-sm font-medium mb-1">Ad Soyad</label>
-                    <input type="text" id="authName" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Şifre</label>
-                    <input type="password" id="authPassword" required class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                </div>
-                <button type="submit" id="authSubmitBtn" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-2 rounded-lg font-bold transition">
-                    Giriş Yap
-                </button>
-            </form>
+                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);" id="profInfoTitle">Hesap Bilgileri</h3>
+                    <form onsubmit="handleProfileUpdate(event)">
+                        <div class="form-group" style="text-align: center; margin-bottom: 1rem;">
+                            <div id="dropZone" 
+                                 style="width: 75px; height: 75px; border-radius: 50%; background: var(--border); margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 1.75rem; border: 2px dashed var(--primary-dark); position: relative; cursor: pointer;" 
+                                 onclick="document.getElementById('avatarFileInput').click()"
+                                 ondragover="handleDragOver(event)"
+                                 ondragleave="handleDragLeave(event)"
+                                 ondrop="handleDrop(event)">
+                                <span id="avatarPreviewContent">👤</span>
+                            </div>
+                            <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
+                            <p style="font-size: 0.7rem; color: var(--text-muted);" id="avatarChangeText">Fotoğrafı değiştirmek için tıkla</p>
+                        </div>
 
-            <p class="text-center text-sm mt-4 text-gray-500">
-                <span id="authToggleText">Hesabınız yok mu?</span>
-                <button onclick="toggleAuthMode()" id="authToggleBtn" class="text-brand-500 font-bold ml-1 hover:underline">Kayıt Ol</button>
-            </p>
+                        <div class="form-group">
+                            <label class="form-label" id="profNameLabel">Ad Soyad</label>
+                            <input type="text" class="form-input" id="profileFullName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" id="profPhoneLabel">Telefon Numarası</label>
+                            <input type="tel" class="form-input" id="profilePhone" placeholder="05XXXXXXXXX">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" id="profAddressLabel">Adres</label>
+                            <input type="text" class="form-input" id="profileAddress" placeholder="Şehir, İlçe">
+                        </div>
+
+                        <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="profUpdateBtn">Güncelle</button>
+                    </form>
+                    <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;" onclick="handleLogout()" id="logoutBtn">Oturumu Kapat</button>
+                </div>
+
+                <!-- Sağ Kolon: Takaslarım / Takasladıklarım -->
+                <div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); max-height: 420px; overflow-y: auto;">
+                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); display: flex; justify-content: space-between; align-items: center;">
+                        <span id="mySwapsColTitle">Takaslarım / Takasladıklarım</span>
+                        <span style="font-size: 0.75rem; background: var(--primary-light); color: var(--primary-dark); padding: 0.15rem 0.5rem; border-radius: 20px;" id="swapCountBadge">0 İlan</span>
+                    </h3>
+                    <div id="userSwapsList" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <!-- Dinamik doldurulacak takaslar -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- İlan Ekleme Modalı -->
-    <div id="newListingModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-lg shadow-2xl relative">
-            <button onclick="closeModal('newListingModal')" class="absolute top-4 right-4 text-gray-500">✕</button>
-            <h3 class="text-2xl font-bold mb-4">Yeni Takas İlanı Oluştur</h3>
+    <!-- MESAJLAR MODALI (GELEN / GİDEN MESAJ KUTUSU) -->
+    <div class="modal-overlay" id="messagesModal">
+        <div class="modal-card" style="max-width: 800px; width: 95%; height: 560px; display: flex; flex-direction: column;">
+            <button class="close-btn" onclick="closeModal('messagesModal')">&times;</button>
+            <h2 class="modal-title" id="msgModalTitle" style="text-align: left; margin-bottom: 0.2rem;">Mesaj Kutusu</h2>
+            <p class="modal-sub" id="msgModalSub" style="text-align: left; margin-bottom: 1rem;">Gelen ve giden mesajlarınızı yönetin, takas sahipleriyle iletişim kurun</p>
             
-            <form onsubmit="handleCreateListing(event)" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium mb-1">İlan Başlığı</label>
-                    <input type="text" id="listingTitle" required placeholder="Örn: iPhone 12 Mini / Temiz" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Kategori</label>
-                        <select id="listingCategory" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <option>Elektronik</option>
-                            <option>Vasıta</option>
-                            <option>Ev / Yaşam</option>
-                            <option>Diğer</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Takas Karşılığı İsteğiniz</label>
-                        <input type="text" id="listingWanted" required placeholder="Örn: Bisiklet veya Laptop" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Açıklama</label>
-                    <textarea id="listingDesc" rows="3" required placeholder="Eşyanın durumu, kullanım süresi vb." class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Görsel URL (İsteğe bağlı)</label>
-                    <input type="url" id="listingImage" placeholder="https://..." class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                </div>
-                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-2.5 rounded-lg font-bold transition">
-                    İlanı Yayınla
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Mesajlaşma Modalı -->
-    <div id="chatModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative flex flex-col h-[500px]">
-            <button onclick="closeModal('chatModal')" class="absolute top-4 right-4 text-gray-500">✕</button>
-            <h3 id="chatModalTitle" class="text-xl font-bold mb-2">Satıcı ile Mesajlaş</h3>
-            <p id="chatModalSub" class="text-xs text-gray-500 mb-4">İlan sahibiyle doğrudan takas detaylarını görüşün.</p>
-
-            <div id="chatMessagesBox" class="flex-1 border rounded-lg p-3 overflow-y-auto space-y-2 mb-4 dark:border-gray-700 custom-scrollbar">
-                <!-- Mesajlar dinamik eklenecek -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+                <button class="cat-chip active" id="tabInbox" onclick="switchMsgTab('inbox')">Gelen Mesajlar</button>
+                <button class="cat-chip" id="tabOutbox" onclick="switchMsgTab('outbox')">Giden Mesajlar</button>
             </div>
 
-            <form onsubmit="handleSendDirectMessage(event)" class="flex gap-2">
-                <input type="text" id="directMessageInput" required placeholder="Mesajınızı yazın..." class="flex-1 px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white text-sm">
-                <button type="submit" class="bg-brand-500 text-white px-4 py-2 rounded-lg font-bold text-sm">Gönder</button>
+            <div style="display: grid; grid-template-columns: 280px 1fr; gap: 1rem; flex: 1; overflow: hidden;">
+                <!-- Sol Liste -->
+                <div style="border-right: 1px solid var(--border); overflow-y: auto; padding-right: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;" id="messageThreadsList">
+                    <!-- Dinamik konuşma listesi -->
+                </div>
+
+                <!-- Sağ Sohbet Paneli -->
+                <div style="display: flex; flex-direction: column; height: 100%; overflow: hidden;" id="activeChatContainer">
+                    <div id="activeChatHeader" style="font-size: 0.9rem; font-weight: 700; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); margin-bottom: 0.5rem; color: var(--primary-dark);">
+                        Bir sohbet seçin
+                    </div>
+                    <div id="activeChatMessages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem; font-size: 0.85rem;">
+                        <!-- Mesaj baloncukları -->
+                    </div>
+                    <div style="padding-top: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem;" id="chatInputArea">
+                        <input type="text" id="chatMessageInput" class="form-input" placeholder="Mesajınızı yazın..." onkeypress="handleDirectChatKeyPress(event)">
+                        <button class="btn btn-accent" style="padding: 0.5rem 1rem;" onclick="sendDirectChatMessage()" id="msgSendBtn">Gönder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- İLAN VER MODALI -->
+    <div class="modal-overlay" id="postModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
+            <h2 class="modal-title" id="postModalTitle">Yeni İlan Oluştur</h2>
+            <p class="modal-sub" id="postModalSub">Eşya veya hizmetinizi takasa çıkarın</p>
+            <form onsubmit="handleFormSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label" id="postTitleLabel">İlan Başlığı</label>
+                    <input type="text" class="form-input" id="newAdTitle" placeholder="Örn: Bisiklet, Ders..." required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="postCatLabel">Kategori</label>
+                    <select class="form-select" id="newAdCat">
+                        <option>Elektronik</option>
+                        <option>Hizmet & Ustalık</option>
+                        <option>Eğitim</option>
+                        <option>Ev & Yaşam</option>
+                        <option>Hobi & Müzik</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="postDescLabel">Ne ile takas etmek istersiniz?</label>
+                    <textarea class="form-textarea" id="newAdDesc" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="postSubmitBtn">İlanı Yayınla</button>
             </form>
         </div>
     </div>
 
-    <!-- JAVASCRIPT MANTIĞI -->
+    <!-- FAVORİLER MODALI -->
+    <div class="modal-overlay" id="favoritesModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('favoritesModal')">&times;</button>
+            <h2 class="modal-title" id="favModalTitle">♡ Favori İlanlarım</h2>
+            <p class="modal-sub" id="favModalSub">Favorilerinize eklediğiniz ilanlar</p>
+            
+            <div id="favoritesListContainer" style="max-height: 350px; overflow-y: auto; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                <!-- Dinamik doldurulacak -->
+            </div>
+
+            <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;" id="favCloseBtn">Kapat</button>
+        </div>
+    </div>
+
+    <!-- DETAY MODALI -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
+            <h2 class="modal-title" id="dTitle" style="text-align:left;">İlan Detayı</h2>
+            <p id="dCategory" style="font-size: 0.85rem; color: var(--accent); font-weight:700; margin-bottom: 0.5rem;"></p>
+            <p id="dDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; line-height:1.6;"></p>
+            <div style="display:flex; gap:0.5rem; flex-wrap: wrap;">
+                <button class="btn btn-accent" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('offer')" id="detailOfferBtn">Takas Teklifi</button>
+                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('msg')" id="detailMsgBtn">Mesaj Gönder</button>
+                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center; background-color: #25D366; color: white; border-color: #25D366;" onclick="checkAuthAndAction('whatsapp')" id="detailWaBtn">💬 WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- BAŞLANGIÇ VERİLERİ & LOCALSTORAGE ---
-        const initialListings = [
-            {
-                id: 1,
-                title: "PlayStation 4 Slim 500GB",
-                category: "Elektronik",
-                wanted: "Oyuncu Koltuğu veya Tablet",
-                desc: "Çok temiz kullanıldı, 2 adet orijinal kolu ile teslim edilecektir.",
-                owner: "Ahmet Y.",
-                image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500&q=80"
-            },
-            {
-                id: 2,
-                title: "Mountain Bike Dağ Bisikleti 26 Jant",
-                category: "Vasıta",
-                wanted: "Akıllı Saat veya Kulaklık",
-                desc: "Vites geçişleri sorunsuz. Yeni bakımı yapıldı.",
-                owner: "Mehmet K.",
-                image: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500&q=80"
-            },
-            {
-                id: 3,
-                title: "Vintage Ahşap Çalışma Masası",
-                category: "Ev / Yaşam",
-                wanted: "Ofis Koltuğu",
-                desc: "Masif ahşaptır, herhangi bir kırığı veya çiziği bulunmuyor.",
-                owner: "Selin T.",
-                image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=500&q=80"
-            }
+        let currentLang = 'tr';
+        let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false, favorites: [], messages: [] };
+
+        let selectedCategory = 'all';
+        let currentMsgTab = 'inbox';
+        let activeChatUserId = null;
+        let windowCurrentSelectedListingId = null;
+
+        const rawListings = [
+            { id: 1, title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
+            { id: 2, title: { tr: "Boya & Badana Ustası", en: "Painting & Decorating Master" }, type: "service", cat: "Hizmet", city: "Ankara", date: "Dün", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500", desc: { tr: "Ev boya hizmeti karşılığında Web Tasarımı arıyorum.", en: "Offering house painting service in exchange for Web Design." } },
+            { id: 3, title: { tr: "Matematik Özel Dersi", en: "Private Math Lessons" }, type: "service", cat: "Eğitim", city: "İzmir", date: "3 gün önce", img: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500", desc: { tr: "LGS/YKS için matematik dersi. Tablet takasına açıktır.", en: "Math tutoring for exam prep. Open to tablet swaps." } },
+            { id: 4, title: { tr: "Sony PlayStation 5", en: "Sony PlayStation 5" }, type: "item", cat: "Elektronik", city: "Bursa", date: "Bugün", img: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500", desc: { tr: "İki kollu PS5. Gaming Laptop ile takaslanabilir.", en: "PS5 with two controllers. Open to swap with Gaming Laptop." } },
+            { id: 5, title: { tr: "Vintage Ahşap Yemek Masası", en: "Vintage Wooden Dining Table" }, type: "item", cat: "Ev & Yaşam", city: "Antalya", date: "2 gün önce", img: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=500", desc: { tr: "Gerçek meşe ağacı. Bisiklet ile takas düşünülür.", en: "Real oak wood. Willing to swap for a bicycle." } },
+            { id: 6, title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
+            { id: 7, title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
+            { id: 8, title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
+            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
+            { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
-        let listings = JSON.parse(localStorage.getItem('takasla_listings')) || initialListings;
-        let currentUser = JSON.parse(localStorage.getItem('takasla_user')) || null;
-        let isRegisterMode = false;
-        let currentChatOwner = '';
-
-        // --- UYGULAMA BAŞLATICI ---
-        window.onload = function() {
-            renderAuthUI();
-            renderListings();
-            initDarkMode();
+        // --- FOOTER İÇERİK METİNLERİ ---
+        const footerInfoContent = {
+            'biz-kimiz': {
+                title: { tr: "Biz Kimiz?", en: "Who Are We?" },
+                text: { 
+                    tr: "TAKASLASANA, para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas yapmayı sağlayan yenilikçi bir platformdur. Amacımız kullanılmayan eşyaların ve yeteneklerin yeniden değerlendirilmesini sağlamaktır.",
+                    en: "TAKASLASANA is an innovative, community-driven, sustainable, and secure swapping platform without spending money. Our goal is to give a second life to unused items and skills."
+                }
+            },
+            'vizyonumuz': {
+                title: { tr: "Vizyonumuz & Misyonumuz", en: "Vision & Mission" },
+                text: { 
+                    tr: "Vizyonumuz: Tüketim çılgınlığını azaltarak dünyada döngüsel ekonominin lider dijital takas ağı olmak.\n\nMisyonumuz: Herkesin yeteneklerini ve eşyalarını güvenle paylaşabileceği adil ve şeffaf bir ekosistem inşa etmek.",
+                    en: "Vision: To be the leading digital swap network of the circular economy by reducing overconsumption.\n\nMission: To build a fair and transparent ecosystem where everyone can safely share their skills and items."
+                }
+            },
+            'kariyer': {
+                title: { tr: "Kariyer", en: "Careers" },
+                text: { 
+                    tr: "Sürdürülebilir bir geleceğe yön vermek ve ekibimizin bir parçası olmak ister misiniz? Açık pozisyonlarımız için özgeçmişinizi ik@takaslasana.com adresine gönderebilirsiniz.",
+                    en: "Want to shape a sustainable future and join our team? You can send your CV to ik@takaslasana.com for open positions."
+                }
+            },
+            'surdurulebilirlik': {
+                title: { tr: "Sürdürülebilirlik", en: "Sustainability" },
+                text: { 
+                    tr: "Doğal kaynakların korunduğu, atıkların en aza indirgendiği ve dayanışma kültürünün güçlendiği bir dünya için çalışıyoruz. Her takas, doğaya bırakılan karbon ayak izini azaltır.",
+                    en: "We work for a world where natural resources are protected, waste is minimized, and solidarity culture is strengthened. Every swap reduces the carbon footprint left on nature."
+                }
+            },
+            'nasil-calisir': {
+                title: { tr: "Nasıl Çalışır?", en: "How It Works?" },
+                text: { 
+                    tr: "1. Ücretsiz üye olun.\n2. Eşya veya hizmet ilanınızı fotoğraflarıyla ekleyin.\n3. İlginizi çeken diğer ilanları inceleyin ve takas teklifi gönderin.\n4. Karşılıklı anlaşarak paranızı cebinizde tutun!",
+                    en: "1. Sign up for free.\n2. Add your item or service listing with photos.\n3. Browse other listings and send a swap offer.\n4. Agree mutually and keep your money in your pocket!"
+                }
+            },
+            'guvenli-takas': {
+                title: { tr: "Güvenli Takas Rehberi", en: "Safe Swap Guide" },
+                text: { 
+                    tr: "• Yüz yüze takaslarda kalabalık ve merkezi yerleri tercih edin.\n• Karşı tarafın profil rozetlerini ve geçmişini inceleyin.\n• Ürünü buluşma noktasında detaylıca kontrol edin.\n• Platform dışı para transferlerinden kaçının.",
+                    en: "• Choose crowded and central locations for face-to-face swaps.\n• Review the other party's profile badges and history.\n• Inspect the product thoroughly at the meeting point.\n• Avoid out-of-platform money transfers."
+                }
+            },
+            'sss': {
+                title: { tr: "Sıkça Sorulan Sorular", en: "Frequently Asked Questions" },
+                text: { 
+                    tr: "S: Takaslasana'da para geçiyor mu?\nC: Hayır, tamamen takas odaklıdır.\n\nS: İlan vermek ücretli mi?\nC: Hayır, ilan vermek ve teklif yapmak tamamen ücretsizdir.",
+                    en: "Q: Is money used in Takaslasana?\nA: No, it is entirely swap-focused.\n\nQ: Is posting listings free?\nA: Yes, posting listings and making offers are completely free."
+                }
+            },
+            'iletisim': {
+                title: { tr: "İletişim", en: "Contact" },
+                text: { 
+                    tr: "Adres: Maslak Mah. Büyükdere Cad. No:142, İstanbul\nE-posta: destek@takaslasana.com\nTelefon: +90 (850) 123 45 67",
+                    en: "Address: Maslak Mah. Buyukdere Cad. No:142, Istanbul\nEmail: destek@takaslasana.com\nPhone: +90 (850) 123 45 67"
+                }
+            },
+            'kullanim-kosullari': {
+                title: { tr: "Kullanım Koşulları", en: "Terms of Use" },
+                text: { 
+                    tr: "Platformumuzu kullanan tüm üyeler topluluk kurallarına, dürüstlük prensibine ve yasal mevzuata uymayı kabul eder. Kurallara aykırı ilanlar yayından kaldırılır.",
+                    en: "All members using our platform agree to comply with community rules, honesty principles, and legal regulations. Listings violating rules will be removed."
+                }
+            },
+            'gizlilik': {
+                title: { tr: "Gizlilik Politikası", en: "Privacy Policy" },
+                text: { 
+                    tr: "Kişisel verileriniz 256-bit SSL sertifikası ile şifrelenerek korunur. Bilgileriniz asla üçüncü şahıslarla ticari amaçla paylaşılmaz.",
+                    en: "Your personal data is protected by 256-bit SSL encryption. Your information is never shared with third parties for commercial purposes."
+                }
+            },
+            'kvkk': {
+                title: { tr: "KVKK Aydınlatma Metni", en: "KVKK Clarification Text" },
+                text: { 
+                    tr: "6698 sayılı Kişisel Verilerin Korunması Kanunu uyarınca, üyelerimizin verileri güvenli veri tabanlarında yasalara uygun olarak işlenmektedir.",
+                    en: "In accordance with the Law on Protection of Personal Data No. 6698, our members' data is processed securely in compliance with the laws."
+                }
+            },
+            'cerezler': {
+                title: { tr: "Çerez Tercihleri", en: "Cookie Preferences" },
+                text: { 
+                    tr: "Sitemizde kullanıcı deneyiminizi iyileştirmek, oturum güvenliğini sağlamak ve site trafiğini analiz etmek amacıyla temel çerezler kullanılmaktadır.",
+                    en: "Essential cookies are used on our site to improve your user experience, ensure session security, and analyze site traffic."
+                }
+            }
         };
 
-        // --- KARANLIK MOD ---
-        function initDarkMode() {
-            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                document.getElementById('themeIcon').innerText = '☀️';
+        function openInfoModal(key) {
+            const content = footerInfoContent[key];
+            if (!content) return;
+            document.getElementById('infoModalTitle').textContent = content.title[currentLang];
+            document.getElementById('infoModalBody').innerHTML = content.text[currentLang].replace(/\n/g, '<br>');
+            showModal('infoModal');
+        }
+
+        // --- DİL DEĞİŞTİRME SİSTEMİ ---
+        const translations = {
+            tr: {
+                tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
+                favBtn: "Favoriler",
+                msgBtn: "Mesajlar",
+                heroBadge: "SÜRDÜRÜLEBİLİR & DOĞAL TAKAS",
+                heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
+                heroSubtitle: "Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.",
+                heroBtn1: "İlanları Keşfet",
+                heroBtn2: "İlan Oluştur",
+                filterTitle: "Filtrele",
+                searchLabel: "Arama",
+                searchPlaceholder: "İlan ara...",
+                typeLabel: "Takas Türü",
+                optAllType: "Tümü",
+                optItem: "Eşya Takası",
+                optService: "Hizmet Takası",
+                cityLabel: "Şehir",
+                optAllCity: "Tüm Şehirler",
+                sortNew: "En yeniler",
+                sortPop: "Popüler olanlar",
+                footerDesc: "Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.",
+                footerCol1Title: "Kurumsal",
+                footerCol2Title: "Destek & Yardım",
+                footerCol3Title: "Yasal",
+                footerCopy: "© 2026 TAKASLASANA. Tüm hakları saklıdır.",
+                botNameTitle: "TakasBot Canlı Asistan",
+                botWelcome: "Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz (Örn: \"Nasıl ilan veririm?\", \"Güvenli mi?\", \"Para geçiyor mu?\").",
+                botPlaceholder: "Bir soru sorun...",
+                botSend: "Gönder",
+                loginTitle: "Giriş Yap",
+                loginSub: "Hesabınıza erişmek için bilgilerinizi girin",
+                emailLabel: "E-Posta Adresi",
+                passLabel: "Şifre",
+                loginBtn: "Oturum Aç",
+                noAccount: "Hesabın yok mu?",
+                regLink: "Kayıt Ol",
+                sslLogin: "🔒 256-bit SSL ile Güvenli Giriş",
+                regTitle: "Kayıt Ol",
+                regSub: "Hemen ücretsiz hesap oluştur ve takasa başla",
+                nameLabel: "Ad Soyad",
+                regBtn: "Hesap Oluştur",
+                hasAccount: "Zaten hesabın var mı?",
+                loginLink: "Giriş Yap",
+                sslReg: "🔒 256-bit SSL ile Güvenli Kayıt",
+                profTitle: "Kullanıcı Paneli & Profil",
+                profSub: "Profil bilgilerinizi yönetin ve takas geçmişinizi görüntüleyin",
+                profInfo: "Hesap Bilgileri",
+                avatarText: "Fotoğrafı değiştirmek için tıkla",
+                phoneLabel: "Telefon Numarası",
+                addressLabel: "Adres",
+                updateBtn: "Güncelle",
+                logoutBtn: "Oturumu Kapat",
+                mySwapsTitle: "Takaslarım / Takasladıklarım",
+                msgModalTitle: "Mesaj Kutusu",
+                msgModalSub: "Gelen ve giden mesajlarınızı yönetin, takas sahipleriyle iletişim kurun",
+                tabInbox: "Gelen Mesajlar",
+                tabOutbox: "Giden Mesajlar",
+                chatInputPlaceholder: "Mesajınızı yazın...",
+                msgSend: "Gönder",
+                postTitle: "Yeni İlan Oluştur",
+                postSub: "Eşya veya hizmetinizi takasa çıkarın",
+                postTitleLabel: "İlan Başlığı",
+                postCatLabel: "Kategori",
+                postDescLabel: "Ne ile takas etmek istersiniz?",
+                postSubmitBtn: "İlanı Yayınla",
+                favTitle: "♡ Favori İlanlarım",
+                favSub: "Favorilerinize eklediğiniz ilanlar",
+                favClose: "Kapat",
+                detailTitle: "İlan Detayı",
+                detailOffer: "Takas Teklifi",
+                detailMsg: "Mesaj Gönder",
+                itemBadge: "Eşya",
+                serviceBadge: "Hizmet"
+            },
+            en: {
+                tagline: "No need for money; swap with your skills and items!",
+                favBtn: "Favorites",
+                msgBtn: "Messages",
+                heroBadge: "SUSTAINABLE & NATURAL SWAP",
+                heroTitle: "Swap your items or skills, <span>meet your needs.</span>",
+                heroSubtitle: "Share what you don't use; get the product or service you need without spending money.",
+                heroBtn1: "Explore Listings",
+                heroBtn2: "Create Listing",
+                filterTitle: "Filter",
+                searchLabel: "Search",
+                searchPlaceholder: "Search listings...",
+                typeLabel: "Swap Type",
+                optAllType: "All",
+                optItem: "Item Swap",
+                optService: "Service Swap",
+                cityLabel: "City",
+                optAllCity: "All Cities",
+                sortNew: "Newest",
+                sortPop: "Most Popular",
+                footerDesc: "Community-driven, sustainable, and secure swap platform without spending money.",
+                footerCol1Title: "Corporate",
+                footerCol2Title: "Support & Help",
+                footerCol3Title: "Legal",
+                footerCopy: "© 2026 TAKASLASANA. All rights reserved.",
+                botNameTitle: "TakasBot Live Assistant",
+                botWelcome: "Hello! I am TakasBot 🤖. You can ask me anything about Takaslasana (e.g., \"How to post an ad?\", \"Is it safe?\", \"Is money used?\").",
+                botPlaceholder: "Ask a question...",
+                botSend: "Send",
+                loginTitle: "Login",
+                loginSub: "Enter your credentials to access your account",
+                emailLabel: "Email Address",
+                passLabel: "Password",
+                loginBtn: "Sign In",
+                noAccount: "Don't have an account?",
+                regLink: "Register",
+                sslLogin: "🔒 Secure Login with 256-bit SSL",
+                regTitle: "Register",
+                regSub: "Create a free account now and start swapping",
+                nameLabel: "Full Name",
+                regBtn: "Create Account",
+                hasAccount: "Already have an account?",
+                loginLink: "Login",
+                sslReg: "🔒 Secure Registration with 256-bit SSL",
+                profTitle: "User Panel & Profile",
+                profSub: "Manage your profile information and view swap history",
+                profInfo: "Account Information",
+                avatarText: "Click to change photo",
+                phoneLabel: "Phone Number",
+                addressLabel: "Address",
+                updateBtn: "Update",
+                logoutBtn: "Log Out",
+                mySwapsTitle: "My Swaps / Swapped Items",
+                msgModalTitle: "Message Box",
+                msgModalSub: "Manage your incoming and outgoing messages, connect with owners",
+                tabInbox: "Inbox",
+                tabOutbox: "Outbox",
+                chatInputPlaceholder: "Type your message...",
+                msgSend: "Send",
+                postTitle: "Create New Listing",
+                postSub: "Put your item or service up for swap",
+                postTitleLabel: "Listing Title",
+                postCatLabel: "Category",
+                postDescLabel: "What would you like to swap with?",
+                postSubmitBtn: "Publish Listing",
+                favTitle: "♡ My Favorite Listings",
+                favSub: "Listings you have added to your favorites",
+                favClose: "Close",
+                detailTitle: "Listing Details",
+                detailOffer: "Swap Offer",
+                detailMsg: "Send Message",
+                itemBadge: "Item",
+                serviceBadge: "Service"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'tr' ? 'en' : 'tr';
+            const langBtn = document.getElementById('langBtn');
+            if (langBtn) {
+                langBtn.textContent = currentLang === 'tr' ? 'TR 🇹🇷' : 'EN 🇬🇧';
+            }
+
+            const t = translations[currentLang];
+            document.getElementById('taglineText').textContent = t.tagline;
+            document.getElementById('favBtnText').textContent = t.favBtn;
+            document.getElementById('msgBtnText').textContent = t.msgBtn;
+            document.getElementById('heroBadgeText').textContent = t.heroBadge;
+            document.getElementById('heroTitle').innerHTML = t.heroTitle;
+            document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
+            document.getElementById('heroBtn1').textContent = t.heroBtn1;
+            document.getElementById('heroBtn2').textContent = t.heroBtn2;
+            document.getElementById('filterTitle').textContent = t.filterTitle;
+            document.getElementById('searchLabel').textContent = t.searchLabel;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            document.getElementById('typeLabel').textContent = t.typeLabel;
+            document.getElementById('optAllType').textContent = t.optAllType;
+            document.getElementById('optItem').textContent = t.optItem;
+            document.getElementById('optService').textContent = t.optService;
+            document.getElementById('cityLabel').textContent = t.cityLabel;
+            document.getElementById('optAllCity').textContent = t.optAllCity;
+            document.getElementById('sortNew').textContent = t.sortNew;
+            document.getElementById('sortPop').textContent = t.sortPop;
+            document.getElementById('footerDesc').textContent = t.footerDesc;
+            document.getElementById('footerCol1Title').textContent = t.footerCol1Title;
+            document.getElementById('footerCol2Title').textContent = t.footerCol2Title;
+            document.getElementById('footerCol3Title').textContent = t.footerCol3Title;
+            document.getElementById('footerCopy').textContent = t.footerCopy;
+
+            document.getElementById('botNameTitle').textContent = t.botNameTitle;
+            document.getElementById('botWelcomeMsg').textContent = t.botWelcome;
+            document.getElementById('chatbotInput').placeholder = t.botPlaceholder;
+            document.getElementById('botSendBtn').textContent = t.botSend;
+
+            document.getElementById('loginModalTitle').textContent = t.loginTitle;
+            document.getElementById('loginModalSub').textContent = t.loginSub;
+            document.getElementById('loginEmailLabel').textContent = t.emailLabel;
+            document.getElementById('loginPassLabel').textContent = t.passLabel;
+            document.getElementById('loginSubmitBtn').textContent = t.loginBtn;
+            document.getElementById('noAccountText').textContent = t.noAccount;
+            document.getElementById('goToRegLink').textContent = t.regLink;
+            document.getElementById('sslLoginBadge').textContent = t.sslLogin;
+
+            document.getElementById('regModalTitle').textContent = t.regTitle;
+            document.getElementById('regModalSub').textContent = t.regSub;
+            document.getElementById('regNameLabel').textContent = t.nameLabel;
+            document.getElementById('regEmailLabel').textContent = t.emailLabel;
+            document.getElementById('regPassLabel').textContent = t.passLabel;
+            document.getElementById('regSubmitBtn').textContent = t.regBtn;
+            document.getElementById('hasAccountText').textContent = t.hasAccount;
+            document.getElementById('goToLoginLink').textContent = t.loginLink;
+            document.getElementById('sslRegBadge').textContent = t.sslReg;
+
+            document.getElementById('profModalTitle').textContent = t.profTitle;
+            document.getElementById('profModalSub').textContent = t.profSub;
+            document.getElementById('profInfoTitle').textContent = t.profInfo;
+            document.getElementById('avatarChangeText').textContent = t.avatarText;
+            document.getElementById('profNameLabel').textContent = t.nameLabel;
+            document.getElementById('profPhoneLabel').textContent = t.phoneLabel;
+            document.getElementById('profAddressLabel').textContent = t.addressLabel;
+            document.getElementById('profUpdateBtn').textContent = t.updateBtn;
+            document.getElementById('logoutBtn').textContent = t.logoutBtn;
+            document.getElementById('mySwapsColTitle').textContent = t.mySwapsTitle;
+
+            document.getElementById('msgModalTitle').textContent = t.msgModalTitle;
+            document.getElementById('msgModalSub').textContent = t.msgModalSub;
+            document.getElementById('tabInbox').textContent = t.tabInbox;
+            document.getElementById('tabOutbox').textContent = t.tabOutbox;
+            document.getElementById('chatMessageInput').placeholder = t.chatInputPlaceholder;
+            document.getElementById('msgSendBtn').textContent = t.msgSend;
+
+            document.getElementById('postModalTitle').textContent = t.postTitle;
+            document.getElementById('postModalSub').textContent = t.postSub;
+            document.getElementById('postTitleLabel').textContent = t.postTitleLabel;
+            document.getElementById('postCatLabel').textContent = t.postCatLabel;
+            document.getElementById('postDescLabel').textContent = t.postDescLabel;
+            document.getElementById('postSubmitBtn').textContent = t.postSubmitBtn;
+
+            document.getElementById('favModalTitle').textContent = t.favTitle;
+            document.getElementById('favModalSub').textContent = t.favSub;
+            document.getElementById('favCloseBtn').textContent = t.favClose;
+
+            document.getElementById('detailOfferBtn').textContent = t.detailOffer;
+            document.getElementById('detailMsgBtn').textContent = t.detailMsg;
+
+            filterListings();
+            renderFavoritesModal();
+        }
+
+        // --- TAKASBOT OTOMATİK YANIT SİSTEMİ ---
+        function toggleChatbot() {
+            const win = document.getElementById('chatbotWindow');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex';
             } else {
-                document.documentElement.classList.remove('dark');
-                document.getElementById('themeIcon').innerText = '🌙';
+                win.style.display = 'none';
             }
         }
 
-        function toggleDarkMode() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                document.getElementById('themeIcon').innerText = '🌙';
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                document.getElementById('themeIcon').innerText = '☀️';
+        function handleChatKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
             }
         }
 
-        // --- AUTH (KULLANICI GİRİŞ/KAYIT) MANTIĞI ---
-        function renderAuthUI() {
-            const container = document.getElementById('authContainer');
-            if (currentUser) {
-                container.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <span class="text-sm font-semibold hidden sm:inline">Merhaba, ${currentUser.name}</span>
-                        <button onclick="handleLogout()" class="text-xs bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1.5 rounded-lg transition font-bold">Çıkış</button>
+        function sendChatMessage() {
+            const input = document.getElementById('chatbotInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const messagesContainer = document.getElementById('chatbotMessages');
+
+            messagesContainer.innerHTML += `
+                <div style="background: var(--primary-light); color: var(--primary-dark); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-end; max-width: 85%; font-weight: 600;">
+                    ${escapeHtml(msg)}
+                </div>
+            `;
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            setTimeout(() => {
+                let reply = currentLang === 'tr' 
+                    ? "Bu konuda tam emin değilim ama destek ekibimize destek@takaslasana.com adresinden her zaman ulaşabilirsiniz!" 
+                    : "I am not entirely sure about this, but you can always reach our support team at destek@takaslasana.com!";
+                const lowerMsg = msg.toLowerCase();
+
+                if (lowerMsg.includes('merhaba') || lowerMsg.includes('selam') || lowerMsg.includes('hey') || lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
+                    reply = currentLang === 'tr' ? "Merhaba! Size takas süreci veya ilanlar nasıl yardımcı olabilirim?" : "Hello! How can I help you with the swapping process or listings?";
+                } else if (lowerMsg.includes('ilan') || lowerMsg.includes('ver') || lowerMsg.includes('ekle') || lowerMsg.includes('ad') || lowerMsg.includes('post')) {
+                    reply = currentLang === 'tr' ? "İlan verebilmek için sağ üst köşedeki '+ İlan Ver' butonuna tıklayabilirsiniz. (Giriş yapmanız gerekir)." : "You can click the '+ Create Listing' button at the top right to post an ad. (You need to be logged in).";
+                } else if (lowerMsg.includes('güven') || lowerMsg.includes('dolandır') || lowerMsg.includes('safe')) {
+                    reply = currentLang === 'tr' ? "Takaslasana'da kullanıcı kimlikleri doğrulanır ve güvenli takas yönergeleri sunulur." : "User identities are verified on Takaslasana and safe swap guidelines are provided.";
+                } else if (currentLang === 'en' && (lowerMsg.includes('money') || lowerMsg.includes('price') || lowerMsg.includes('fee'))) {
+                    reply = "Takaslasana is a sustainable platform where you can swap items and skills without spending money. Posting and swapping are completely free! 🌱";
+                } else if (lowerMsg.includes('fiyat') || lowerMsg.includes('ücret') || lowerMsg.includes('para')) {
+                    reply = "Takaslasana tamamen para harcamadan eşya ve yetenek takası yapabileceğiniz sürdürülebilir bir platformdur. Ücretsizdir! 🌱";
+                }
+
+                messagesContainer.innerHTML += `
+                    <div style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
+                        ${reply}
                     </div>
                 `;
-            } else {
-                container.innerHTML = `
-                    <button onclick="openModal('authModal')" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-4 py-2 rounded-lg font-medium text-sm transition">
-                        Giriş Yap / Kayıt
-                    </button>
-                `;
-            }
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 500);
         }
 
-        function toggleAuthMode() {
-            isRegisterMode = !isRegisterMode;
-            document.getElementById('authTitle').innerText = isRegisterMode ? 'Kayıt Ol' : 'Giriş Yap';
-            document.getElementById('authSubmitBtn').innerText = isRegisterMode ? 'Kayıt Ol' : 'Giriş Yap';
-            document.getElementById('nameField').classList.toggle('hidden', !isRegisterMode);
-            document.getElementById('authToggleText').innerText = isRegisterMode ? 'Zaten hesabınız var mı?' : 'Hesabınız yok mu?';
-            document.getElementById('authToggleBtn').innerText = isRegisterMode ? 'Giriş Yap' : 'Kayıt Ol';
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
 
-        function handleAuth(e) {
-            e.preventDefault();
-            const email = document.getElementById('authEmail').value;
-            const name = document.getElementById('authName').value || email.split('@')[0];
-
-            currentUser = { email, name };
-            localStorage.setItem('takasla_user', JSON.stringify(currentUser));
-            
-            renderAuthUI();
-            closeModal('authModal');
-            alert(`Hoş geldiniz, ${currentUser.name}!`);
+        function playLogoSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const melody = [
+                    { freq: 523.25, time: 0.00, duration: 0.2 },
+                    { freq: 587.33, time: 0.22, duration: 0.2 },
+                    { freq: 659.25, time: 0.44, duration: 0.2 },
+                    { freq: 783.99, time: 0.66, duration: 0.2 },
+                    { freq: 880.00, time: 0.88, duration: 0.4 },
+                    { freq: 1046.50, time: 1.35, duration: 0.5 }
+                ];
+                melody.forEach(note => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(note.freq, audioCtx.currentTime + note.time);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime + note.time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + note.duration);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(audioCtx.currentTime + note.time);
+                    osc.stop(audioCtx.currentTime + note.time + note.duration);
+                });
+            } catch(e) {}
         }
 
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem('takasla_user');
-            renderAuthUI();
-        }
-
-        // --- İLAN RENDER VE FİLTRELEME ---
-        function renderListings(items = listings) {
+        function renderListings(items = rawListings) {
             const grid = document.getElementById('listingsGrid');
-            grid.innerHTML = '';
+            const headerCount = document.getElementById('listingsCountHeader');
+            const t = translations[currentLang];
+            if (headerCount) {
+                headerCount.textContent = `${currentLang === 'tr' ? 'Aktif İlanlar' : 'Active Listings'} (${items.length})`;
+            }
 
             if (items.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">Aramanıza uygun ilan bulunamadı.</div>`;
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">${currentLang === 'tr' ? 'Aramanıza uygun ilan bulunamadı.' : 'No listings found matching your search.'}</p>`;
                 return;
             }
 
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col";
-                card.innerHTML = `
-                    <img src="${item.image}" alt="${item.title}" class="w-full h-48 object-cover">
-                    <div class="p-4 flex-1 flex flex-col justify-between">
-                        <div>
-                            <span class="text-xs font-bold text-brand-600 dark:text-brand-500 uppercase tracking-wider">${item.category}</span>
-                            <h3 class="font-bold text-lg mt-1 line-clamp-1">${item.title}</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">${item.desc}</p>
-                            
-                            <div class="mt-3 bg-brand-50 dark:bg-gray-700/50 p-2 rounded-lg border border-brand-100 dark:border-gray-600">
-                                <span class="text-xs text-gray-500 dark:text-gray-400 block">Takas İstiyor:</span>
-                                <span class="text-sm font-bold text-brand-700 dark:text-brand-400">${item.wanted}</span>
-                            </div>
-                        </div>
+            const favorites = currentUser.favorites || [];
 
-                        <div class="mt-4 pt-3 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                            <span class="text-xs text-gray-400">İlan Sahibi: <b>${item.owner}</b></span>
-                            <button onclick="openChatModal('${item.owner}')" class="bg-gray-900 hover:bg-black dark:bg-brand-500 dark:hover:bg-brand-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition">
-                                Mesaj Gönder
+            grid.innerHTML = items.map(item => {
+                const isFav = favorites.includes(item.id);
+                return `
+                    <div class="card" onclick="openDetailModal(${item.id})">
+                        <div class="card-img-wrap">
+                            <img src="${item.img}" alt="${item.title[currentLang]}" class="card-img" loading="lazy">
+                            <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
+                                ${item.type === 'item' ? t.itemBadge : t.serviceBadge}
+                            </span>
+                            <button class="card-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, ${item.id})" title="${isFav ? (currentLang === 'tr' ? 'Favorilerden Çıkar' : 'Remove from Favorites') : (currentLang === 'tr' ? 'Favorilere Ekle' : 'Add to Favorites')}">
+                                ${isFav ? '★' : '☆'}
                             </button>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">${item.title[currentLang]}</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
+                                ${item.desc[currentLang]}
+                            </p>
+                            <div class="card-footer">
+                                <span>📍 ${item.city}</span>
+                                <span>🕒 ${item.date}</span>
+                            </div>
                         </div>
                     </div>
                 `;
-                grid.appendChild(card);
-            });
+            }).join('');
         }
 
-        function filterCategory(cat) {
-            if (cat === 'Tümü') renderListings(listings);
-            else renderListings(listings.filter(i => i.category === cat));
+        function toggleFavorite(event, id) {
+            event.stopPropagation();
+            if (!currentUser.isLoggedIn) {
+                alert(currentLang === 'tr' ? 'Favorilere eklemek için önce giriş yapmalısınız.' : 'You must log in to add favorites.');
+                showModal('loginModal');
+                return;
+            }
+
+            if (!currentUser.favorites) {
+                currentUser.favorites = [];
+            }
+
+            const index = currentUser.favorites.indexOf(id);
+            if (index > -1) {
+                currentUser.favorites.splice(index, 1);
+            } else {
+                currentUser.favorites.push(id);
+            }
+
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex] = { ...currentUser };
+                localStorage.setItem('takaslasana_users', JSON.stringify(users));
+            }
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+
+            filterListings();
+            renderFavoritesModal();
+        }
+
+        function renderFavoritesModal() {
+            const container = document.getElementById('favoritesListContainer');
+            if (!container) return;
+
+            const favorites = currentUser.favorites || [];
+            if (favorites.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz favori ilanınız yok.' : 'No favorite listings yet.'}</p>`;
+                return;
+            }
+
+            const favItems = rawListings.filter(item => favorites.includes(item.id));
+            container.innerHTML = favItems.map(item => `
+                <div style="background: var(--bg-body); border: 1px solid var(--border); padding: 0.75rem; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="closeModal('favoritesModal'); openDetailModal(${item.id})">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <img src="${item.img}" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px;">
+                        <div>
+                            <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${item.title[currentLang]}</p>
+                            <p style="font-size: 0.75rem; color: var(--text-muted);">📍 ${item.city} • ${item.cat}</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleFavorite(event, ${item.id})" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #EF4444;" title="Kaldır">❌</button>
+                </div>
+            `).join('');
         }
 
         function filterListings() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = listings.filter(i => 
-                i.title.toLowerCase().includes(query) || 
-                i.desc.toLowerCase().includes(query) ||
-                i.wanted.toLowerCase().includes(query)
-            );
+            const searchVal = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const typeVal = document.getElementById('typeSelect')?.value || 'all';
+            const cityVal = document.getElementById('citySelect')?.value || 'all';
+
+            const filtered = rawListings.filter(item => {
+                const matchesSearch = item.title[currentLang].toLowerCase().includes(searchVal) || 
+                                      item.desc[currentLang].toLowerCase().includes(searchVal);
+                const matchesType = typeVal === 'all' || item.type === typeVal;
+                const matchesCity = cityVal === 'all' || item.city === cityVal;
+                const matchesCat = selectedCategory === 'all' || item.cat.includes(selectedCategory);
+
+                return matchesSearch && matchesType && matchesCity && matchesCat;
+            });
+
             renderListings(filtered);
         }
 
-        // --- İLAN EKLEME MANTIĞI ---
-        function openNewListingModal() {
-            if (!currentUser) {
-                alert("İlan verebilmek için önce giriş yapmalısınız.");
-                openModal('authModal');
-                return;
-            }
-            openModal('newListingModal');
+        function setCategory(btn) {
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            selectedCategory = btn.getAttribute('data-cat') || 'all';
+            filterListings();
         }
 
-        function handleCreateListing(e) {
+        function showModal(id) {
+            if (id === 'favoritesModal') {
+                if (!currentUser.isLoggedIn) {
+                    alert(currentLang === 'tr' ? 'Favorilerinizi görebilmek için önce giriş yapmalısınız.' : 'You must log in to view your favorites.');
+                    showModal('loginModal');
+                    return;
+                }
+                renderFavoritesModal();
+            } else if (id === 'messagesModal') {
+                if (!currentUser.isLoggedIn) {
+                    alert(currentLang === 'tr' ? 'Mesajlarınızı görebilmek için önce giriş yapmalısınız.' : 'You must log in to view your messages.');
+                    showModal('loginModal');
+                    return;
+                }
+                initMessagesData();
+                renderMessageThreads();
+            }
+            document.getElementById(id)?.classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id)?.classList.remove('active');
+        }
+
+        function switchModal(closeId, openId) {
+            closeModal(closeId);
+            showModal(openId);
+        }
+
+        function checkAuthAndAction(actionType) {
+            if (!currentUser.isLoggedIn) {
+                alert(currentLang === 'tr' ? 'Bu işlemi yapabilmek için önce giriş yapmalısınız.' : 'You must log in first to perform this action.');
+                showModal('loginModal');
+                return false;
+            }
+            if (actionType === 'favorites') {
+                showModal('favoritesModal');
+            } else if (actionType === 'messages') {
+                showModal('messagesModal');
+            } else if (actionType === 'offer') {
+                alert(currentLang === 'tr' ? 'Takas teklifiniz başarıyla iletildi!' : 'Your swap offer has been successfully sent!');
+                closeModal('detailModal');
+            } else if (actionType === 'msg') {
+                closeModal('detailModal');
+                
+                // İlan ID'sine ait konuşma yoksa otomatik oluştur ve seç
+                const listing = rawListings.find(x => x.id === windowCurrentSelectedListingId);
+                if (listing) {
+                    if (!currentUser.messages) currentUser.messages = [];
+                    
+                    let existingThread = currentUser.messages.find(m => m.itemId === listing.id);
+                    if (!existingThread) {
+                        existingThread = {
+                            id: Date.now(),
+                            senderId: 'owner_' + listing.id,
+                            senderName: currentLang === 'tr' ? 'İlan Sahibi' : 'Listing Owner',
+                            itemId: listing.id,
+                            itemTitle: listing.title[currentLang],
+                            type: 'inbox',
+                            history: [
+                                { 
+                                    sender: currentLang === 'tr' ? 'İlan Sahibi' : 'Listing Owner', 
+                                    text: currentLang === 'tr' ? `Merhaba, "${listing.title[currentLang]}" ilanınızla ilgileniyorum.` : `Hello, I am interested in your listing "${listing.title[currentLang]}".`, 
+                                    time: currentLang === 'tr' ? 'Bugün' : 'Today' 
+                                }
+                            ]
+                        };
+                        currentUser.messages.unshift(existingThread);
+                        saveUserData();
+                    }
+                    activeChatUserId = existingThread.senderId;
+                }
+                
+                showModal('messagesModal');
+            } else if (actionType === 'whatsapp') {
+                const title = document.getElementById('dTitle').textContent;
+                window.open(`https://wa.me/905000000000?text=Merhaba, "${title}" ilanınızla ilgileniyorum. Takas yapmak istesem görüşebilir miyiz?`, '_blank');
+                closeModal('detailModal');
+            }
+            return true;
+        }
+
+        // --- MESAJ KUTUSU YÖNETİMİ ---
+        function initMessagesData() {
+            if (!currentUser.messages || currentUser.messages.length === 0) {
+                currentUser.messages = [
+                    {
+                        id: 1,
+                        senderId: 'ahmet_yilmaz',
+                        senderName: 'Ahmet Yılmaz',
+                        itemTitle: 'Fender Akustik Gitar',
+                        type: 'inbox',
+                        history: [
+                            { sender: 'Ahmet Yılmaz', text: 'Merhaba, gitarınız hala duruyor mu? Takas düşünür müsünüz?', time: 'Dün, 14:10' },
+                            { sender: 'Siz', text: 'Evet duruyor, hangi ürünle takas etmek istiyorsunuz?', time: 'Dün, 14:25' }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        senderId: 'zeynep_kaya',
+                        senderName: 'Zeynep Kaya',
+                        itemTitle: 'Sony PlayStation 5',
+                        type: 'outbox',
+                        history: [
+                            { sender: 'Siz', text: 'Merhaba, PS5 ilanınız için gaming laptop teklif etmek istiyorum.', time: 'Bugün, 09:30' }
+                        ]
+                    }
+                ];
+                saveUserData();
+            }
+        }
+
+        function switchMsgTab(tab) {
+            currentMsgTab = tab;
+            document.getElementById('tabInbox').classList.toggle('active', tab === 'inbox');
+            document.getElementById('tabOutbox').classList.toggle('active', tab === 'outbox');
+            renderMessageThreads();
+        }
+
+        function renderMessageThreads() {
+            const container = document.getElementById('messageThreadsList');
+            const filteredMsgs = (currentUser.messages || []).filter(m => m.type === currentMsgTab);
+
+            if (filteredMsgs.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 1rem 0;">${currentLang === 'tr' ? 'Henüz mesajınız yok.' : 'No messages found.'}</p>`;
+                document.getElementById('activeChatHeader').textContent = currentLang === 'tr' ? 'Sohbet seçilmedi' : 'No chat selected';
+                document.getElementById('activeChatMessages').innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = filteredMsgs.map(m => `
+                <div onclick="selectChatThread('${m.senderId}')" style="background: ${activeChatUserId === m.senderId ? 'var(--primary-light)' : 'var(--surface)'}; border: 1px solid var(--border); padding: 0.75rem; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s;">
+                    <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${m.senderName}</p>
+                    <p style="font-size: 0.75rem; color: var(--accent); margin-bottom: 0.2rem;">📦 ${m.itemTitle}</p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.history[m.history.length - 1].text}</p>
+                </div>
+            `).join('');
+
+            if (!activeChatUserId && filteredMsgs.length > 0) {
+                selectChatThread(filteredMsgs[0].senderId);
+            } else if (activeChatUserId) {
+                selectChatThread(activeChatUserId);
+            }
+        }
+
+        function selectChatThread(senderId) {
+            activeChatUserId = senderId;
+            const thread = (currentUser.messages || []).find(m => m.senderId === senderId);
+            if (!thread) return;
+
+            renderMessageThreads();
+
+            document.getElementById('activeChatHeader').innerHTML = `💬 ${thread.senderName} <span style="font-weight: 400; font-size: 0.75rem; color: var(--text-muted);">(${thread.itemTitle})</span>`;
+            
+            const chatBox = document.getElementById('activeChatMessages');
+            chatBox.innerHTML = thread.history.map(h => {
+                const isMe = h.sender === 'Siz';
+                return `
+                    <div style="align-self: ${isMe ? 'flex-end' : 'flex-start'}; background: ${isMe ? 'var(--primary-light)' : 'var(--bg-body)'}; color: ${isMe ? 'var(--primary-dark)' : 'var(--text-main)'}; padding: 0.6rem 0.85rem; border-radius: var(--radius-sm); max-width: 80%; border: 1px solid var(--border);">
+                        <p style="font-size: 0.85rem;">${escapeHtml(h.text)}</p>
+                        <span style="font-size: 0.65rem; color: var(--text-muted); display: block; text-align: right; margin-top: 0.2rem;">${h.time}</span>
+                    </div>
+                `;
+            }).join('');
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function handleDirectChatKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendDirectChatMessage();
+            }
+        }
+
+        function sendDirectChatMessage() {
+            const input = document.getElementById('chatMessageInput');
+            const text = input.value.trim();
+            if (!text || !activeChatUserId) return;
+
+            const thread = (currentUser.messages || []).find(m => m.senderId === activeChatUserId);
+            if (!thread) return;
+
+            const now = new Date();
+            const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+            thread.history.push({
+                sender: 'Siz',
+                text: text,
+                time: timeStr
+            });
+
+            input.value = '';
+            saveUserData();
+            selectChatThread(activeChatUserId);
+        }
+
+        function saveUserData() {
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex] = { ...currentUser };
+                localStorage.setItem('takaslasana_users', JSON.stringify(users));
+            }
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+        }
+
+        function handlePostAdClick() {
+            if (!currentUser.isLoggedIn) {
+                alert(currentLang === 'tr' ? 'İlan verebilmek için önce giriş yapmalısınız!' : 'You must log in to post an ad!');
+                showModal('loginModal');
+            } else {
+                showModal('postModal');
+            }
+        }
+
+        function openDetailModal(id) {
+            windowCurrentSelectedListingId = id;
+            const item = rawListings.find(x => x.id === id);
+            const t = translations[currentLang];
+            if (!item) return;
+            document.getElementById('dTitle').textContent = item.title[currentLang];
+            document.getElementById('dCategory').textContent = `${item.cat} • ${item.city} (${item.type === 'item' ? t.itemBadge : t.serviceBadge})`;
+            document.getElementById('dDesc').textContent = item.desc[currentLang];
+            showModal('detailModal');
+        }
+
+        function handleRegisterFormSubmit(e) {
             e.preventDefault();
-            const newObj = {
-                id: Date.now(),
-                title: document.getElementById('listingTitle').value,
-                category: document.getElementById('listingCategory').value,
-                wanted: document.getElementById('listingWanted').value,
-                desc: document.getElementById('listingDesc').value,
-                owner: currentUser.name,
-                image: document.getElementById('listingImage').value || 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500&q=80'
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPass').value;
+
+            const existingUser = users.find(u => u.email === email);
+            if (existingUser) {
+                alert(currentLang === 'tr' ? 'Bu e-posta adresi ile zaten bir hesap var!' : 'An account with this email already exists!');
+                switchModal('registerModal', 'loginModal');
+                return;
+            }
+
+            const newUser = {
+                name,
+                email,
+                password,
+                phone: '',
+                address: '',
+                avatar: '',
+                favorites: [],
+                messages: [],
+                mySwaps: [
+                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
+                ]
             };
 
-            listings.unshift(newObj);
-            localStorage.setItem('takasla_listings', JSON.stringify(listings));
-            renderListings();
-            closeModal('newListingModal');
-            alert("İlanınız başarıyla eklendi!");
+            users.push(newUser);
+            localStorage.setItem('takaslasana_users', JSON.stringify(users));
+
+            currentUser = { isLoggedIn: true, ...newUser };
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+
+            updateUserUI();
+            closeModal('registerModal');
+            alert(currentLang === 'tr' ? `Kayıt başarılı! Hoş geldiniz, ${name}.` : `Registration successful! Welcome, ${name}.`);
         }
 
-        // --- MESAJLAŞMA MODALI ---
-        function openChatModal(owner) {
-            if (!currentUser) {
-                alert("Mesaj atabilmek için giriş yapmalısınız.");
-                openModal('authModal');
+        function handleLoginFormSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPass').value;
+
+            const user = users.find(u => u.email === email);
+            if (!user) {
+                alert(currentLang === 'tr' ? 'Bu e-posta ile kayıtlı hesap bulunamadı!' : 'No account found with this email!');
+                switchModal('loginModal', 'registerModal');
                 return;
             }
-            currentChatOwner = owner;
-            document.getElementById('chatModalTitle').innerText = `${owner} ile Sohbet`;
-            document.getElementById('chatMessagesBox').innerHTML = `
-                <div class="bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs text-gray-500">
-                    Sohbet başlatıldı. İlan ve takas detaylarını güvenle konuşabilirsiniz.
+
+            if (user.password !== password) {
+                alert(currentLang === 'tr' ? 'Girdiğiniz şifre hatalı!' : 'Incorrect password!');
+                return;
+            }
+
+            if (!user.favorites) user.favorites = [];
+            if (!user.messages) user.messages = [];
+            if (!user.mySwaps) {
+                user.mySwaps = [
+                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
+                ];
+            }
+
+            currentUser = { isLoggedIn: true, ...user };
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+
+            updateUserUI();
+            closeModal('loginModal');
+            filterListings();
+            alert(currentLang === 'tr' ? `Tekrar hoş geldiniz, ${user.name}!` : `Welcome back, ${user.name}!`);
+        }
+
+        function updateUserUI() {
+            const authBtns = document.getElementById('authButtons');
+            const profileContainer = document.getElementById('userProfileContainer');
+
+            if (currentUser.isLoggedIn) {
+                authBtns.style.display = 'none';
+                profileContainer.style.display = 'flex';
+
+                const avatarContent = currentUser.avatar 
+                    ? `<img src="${currentUser.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">` 
+                    : `<span>👤</span>`;
+
+                profileContainer.innerHTML = `
+                    <button class="btn btn-outline" onclick="openProfileSettings()" style="display: flex; align-items: center; gap: 0.5rem; border-color: var(--primary-dark); color: var(--primary-dark);">
+                        ${avatarContent}
+                        <span style="font-weight: 700;">${currentUser.name}</span>
+                    </button>
+                `;
+            } else {
+                authBtns.style.display = 'flex';
+                profileContainer.style.display = 'none';
+            }
+        }
+
+        function openProfileSettings() {
+            document.getElementById('profileFullName').value = currentUser.name || '';
+            document.getElementById('profilePhone').value = currentUser.phone || '';
+            document.getElementById('profileAddress').value = currentUser.address || '';
+            updateAvatarPreview(currentUser.avatar || '');
+            renderUserSwaps();
+            showModal('profileModal');
+        }
+
+        function renderUserSwaps() {
+            const container = document.getElementById('userSwapsList');
+            const swaps = currentUser.mySwaps || [];
+            document.getElementById('swapCountBadge').textContent = `${swaps.length} ${currentLang === 'tr' ? 'İlan' : 'Ads'}`;
+
+            if (swaps.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz eklenmiş takas ilanınız yok.' : 'No swap listings added yet.'}</p>`;
+                return;
+            }
+
+            container.innerHTML = swaps.map(s => `
+                <div style="background: var(--surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${s.title}</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">${s.cat} • ${s.date}</p>
+                    </div>
+                    <span style="font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; background: ${s.status === 'Aktif' ? '#D8F3DC; color: #1B4332;' : '#E5E7EB; color: #4B5563;'}">${s.status}</span>
                 </div>
-            `;
-            openModal('chatModal');
+            `).join('');
         }
 
-        function handleSendDirectMessage(e) {
+        function handleDragOver(e) {
             e.preventDefault();
-            const input = document.getElementById('directMessageInput');
-            const box = document.getElementById('chatMessagesBox');
-
-            const msgDiv = document.createElement('div');
-            msgDiv.className = "bg-brand-500 text-white p-2 rounded-lg ml-auto max-w-[80%] text-sm text-right";
-            msgDiv.innerText = input.value;
-            box.appendChild(msgDiv);
-
-            input.value = '';
-            box.scrollTop = box.scrollHeight;
+            e.stopPropagation();
+            document.getElementById('dropZone').style.borderColor = 'var(--accent)';
         }
 
-        // --- CANLI DESTEK CHATBOT ---
-        function toggleChatbot() {
-            document.getElementById('chatbotBox').classList.toggle('hidden');
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').style.borderColor = 'var(--primary-dark)';
         }
 
-        function sendChatbotMessage() {
-            const input = document.getElementById('chatbotInput');
-            const box = document.getElementById('chatbotMessages');
-            const text = input.value.trim();
-            if (!text) return;
-
-            // Kullanıcı Mesajı
-            const uMsg = document.createElement('div');
-            uMsg.className = "bg-brand-500 text-white p-2 rounded-lg ml-auto max-w-[80%] text-xs text-right";
-            uMsg.innerText = text;
-            box.appendChild(uMsg);
-
-            input.value = '';
-
-            // Otomatik Bot Cevabı
-            setTimeout(() => {
-                const bMsg = document.createElement('div');
-                bMsg.className = "bg-gray-100 dark:bg-gray-700 p-2 rounded-lg max-w-[80%] text-xs";
-                bMsg.innerText = "Talebinizi aldık. İlgili birimimiz en kısa sürede sizinle iletişime geçecektir.";
-                box.appendChild(bMsg);
-                box.scrollTop = box.scrollHeight;
-            }, 600);
-
-            box.scrollTop = box.scrollHeight;
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('dropZone').style.borderColor = 'var(--primary-dark)';
+            const files = e.dataTransfer.files;
+            if (files && files[0]) {
+                processImageFile(files[0]);
+            }
         }
 
-        // --- GENEL MODAL YARDIMCILARI ---
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            if (files && files[0]) {
+                processImageFile(files[0]);
+            }
+        }
+
+        function processImageFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert(currentLang === 'tr' ? 'Lütfen geçerli bir resim dosyası seçin.' : 'Please select a valid image file.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                currentUser.avatar = event.target.result;
+                updateAvatarPreview(currentUser.avatar);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateAvatarPreview(url) {
+            const container = document.getElementById('avatarPreviewContent');
+            if (url && url.trim() !== '') {
+                container.innerHTML = `<img src="${url}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            } else {
+                container.innerHTML = `👤`;
+            }
+        }
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            currentUser.name = document.getElementById('profileFullName').value.trim();
+            currentUser.phone = document.getElementById('profilePhone').value.trim();
+            currentUser.address = document.getElementById('profileAddress').value.trim();
+
+            saveUserData();
+            updateUserUI();
+            closeModal('profileModal');
+            alert(currentLang === 'tr' ? 'Profil bilgileriniz güncellendi!' : 'Profile updated successfully!');
+        }
+
+        function handleLogout() {
+            currentUser = { isLoggedIn: false, favorites: [], messages: [] };
+            localStorage.removeItem('takaslasana_current_user');
+            updateUserUI();
+            filterListings();
+            closeModal('profileModal');
+            alert(currentLang === 'tr' ? 'Oturum kapatıldı.' : 'Logged out.');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('newAdTitle').value;
+            const cat = document.getElementById('newAdCat').value;
+
+            if (!currentUser.mySwaps) currentUser.mySwaps = [];
+            currentUser.mySwaps.unshift({
+                title: title,
+                status: 'Aktif',
+                date: 'Bugün',
+                cat: cat
+            });
+
+            saveUserData();
+
+            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Listing published successfully!');
+            e.target.reset();
+            closeModal('postModal');
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderListings();
+            updateUserUI();
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', filterListings);
+            }
+        });
     </script>
 </body>
 </html>
