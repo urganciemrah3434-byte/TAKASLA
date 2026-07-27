@@ -535,7 +535,7 @@
                     </svg>
                     <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
                 </a>
-                <span class="logo-tagline">Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!</span>
+                <span class="logo-tagline" id="taglineText">Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!</span>
             </div>
 
             <div class="nav-actions">
@@ -558,12 +558,12 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-container">
-            <div class="hero-badge">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
-            <h1 class="hero-title">Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span></h1>
-            <p class="hero-subtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
+            <div class="hero-badge" id="heroBadgeText">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
+            <h1 class="hero-title" id="heroTitle">Eşyanı veya becerini takasla, <span id="heroTitleSpan">ihtiyacını karşıla.</span></h1>
+            <p class="hero-subtitle" id="heroSubtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
             <div class="hero-buttons">
-                <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
-                <button class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="handlePostAdClick()">İlan Oluştur</button>
+                <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;" id="heroBtn1">İlanları Keşfet</a>
+                <button class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="handlePostAdClick()" id="heroBtn2">İlan Oluştur</button>
             </div>
         </div>
     </section>
@@ -582,23 +582,23 @@
     <main class="main-container" id="ilanlar">
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            <h2 class="filter-title">Filtrele</h2>
+            <h2 class="filter-title" id="filterTitle">Filtrele</h2>
             <div class="form-group">
-                <label class="form-label">Arama</label>
+                <label class="form-label" id="searchLabel">Arama</label>
                 <input type="text" class="form-input" id="searchInput" placeholder="İlan ara...">
             </div>
             <div class="form-group">
-                <label class="form-label">Takas Türü</label>
+                <label class="form-label" id="typeLabel">Takas Türü</label>
                 <select class="form-select" id="typeSelect" onchange="filterListings()">
-                    <option value="all">Tümü</option>
-                    <option value="item">Eşya Takası</option>
-                    <option value="service">Hizmet Takası</option>
+                    <option value="all" id="optAllType">Tümü</option>
+                    <option value="item" id="optItem">Eşya Takası</option>
+                    <option value="service" id="optService">Hizmet Takası</option>
                 </select>
             </div>
             <div class="form-group">
-                <label class="form-label">Şehir</label>
+                <label class="form-label" id="cityLabel">Şehir</label>
                 <select class="form-select" id="citySelect" onchange="filterListings()">
-                    <option value="all">Tüm Şehirler</option>
+                    <option value="all" id="optAllCity">Tüm Şehirler</option>
                     <option value="İstanbul">İstanbul</option>
                     <option value="Ankara">Ankara</option>
                     <option value="İzmir">İzmir</option>
@@ -613,8 +613,8 @@
             <div class="listings-header">
                 <h2 style="font-size: 1.5rem; font-weight: 700;" id="listingsCountHeader">Aktif İlanlar (10)</h2>
                 <select class="form-select" style="width: auto;">
-                    <option>En yeniler</option>
-                    <option>Popüler olanlar</option>
+                    <option id="sortNew">En yeniler</option>
+                    <option id="sortPop">Popüler olanlar</option>
                 </select>
             </div>
 
@@ -635,7 +635,7 @@
                     </svg>
                     <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
                 </a>
-                <p>Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
+                <p id="footerDesc">Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
                 <div class="footer-contact">
                     <span>📧 destek@takaslasana.com</span>
                     <span>📞 +90 (850) 123 45 67</span>
@@ -644,7 +644,7 @@
             </div>
 
             <div>
-                <h3 class="footer-title">Kurumsal</h3>
+                <h3 class="footer-title" id="footerCol1Title">Kurumsal</h3>
                 <ul class="footer-links">
                     <li><a href="#" onclick="alert('Biz Kimiz')">Biz Kimiz</a></li>
                     <li><a href="#" onclick="alert('Vizyonumuz')">Vizyonumuz & Misyonumuz</a></li>
@@ -654,7 +654,7 @@
             </div>
 
             <div>
-                <h3 class="footer-title">Destek & Yardım</h3>
+                <h3 class="footer-title" id="footerCol2Title">Destek & Yardım</h3>
                 <ul class="footer-links">
                     <li><a href="#" onclick="alert('Nasıl Çalışır')">Nasıl Çalışır?</a></li>
                     <li><a href="#" onclick="alert('Güvenli Takas')">Güvenli Takas Rehberi</a></li>
@@ -664,7 +664,7 @@
             </div>
 
             <div>
-                <h3 class="footer-title">Yasal</h3>
+                <h3 class="footer-title" id="footerCol3Title">Yasal</h3>
                 <ul class="footer-links">
                     <li><a href="#" onclick="alert('Kullanım Koşulları')">Kullanım Koşulları</a></li>
                     <li><a href="#" onclick="alert('Gizlilik Politikası')">Gizlilik Politikası</a></li>
@@ -675,7 +675,7 @@
         </div>
 
         <div class="footer-bottom">
-            <span>© 2026 TAKASLASANA. Tüm hakları saklıdır.</span>
+            <span id="footerCopy">© 2026 TAKASLASANA. Tüm hakları saklıdır.</span>
             <span>Made for a Sustainable Future 🌱</span>
         </div>
     </footer>
@@ -688,20 +688,20 @@
             <div style="background: var(--primary-dark); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span>🤖</span>
-                    <span style="font-weight: 700; font-size: 0.95rem;">TakasBot Canlı Asistan</span>
+                    <span style="font-weight: 700; font-size: 0.95rem;" id="botNameTitle">TakasBot Canlı Asistan</span>
                 </div>
                 <button onclick="toggleChatbot()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">&times;</button>
             </div>
             <!-- Messages Body -->
             <div id="chatbotMessages" style="flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
-                <div style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
+                <div id="botWelcomeMsg" style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
                     Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz (Örn: "Nasıl ilan veririm?", "Güvenli mi?", "Para geçiyor mu?").
                 </div>
             </div>
             <!-- Input Area -->
             <div style="padding: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; background: var(--surface);">
                 <input type="text" id="chatbotInput" class="form-input" placeholder="Bir soru sorun..." onkeypress="handleChatKeyPress(event)">
-                <button class="btn btn-accent" style="padding: 0.5rem 1rem;" onclick="sendChatMessage()">Gönder</button>
+                <button class="btn btn-accent" style="padding: 0.5rem 1rem;" id="botSendBtn" onclick="sendChatMessage()">Gönder</button>
             </div>
         </div>
     </div>
@@ -711,27 +711,27 @@
     <div class="modal-overlay" id="loginModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
-            <h2 class="modal-title">Giriş Yap</h2>
-            <p class="modal-sub">Hesabınıza erişmek için bilgilerinizi girin</p>
+            <h2 class="modal-title" id="loginModalTitle">Giriş Yap</h2>
+            <p class="modal-sub" id="loginModalSub">Hesabınıza erişmek için bilgilerinizi girin</p>
 
             <form onsubmit="handleLoginFormSubmit(event)">
                 <div class="form-group">
-                    <label class="form-label">E-Posta Adresi</label>
+                    <label class="form-label" id="loginEmailLabel">E-Posta Adresi</label>
                     <input type="email" class="form-input" id="loginEmail" placeholder="ornek@gmail.com" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Şifre</label>
+                    <label class="form-label" id="loginPassLabel">Şifre</label>
                     <input type="password" class="form-input" id="loginPass" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">Oturum Aç</button>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="loginSubmitBtn">Oturum Aç</button>
             </form>
 
             <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
-                <span>Hesabın yok mu?</span> 
-                <a href="#" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;">Kayıt Ol</a>
+                <span id="noAccountText">Hesabın yok mu?</span> 
+                <a href="#" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" id="goToRegLink">Kayıt Ol</a>
             </div>
 
-            <div class="security-badge">
+            <div class="security-badge" id="sslLoginBadge">
                 🔒 256-bit SSL ile Güvenli Giriş
             </div>
         </div>
@@ -741,31 +741,31 @@
     <div class="modal-overlay" id="registerModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('registerModal')">&times;</button>
-            <h2 class="modal-title">Kayıt Ol</h2>
-            <p class="modal-sub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
+            <h2 class="modal-title" id="regModalTitle">Kayıt Ol</h2>
+            <p class="modal-sub" id="regModalSub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
 
             <form onsubmit="handleRegisterFormSubmit(event)">
                 <div class="form-group">
-                    <label class="form-label">Ad Soyad</label>
+                    <label class="form-label" id="regNameLabel">Ad Soyad</label>
                     <input type="text" class="form-input" id="regName" placeholder="Adınız Soyadınız" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">E-Posta Adresi</label>
+                    <label class="form-label" id="regEmailLabel">E-Posta Adresi</label>
                     <input type="email" class="form-input" id="regEmail" placeholder="ornek@gmail.com" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Şifre</label>
+                    <label class="form-label" id="regPassLabel">Şifre</label>
                     <input type="password" class="form-input" id="regPass" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">Hesap Oluştur</button>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="regSubmitBtn">Hesap Oluştur</button>
             </form>
 
             <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
-                <span>Zaten hesabın var mı?</span> 
-                <a href="#" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;">Giriş Yap</a>
+                <span id="hasAccountText">Zaten hesabın var mı?</span> 
+                <a href="#" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" id="goToLoginLink">Giriş Yap</a>
             </div>
 
-            <div class="security-badge">
+            <div class="security-badge" id="sslRegBadge">
                 🔒 256-bit SSL ile Güvenli Kayıt
             </div>
         </div>
@@ -775,13 +775,13 @@
     <div class="modal-overlay" id="profileModal">
         <div class="modal-card" style="max-width: 720px; width: 95%;">
             <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
-            <h2 class="modal-title">Kullanıcı Paneli & Profil</h2>
-            <p class="modal-sub">Profil bilgilerinizi yönetin ve takas geçmişinizi görüntüleyin</p>
+            <h2 class="modal-title" id="profModalTitle">Kullanıcı Paneli & Profil</h2>
+            <p class="modal-sub" id="profModalSub">Profil bilgilerinizi yönetin ve takas geçmişinizi görüntüleyin</p>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;">
                 <!-- Sol Kolon: Profil Ayarları -->
                 <div>
-                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">Hesap Bilgileri</h3>
+                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);" id="profInfoTitle">Hesap Bilgileri</h3>
                     <form onsubmit="handleProfileUpdate(event)">
                         <div class="form-group" style="text-align: center; margin-bottom: 1rem;">
                             <div id="dropZone" 
@@ -793,33 +793,33 @@
                                 <span id="avatarPreviewContent">👤</span>
                             </div>
                             <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
-                            <p style="font-size: 0.7rem; color: var(--text-muted);">Fotoğrafı değiştirmek için tıkla</p>
+                            <p style="font-size: 0.7rem; color: var(--text-muted);" id="avatarChangeText">Fotoğrafı değiştirmek için tıkla</p>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Ad Soyad</label>
+                            <label class="form-label" id="profNameLabel">Ad Soyad</label>
                             <input type="text" class="form-input" id="profileFullName" required>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Telefon Numarası</label>
+                            <label class="form-label" id="profPhoneLabel">Telefon Numarası</label>
                             <input type="tel" class="form-input" id="profilePhone" placeholder="05XXXXXXXXX">
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Adres</label>
+                            <label class="form-label" id="profAddressLabel">Adres</label>
                             <input type="text" class="form-input" id="profileAddress" placeholder="Şehir, İlçe">
                         </div>
 
-                        <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">Güncelle</button>
+                        <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="profUpdateBtn">Güncelle</button>
                     </form>
-                    <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;" onclick="handleLogout()">Oturumu Kapat</button>
+                    <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;" onclick="handleLogout()" id="logoutBtn">Oturumu Kapat</button>
                 </div>
 
                 <!-- Sağ Kolon: Takaslarım / Takasladıklarım -->
                 <div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); max-height: 420px; overflow-y: auto;">
                     <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); display: flex; justify-content: space-between; align-items: center;">
-                        <span>Takaslarım / Takasladıklarım</span>
+                        <span id="mySwapsColTitle">Takaslarım / Takasladıklarım</span>
                         <span style="font-size: 0.75rem; background: var(--primary-light); color: var(--primary-dark); padding: 0.15rem 0.5rem; border-radius: 20px;" id="swapCountBadge">0 İlan</span>
                     </h3>
                     <div id="userSwapsList" style="display: flex; flex-direction: column; gap: 0.75rem;">
@@ -834,15 +834,15 @@
     <div class="modal-overlay" id="postModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
-            <h2 class="modal-title">Yeni İlan Oluştur</h2>
-            <p class="modal-sub">Eşya veya hizmetinizi takasa çıkarın</p>
+            <h2 class="modal-title" id="postModalTitle">Yeni İlan Oluştur</h2>
+            <p class="modal-sub" id="postModalSub">Eşya veya hizmetinizi takasa çıkarın</p>
             <form onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
-                    <label class="form-label">İlan Başlığı</label>
+                    <label class="form-label" id="postTitleLabel">İlan Başlığı</label>
                     <input type="text" class="form-input" id="newAdTitle" placeholder="Örn: Bisiklet, Ders..." required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Kategori</label>
+                    <label class="form-label" id="postCatLabel">Kategori</label>
                     <select class="form-select" id="newAdCat">
                         <option>Elektronik</option>
                         <option>Hizmet & Ustalık</option>
@@ -852,10 +852,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Ne ile takas etmek istersiniz?</label>
+                    <label class="form-label" id="postDescLabel">Ne ile takas etmek istersiniz?</label>
                     <textarea class="form-textarea" id="newAdDesc" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;">İlanı Yayınla</button>
+                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="postSubmitBtn">İlanı Yayınla</button>
             </form>
         </div>
     </div>
@@ -864,12 +864,12 @@
     <div class="modal-overlay" id="favoritesModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('favoritesModal')">&times;</button>
-            <h2 class="modal-title">♡ Favori İlanlarım</h2>
+            <h2 class="modal-title" id="favModalTitle">♡ Favori İlanlarım</h2>
             <div style="border-bottom: 1px solid var(--border); padding: 1rem 0; margin-bottom: 1rem;">
                 <p style="font-weight: 700;">Fender Akustik Gitar</p>
                 <p style="font-size: 0.85rem; color: var(--text-muted);">İstanbul • Eşya Takası</p>
             </div>
-            <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;">Kapat</button>
+            <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;" id="favCloseBtn">Kapat</button>
         </div>
     </div>
 
@@ -881,15 +881,16 @@
             <p id="dCategory" style="font-size: 0.85rem; color: var(--accent); font-weight:700; margin-bottom: 0.5rem;"></p>
             <p id="dDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; line-height:1.6;"></p>
             <div style="display:flex; gap:0.5rem; flex-wrap: wrap;">
-                <button class="btn btn-accent" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('offer')">Takas Teklifi</button>
-                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('msg')">Mesaj Gönder</button>
-                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center; background-color: #25D366; color: white; border-color: #25D366;" onclick="checkAuthAndAction('whatsapp')">💬 WhatsApp</button>
+                <button class="btn btn-accent" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('offer')" id="detailOfferBtn">Takas Teklifi</button>
+                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('msg')" id="detailMsgBtn">Mesaj Gönder</button>
+                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center; background-color: #25D366; color: white; border-color: #25D366;" onclick="checkAuthAndAction('whatsapp')" id="detailWaBtn">💬 WhatsApp</button>
             </div>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
+        let currentLang = 'tr';
         let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
         let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false };
 
@@ -907,6 +908,222 @@
             { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
+
+        // --- DİL DEĞİŞTİRME SİSTEMİ ---
+        const translations = {
+            tr: {
+                tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
+                heroBadge: "SÜRDÜRÜLEBİLİR & DOĞAL TAKAS",
+                heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
+                heroSubtitle: "Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.",
+                heroBtn1: "İlanları Keşfet",
+                heroBtn2: "İlan Oluştur",
+                filterTitle: "Filtrele",
+                searchLabel: "Arama",
+                searchPlaceholder: "İlan ara...",
+                typeLabel: "Takas Türü",
+                optAllType: "Tümü",
+                optItem: "Eşya Takası",
+                optService: "Hizmet Takası",
+                cityLabel: "Şehir",
+                optAllCity: "Tüm Şehirler",
+                sortNew: "En yeniler",
+                sortPop: "Popüler olanlar",
+                footerDesc: "Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.",
+                footerCol1Title: "Kurumsal",
+                footerCol2Title: "Destek & Yardım",
+                footerCol3Title: "Yasal",
+                footerCopy: "© 2026 TAKASLASANA. Tüm hakları saklıdır.",
+                botNameTitle: "TakasBot Canlı Asistan",
+                botWelcome: "Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz (Örn: \"Nasıl ilan veririm?\", \"Güvenli mi?\", \"Para geçiyor mu?\").",
+                botPlaceholder: "Bir soru sorun...",
+                botSend: "Gönder",
+                loginTitle: "Giriş Yap",
+                loginSub: "Hesabınıza erişmek için bilgilerinizi girin",
+                emailLabel: "E-Posta Adresi",
+                passLabel: "Şifre",
+                loginBtn: "Oturum Aç",
+                noAccount: "Hesabın yok mu?",
+                regLink: "Kayıt Ol",
+                sslLogin: "🔒 256-bit SSL ile Güvenli Giriş",
+                regTitle: "Kayıt Ol",
+                regSub: "Hemen ücretsiz hesap oluştur ve takasa başla",
+                nameLabel: "Ad Soyad",
+                regBtn: "Hesap Oluştur",
+                hasAccount: "Zaten hesabın var mı?",
+                loginLink: "Giriş Yap",
+                sslReg: "🔒 256-bit SSL ile Güvenli Kayıt",
+                profTitle: "Kullanıcı Paneli & Profil",
+                profSub: "Profil bilgilerinizi yönetin ve takas geçmişinizi görüntüleyin",
+                profInfo: "Hesap Bilgileri",
+                avatarText: "Fotoğrafı değiştirmek için tıkla",
+                phoneLabel: "Telefon Numarası",
+                addressLabel: "Adres",
+                updateBtn: "Güncelle",
+                logoutBtn: "Oturumu Kapat",
+                mySwapsTitle: "Takaslarım / Takasladıklarım",
+                postTitle: "Yeni İlan Oluştur",
+                postSub: "Eşya veya hizmetinizi takasa çıkarın",
+                postTitleLabel: "İlan Başlığı",
+                postCatLabel: "Kategori",
+                postDescLabel: "Ne ile takas etmek istersiniz?",
+                postSubmitBtn: "İlanı Yayınla",
+                favTitle: "♡ Favori İlanlarım",
+                favClose: "Kapat",
+                detailTitle: "İlan Detayı",
+                detailOffer: "Takas Teklifi",
+                detailMsg: "Mesaj Gönder",
+                itemBadge: "Eşya",
+                serviceBadge: "Hizmet"
+            },
+            en: {
+                tagline: "No need for money; swap with your skills and items!",
+                heroBadge: "SUSTAINABLE & NATURAL SWAP",
+                heroTitle: "Swap your items or skills, <span>meet your needs.</span>",
+                heroSubtitle: "Share what you don't use; get the product or service you need without spending money.",
+                heroBtn1: "Explore Listings",
+                heroBtn2: "Create Listing",
+                filterTitle: "Filter",
+                searchLabel: "Search",
+                searchPlaceholder: "Search listings...",
+                typeLabel: "Swap Type",
+                optAllType: "All",
+                optItem: "Item Swap",
+                optService: "Service Swap",
+                cityLabel: "City",
+                optAllCity: "All Cities",
+                sortNew: "Newest",
+                sortPop: "Most Popular",
+                footerDesc: "Community-driven, sustainable, and secure swap platform without spending money.",
+                footerCol1Title: "Corporate",
+                footerCol2Title: "Support & Help",
+                footerCol3Title: "Legal",
+                footerCopy: "© 2026 TAKASLASANA. All rights reserved.",
+                botNameTitle: "TakasBot Live Assistant",
+                botWelcome: "Hello! I am TakasBot 🤖. You can ask me anything about Takaslasana (e.g., \"How to post an ad?\", \"Is it safe?\", \"Is money used?\").",
+                botPlaceholder: "Ask a question...",
+                botSend: "Send",
+                loginTitle: "Login",
+                loginSub: "Enter your credentials to access your account",
+                emailLabel: "Email Address",
+                passLabel: "Password",
+                loginBtn: "Sign In",
+                noAccount: "Don't have an account?",
+                regLink: "Register",
+                sslLogin: "🔒 Secure Login with 256-bit SSL",
+                regTitle: "Register",
+                regSub: "Create a free account now and start swapping",
+                nameLabel: "Full Name",
+                regBtn: "Create Account",
+                hasAccount: "Already have an account?",
+                loginLink: "Login",
+                sslReg: "🔒 Secure Registration with 256-bit SSL",
+                profTitle: "User Panel & Profile",
+                profSub: "Manage your profile information and view swap history",
+                profInfo: "Account Information",
+                avatarText: "Click to change photo",
+                phoneLabel: "Phone Number",
+                addressLabel: "Address",
+                updateBtn: "Update",
+                logoutBtn: "Log Out",
+                mySwapsTitle: "My Swaps / Swapped Items",
+                postTitle: "Create New Listing",
+                postSub: "Put your item or service up for swap",
+                postTitleLabel: "Listing Title",
+                postCatLabel: "Category",
+                postDescLabel: "What would you like to swap with?",
+                postSubmitBtn: "Publish Listing",
+                favTitle: "♡ My Favorite Listings",
+                favClose: "Close",
+                detailTitle: "Listing Details",
+                detailOffer: "Swap Offer",
+                detailMsg: "Send Message",
+                itemBadge: "Item",
+                serviceBadge: "Service"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'tr' ? 'en' : 'tr';
+            const langBtn = document.getElementById('langBtn');
+            if (langBtn) {
+                langBtn.textContent = currentLang === 'tr' ? 'TR 🇹🇷' : 'EN 🇬🇧';
+            }
+
+            const t = translations[currentLang];
+            document.getElementById('taglineText').textContent = t.tagline;
+            document.getElementById('heroBadgeText').textContent = t.heroBadge;
+            document.getElementById('heroTitle').innerHTML = t.heroTitle;
+            document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
+            document.getElementById('heroBtn1').textContent = t.heroBtn1;
+            document.getElementById('heroBtn2').textContent = t.heroBtn2;
+            document.getElementById('filterTitle').textContent = t.filterTitle;
+            document.getElementById('searchLabel').textContent = t.searchLabel;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            document.getElementById('typeLabel').textContent = t.typeLabel;
+            document.getElementById('optAllType').textContent = t.optAllType;
+            document.getElementById('optItem').textContent = t.optItem;
+            document.getElementById('optService').textContent = t.optService;
+            document.getElementById('cityLabel').textContent = t.cityLabel;
+            document.getElementById('optAllCity').textContent = t.optAllCity;
+            document.getElementById('sortNew').textContent = t.sortNew;
+            document.getElementById('sortPop').textContent = t.sortPop;
+            document.getElementById('footerDesc').textContent = t.footerDesc;
+            document.getElementById('footerCol1Title').textContent = t.footerCol1Title;
+            document.getElementById('footerCol2Title').textContent = t.footerCol2Title;
+            document.getElementById('footerCol3Title').textContent = t.footerCol3Title;
+            document.getElementById('footerCopy').textContent = t.footerCopy;
+
+            document.getElementById('botNameTitle').textContent = t.botNameTitle;
+            document.getElementById('botWelcome').textContent = t.botWelcome;
+            document.getElementById('chatbotInput').placeholder = t.botPlaceholder;
+            document.getElementById('botSendBtn').textContent = t.botSend;
+
+            document.getElementById('loginModalTitle').textContent = t.loginTitle;
+            document.getElementById('loginModalSub').textContent = t.loginSub;
+            document.getElementById('loginEmailLabel').textContent = t.emailLabel;
+            document.getElementById('loginPassLabel').textContent = t.passLabel;
+            document.getElementById('loginSubmitBtn').textContent = t.loginBtn;
+            document.getElementById('noAccountText').textContent = t.noAccount;
+            document.getElementById('goToRegLink').textContent = t.regLink;
+            document.getElementById('sslLoginBadge').textContent = t.sslLogin;
+
+            document.getElementById('regModalTitle').textContent = t.regTitle;
+            document.getElementById('regModalSub').textContent = t.regSub;
+            document.getElementById('regNameLabel').textContent = t.nameLabel;
+            document.getElementById('regEmailLabel').textContent = t.emailLabel;
+            document.getElementById('regPassLabel').textContent = t.passLabel;
+            document.getElementById('regSubmitBtn').textContent = t.regBtn;
+            document.getElementById('hasAccountText').textContent = t.hasAccount;
+            document.getElementById('goToLoginLink').textContent = t.loginLink;
+            document.getElementById('sslRegBadge').textContent = t.sslReg;
+
+            document.getElementById('profModalTitle').textContent = t.profTitle;
+            document.getElementById('profModalSub').textContent = t.profSub;
+            document.getElementById('profInfoTitle').textContent = t.profInfo;
+            document.getElementById('avatarChangeText').textContent = t.avatarText;
+            document.getElementById('profNameLabel').textContent = t.nameLabel;
+            document.getElementById('profPhoneLabel').textContent = t.phoneLabel;
+            document.getElementById('profAddressLabel').textContent = t.addressLabel;
+            document.getElementById('profUpdateBtn').textContent = t.updateBtn;
+            document.getElementById('logoutBtn').textContent = t.logoutBtn;
+            document.getElementById('mySwapsColTitle').textContent = t.mySwapsTitle;
+
+            document.getElementById('postModalTitle').textContent = t.postTitle;
+            document.getElementById('postModalSub').textContent = t.postSub;
+            document.getElementById('postTitleLabel').textContent = t.postTitleLabel;
+            document.getElementById('postCatLabel').textContent = t.postCatLabel;
+            document.getElementById('postDescLabel').textContent = t.postDescLabel;
+            document.getElementById('postSubmitBtn').textContent = t.postSubmitBtn;
+
+            document.getElementById('favModalTitle').textContent = t.favTitle;
+            document.getElementById('favCloseBtn').textContent = t.favClose;
+
+            document.getElementById('detailOfferBtn').textContent = t.detailOffer;
+            document.getElementById('detailMsgBtn').textContent = t.detailMsg;
+
+            filterListings();
+        }
 
         // --- TAKASBOT OTOMATİK YANIT SİSTEMİ ---
         function toggleChatbot() {
@@ -931,7 +1148,6 @@
 
             const messagesContainer = document.getElementById('chatbotMessages');
 
-            // Kullanıcı Mesajı
             messagesContainer.innerHTML += `
                 <div style="background: var(--primary-light); color: var(--primary-dark); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-end; max-width: 85%; font-weight: 600;">
                     ${escapeHtml(msg)}
@@ -940,23 +1156,22 @@
             input.value = '';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-            // Otomatik Bot Yanıtı Simülasyonu
             setTimeout(() => {
-                let reply = "Bu konuda tam emin değilim ama destek ekibimize destek@takaslasana.com adresinden her zaman ulaşabilirsiniz!";
+                let reply = currentLang === 'tr' 
+                    ? "Bu konuda tam emin değilim ama destek ekibimize destek@takaslasana.com adresinden her zaman ulaşabilirsiniz!" 
+                    : "I am not entirely sure about this, but you can always reach our support team at destek@takaslasana.com!";
                 const lowerMsg = msg.toLowerCase();
 
-                if (lowerMsg.includes('merhaba') || lowerMsg.includes('selam') || lowerMsg.includes('hey')) {
-                    reply = "Merhaba! Size takas süreci veya ilanlar hakkında nasıl yardımcı olabilirim?";
-                } else if (lowerMsg.includes('ilan') || lowerMsg.includes('ver') || lowerMsg.includes('ekle')) {
-                    reply = "İlan verebilmek için sağ üst köşedeki '+ İlan Ver' butonuna tıklayabilirsiniz. (İşlem için hesabınıza giriş yapmış olmanız gerekir).";
-                } else if (lowerMsg.includes('güven') || lowerMsg.includes('dolandır') || lowerMsg.includes('güvenli mi')) {
-                    reply = "Takaslasana'da kullanıcı kimlikleri doğrulanır ve güvenli takas yönergeleri sunulur. Karşılıklı buluşarak ya da güvenli kargo ile takas yapabilirsiniz.";
-                } else if (lowerMsg.includes('nasıl') || lowerMsg.includes('takas')) {
-                    reply = "Beğendiğiniz bir ilanın detayına girip 'Takas Teklifi' gönderebilir veya doğrudan satıcıyla mesajlaşarak anlaşabilirsiniz.";
-                } else if (lowerMsg.includes('fiyat') || lowerMsg.includes('ücret') || lowerMsg.includes('para') || lowerMsg.includes('maliyet')) {
-                    reply = "Takaslasana tamamen para harcamadan eşya ve yetenek takası yapabileceğiniz sürdürülebilir bir platformdur. İlan vermek ve takas yapmak tamamen ücretsizdir! 🌱";
-                } else if (lowerMsg.includes('profil') || lowerMsg.includes('takaslarım')) {
-                    reply = "Profilinize sağ üstteki isminize tıklayarak ulaşabilir; aktif ilanlarınızı ve geçmişte takasladığınız ürünleri 'Takaslarım / Takasladıklarım' sütunundan takip edebilirsiniz.";
+                if (lowerMsg.includes('merhaba') || lowerMsg.includes('selam') || lowerMsg.includes('hey') || lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
+                    reply = currentLang === 'tr' ? "Merhaba! Size takas süreci veya ilanlar nasıl yardımcı olabilirim?" : "Hello! How can I help you with the swapping process or listings?";
+                } else if (lowerMsg.includes('ilan') || lowerMsg.includes('ver') || lowerMsg.includes('ekle') || lowerMsg.includes('ad') || lowerMsg.includes('post')) {
+                    reply = currentLang === 'tr' ? "İlan verebilmek için sağ üst köşedeki '+ İlan Ver' butonuna tıklayabilirsiniz. (Giriş yapmanız gerekir)." : "You can click the '+ Create Listing' button at the top right to post an ad. (You need to be logged in).";
+                } else if (lowerMsg.includes('güven') || lowerMsg.includes('dolandır') || lowerMsg.includes('safe')) {
+                    reply = currentLang === 'tr' ? "Takaslasana'da kullanıcı kimlikleri doğrulanır ve güvenli takas yönergeleri sunulur." : "User identities are verified on Takaslasana and safe swap guidelines are provided.";
+                } else if (currentLang === 'en' && (lowerMsg.includes('money') || lowerMsg.includes('price') || lowerMsg.includes('fee'))) {
+                    reply = "Takaslasana is a sustainable platform where you can swap items and skills without spending money. Posting and swapping are completely free! 🌱";
+                } else if (lowerMsg.includes('fiyat') || lowerMsg.includes('ücret') || lowerMsg.includes('para')) {
+                    reply = "Takaslasana tamamen para harcamadan eşya ve yetenek takası yapabileceğiniz sürdürülebilir bir platformdur. Ücretsizdir! 🌱";
                 }
 
                 messagesContainer.innerHTML += `
@@ -1002,27 +1217,28 @@
         function renderListings(items = rawListings) {
             const grid = document.getElementById('listingsGrid');
             const headerCount = document.getElementById('listingsCountHeader');
+            const t = translations[currentLang];
             if (headerCount) {
-                headerCount.textContent = `Aktif İlanlar (${items.length})`;
+                headerCount.textContent = `${currentLang === 'tr' ? 'Aktif İlanlar' : 'Active Listings'} (${items.length})`;
             }
 
             if (items.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">Aramanıza uygun ilan bulunamadı.</p>`;
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">${currentLang === 'tr' ? 'Aramanıza uygun ilan bulunamadı.' : 'No listings found matching your search.'}</p>`;
                 return;
             }
 
             grid.innerHTML = items.map(item => `
                 <div class="card" onclick="openDetailModal(${item.id})">
                     <div class="card-img-wrap">
-                        <img src="${item.img}" alt="${item.title.tr}" class="card-img" loading="lazy">
+                        <img src="${item.img}" alt="${item.title[currentLang]}" class="card-img" loading="lazy">
                         <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
-                            ${item.type === 'item' ? 'Eşya' : 'Hizmet'}
+                            ${item.type === 'item' ? t.itemBadge : t.serviceBadge}
                         </span>
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">${item.title.tr}</h3>
+                        <h3 class="card-title">${item.title[currentLang]}</h3>
                         <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
-                            ${item.desc.tr}
+                            ${item.desc[currentLang]}
                         </p>
                         <div class="card-footer">
                             <span>📍 ${item.city}</span>
@@ -1039,8 +1255,8 @@
             const cityVal = document.getElementById('citySelect')?.value || 'all';
 
             const filtered = rawListings.filter(item => {
-                const matchesSearch = item.title.tr.toLowerCase().includes(searchVal) || 
-                                      item.desc.tr.toLowerCase().includes(searchVal);
+                const matchesSearch = item.title[currentLang].toLowerCase().includes(searchVal) || 
+                                      item.desc[currentLang].toLowerCase().includes(searchVal);
                 const matchesType = typeVal === 'all' || item.type === typeVal;
                 const matchesCity = cityVal === 'all' || item.city === cityVal;
                 const matchesCat = selectedCategory === 'all' || item.cat.includes(selectedCategory);
@@ -1071,20 +1287,19 @@
             showModal(openId);
         }
 
-        // --- YETKİ KONTROLÜ ---
         function checkAuthAndAction(actionType) {
             if (!currentUser.isLoggedIn) {
-                alert('Bu işlemi yapabilmek için önce giriş yapmalısınız veya kayıt olmalısınız.');
+                alert(currentLang === 'tr' ? 'Bu işlemi yapabilmek için önce giriş yapmalısınız.' : 'You must log in first to perform this action.');
                 showModal('loginModal');
                 return false;
             }
             if (actionType === 'favorites') {
                 showModal('favoritesModal');
             } else if (actionType === 'offer') {
-                alert('Takas teklifiniz başarıyla iletildi!');
+                alert(currentLang === 'tr' ? 'Takas teklifiniz başarıyla iletildi!' : 'Your swap offer has been successfully sent!');
                 closeModal('detailModal');
             } else if (actionType === 'msg') {
-                alert('Mesajlaşma paneli açılıyor...');
+                alert(currentLang === 'tr' ? 'Mesajlaşma paneli açılıyor...' : 'Opening messaging panel...');
                 closeModal('detailModal');
             } else if (actionType === 'whatsapp') {
                 const title = document.getElementById('dTitle').textContent;
@@ -1096,7 +1311,7 @@
 
         function handlePostAdClick() {
             if (!currentUser.isLoggedIn) {
-                alert('İlan verebilmek için önce giriş yapmalısınız!');
+                alert(currentLang === 'tr' ? 'İlan verebilmek için önce giriş yapmalısınız!' : 'You must log in to post an ad!');
                 showModal('loginModal');
             } else {
                 showModal('postModal');
@@ -1105,14 +1320,14 @@
 
         function openDetailModal(id) {
             const item = rawListings.find(x => x.id === id);
+            const t = translations[currentLang];
             if (!item) return;
-            document.getElementById('dTitle').textContent = item.title.tr;
-            document.getElementById('dCategory').textContent = `${item.cat} • ${item.city} (${item.type === 'item' ? 'Eşya Takası' : 'Hizmet Takası'})`;
-            document.getElementById('dDesc').textContent = item.desc.tr;
+            document.getElementById('dTitle').textContent = item.title[currentLang];
+            document.getElementById('dCategory').textContent = `${item.cat} • ${item.city} (${item.type === 'item' ? t.itemBadge : t.serviceBadge})`;
+            document.getElementById('dDesc').textContent = item.desc[currentLang];
             showModal('detailModal');
         }
 
-        // --- GİRİŞ VE KAYIT İŞLEMLERİ ---
         function handleRegisterFormSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('regName').value.trim();
@@ -1121,7 +1336,7 @@
 
             const existingUser = users.find(u => u.email === email);
             if (existingUser) {
-                alert('Bu e-posta adresi ile zaten bir hesap var! Lütfen giriş yapın.');
+                alert(currentLang === 'tr' ? 'Bu e-posta adresi ile zaten bir hesap var!' : 'An account with this email already exists!');
                 switchModal('registerModal', 'loginModal');
                 return;
             }
@@ -1134,8 +1349,7 @@
                 address: '',
                 avatar: '',
                 mySwaps: [
-                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" },
-                    { title: "Kitap Seti", status: "Tamamlandı", date: "Geçen Hafta", cat: "Eğitim" }
+                    { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
                 ]
             };
 
@@ -1147,7 +1361,7 @@
 
             updateUserUI();
             closeModal('registerModal');
-            alert(`Kayıt başarılı! Hoş geldiniz, ${name}.`);
+            alert(currentLang === 'tr' ? `Kayıt başarılı! Hoş geldiniz, ${name}.` : `Registration successful! Welcome, ${name}.`);
         }
 
         function handleLoginFormSubmit(e) {
@@ -1157,13 +1371,13 @@
 
             const user = users.find(u => u.email === email);
             if (!user) {
-                alert('Bu e-posta adresi ile kayıtlı bir hesap bulunamadı! Lütfen önce kayıt olun.');
+                alert(currentLang === 'tr' ? 'Bu e-posta ile kayıtlı hesap bulunamadı!' : 'No account found with this email!');
                 switchModal('loginModal', 'registerModal');
                 return;
             }
 
             if (user.password !== password) {
-                alert('Girdiğiniz şifre hatalı!');
+                alert(currentLang === 'tr' ? 'Girdiğiniz şifre hatalı!' : 'Incorrect password!');
                 return;
             }
 
@@ -1178,7 +1392,7 @@
 
             updateUserUI();
             closeModal('loginModal');
-            alert(`Tekrar hoş geldiniz, ${user.name}!`);
+            alert(currentLang === 'tr' ? `Tekrar hoş geldiniz, ${user.name}!` : `Welcome back, ${user.name}!`);
         }
 
         function updateUserUI() {
@@ -1217,10 +1431,10 @@
         function renderUserSwaps() {
             const container = document.getElementById('userSwapsList');
             const swaps = currentUser.mySwaps || [];
-            document.getElementById('swapCountBadge').textContent = `${swaps.length} İlan`;
+            document.getElementById('swapCountBadge').textContent = `${swaps.length} ${currentLang === 'tr' ? 'İlan' : 'Ads'}`;
 
             if (swaps.length === 0) {
-                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">Henüz eklenmiş takas ilanınız yok.</p>`;
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz eklenmiş takas ilanınız yok.' : 'No swap listings added yet.'}</p>`;
                 return;
             }
 
@@ -1235,7 +1449,6 @@
             `).join('');
         }
 
-        // --- RESİM YÜKLEME ---
         function handleDragOver(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -1267,7 +1480,7 @@
 
         function processImageFile(file) {
             if (!file.type.startsWith('image/')) {
-                alert('Lütfen geçerli bir resim dosyası seçin.');
+                alert(currentLang === 'tr' ? 'Lütfen geçerli bir resim dosyası seçin.' : 'Please select a valid image file.');
                 return;
             }
             const reader = new FileReader();
@@ -1302,7 +1515,7 @@
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
             updateUserUI();
             closeModal('profileModal');
-            alert('Profil bilgileriniz güncellendi!');
+            alert(currentLang === 'tr' ? 'Profil bilgileriniz güncellendi!' : 'Profile updated successfully!');
         }
 
         function handleLogout() {
@@ -1310,7 +1523,7 @@
             localStorage.removeItem('takaslasana_current_user');
             updateUserUI();
             closeModal('profileModal');
-            alert('Oturum kapatıldı.');
+            alert(currentLang === 'tr' ? 'Oturum kapatıldı.' : 'Logged out.');
         }
 
         function handleFormSubmit(e) {
@@ -1333,7 +1546,7 @@
             }
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
 
-            alert('İlanınız başarıyla yayınlandı ve "Takaslarım" sütununa eklendi!');
+            alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Listing published successfully!');
             e.target.reset();
             closeModal('postModal');
         }
