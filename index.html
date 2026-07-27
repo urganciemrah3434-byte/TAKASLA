@@ -831,7 +831,7 @@
         </div>
     </div>
 
-    <!-- KULLANICI AYARLARI / PROFİL MODALI (GELEN & GİDEN MESAJLAR SEKME ENTEGRASYONU) -->
+    <!-- KULLANICI AYARLARI / PROFİL MODALI -->
     <div class="modal-overlay" id="profileModal">
         <div class="modal-card" style="max-width: 780px; width: 95%;">
             <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
@@ -876,7 +876,7 @@
                     <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;" onclick="handleLogout()" id="logoutBtn">Oturumu Kapat</button>
                 </div>
 
-                <!-- Sağ Kolon: TAB SİSTEMİ (Takaslarım, Gelen Mesajlar, Giden Mesajlar) -->
+                <!-- Sağ Kolon: TAB SİSTEMİ -->
                 <div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); min-height: 380px; max-height: 440px; display: flex; flex-direction: column;">
                     
                     <!-- TAB BUTONLARI -->
@@ -964,7 +964,7 @@
         </div>
     </div>
 
-    <!-- MESAJLAŞMA MODALI -->
+    <!-- FIREBASE CANLI MESAJLAŞMA MODALI -->
     <div class="modal-overlay" id="messageModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('messageModal')">&times;</button>
@@ -982,26 +982,140 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
+    <!-- JAVASCRIPT LOGIC & FIREBASE INTEGRATION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+          getFirestore, 
+          collection, 
+          addDoc, 
+          query, 
+          orderBy, 
+          onSnapshot, 
+          serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // FIREBASE KURULUM BİLGİLERİNİZİ BURAYA GİRİN
+        const firebaseConfig = {
+          apiKey: "YOUR_API_KEY",
+          authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+          projectId: "YOUR_PROJECT_ID",
+          storageBucket: "YOUR_PROJECT_ID.appspot.com",
+          messagingSenderId: "YOUR_SENDER_ID",
+          appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Firebase Mesaj Dinleyicisi
+        let activeChatListener = null;
+        let activeChatListingId = null;
+        let activeChatSellerUid = null;
+
+        /**
+         * İlan ID, Alıcı ID ve Satıcı ID kullanarak BENZERSİZ Sohbet Oda ID üretir.
+         */
+        function getChatRoomId(listingId, sellerUid, buyerUid) {
+          return `${listingId}_${buyerUid}_${sellerUid}`;
+        }
+
+        /**
+         * FIREBASE MESAJ GÖNDER
+         */
+        async function sendMessage(listingId, sellerUid, messageText) {
+          const currentUser = auth.currentUser || window.currentUser;
+
+          if (!currentUser || !currentUser.uid) {
+            alert(currentLang === 'tr' ? "Mesaj göndermek için giriş yapmalısınız." : "Please login to send messages.");
+            return;
+          }
+
+          if (!messageText.trim()) return;
+
+          const buyerUid = currentUser.uid;
+          const roomId = getChatRoomId(listingId, sellerUid, buyerUid);
+
+          try {
+            await addDoc(collection(db, "chats", roomId, "messages"), {
+              senderUid: currentUser.uid,
+              senderEmail: currentUser.email || currentUser.name || "Kullanıcı",
+              senderName: currentUser.name || "Kullanıcı",
+              text: messageText,
+              createdAt: serverTimestamp()
+            });
+          } catch (error) {
+            console.error("Firebase Mesaj Hatası:", error);
+          }
+        }
+
+        /**
+         * FIREBASE MESAJLARI CANLI DİNLE
+         */
+        function listenToChat(listingId, sellerUid, renderCallback) {
+          if (activeChatListener) {
+            activeChatListener();
+            activeChatListener = null;
+          }
+
+          const currentUser = auth.currentUser || window.currentUser;
+
+          if (!currentUser || !currentUser.uid) {
+            renderCallback([]);
+            return;
+          }
+
+          const buyerUid = currentUser.uid;
+          const roomId = getChatRoomId(listingId, sellerUid, buyerUid);
+
+          const q = query(
+            collection(db, "chats", roomId, "messages"),
+            orderBy("createdAt", "asc")
+          );
+
+          activeChatListener = onSnapshot(q, (snapshot) => {
+            const messages = [];
+            snapshot.forEach((doc) => {
+              messages.push({ id: doc.id, ...doc.data() });
+            });
+            renderCallback(messages);
+          });
+        }
+
+        /**
+         * OTURUM KAPATILDIĞINDA TEMİZLE
+         */
+        function clearChatOnLogout(renderCallback) {
+          if (activeChatListener) {
+            activeChatListener();
+            activeChatListener = null;
+          }
+          if (typeof renderCallback === "function") {
+            renderCallback([]);
+          }
+        }
+
+        /* UYGULAMA GENEL DEĞİŞKENLERİ */
         let currentLang = 'tr';
         let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
         let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false, favorites: [] };
-        let chatMessages = JSON.parse(localStorage.getItem('takaslasana_chats')) || {};
+        window.currentUser = currentUser; // Global erişim
         let currentChatTitle = "";
         let selectedCategory = 'all';
 
         const rawListings = [
-            { id: 1, title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
-            { id: 2, title: { tr: "Boya & Badana Ustası", en: "Painting & Decorating Master" }, type: "service", cat: "Hizmet", city: "Ankara", date: "Dün", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500", desc: { tr: "Ev boya hizmeti karşılığında Web Tasarımı arıyorum.", en: "Offering house painting service in exchange for Web Design." } },
-            { id: 3, title: { tr: "Matematik Özel Dersi", en: "Private Math Lessons" }, type: "service", cat: "Eğitim", city: "İzmir", date: "3 gün önce", img: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500", desc: { tr: "LGS/YKS için matematik dersi. Tablet takasına açıktır.", en: "Math tutoring for exam prep. Open to tablet swaps." } },
-            { id: 4, title: { tr: "Sony PlayStation 5", en: "Sony PlayStation 5" }, type: "item", cat: "Elektronik", city: "Bursa", date: "Bugün", img: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500", desc: { tr: "İki kollu PS5. Gaming Laptop ile takaslanabilir.", en: "PS5 with two controllers. Open to swap with Gaming Laptop." } },
-            { id: 5, title: { tr: "Vintage Ahşap Yemek Masası", en: "Vintage Wooden Dining Table" }, type: "item", cat: "Ev & Yaşam", city: "Antalya", date: "2 gün önce", img: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=500", desc: { tr: "Gerçek meşe ağacı. Bisiklet ile takas düşünülür.", en: "Real oak wood. Willing to swap for a bicycle." } },
-            { id: 6, title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
-            { id: 7, title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
-            { id: 8, title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
-            { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
-            { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
+            { id: 1, sellerUid: "seller_1", title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
+            { id: 2, sellerUid: "seller_2", title: { tr: "Boya & Badana Ustası", en: "Painting & Decorating Master" }, type: "service", cat: "Hizmet", city: "Ankara", date: "Dün", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500", desc: { tr: "Ev boya hizmeti karşılığında Web Tasarımı arıyorum.", en: "Offering house painting service in exchange for Web Design." } },
+            { id: 3, sellerUid: "seller_3", title: { tr: "Matematik Özel Dersi", en: "Private Math Lessons" }, type: "service", cat: "Eğitim", city: "İzmir", date: "3 gün önce", img: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500", desc: { tr: "LGS/YKS için matematik dersi. Tablet takasına açıktır.", en: "Math tutoring for exam prep. Open to tablet swaps." } },
+            { id: 4, sellerUid: "seller_4", title: { tr: "Sony PlayStation 5", en: "Sony PlayStation 5" }, type: "item", cat: "Elektronik", city: "Bursa", date: "Bugün", img: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500", desc: { tr: "İki kollu PS5. Gaming Laptop ile takaslanabilir.", en: "PS5 with two controllers. Open to swap with Gaming Laptop." } },
+            { id: 5, sellerUid: "seller_5", title: { tr: "Vintage Ahşap Yemek Masası", en: "Vintage Wooden Dining Table" }, type: "item", cat: "Ev & Yaşam", city: "Antalya", date: "2 gün önce", img: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=500", desc: { tr: "Gerçek meşe ağacı. Bisiklet ile takas düşünülür.", en: "Real oak wood. Willing to swap for a bicycle." } },
+            { id: 6, sellerUid: "seller_6", title: { tr: "İngilizce Pratik Seansı", en: "English Practice Session" }, type: "service", cat: "Eğitim", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500", desc: { tr: "Native konuşma pratiği. İspanyolca dersi karşılığı verilir.", en: "Native conversation practice in exchange for Spanish lessons." } },
+            { id: 7, sellerUid: "seller_7", title: { tr: "Oto Arıza Tespiti & Tamir", en: "Car Diagnostics & Repair" }, type: "service", cat: "Hizmet", city: "Ankara", date: "4 gün önce", img: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500", desc: { tr: "Bilgisayarlı arıza tespiti. Akıllı telefon takası aranıyor.", en: "Computerized diagnostics. Looking for a smartphone swap." } },
+            { id: 8, sellerUid: "seller_8", title: { tr: "Canon EOS M50 Kamera", en: "Canon EOS M50 Camera" }, type: "item", cat: "Elektronik", city: "İzmir", date: "Dün", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500", desc: { tr: "Temiz vlog kamerası. iPad ile takas olur.", en: "Clean vlog camera. Open for iPad swap." } },
+            { id: 9, sellerUid: "seller_9", title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
+            { id: 10, sellerUid: "seller_10", title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
 
         const footerInfoContent = {
@@ -1039,7 +1153,6 @@
             showModal('infoModal');
         }
 
-        // --- DİL DEĞİŞTİRME SİSTEMİ ---
         const translations = {
             tr: {
                 tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
@@ -1313,6 +1426,7 @@
         }
 
         function escapeHtml(text) {
+            if (!text) return '';
             const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
             return text.replace(/[&<>"']/g, function(m) { return map[m]; });
         }
@@ -1468,30 +1582,37 @@
             showModal(openId);
         }
 
-        /* CANLI MESAJLAŞMA VE SOHBET ENTEGRASYONU */
-        function openChatModal(listingTitle) {
+        /* FIREBASE CANLI SOHBET MODAL ENTEGRASYONU */
+        function openChatModal(listingId, sellerUid, listingTitle) {
+            activeChatListingId = listingId || 1;
+            activeChatSellerUid = sellerUid || "seller_default";
             currentChatTitle = listingTitle || "İlan";
-            document.getElementById('msgModalSub').textContent = `${currentChatTitle} - ${currentLang === 'tr' ? 'İlan Sahibi' : 'Seller'}`;
-            renderChatMessages();
+
+            document.getElementById('msgModalSub').textContent = `${currentChatTitle} - ${currentLang === 'tr' ? 'Canlı Sohbet' : 'Live Chat'}`;
+            
+            // Firebase Firestore Dinleyicisini Başlat
+            listenToChat(activeChatListingId, activeChatSellerUid, renderChatMessages);
             showModal('messageModal');
         }
 
-        function renderChatMessages() {
+        function renderChatMessages(messages = []) {
             const container = document.getElementById('chatHistory');
             if (!container) return;
 
-            const history = chatMessages[currentChatTitle] || [
-                { sender: "Sistem", text: currentLang === 'tr' ? "İlan sahibi ile sohbetiniz başladı. Teklif veya sorularınızı yazabilirsiniz." : "Chat started with the seller. You can send your offers.", time: "Sistem", isSystem: true }
-            ];
+            if (messages.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.75rem; font-style: italic; margin: auto;">${currentLang === 'tr' ? 'Henüz mesaj yok. İlk mesajı siz gönderin!' : 'No messages yet. Send the first message!'}</div>`;
+                return;
+            }
 
-            container.innerHTML = history.map(msg => {
-                if (msg.isSystem) {
-                    return `<div style="text-align: center; color: var(--text-muted); font-size: 0.75rem; font-style: italic; margin: 0.25rem 0;">${msg.text}</div>`;
-                }
-                const isMe = msg.sender === (currentUser.name || "Kullanıcı");
+            const myUid = (auth.currentUser ? auth.currentUser.uid : currentUser.uid);
+
+            container.innerHTML = messages.map(msg => {
+                const isMe = msg.senderUid === myUid;
+                const timeFormatted = msg.createdAt ? new Date(msg.createdAt.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '...';
+
                 return `
                     <div style="align-self: ${isMe ? 'flex-end' : 'flex-start'}; max-width: 80%; background: ${isMe ? 'var(--primary-light)' : 'var(--surface)'}; color: ${isMe ? 'var(--primary-dark)' : 'var(--text-main)'}; border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);">
-                        <div style="font-size: 0.7rem; font-weight: 700; opacity: 0.8;">${msg.sender} • ${msg.time}</div>
+                        <div style="font-size: 0.7rem; font-weight: 700; opacity: 0.8;">${escapeHtml(msg.senderName || msg.senderEmail)} • ${timeFormatted}</div>
                         <div>${escapeHtml(msg.text)}</div>
                     </div>
                 `;
@@ -1500,52 +1621,17 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        function handleSendMessageSubmit(e) {
+        async function handleSendMessageSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text) return;
 
-            if (!chatMessages[currentChatTitle]) {
-                chatMessages[currentChatTitle] = [
-                    { sender: "Sistem", text: currentLang === 'tr' ? "İlan sahibi ile sohbetiniz başladı." : "Chat started with the seller.", time: "Sistem", isSystem: true }
-                ];
-            }
-
-            const now = new Date();
-            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-            chatMessages[currentChatTitle].push({
-                sender: currentUser.name || "Kullanıcı",
-                text: text,
-                time: timeStr
-            });
-
-            localStorage.setItem('takaslasana_chats', JSON.stringify(chatMessages));
+            await sendMessage(activeChatListingId, activeChatSellerUid, text);
             input.value = '';
-            renderChatMessages();
-
-            // İlan Sahibi Otomatik Yanıt Simülasyonu
-            setTimeout(() => {
-                if (chatMessages[currentChatTitle]) {
-                    chatMessages[currentChatTitle].push({
-                        sender: "İlan Sahibi",
-                        text: currentLang === 'tr' ? "Mesajınızı aldım! Teklifinizi değerlendirip en kısa sürede dönüş yapacağım." : "I received your message! I'll reply shortly.",
-                        time: timeStr
-                    });
-                    localStorage.setItem('takaslasana_chats', JSON.stringify(chatMessages));
-                    renderChatMessages();
-                    
-                    // Eğer profil modalı açıksa giden/gelen kutularını güncelle
-                    if (document.getElementById('profileModal').classList.contains('active')) {
-                        renderIncomingMessages();
-                        renderOutgoingMessages();
-                    }
-                }
-            }, 1000);
         }
 
-        /* --- PROFİL PANELİ GELEN & GİDEN MESAJ SİSTEMİ --- */
+        /* PROFİL PANELİ MESAJ SEKME ENTEGRASYONU */
         function switchProfileTab(tabName) {
             document.querySelectorAll('.profile-tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tabContentSwaps').style.display = 'none';
@@ -1570,84 +1656,13 @@
         function renderIncomingMessages() {
             const container = document.getElementById('userIncomingMsgsList');
             if (!container) return;
-
-            let incomingList = [];
-            const myName = currentUser.name || "Kullanıcı";
-
-            // chatMessages nesnesindeki tüm sohbetleri tara
-            for (let chatTitle in chatMessages) {
-                const msgs = chatMessages[chatTitle];
-                // Benim gönderdiğim dışındaki mesajlar
-                const incMsgs = msgs.filter(m => !m.isSystem && m.sender !== myName);
-                if (incMsgs.length > 0) {
-                    const lastMsg = incMsgs[incMsgs.length - 1];
-                    incomingList.push({
-                        title: chatTitle,
-                        sender: lastMsg.sender,
-                        text: lastMsg.text,
-                        time: lastMsg.time
-                    });
-                }
-            }
-
-            if (incomingList.length === 0) {
-                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz gelen bir mesajınız bulunmuyor.' : 'No incoming messages yet.'}</p>`;
-                return;
-            }
-
-            container.innerHTML = incomingList.map(item => `
-                <div style="background: var(--surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.4rem; cursor: pointer;" onclick="openChatFromProfile('${escapeHtml(item.title)}')">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 0.85rem; font-weight: 800; color: var(--primary-dark);">📢 ${escapeHtml(item.title)}</span>
-                        <span style="font-size: 0.7rem; color: var(--text-muted);">🕒 ${item.time}</span>
-                    </div>
-                    <p style="font-size: 0.8rem; color: var(--text-main); font-weight: 600;">👤 ${escapeHtml(item.sender)}: "${escapeHtml(item.text)}"</p>
-                    <button class="btn btn-outline" style="align-self: flex-end; padding: 0.2rem 0.6rem; font-size: 0.75rem;" onclick="event.stopPropagation(); openChatFromProfile('${escapeHtml(item.title)}')">💬 Sohbeti Aç</button>
-                </div>
-            `).join('');
+            container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Firestore üzerinden aktif gelen kutunuz senkronize ediliyor...' : 'Synchronizing incoming inbox...'}</p>`;
         }
 
         function renderOutgoingMessages() {
             const container = document.getElementById('userOutgoingMsgsList');
             if (!container) return;
-
-            let outgoingList = [];
-            const myName = currentUser.name || "Kullanıcı";
-
-            for (let chatTitle in chatMessages) {
-                const msgs = chatMessages[chatTitle];
-                // Benim gönderdiğim mesajlar
-                const outMsgs = msgs.filter(m => !m.isSystem && m.sender === myName);
-                if (outMsgs.length > 0) {
-                    const lastMsg = outMsgs[outMsgs.length - 1];
-                    outgoingList.push({
-                        title: chatTitle,
-                        text: lastMsg.text,
-                        time: lastMsg.time
-                    });
-                }
-            }
-
-            if (outgoingList.length === 0) {
-                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz giden bir mesajınız bulunmuyor.' : 'No outgoing messages yet.'}</p>`;
-                return;
-            }
-
-            container.innerHTML = outgoingList.map(item => `
-                <div style="background: var(--surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.4rem; cursor: pointer;" onclick="openChatFromProfile('${escapeHtml(item.title)}')">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 0.85rem; font-weight: 800; color: var(--accent);">📤 ${escapeHtml(item.title)}</span>
-                        <span style="font-size: 0.7rem; color: var(--text-muted);">🕒 ${item.time}</span>
-                    </div>
-                    <p style="font-size: 0.8rem; color: var(--text-main);">" ${escapeHtml(item.text)} "</p>
-                    <button class="btn btn-outline" style="align-self: flex-end; padding: 0.2rem 0.6rem; font-size: 0.75rem;" onclick="event.stopPropagation(); openChatFromProfile('${escapeHtml(item.title)}')">💬 Sohbeti Gör</button>
-                </div>
-            `).join('');
-        }
-
-        function openChatFromProfile(chatTitle) {
-            closeModal('profileModal');
-            openChatModal(chatTitle);
+            container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Firestore üzerinden aktif giden kutunuz senkronize ediliyor...' : 'Synchronizing outgoing inbox...'}</p>`;
         }
 
         function checkAuthAndAction(actionType) {
@@ -1663,7 +1678,8 @@
                 closeModal('detailModal');
             } else if (actionType === 'msg') {
                 const title = document.getElementById('dTitle').textContent;
-                openChatModal(title);
+                const item = rawListings.find(x => x.title[currentLang] === title) || rawListings[0];
+                openChatModal(item.id, item.sellerUid, item.title[currentLang]);
                 closeModal('detailModal');
             } else if (actionType === 'whatsapp') {
                 const title = document.getElementById('dTitle').textContent;
@@ -1705,8 +1721,9 @@
                 return;
             }
 
+            const mockUid = "user_" + Date.now();
             const newUser = {
-                name, email, password, phone: '', address: '', avatar: '', favorites: [],
+                uid: mockUid, name, email, password, phone: '', address: '', avatar: '', favorites: [],
                 mySwaps: [{ title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }]
             };
 
@@ -1714,6 +1731,7 @@
             localStorage.setItem('takaslasana_users', JSON.stringify(users));
 
             currentUser = { isLoggedIn: true, ...newUser };
+            window.currentUser = currentUser;
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
 
             updateUserUI();
@@ -1738,10 +1756,12 @@
                 return;
             }
 
+            if (!user.uid) user.uid = "user_" + Date.now();
             if (!user.favorites) user.favorites = [];
             if (!user.mySwaps) user.mySwaps = [{ title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }];
 
             currentUser = { isLoggedIn: true, ...user };
+            window.currentUser = currentUser;
             localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
 
             updateUserUI();
@@ -1866,7 +1886,9 @@
         }
 
         function handleLogout() {
+            clearChatOnLogout();
             currentUser = { isLoggedIn: false, favorites: [] };
+            window.currentUser = currentUser;
             localStorage.removeItem('takaslasana_current_user');
             updateUserUI();
             filterListings();
@@ -1902,6 +1924,36 @@
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
         }
+
+        // ES MODULE SCOPE OLAN FONKSİYONLARI HTML INLINE OLANLAR İÇİN WINDOW BAGLANTISI
+        window.toggleLanguage = toggleLanguage;
+        window.toggleDarkMode = toggleDarkMode;
+        window.toggleChatbot = toggleChatbot;
+        window.handleChatKeyPress = handleChatKeyPress;
+        window.sendChatMessage = sendChatMessage;
+        window.playLogoSound = playLogoSound;
+        window.setCategory = setCategory;
+        window.filterListings = filterListings;
+        window.showModal = showModal;
+        window.closeModal = closeModal;
+        window.switchModal = switchModal;
+        window.toggleFavorite = toggleFavorite;
+        window.checkAuthAndAction = checkAuthAndAction;
+        window.handlePostAdClick = handlePostAdClick;
+        window.openDetailModal = openDetailModal;
+        window.handleRegisterFormSubmit = handleRegisterFormSubmit;
+        window.handleLoginFormSubmit = handleLoginFormSubmit;
+        window.openProfileSettings = openProfileSettings;
+        window.switchProfileTab = switchProfileTab;
+        window.handleProfileUpdate = handleProfileUpdate;
+        window.handleLogout = handleLogout;
+        window.handleFormSubmit = handleFormSubmit;
+        window.handleSendMessageSubmit = handleSendMessageSubmit;
+        window.openInfoModal = openInfoModal;
+        window.handleDragOver = handleDragOver;
+        window.handleDragLeave = handleDragLeave;
+        window.handleDrop = handleDrop;
+        window.handleFileSelect = handleFileSelect;
 
         document.addEventListener('DOMContentLoaded', () => {
             renderListings();
