@@ -45,7 +45,7 @@
             cursor: default;
         }
 
-        a, button, input, select, .cat-chip, .card, .close-btn {
+        a, button, input, select, .cat-chip, .card, .close-btn, .card-fav-btn {
             cursor: pointer;
         }
 
@@ -329,10 +329,43 @@
             font-size: 0.75rem;
             font-weight: 700;
             color: white;
+            z-index: 2;
         }
 
         .badge-item { background: #2563EB; }
         .badge-service { background: var(--accent); }
+
+        .card-fav-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            z-index: 2;
+        }
+
+        body.dark-mode .card-fav-btn {
+            background: rgba(30, 41, 59, 0.9);
+            color: #94A3B8;
+        }
+
+        .card-fav-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .card-fav-btn.active {
+            color: #F59E0B;
+        }
 
         .card-body {
             padding: 1rem;
@@ -541,7 +574,7 @@
             <div class="nav-actions">
                 <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
-                <button class="btn btn-outline" onclick="checkAuthAndAction('favorites')">♡ Favoriler</button>
+                <button class="btn btn-outline" onclick="checkAuthAndAction('favorites')">♡ <span id="favBtnText">Favoriler</span></button>
                 
                 <!-- Kimlik Doğrulama Bölümü -->
                 <div id="authButtons" style="display: flex; gap: 0.75rem; align-items: center;">
@@ -865,10 +898,12 @@
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('favoritesModal')">&times;</button>
             <h2 class="modal-title" id="favModalTitle">♡ Favori İlanlarım</h2>
-            <div style="border-bottom: 1px solid var(--border); padding: 1rem 0; margin-bottom: 1rem;">
-                <p style="font-weight: 700;">Fender Akustik Gitar</p>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">İstanbul • Eşya Takası</p>
+            <p class="modal-sub" id="favModalSub">Favorilerinize eklediğiniz ilanlar</p>
+            
+            <div id="favoritesListContainer" style="max-height: 350px; overflow-y: auto; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                <!-- Dinamik doldurulacak -->
             </div>
+
             <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;" id="favCloseBtn">Kapat</button>
         </div>
     </div>
@@ -892,7 +927,7 @@
     <script>
         let currentLang = 'tr';
         let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
-        let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false };
+        let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false, favorites: [] };
 
         let selectedCategory = 'all';
 
@@ -913,6 +948,7 @@
         const translations = {
             tr: {
                 tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
+                favBtn: "Favoriler",
                 heroBadge: "SÜRDÜRÜLEBİLİR & DOĞAL TAKAS",
                 heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
                 heroSubtitle: "Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.",
@@ -969,6 +1005,7 @@
                 postDescLabel: "Ne ile takas etmek istersiniz?",
                 postSubmitBtn: "İlanı Yayınla",
                 favTitle: "♡ Favori İlanlarım",
+                favSub: "Favorilerinize eklediğiniz ilanlar",
                 favClose: "Kapat",
                 detailTitle: "İlan Detayı",
                 detailOffer: "Takas Teklifi",
@@ -978,6 +1015,7 @@
             },
             en: {
                 tagline: "No need for money; swap with your skills and items!",
+                favBtn: "Favorites",
                 heroBadge: "SUSTAINABLE & NATURAL SWAP",
                 heroTitle: "Swap your items or skills, <span>meet your needs.</span>",
                 heroSubtitle: "Share what you don't use; get the product or service you need without spending money.",
@@ -1034,6 +1072,7 @@
                 postDescLabel: "What would you like to swap with?",
                 postSubmitBtn: "Publish Listing",
                 favTitle: "♡ My Favorite Listings",
+                favSub: "Listings you have added to your favorites",
                 favClose: "Close",
                 detailTitle: "Listing Details",
                 detailOffer: "Swap Offer",
@@ -1052,6 +1091,7 @@
 
             const t = translations[currentLang];
             document.getElementById('taglineText').textContent = t.tagline;
+            document.getElementById('favBtnText').textContent = t.favBtn;
             document.getElementById('heroBadgeText').textContent = t.heroBadge;
             document.getElementById('heroTitle').innerHTML = t.heroTitle;
             document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
@@ -1117,12 +1157,14 @@
             document.getElementById('postSubmitBtn').textContent = t.postSubmitBtn;
 
             document.getElementById('favModalTitle').textContent = t.favTitle;
+            document.getElementById('favModalSub').textContent = t.favSub;
             document.getElementById('favCloseBtn').textContent = t.favClose;
 
             document.getElementById('detailOfferBtn').textContent = t.detailOffer;
             document.getElementById('detailMsgBtn').textContent = t.detailMsg;
 
             filterListings();
+            renderFavoritesModal();
         }
 
         // --- TAKASBOT OTOMATİK YANIT SİSTEMİ ---
@@ -1227,24 +1269,88 @@
                 return;
             }
 
-            grid.innerHTML = items.map(item => `
-                <div class="card" onclick="openDetailModal(${item.id})">
-                    <div class="card-img-wrap">
-                        <img src="${item.img}" alt="${item.title[currentLang]}" class="card-img" loading="lazy">
-                        <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
-                            ${item.type === 'item' ? t.itemBadge : t.serviceBadge}
-                        </span>
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">${item.title[currentLang]}</h3>
-                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
-                            ${item.desc[currentLang]}
-                        </p>
-                        <div class="card-footer">
-                            <span>📍 ${item.city}</span>
-                            <span>🕒 ${item.date}</span>
+            const favorites = currentUser.favorites || [];
+
+            grid.innerHTML = items.map(item => {
+                const isFav = favorites.includes(item.id);
+                return `
+                    <div class="card" onclick="openDetailModal(${item.id})">
+                        <div class="card-img-wrap">
+                            <img src="${item.img}" alt="${item.title[currentLang]}" class="card-img" loading="lazy">
+                            <span class="badge-type ${item.type === 'item' ? 'badge-item' : 'badge-service'}">
+                                ${item.type === 'item' ? t.itemBadge : t.serviceBadge}
+                            </span>
+                            <button class="card-fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, ${item.id})" title="${isFav ? (currentLang === 'tr' ? 'Favorilerden Çıkar' : 'Remove from Favorites') : (currentLang === 'tr' ? 'Favorilere Ekle' : 'Add to Favorites')}">
+                                ${isFav ? '★' : '☆'}
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">${item.title[currentLang]}</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
+                                ${item.desc[currentLang]}
+                            </p>
+                            <div class="card-footer">
+                                <span>📍 ${item.city}</span>
+                                <span>🕒 ${item.date}</span>
+                            </div>
                         </div>
                     </div>
+                `;
+            }).join('');
+        }
+
+        function toggleFavorite(event, id) {
+            event.stopPropagation();
+            if (!currentUser.isLoggedIn) {
+                alert(currentLang === 'tr' ? 'Favorilere eklemek için önce giriş yapmalısınız.' : 'You must log in to add favorites.');
+                showModal('loginModal');
+                return;
+            }
+
+            if (!currentUser.favorites) {
+                currentUser.favorites = [];
+            }
+
+            const index = currentUser.favorites.indexOf(id);
+            if (index > -1) {
+                currentUser.favorites.splice(index, 1);
+            } else {
+                currentUser.favorites.push(id);
+            }
+
+            // Save user data
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex] = { ...currentUser };
+                localStorage.setItem('takaslasana_users', JSON.stringify(users));
+            }
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
+
+            filterListings();
+            renderFavoritesModal();
+        }
+
+        function renderFavoritesModal() {
+            const container = document.getElementById('favoritesListContainer');
+            if (!container) return;
+
+            const favorites = currentUser.favorites || [];
+            if (favorites.length === 0) {
+                container.innerHTML = `<p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 2rem 0;">${currentLang === 'tr' ? 'Henüz favori ilanınız yok.' : 'No favorite listings yet.'}</p>`;
+                return;
+            }
+
+            const favItems = rawListings.filter(item => favorites.includes(item.id));
+            container.innerHTML = favItems.map(item => `
+                <div style="background: var(--bg-body); border: 1px solid var(--border); padding: 0.75rem; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="closeModal('favoritesModal'); openDetailModal(${item.id})">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <img src="${item.img}" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px;">
+                        <div>
+                            <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${item.title[currentLang]}</p>
+                            <p style="font-size: 0.75rem; color: var(--text-muted);">📍 ${item.city} • ${item.cat}</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleFavorite(event, ${item.id})" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #EF4444;" title="Kaldır">❌</button>
                 </div>
             `).join('');
         }
@@ -1275,6 +1381,14 @@
         }
 
         function showModal(id) {
+            if (id === 'favoritesModal') {
+                if (!currentUser.isLoggedIn) {
+                    alert(currentLang === 'tr' ? 'Favorilerinizi görebilmek için önce giriş yapmalısınız.' : 'You must log in to view your favorites.');
+                    showModal('loginModal');
+                    return;
+                }
+                renderFavoritesModal();
+            }
             document.getElementById(id)?.classList.add('active');
         }
 
@@ -1348,6 +1462,7 @@
                 phone: '',
                 address: '',
                 avatar: '',
+                favorites: [],
                 mySwaps: [
                     { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
                 ]
@@ -1381,6 +1496,7 @@
                 return;
             }
 
+            if (!user.favorites) user.favorites = [];
             if (!user.mySwaps) {
                 user.mySwaps = [
                     { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
@@ -1392,6 +1508,7 @@
 
             updateUserUI();
             closeModal('loginModal');
+            filterListings();
             alert(currentLang === 'tr' ? `Tekrar hoş geldiniz, ${user.name}!` : `Welcome back, ${user.name}!`);
         }
 
@@ -1519,9 +1636,10 @@
         }
 
         function handleLogout() {
-            currentUser = { isLoggedIn: false };
+            currentUser = { isLoggedIn: false, favorites: [] };
             localStorage.removeItem('takaslasana_current_user');
             updateUserUI();
+            filterListings();
             closeModal('profileModal');
             alert(currentLang === 'tr' ? 'Oturum kapatıldı.' : 'Logged out.');
         }
