@@ -575,7 +575,6 @@
                 <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
                 <button class="btn btn-outline" onclick="checkAuthAndAction('favorites')">♡ <span id="favBtnText">Favoriler</span></button>
-                <button class="btn btn-outline" onclick="checkAuthAndAction('messages')">✉️ <span id="msgBtnText">Mesajlar</span></button>
                 
                 <!-- Kimlik Doğrulama Bölümü -->
                 <div id="authButtons" style="display: flex; gap: 0.75rem; align-items: center;">
@@ -876,41 +875,6 @@
         </div>
     </div>
 
-    <!-- MESAJLAR MODALI (GELEN / GİDEN MESAJ KUTUSU) -->
-    <div class="modal-overlay" id="messagesModal">
-        <div class="modal-card" style="max-width: 800px; width: 95%; height: 560px; display: flex; flex-direction: column;">
-            <button class="close-btn" onclick="closeModal('messagesModal')">&times;</button>
-            <h2 class="modal-title" id="msgModalTitle" style="text-align: left; margin-bottom: 0.2rem;">Mesaj Kutusu</h2>
-            <p class="modal-sub" id="msgModalSub" style="text-align: left; margin-bottom: 1rem;">Gelen ve giden mesajlarınızı yönetin, takas sahipleriyle iletişim kurun</p>
-            
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
-                <button class="cat-chip active" id="tabInbox" onclick="switchMsgTab('inbox')">Gelen Mesajlar</button>
-                <button class="cat-chip" id="tabOutbox" onclick="switchMsgTab('outbox')">Giden Mesajlar</button>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 280px 1fr; gap: 1rem; flex: 1; overflow: hidden;">
-                <!-- Sol Liste -->
-                <div style="border-right: 1px solid var(--border); overflow-y: auto; padding-right: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;" id="messageThreadsList">
-                    <!-- Dinamik konuşma listesi -->
-                </div>
-
-                <!-- Sağ Sohbet Paneli -->
-                <div style="display: flex; flex-direction: column; height: 100%; overflow: hidden;" id="activeChatContainer">
-                    <div id="activeChatHeader" style="font-size: 0.9rem; font-weight: 700; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); margin-bottom: 0.5rem; color: var(--primary-dark);">
-                        Bir sohbet seçin
-                    </div>
-                    <div id="activeChatMessages" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem; font-size: 0.85rem;">
-                        <!-- Mesaj baloncukları -->
-                    </div>
-                    <div style="padding-top: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem;" id="chatInputArea">
-                        <input type="text" id="chatMessageInput" class="form-input" placeholder="Mesajınızı yazın..." onkeypress="handleDirectChatKeyPress(event)">
-                        <button class="btn btn-accent" style="padding: 0.5rem 1rem;" onclick="sendDirectChatMessage()" id="msgSendBtn">Gönder</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- İLAN VER MODALI -->
     <div class="modal-overlay" id="postModal">
         <div class="modal-card">
@@ -971,16 +935,35 @@
         </div>
     </div>
 
+    <!-- MESAJLAŞMA MODALI (ENTENTRE EDİLEN KISIM) -->
+    <div class="modal-overlay" id="messageModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('messageModal')">&times;</button>
+            <h2 class="modal-title" id="msgModalTitle" style="text-align:left;">💬 Mesaj Gönder</h2>
+            <p class="modal-sub" id="msgModalSub" style="text-align:left; margin-bottom: 1rem;">İlan sahibi ile canlı iletişim</p>
+            
+            <div id="chatHistory" style="height: 250px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; overflow-y: auto; background: var(--bg-body); display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.85rem;">
+                <!-- Dinamik sohbet mesajları -->
+            </div>
+
+            <form onsubmit="handleSendMessageSubmit(event)">
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="text" class="form-input" id="chatInput" placeholder="Mesajınızı yazın..." required>
+                    <button type="submit" class="btn btn-accent" id="chatSendBtn">Gönder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
         let currentLang = 'tr';
         let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
-        let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false, favorites: [], messages: [] };
+        let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false, favorites: [] };
+        let chatMessages = JSON.parse(localStorage.getItem('takaslasana_chats')) || {};
+        let currentChatTitle = "";
 
         let selectedCategory = 'all';
-        let currentMsgTab = 'inbox';
-        let activeChatUserId = null;
-        let windowCurrentSelectedListingId = null;
 
         const rawListings = [
             { id: 1, title: { tr: "Fender Akustik Gitar", en: "Fender Acoustic Guitar" }, type: "item", cat: "Hobi & Müzik", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=500", desc: { tr: "Elektro gitar veya amfi ile takas etmek istiyorum.", en: "Looking to swap with an electric guitar or amp." } },
@@ -1096,7 +1079,6 @@
             tr: {
                 tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
                 favBtn: "Favoriler",
-                msgBtn: "Mesajlar",
                 heroBadge: "SÜRDÜRÜLEBİLİR & DOĞAL TAKAS",
                 heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
                 heroSubtitle: "Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.",
@@ -1146,12 +1128,6 @@
                 updateBtn: "Güncelle",
                 logoutBtn: "Oturumu Kapat",
                 mySwapsTitle: "Takaslarım / Takasladıklarım",
-                msgModalTitle: "Mesaj Kutusu",
-                msgModalSub: "Gelen ve giden mesajlarınızı yönetin, takas sahipleriyle iletişim kurun",
-                tabInbox: "Gelen Mesajlar",
-                tabOutbox: "Giden Mesajlar",
-                chatInputPlaceholder: "Mesajınızı yazın...",
-                msgSend: "Gönder",
                 postTitle: "Yeni İlan Oluştur",
                 postSub: "Eşya veya hizmetinizi takasa çıkarın",
                 postTitleLabel: "İlan Başlığı",
@@ -1165,12 +1141,14 @@
                 detailOffer: "Takas Teklifi",
                 detailMsg: "Mesaj Gönder",
                 itemBadge: "Eşya",
-                serviceBadge: "Hizmet"
+                serviceBadge: "Hizmet",
+                msgModalTitle: "💬 Mesaj Gönder",
+                chatPlaceholder: "Mesajınızı yazın...",
+                chatSendBtn: "Gönder"
             },
             en: {
                 tagline: "No need for money; swap with your skills and items!",
                 favBtn: "Favorites",
-                msgBtn: "Messages",
                 heroBadge: "SUSTAINABLE & NATURAL SWAP",
                 heroTitle: "Swap your items or skills, <span>meet your needs.</span>",
                 heroSubtitle: "Share what you don't use; get the product or service you need without spending money.",
@@ -1220,12 +1198,6 @@
                 updateBtn: "Update",
                 logoutBtn: "Log Out",
                 mySwapsTitle: "My Swaps / Swapped Items",
-                msgModalTitle: "Message Box",
-                msgModalSub: "Manage your incoming and outgoing messages, connect with owners",
-                tabInbox: "Inbox",
-                tabOutbox: "Outbox",
-                chatInputPlaceholder: "Type your message...",
-                msgSend: "Send",
                 postTitle: "Create New Listing",
                 postSub: "Put your item or service up for swap",
                 postTitleLabel: "Listing Title",
@@ -1239,7 +1211,10 @@
                 detailOffer: "Swap Offer",
                 detailMsg: "Send Message",
                 itemBadge: "Item",
-                serviceBadge: "Service"
+                serviceBadge: "Service",
+                msgModalTitle: "💬 Send Message",
+                chatPlaceholder: "Type your message...",
+                chatSendBtn: "Send"
             }
         };
 
@@ -1253,7 +1228,6 @@
             const t = translations[currentLang];
             document.getElementById('taglineText').textContent = t.tagline;
             document.getElementById('favBtnText').textContent = t.favBtn;
-            document.getElementById('msgBtnText').textContent = t.msgBtn;
             document.getElementById('heroBadgeText').textContent = t.heroBadge;
             document.getElementById('heroTitle').innerHTML = t.heroTitle;
             document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
@@ -1311,13 +1285,6 @@
             document.getElementById('logoutBtn').textContent = t.logoutBtn;
             document.getElementById('mySwapsColTitle').textContent = t.mySwapsTitle;
 
-            document.getElementById('msgModalTitle').textContent = t.msgModalTitle;
-            document.getElementById('msgModalSub').textContent = t.msgModalSub;
-            document.getElementById('tabInbox').textContent = t.tabInbox;
-            document.getElementById('tabOutbox').textContent = t.tabOutbox;
-            document.getElementById('chatMessageInput').placeholder = t.chatInputPlaceholder;
-            document.getElementById('msgSendBtn').textContent = t.msgSend;
-
             document.getElementById('postModalTitle').textContent = t.postTitle;
             document.getElementById('postModalSub').textContent = t.postSub;
             document.getElementById('postTitleLabel').textContent = t.postTitleLabel;
@@ -1331,6 +1298,10 @@
 
             document.getElementById('detailOfferBtn').textContent = t.detailOffer;
             document.getElementById('detailMsgBtn').textContent = t.detailMsg;
+
+            document.getElementById('msgModalTitle').textContent = t.msgModalTitle;
+            document.getElementById('chatInput').placeholder = t.chatPlaceholder;
+            document.getElementById('chatSendBtn').textContent = t.chatSendBtn;
 
             filterListings();
             renderFavoritesModal();
@@ -1556,14 +1527,6 @@
                     return;
                 }
                 renderFavoritesModal();
-            } else if (id === 'messagesModal') {
-                if (!currentUser.isLoggedIn) {
-                    alert(currentLang === 'tr' ? 'Mesajlarınızı görebilmek için önce giriş yapmalısınız.' : 'You must log in to view your messages.');
-                    showModal('loginModal');
-                    return;
-                }
-                initMessagesData();
-                renderMessageThreads();
             }
             document.getElementById(id)?.classList.add('active');
         }
@@ -1577,6 +1540,77 @@
             showModal(openId);
         }
 
+        /* MESAJLAŞMA ENTEGRASYONU FONKSİYONLARI */
+        function openChatModal(listingTitle) {
+            currentChatTitle = listingTitle || "İlan";
+            document.getElementById('msgModalSub').textContent = `${currentChatTitle} - ${currentLang === 'tr' ? 'İlan Sahibi' : 'Seller'}`;
+            renderChatMessages();
+            showModal('messageModal');
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatHistory');
+            if (!container) return;
+
+            const history = chatMessages[currentChatTitle] || [
+                { sender: "Sistem", text: currentLang === 'tr' ? "İlan sahibi ile sohbetiniz başladı. Teklif veya sorularınızı yazabilirsiniz." : "Chat started with the seller. You can send your offers or questions.", time: "Sistem", isSystem: true }
+            ];
+
+            container.innerHTML = history.map(msg => {
+                if (msg.isSystem) {
+                    return `<div style="text-align: center; color: var(--text-muted); font-size: 0.75rem; font-style: italic; margin: 0.25rem 0;">${msg.text}</div>`;
+                }
+                const isMe = msg.sender === currentUser.name;
+                return `
+                    <div style="align-self: ${isMe ? 'flex-end' : 'flex-start'}; max-width: 80%; background: ${isMe ? 'var(--primary-light)' : 'var(--surface)'}; color: ${isMe ? 'var(--primary-dark)' : 'var(--text-main)'}; border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);">
+                        <div style="font-size: 0.7rem; font-weight: 700; opacity: 0.8;">${msg.sender} • ${msg.time}</div>
+                        <div>${escapeHtml(msg.text)}</div>
+                    </div>
+                `;
+            }).join('');
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function handleSendMessageSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (!chatMessages[currentChatTitle]) {
+                chatMessages[currentChatTitle] = [
+                    { sender: "Sistem", text: currentLang === 'tr' ? "İlan sahibi ile sohbetiniz başladı. Teklif veya sorularınızı yazabilirsiniz." : "Chat started with the seller. You can send your offers or questions.", time: "Sistem", isSystem: true }
+                ];
+            }
+
+            const now = new Date();
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            chatMessages[currentChatTitle].push({
+                sender: currentUser.name || "Kullanıcı",
+                text: text,
+                time: timeStr
+            });
+
+            localStorage.setItem('takaslasana_chats', JSON.stringify(chatMessages));
+            input.value = '';
+            renderChatMessages();
+
+            // İlan sahibi yanıt simülasyonu
+            setTimeout(() => {
+                if (chatMessages[currentChatTitle]) {
+                    chatMessages[currentChatTitle].push({
+                        sender: "İlan Sahibi",
+                        text: currentLang === 'tr' ? "Mesajınızı aldım, teklifinizi değerlendirip en kısa sürede dönüş yapacağım!" : "I received your message, I will review your offer and get back to you shortly!",
+                        time: timeStr
+                    });
+                    localStorage.setItem('takaslasana_chats', JSON.stringify(chatMessages));
+                    renderChatMessages();
+                }
+            }, 1000);
+        }
+
         function checkAuthAndAction(actionType) {
             if (!currentUser.isLoggedIn) {
                 alert(currentLang === 'tr' ? 'Bu işlemi yapabilmek için önce giriş yapmalısınız.' : 'You must log in first to perform this action.');
@@ -1585,171 +1619,19 @@
             }
             if (actionType === 'favorites') {
                 showModal('favoritesModal');
-            } else if (actionType === 'messages') {
-                showModal('messagesModal');
             } else if (actionType === 'offer') {
                 alert(currentLang === 'tr' ? 'Takas teklifiniz başarıyla iletildi!' : 'Your swap offer has been successfully sent!');
                 closeModal('detailModal');
             } else if (actionType === 'msg') {
+                const title = document.getElementById('dTitle').textContent;
+                openChatModal(title);
                 closeModal('detailModal');
-                
-                // İlan ID'sine ait konuşma yoksa otomatik oluştur ve seç
-                const listing = rawListings.find(x => x.id === windowCurrentSelectedListingId);
-                if (listing) {
-                    if (!currentUser.messages) currentUser.messages = [];
-                    
-                    let existingThread = currentUser.messages.find(m => m.itemId === listing.id);
-                    if (!existingThread) {
-                        existingThread = {
-                            id: Date.now(),
-                            senderId: 'owner_' + listing.id,
-                            senderName: currentLang === 'tr' ? 'İlan Sahibi' : 'Listing Owner',
-                            itemId: listing.id,
-                            itemTitle: listing.title[currentLang],
-                            type: 'inbox',
-                            history: [
-                                { 
-                                    sender: currentLang === 'tr' ? 'İlan Sahibi' : 'Listing Owner', 
-                                    text: currentLang === 'tr' ? `Merhaba, "${listing.title[currentLang]}" ilanınızla ilgileniyorum.` : `Hello, I am interested in your listing "${listing.title[currentLang]}".`, 
-                                    time: currentLang === 'tr' ? 'Bugün' : 'Today' 
-                                }
-                            ]
-                        };
-                        currentUser.messages.unshift(existingThread);
-                        saveUserData();
-                    }
-                    activeChatUserId = existingThread.senderId;
-                }
-                
-                showModal('messagesModal');
             } else if (actionType === 'whatsapp') {
                 const title = document.getElementById('dTitle').textContent;
                 window.open(`https://wa.me/905000000000?text=Merhaba, "${title}" ilanınızla ilgileniyorum. Takas yapmak istesem görüşebilir miyiz?`, '_blank');
                 closeModal('detailModal');
             }
             return true;
-        }
-
-        // --- MESAJ KUTUSU YÖNETİMİ ---
-        function initMessagesData() {
-            if (!currentUser.messages || currentUser.messages.length === 0) {
-                currentUser.messages = [
-                    {
-                        id: 1,
-                        senderId: 'ahmet_yilmaz',
-                        senderName: 'Ahmet Yılmaz',
-                        itemTitle: 'Fender Akustik Gitar',
-                        type: 'inbox',
-                        history: [
-                            { sender: 'Ahmet Yılmaz', text: 'Merhaba, gitarınız hala duruyor mu? Takas düşünür müsünüz?', time: 'Dün, 14:10' },
-                            { sender: 'Siz', text: 'Evet duruyor, hangi ürünle takas etmek istiyorsunuz?', time: 'Dün, 14:25' }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        senderId: 'zeynep_kaya',
-                        senderName: 'Zeynep Kaya',
-                        itemTitle: 'Sony PlayStation 5',
-                        type: 'outbox',
-                        history: [
-                            { sender: 'Siz', text: 'Merhaba, PS5 ilanınız için gaming laptop teklif etmek istiyorum.', time: 'Bugün, 09:30' }
-                        ]
-                    }
-                ];
-                saveUserData();
-            }
-        }
-
-        function switchMsgTab(tab) {
-            currentMsgTab = tab;
-            document.getElementById('tabInbox').classList.toggle('active', tab === 'inbox');
-            document.getElementById('tabOutbox').classList.toggle('active', tab === 'outbox');
-            renderMessageThreads();
-        }
-
-        function renderMessageThreads() {
-            const container = document.getElementById('messageThreadsList');
-            const filteredMsgs = (currentUser.messages || []).filter(m => m.type === currentMsgTab);
-
-            if (filteredMsgs.length === 0) {
-                container.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 1rem 0;">${currentLang === 'tr' ? 'Henüz mesajınız yok.' : 'No messages found.'}</p>`;
-                document.getElementById('activeChatHeader').textContent = currentLang === 'tr' ? 'Sohbet seçilmedi' : 'No chat selected';
-                document.getElementById('activeChatMessages').innerHTML = '';
-                return;
-            }
-
-            container.innerHTML = filteredMsgs.map(m => `
-                <div onclick="selectChatThread('${m.senderId}')" style="background: ${activeChatUserId === m.senderId ? 'var(--primary-light)' : 'var(--surface)'}; border: 1px solid var(--border); padding: 0.75rem; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s;">
-                    <p style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">${m.senderName}</p>
-                    <p style="font-size: 0.75rem; color: var(--accent); margin-bottom: 0.2rem;">📦 ${m.itemTitle}</p>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.history[m.history.length - 1].text}</p>
-                </div>
-            `).join('');
-
-            if (!activeChatUserId && filteredMsgs.length > 0) {
-                selectChatThread(filteredMsgs[0].senderId);
-            } else if (activeChatUserId) {
-                selectChatThread(activeChatUserId);
-            }
-        }
-
-        function selectChatThread(senderId) {
-            activeChatUserId = senderId;
-            const thread = (currentUser.messages || []).find(m => m.senderId === senderId);
-            if (!thread) return;
-
-            renderMessageThreads();
-
-            document.getElementById('activeChatHeader').innerHTML = `💬 ${thread.senderName} <span style="font-weight: 400; font-size: 0.75rem; color: var(--text-muted);">(${thread.itemTitle})</span>`;
-            
-            const chatBox = document.getElementById('activeChatMessages');
-            chatBox.innerHTML = thread.history.map(h => {
-                const isMe = h.sender === 'Siz';
-                return `
-                    <div style="align-self: ${isMe ? 'flex-end' : 'flex-start'}; background: ${isMe ? 'var(--primary-light)' : 'var(--bg-body)'}; color: ${isMe ? 'var(--primary-dark)' : 'var(--text-main)'}; padding: 0.6rem 0.85rem; border-radius: var(--radius-sm); max-width: 80%; border: 1px solid var(--border);">
-                        <p style="font-size: 0.85rem;">${escapeHtml(h.text)}</p>
-                        <span style="font-size: 0.65rem; color: var(--text-muted); display: block; text-align: right; margin-top: 0.2rem;">${h.time}</span>
-                    </div>
-                `;
-            }).join('');
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        function handleDirectChatKeyPress(e) {
-            if (e.key === 'Enter') {
-                sendDirectChatMessage();
-            }
-        }
-
-        function sendDirectChatMessage() {
-            const input = document.getElementById('chatMessageInput');
-            const text = input.value.trim();
-            if (!text || !activeChatUserId) return;
-
-            const thread = (currentUser.messages || []).find(m => m.senderId === activeChatUserId);
-            if (!thread) return;
-
-            const now = new Date();
-            const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-
-            thread.history.push({
-                sender: 'Siz',
-                text: text,
-                time: timeStr
-            });
-
-            input.value = '';
-            saveUserData();
-            selectChatThread(activeChatUserId);
-        }
-
-        function saveUserData() {
-            const userIndex = users.findIndex(u => u.email === currentUser.email);
-            if (userIndex !== -1) {
-                users[userIndex] = { ...currentUser };
-                localStorage.setItem('takaslasana_users', JSON.stringify(users));
-            }
-            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
         }
 
         function handlePostAdClick() {
@@ -1762,7 +1644,6 @@
         }
 
         function openDetailModal(id) {
-            windowCurrentSelectedListingId = id;
             const item = rawListings.find(x => x.id === id);
             const t = translations[currentLang];
             if (!item) return;
@@ -1793,7 +1674,6 @@
                 address: '',
                 avatar: '',
                 favorites: [],
-                messages: [],
                 mySwaps: [
                     { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
                 ]
@@ -1828,7 +1708,6 @@
             }
 
             if (!user.favorites) user.favorites = [];
-            if (!user.messages) user.messages = [];
             if (!user.mySwaps) {
                 user.mySwaps = [
                     { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
@@ -1955,14 +1834,20 @@
             currentUser.phone = document.getElementById('profilePhone').value.trim();
             currentUser.address = document.getElementById('profileAddress').value.trim();
 
-            saveUserData();
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex] = { ...currentUser };
+                localStorage.setItem('takaslasana_users', JSON.stringify(users));
+            }
+
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
             updateUserUI();
             closeModal('profileModal');
             alert(currentLang === 'tr' ? 'Profil bilgileriniz güncellendi!' : 'Profile updated successfully!');
         }
 
         function handleLogout() {
-            currentUser = { isLoggedIn: false, favorites: [], messages: [] };
+            currentUser = { isLoggedIn: false, favorites: [] };
             localStorage.removeItem('takaslasana_current_user');
             updateUserUI();
             filterListings();
@@ -1983,7 +1868,12 @@
                 cat: cat
             });
 
-            saveUserData();
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex] = { ...currentUser };
+                localStorage.setItem('takaslasana_users', JSON.stringify(users));
+            }
+            localStorage.setItem('takaslasana_current_user', JSON.stringify(currentUser));
 
             alert(currentLang === 'tr' ? 'İlanınız başarıyla yayınlandı!' : 'Listing published successfully!');
             e.target.reset();
