@@ -680,6 +680,32 @@
         </div>
     </footer>
 
+    <!-- OTOMATİK ROBOT / CANLI DESTEK ASİSTANI -->
+    <div id="chatbotWidget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+        <button id="chatbotToggleBtn" class="btn btn-accent" style="border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: var(--shadow-md);" onclick="toggleChatbot()" title="TakasBot Asistan">🤖</button>
+        <div id="chatbotWindow" style="display: none; position: absolute; bottom: 75px; right: 0; width: 350px; height: 450px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); flex-direction: column; overflow: hidden;">
+            <!-- Header -->
+            <div style="background: var(--primary-dark); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span>🤖</span>
+                    <span style="font-weight: 700; font-size: 0.95rem;">TakasBot Canlı Asistan</span>
+                </div>
+                <button onclick="toggleChatbot()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">&times;</button>
+            </div>
+            <!-- Messages Body -->
+            <div id="chatbotMessages" style="flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                <div style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
+                    Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz (Örn: "Nasıl ilan veririm?", "Güvenli mi?", "Para geçiyor mu?").
+                </div>
+            </div>
+            <!-- Input Area -->
+            <div style="padding: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; background: var(--surface);">
+                <input type="text" id="chatbotInput" class="form-input" placeholder="Bir soru sorun..." onkeypress="handleChatKeyPress(event)">
+                <button class="btn btn-accent" style="padding: 0.5rem 1rem;" onclick="sendChatMessage()">Gönder</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODALLAR -->
     <!-- GİRİŞ YAP MODALI -->
     <div class="modal-overlay" id="loginModal">
@@ -745,7 +771,7 @@
         </div>
     </div>
 
-    <!-- KULLANICI AYARLARI / PROFİL MODALI (TAKASLARIM / TAKASLADIKLARIM SÜTÜNÜ İLE GÜNCELLENDİ) -->
+    <!-- KULLANICI AYARLARI / PROFİL MODALI -->
     <div class="modal-overlay" id="profileModal">
         <div class="modal-card" style="max-width: 720px; width: 95%;">
             <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
@@ -881,6 +907,71 @@
             { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
+
+        // --- TAKASBOT OTOMATİK YANIT SİSTEMİ ---
+        function toggleChatbot() {
+            const win = document.getElementById('chatbotWindow');
+            if (win.style.display === 'none' || win.style.display === '') {
+                win.style.display = 'flex';
+            } else {
+                win.style.display = 'none';
+            }
+        }
+
+        function handleChatKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatbotInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const messagesContainer = document.getElementById('chatbotMessages');
+
+            // Kullanıcı Mesajı
+            messagesContainer.innerHTML += `
+                <div style="background: var(--primary-light); color: var(--primary-dark); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-end; max-width: 85%; font-weight: 600;">
+                    ${escapeHtml(msg)}
+                </div>
+            `;
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Otomatik Bot Yanıtı Simülasyonu
+            setTimeout(() => {
+                let reply = "Bu konuda tam emin değilim ama destek ekibimize destek@takaslasana.com adresinden her zaman ulaşabilirsiniz!";
+                const lowerMsg = msg.toLowerCase();
+
+                if (lowerMsg.includes('merhaba') || lowerMsg.includes('selam') || lowerMsg.includes('hey')) {
+                    reply = "Merhaba! Size takas süreci veya ilanlar hakkında nasıl yardımcı olabilirim?";
+                } else if (lowerMsg.includes('ilan') || lowerMsg.includes('ver') || lowerMsg.includes('ekle')) {
+                    reply = "İlan verebilmek için sağ üst köşedeki '+ İlan Ver' butonuna tıklayabilirsiniz. (İşlem için hesabınıza giriş yapmış olmanız gerekir).";
+                } else if (lowerMsg.includes('güven') || lowerMsg.includes('dolandır') || lowerMsg.includes('güvenli mi')) {
+                    reply = "Takaslasana'da kullanıcı kimlikleri doğrulanır ve güvenli takas yönergeleri sunulur. Karşılıklı buluşarak ya da güvenli kargo ile takas yapabilirsiniz.";
+                } else if (lowerMsg.includes('nasıl') || lowerMsg.includes('takas')) {
+                    reply = "Beğendiğiniz bir ilanın detayına girip 'Takas Teklifi' gönderebilir veya doğrudan satıcıyla mesajlaşarak anlaşabilirsiniz.";
+                } else if (lowerMsg.includes('fiyat') || lowerMsg.includes('ücret') || lowerMsg.includes('para') || lowerMsg.includes('maliyet')) {
+                    reply = "Takaslasana tamamen para harcamadan eşya ve yetenek takası yapabileceğiniz sürdürülebilir bir platformdur. İlan vermek ve takas yapmak tamamen ücretsizdir! 🌱";
+                } else if (lowerMsg.includes('profil') || lowerMsg.includes('takaslarım')) {
+                    reply = "Profilinize sağ üstteki isminize tıklayarak ulaşabilir; aktif ilanlarınızı ve geçmişte takasladığınız ürünleri 'Takaslarım / Takasladıklarım' sütunundan takip edebilirsiniz.";
+                }
+
+                messagesContainer.innerHTML += `
+                    <div style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
+                        ${reply}
+                    </div>
+                `;
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 500);
+        }
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
 
         function playLogoSound() {
             try {
@@ -1076,7 +1167,6 @@
                 return;
             }
 
-            // Eğer eski kullanıcılarda mySwaps yoksa varsayılan ekleyelim
             if (!user.mySwaps) {
                 user.mySwaps = [
                     { title: "Akıllı Saat", status: "Aktif", date: "Bugün", cat: "Elektronik" }
@@ -1236,7 +1326,6 @@
                 cat: cat
             });
 
-            // Update user in storage
             const userIndex = users.findIndex(u => u.email === currentUser.email);
             if (userIndex !== -1) {
                 users[userIndex] = { ...currentUser };
