@@ -679,30 +679,30 @@
             <div>
                 <h3 class="footer-title" id="footerCol1Title">Kurumsal</h3>
                 <ul class="footer-links">
-                    <li><a href="#" onclick="alert('Biz Kimiz')">Biz Kimiz</a></li>
-                    <li><a href="#" onclick="alert('Vizyonumuz')">Vizyonumuz & Misyonumuz</a></li>
-                    <li><a href="#" onclick="alert('Kariyer')">Kariyer</a></li>
-                    <li><a href="#" onclick="alert('Sürdürülebilirlik')">Sürdürülebilirlik</a></li>
+                    <li><a href="#" onclick="openInfoModal('biz-kimiz'); return false;">Biz Kimiz</a></li>
+                    <li><a href="#" onclick="openInfoModal('vizyonumuz'); return false;">Vizyonumuz & Misyonumuz</a></li>
+                    <li><a href="#" onclick="openInfoModal('kariyer'); return false;">Kariyer</a></li>
+                    <li><a href="#" onclick="openInfoModal('surdurulebilirlik'); return false;">Sürdürülebilirlik</a></li>
                 </ul>
             </div>
 
             <div>
                 <h3 class="footer-title" id="footerCol2Title">Destek & Yardım</h3>
                 <ul class="footer-links">
-                    <li><a href="#" onclick="alert('Nasıl Çalışır')">Nasıl Çalışır?</a></li>
-                    <li><a href="#" onclick="alert('Güvenli Takas')">Güvenli Takas Rehberi</a></li>
-                    <li><a href="#" onclick="alert('SSS')">Sıkça Sorulan Sorular</a></li>
-                    <li><a href="#" onclick="alert('İletişim')">İletişim</a></li>
+                    <li><a href="#" onclick="openInfoModal('nasil-calisir'); return false;">Nasıl Çalışır?</a></li>
+                    <li><a href="#" onclick="openInfoModal('guvenli-takas'); return false;">Güvenli Takas Rehberi</a></li>
+                    <li><a href="#" onclick="openInfoModal('sss'); return false;">Sıkça Sorulan Sorular</a></li>
+                    <li><a href="#" onclick="openInfoModal('iletisim'); return false;">İletişim</a></li>
                 </ul>
             </div>
 
             <div>
                 <h3 class="footer-title" id="footerCol3Title">Yasal</h3>
                 <ul class="footer-links">
-                    <li><a href="#" onclick="alert('Kullanım Koşulları')">Kullanım Koşulları</a></li>
-                    <li><a href="#" onclick="alert('Gizlilik Politikası')">Gizlilik Politikası</a></li>
-                    <li><a href="#" onclick="alert('KVKK')">KVKK Aydınlatma Metni</a></li>
-                    <li><a href="#" onclick="alert('Çerezler')">Çerez Tercihleri</a></li>
+                    <li><a href="#" onclick="openInfoModal('kullanim-kosullari'); return false;">Kullanım Koşulları</a></li>
+                    <li><a href="#" onclick="openInfoModal('gizlilik'); return false;">Gizlilik Politikası</a></li>
+                    <li><a href="#" onclick="openInfoModal('kvkk'); return false;">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="#" onclick="openInfoModal('cerezler'); return false;">Çerez Tercihleri</a></li>
                 </ul>
             </div>
         </div>
@@ -740,6 +740,18 @@
     </div>
 
     <!-- MODALLAR -->
+    <!-- BİLGİ / FOOTER İÇERİK MODALI -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-card">
+            <button class="close-btn" onclick="closeModal('infoModal')">&times;</button>
+            <h2 class="modal-title" id="infoModalTitle" style="text-align: left; margin-bottom: 0.75rem;">Başlık</h2>
+            <div id="infoModalBody" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; max-height: 60vh; overflow-y: auto;">
+                İçerik buraya gelecek...
+            </div>
+            <button class="btn btn-accent" style="width: 100%; justify-content: center; margin-top: 1.5rem;" onclick="closeModal('infoModal')">Tamam</button>
+        </div>
+    </div>
+
     <!-- GİRİŞ YAP MODALI -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-card">
@@ -943,6 +955,102 @@
             { id: 9, title: { tr: "Trek Dağ Bisikleti", en: "Trek Mountain Bike" }, type: "item", cat: "Hobi & Müzik", city: "Antalya", date: "5 gün önce", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500", desc: { tr: "21 vites dağ bisikleti. Kamp ekipmanı karşılığı verilir.", en: "21-speed mountain bike. Exchange for camping equipment." } },
             { id: 10, title: { tr: "Web Tasarım & Logo Hizmeti", en: "Web Design & Logo Service" }, type: "service", cat: "Hizmet", city: "İstanbul", date: "Bugün", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: { tr: "Modern web sitesi kurulur. Koltuk takımı ile takas edilir.", en: "Modern website building service. Swap for a sofa set." } }
         ];
+
+        // --- FOOTER İÇERİK METİNLERİ ---
+        const footerInfoContent = {
+            'biz-kimiz': {
+                title: { tr: "Biz Kimiz?", en: "Who Are We?" },
+                text: { 
+                    tr: "TAKASLASANA, para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas yapmayı sağlayan yenilikçi bir platformdur. Amacımız kullanılmayan eşyaların ve yeteneklerin yeniden değerlendirilmesini sağlamaktır.",
+                    en: "TAKASLASANA is an innovative, community-driven, sustainable, and secure swapping platform without spending money. Our goal is to give a second life to unused items and skills."
+                }
+            },
+            'vizyonumuz': {
+                title: { tr: "Vizyonumuz & Misyonumuz", en: "Vision & Mission" },
+                text: { 
+                    tr: "Vizyonumuz: Tüketim çılgınlığını azaltarak dünyada döngüsel ekonominin lider dijital takas ağı olmak.\n\nMisyonumuz: Herkesin yeteneklerini ve eşyalarını güvenle paylaşabileceği adil ve şeffaf bir ekosistem inşa etmek.",
+                    en: "Vision: To be the leading digital swap network of the circular economy by reducing overconsumption.\n\nMission: To build a fair and transparent ecosystem where everyone can safely share their skills and items."
+                }
+            },
+            'kariyer': {
+                title: { tr: "Kariyer", en: "Careers" },
+                text: { 
+                    tr: "Sürdürülebilir bir geleceğe yön vermek ve ekibimizin bir parçası olmak ister misiniz? Açık pozisyonlarımız için özgeçmişinizi ik@takaslasana.com adresine gönderebilirsiniz.",
+                    en: "Want to shape a sustainable future and join our team? You can send your CV to ik@takaslasana.com for open positions."
+                }
+            },
+            'surdurulebilirlik': {
+                title: { tr: "Sürdürülebilirlik", en: "Sustainability" },
+                text: { 
+                    tr: "Doğal kaynakların korunduğu, atıkların en aza indirgendiği ve dayanışma kültürünün güçlendiği bir dünya için çalışıyoruz. Her takas, doğaya bırakılan karbon ayak izini azaltır.",
+                    en: "We work for a world where natural resources are protected, waste is minimized, and solidarity culture is strengthened. Every swap reduces the carbon footprint left on nature."
+                }
+            },
+            'nasil-calisir': {
+                title: { tr: "Nasıl Çalışır?", en: "How It Works?" },
+                text: { 
+                    tr: "1. Ücretsiz üye olun.\n2. Eşya veya hizmet ilanınızı fotoğraflarıyla ekleyin.\n3. İlginizi çeken diğer ilanları inceleyin ve takas teklifi gönderin.\n4. Karşılıklı anlaşarak paranızı cebinizde tutun!",
+                    en: "1. Sign up for free.\n2. Add your item or service listing with photos.\n3. Browse other listings and send a swap offer.\n4. Agree mutually and keep your money in your pocket!"
+                }
+            },
+            'guvenli-takas': {
+                title: { tr: "Güvenli Takas Rehberi", en: "Safe Swap Guide" },
+                text: { 
+                    tr: "• Yüz yüze takaslarda kalabalık ve merkezi yerleri tercih edin.\n• Karşı tarafın profil rozetlerini ve geçmişini inceleyin.\n• Ürünü buluşma noktasında detaylıca kontrol edin.\n• Platform dışı para transferlerinden kaçının.",
+                    en: "• Choose crowded and central locations for face-to-face swaps.\n• Review the other party's profile badges and history.\n• Inspect the product thoroughly at the meeting point.\n• Avoid out-of-platform money transfers."
+                }
+            },
+            'sss': {
+                title: { tr: "Sıkça Sorulan Sorular", en: "Frequently Asked Questions" },
+                text: { 
+                    tr: "S: Takaslasana'da para geçiyor mu?\nC: Hayır, tamamen takas odaklıdır.\n\nS: İlan vermek ücretli mi?\nC: Hayır, ilan vermek ve teklif yapmak tamamen ücretsizdir.",
+                    en: "Q: Is money used in Takaslasana?\nA: No, it is entirely swap-focused.\n\nQ: Is posting listings free?\nA: Yes, posting listings and making offers are completely free."
+                }
+            },
+            'iletisim': {
+                title: { tr: "İletişim", en: "Contact" },
+                text: { 
+                    tr: "Adres: Maslak Mah. Büyükdere Cad. No:142, İstanbul\nE-posta: destek@takaslasana.com\nTelefon: +90 (850) 123 45 67",
+                    en: "Address: Maslak Mah. Buyukdere Cad. No:142, Istanbul\nEmail: destek@takaslasana.com\nPhone: +90 (850) 123 45 67"
+                }
+            },
+            'kullanim-kosullari': {
+                title: { tr: "Kullanım Koşulları", en: "Terms of Use" },
+                text: { 
+                    tr: "Platformumuzu kullanan tüm üyeler topluluk kurallarına, dürüstlük prensibine ve yasal mevzuata uymayı kabul eder. Kurallara aykırı ilanlar yayından kaldırılır.",
+                    en: "All members using our platform agree to comply with community rules, honesty principles, and legal regulations. Listings violating rules will be removed."
+                }
+            },
+            'gizlilik': {
+                title: { tr: "Gizlilik Politikası", en: "Privacy Policy" },
+                text: { 
+                    tr: "Kişisel verileriniz 256-bit SSL sertifikası ile şifrelenerek korunur. Bilgileriniz asla üçüncü şahıslarla ticari amaçla paylaşılmaz.",
+                    en: "Your personal data is protected by 256-bit SSL encryption. Your information is never shared with third parties for commercial purposes."
+                }
+            },
+            'kvkk': {
+                title: { tr: "KVKK Aydınlatma Metni", en: "KVKK Clarification Text" },
+                text: { 
+                    tr: "6698 sayılı Kişisel Verilerin Korunması Kanunu uyarınca, üyelerimizin verileri güvenli veri tabanlarında yasalara uygun olarak işlenmektedir.",
+                    en: "In accordance with the Law on Protection of Personal Data No. 6698, our members' data is processed securely in compliance with the laws."
+                }
+            },
+            'cerezler': {
+                title: { tr: "Çerez Tercihleri", en: "Cookie Preferences" },
+                text: { 
+                    tr: "Sitemizde kullanıcı deneyiminizi iyileştirmek, oturum güvenliğini sağlamak ve site trafiğini analiz etmek amacıyla temel çerezler kullanılmaktadır.",
+                    en: "Essential cookies are used on our site to improve your user experience, ensure session security, and analyze site traffic."
+                }
+            }
+        };
+
+        function openInfoModal(key) {
+            const content = footerInfoContent[key];
+            if (!content) return;
+            document.getElementById('infoModalTitle').textContent = content.title[currentLang];
+            document.getElementById('infoModalBody').innerHTML = content.text[currentLang].replace(/\n/g, '<br>');
+            showModal('infoModal');
+        }
 
         // --- DİL DEĞİŞTİRME SİSTEMİ ---
         const translations = {
@@ -1318,7 +1426,6 @@
                 currentUser.favorites.push(id);
             }
 
-            // Save user data
             const userIndex = users.findIndex(u => u.email === currentUser.email);
             if (userIndex !== -1) {
                 users[userIndex] = { ...currentUser };
