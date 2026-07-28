@@ -175,7 +175,7 @@
             transform: translateY(-1px);
         }
 
-        /* --- HERO --- */
+        /* --- HERO & DAKTİLO EFEKTİ --- */
         .hero {
             padding: 3.5rem 1.5rem 3rem;
             text-align: center;
@@ -207,9 +207,22 @@
             color: var(--text-main);
             margin-bottom: 1rem;
             line-height: 1.25;
+            min-height: 3.2rem;
         }
 
         .hero-title span { color: var(--accent); }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .typing-cursor {
+            font-weight: 800;
+            animation: blink 0.8s infinite;
+            color: var(--accent);
+            margin-left: 2px;
+        }
 
         .hero-subtitle {
             font-size: 1.05rem;
@@ -646,7 +659,7 @@
     <section class="hero">
         <div class="hero-container">
             <div class="hero-badge" id="heroBadgeText">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
-            <h1 class="hero-title" id="heroTitle">Eşyanı veya becerini takasla, <span id="heroTitleSpan">ihtiyacını karşıla.</span></h1>
+            <h1 class="hero-title" id="heroTitle"></h1>
             <p class="hero-subtitle" id="heroSubtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
             <div class="hero-buttons">
                 <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;" id="heroBtn1">İlanları Keşfet</a>
@@ -1157,7 +1170,8 @@
                 tagline: "Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!",
                 favBtn: "Favoriler",
                 heroBadge: "SÜRDÜRÜLEBİLİR & DOĞAL TAKAS",
-                heroTitle: "Eşyanı veya becerini takasla, <span>ihtiyacını karşıla.</span>",
+                heroPart1: "Eşyanı veya becerini takasla, ",
+                heroPart2: "ihtiyacını karşıla.",
                 heroSubtitle: "Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.",
                 heroBtn1: "İlanları Keşfet",
                 heroBtn2: "İlan Oluştur",
@@ -1229,7 +1243,8 @@
                 tagline: "No need for money; swap with your skills and items!",
                 favBtn: "Favorites",
                 heroBadge: "SUSTAINABLE & NATURAL SWAP",
-                heroTitle: "Swap your items or skills, <span>meet your needs.</span>",
+                heroPart1: "Swap your items or skills, ",
+                heroPart2: "meet your needs.",
                 heroSubtitle: "Share what you don't use; get the product or service you need without spending money.",
                 heroBtn1: "Explore Listings",
                 heroBtn2: "Create Listing",
@@ -1299,6 +1314,45 @@
             }
         };
 
+        let typingTimeout = null;
+        function startTypewriter() {
+            const titleEl = document.getElementById('heroTitle');
+            if (!titleEl) return;
+            if (typingTimeout) clearTimeout(typingTimeout);
+
+            const t = translations[currentLang];
+            const part1 = t.heroPart1;
+            const part2 = t.heroPart2;
+            
+            titleEl.innerHTML = `<span id="twPart1"></span><span id="twPart2" style="color: var(--accent);"></span><span class="typing-cursor">|</span>`;
+            
+            let p1Index = 0;
+            let p2Index = 0;
+            let typingPart = 1;
+            
+            function type() {
+                if (typingPart === 1) {
+                    if (p1Index < part1.length) {
+                        const el1 = document.getElementById('twPart1');
+                        if (el1) el1.textContent += part1.charAt(p1Index);
+                        p1Index++;
+                        typingTimeout = setTimeout(type, 45);
+                    } else {
+                        typingPart = 2;
+                        typingTimeout = setTimeout(type, 45);
+                    }
+                } else if (typingPart === 2) {
+                    if (p2Index < part2.length) {
+                        const el2 = document.getElementById('twPart2');
+                        if (el2) el2.textContent += part2.charAt(p2Index);
+                        p2Index++;
+                        typingTimeout = setTimeout(type, 45);
+                    }
+                }
+            }
+            type();
+        }
+
         function toggleLanguage() {
             currentLang = currentLang === 'tr' ? 'en' : 'tr';
             const langBtn = document.getElementById('langBtn');
@@ -1308,7 +1362,7 @@
             document.getElementById('taglineText').textContent = t.tagline;
             document.getElementById('favBtnText').textContent = t.favBtn;
             document.getElementById('heroBadgeText').textContent = t.heroBadge;
-            document.getElementById('heroTitle').innerHTML = t.heroTitle;
+            startTypewriter(); // Daktilo efektini tetikle
             document.getElementById('heroSubtitle').textContent = t.heroSubtitle;
             document.getElementById('heroBtn1').textContent = t.heroBtn1;
             document.getElementById('heroBtn2').textContent = t.heroBtn2;
@@ -1954,6 +2008,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderListings();
             updateUserUI();
+            startTypewriter(); // Sayfa yüklendiğinde daktilo efektini başlat
             const searchInput = document.getElementById('searchInput');
             if (searchInput) searchInput.addEventListener('input', filterListings);
         });
