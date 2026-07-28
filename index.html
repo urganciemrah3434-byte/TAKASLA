@@ -1,630 +1,430 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TAKASLASANA - Sürdürülebilir Takas Platformu</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* TEMEL SIFIRLAMA VE ARAYÜZ AYARLARI */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background-color: #f8fafc;
-      color: #0f172a;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow-x: hidden; /* Sağdaki silik logonun kaydırma çubuğu oluşturmasını engeller */
-    }
-
-    /* EKRANIN SAĞINDAKİ DEVASA SİLİK LOGO (WATERMARK) */
-    .watermark-logo {
-      position: fixed;
-      top: 50%;
-      right: -60px;
-      transform: translateY(-50%);
-      width: 580px;
-      max-width: 45vw;
-      opacity: 0.05; /* Silik görünüm (0.04 - 0.08 arası idealdir) */
-      pointer-events: none; /* Tıklamaları engeller, butonların çalışmasını bozmaz */
-      z-index: 0;
-      user-select: none;
-    }
-
-    /* ÜST MENÜ (NAVBAR) */
-    header {
-      background-color: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-    }
-
-    .nav-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0.5rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-    }
-
-    /* BÜYÜTÜLEN HEADER LOGOSU */
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-
-    .brand-logo img {
-      height: 80px; /* Logo belirgin şekilde büyütüldü */
-      width: auto;
-      object-fit: contain;
-      transition: transform 0.2s ease;
-    }
-
-    .brand-logo img:hover {
-      transform: scale(1.03);
-    }
-
-    /* ARAMA ÇUBUĞU */
-    .search-container {
-      flex: 1;
-      max-width: 550px;
-      position: relative;
-    }
-
-    .search-container input {
-      width: 100%;
-      padding: 0.75rem 1rem 0.75rem 2.8rem;
-      border-radius: 9999px;
-      border: 1px solid #cbd5e1;
-      background-color: #f1f5f9;
-      font-size: 0.95rem;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-
-    .search-container input:focus {
-      background-color: #ffffff;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #64748b;
-      font-size: 0.9rem;
-    }
-
-    /* NAV AKSİYONLARI VE BUTONLAR */
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .btn {
-      padding: 0.65rem 1.25rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      border: 1px solid #cbd5e1;
-      color: #334155;
-    }
-
-    .btn-outline:hover {
-      background-color: #f1f5f9;
-      border-color: #94a3b8;
-    }
-
-    .btn-primary {
-      background-color: #2563eb;
-      color: #ffffff;
-    }
-
-    .btn-primary:hover {
-      background-color: #1d4ed8;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    }
-
-    /* ANA İÇERİK */
-    main {
-      flex: 1;
-      max-width: 1280px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-      position: relative;
-      z-index: 1; /* Sağdaki silik logonun üstünde kalması için */
-    }
-
-    /* HERO AFİŞİ */
-    .hero {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #ffffff;
-      border-radius: 1rem;
-      padding: 3rem 2.5rem;
-      margin-bottom: 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-    }
-
-    .hero-content h1 {
-      font-size: 2.25rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-    }
-
-    .hero-content p {
-      color: #94a3b8;
-      font-size: 1.05rem;
-      max-width: 550px;
-      line-height: 1.5;
-    }
-
-    /* KATEGORİ FİLTRELERİ */
-    .categories {
-      display: flex;
-      gap: 0.75rem;
-      overflow-x: auto;
-      padding-bottom: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .category-chip {
-      padding: 0.5rem 1.25rem;
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #475569;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .category-chip.active, .category-chip:hover {
-      background-color: #2563eb;
-      color: #ffffff;
-      border-color: #2563eb;
-    }
-
-    /* İLAN GRİD YAPISI */
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-      color: #0f172a;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .product-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 0.75rem;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px -5px rgba(0, 0, 0, 0.08);
-    }
-
-    .card-image {
-      width: 100%;
-      height: 200px;
-      background-color: #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #94a3b8;
-      font-size: 0.9rem;
-      font-weight: 500;
-      position: relative;
-    }
-
-    .card-tag {
-      position: absolute;
-      top: 0.75rem;
-      left: 0.75rem;
-      background-color: rgba(15, 23, 42, 0.75);
-      color: #ffffff;
-      padding: 0.25rem 0.6rem;
-      border-radius: 0.35rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      backdrop-filter: blur(4px);
-    }
-
-    .card-content {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .card-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: #1e293b;
-    }
-
-    .card-swap-target {
-      font-size: 0.85rem;
-      color: #2563eb;
-      background-color: #eff6ff;
-      padding: 0.4rem 0.6rem;
-      border-radius: 0.375rem;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-
-    .card-footer {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid #f1f5f9;
-      padding-top: 0.75rem;
-      font-size: 0.8rem;
-      color: #64748b;
-    }
-
-    /* FOOTER */
-    footer {
-      background-color: #ffffff;
-      border-top: 1px solid #e2e8f0;
-      padding: 2rem 1.5rem;
-      margin-top: auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .footer-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .footer-logo img {
-      height: 45px;
-      width: auto;
-    }
-
-    .footer-copy {
-      color: #64748b;
-      font-size: 0.875rem;
-    }
-
-    /* PENCERE / MODAL DÜZENİ */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(15, 23, 42, 0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(4px);
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      width: 100%;
-      max-width: 500px;
-      position: relative;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.25rem;
-      cursor: pointer;
-      color: #64748b;
-    }
-
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-    }
-
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 0.65rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 0.5rem;
-      outline: none;
-    }
-
-    @media (max-width: 768px) {
-      .nav-container {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .brand-logo img {
-        height: 60px;
-      }
-      .watermark-logo {
-        width: 300px;
-        right: -30px;
-      }
-      .hero {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- EKRANIN SAĞINDAKİ SİLİK BÜYÜK LOGO (WATERMARK) -->
-  <img src="logo.png" alt="Takaslasana Watermark" class="watermark-logo">
-
-  <!-- NAVBAR -->
-  <header>
-    <div class="nav-container">
-      <!-- BÜYÜTÜLEN LOGO -->
-      <a href="#" class="brand-logo">
-        <img src="logo.png" alt="TAKASLASANA Logo">
-      </a>
-
-      <!-- ARAMA ÇUBUĞU -->
-      <div class="search-container">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Ne ile neyi takaslamak istersin?">
-      </div>
-
-      <!-- BUTONLAR -->
-      <div class="nav-actions">
-        <button class="btn btn-outline" onclick="toggleModal('loginModal')">Giriş Yap</button>
-        <button class="btn btn-primary" onclick="toggleModal('addListingModal')">+ İlan Ver</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- ANA İÇERİK -->
-  <main>
-    <!-- HERO BANNER -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Kullanmadığını Takasla, İhtiyacına Ulaş</h1>
-        <p>TAKASLASANA ile eşyalarını nakit harcamadan, güvenli ve sürdürülebilir bir şekilde takas etmeye başla.</p>
-      </div>
-    </section>
-
-    <!-- KATEGORİ FİLTRELERİ -->
-    <div class="categories">
-      <div class="category-chip active">Tüm İlanlar</div>
-      <div class="category-chip">Elektronik</div>
-      <div class="category-chip">Spor & Outdoor</div>
-      <div class="category-chip">Müzik Aletleri</div>
-      <div class="category-chip">Ev & Yaşam</div>
-      <div class="category-chip">Araç & Aksesuar</div>
-    </div>
-
-    <!-- İLAN LİSTESİ -->
-    <h2 class="section-title">Güncel Takas İlanları</h2>
-    <div class="products-grid" id="productsGrid">
-      
-      <!-- İlan 1 -->
-      <div class="product-card">
-        <div class="card-image">
-          <span class="card-tag">Elektronik</span>
-          Ürün Görseli
-        </div>
-        <div class="card-content">
-          <div class="card-title">Sony WH-1000XM4 Kulaklık</div>
-          <div class="card-swap-target">🔄 Takas İsteği: Tablet veya Akıllı Saat</div>
-          <div class="card-footer">
-            <span>İstanbul, Kadıköy</span>
-            <span>2 saat önce</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- İlan 2 -->
-      <div class="product-card">
-        <div class="card-image">
-          <span class="card-tag">Müzik</span>
-          Ürün Görseli
-        </div>
-        <div class="card-content">
-          <div class="card-title">Fender Squier Elektro Gitar</div>
-          <div class="card-swap-target">🔄 Takas İsteği: Amfi veya Akustik Gitar</div>
-          <div class="card-footer">
-            <span>Ankara, Çankaya</span>
-            <span>5 saat önce</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- İlan 3 -->
-      <div class="product-card">
-        <div class="card-image">
-          <span class="card-tag">Spor</span>
-          Ürün Görseli
-        </div>
-        <div class="card-content">
-          <div class="card-title">Carraro 29 Jant Dağ Bisikleti</div>
-          <div class="card-swap-target">🔄 Takas İsteği: Oyun Konsolu (PS4 / Xbox)</div>
-          <div class="card-footer">
-            <span>İzmir, Karşıyaka</span>
-            <span>Bugün</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- İlan 4 -->
-      <div class="product-card">
-        <div class="card-image">
-          <span class="card-tag">Fotoğrafçılık</span>
-          Ürün Görseli
-        </div>
-        <div class="card-content">
-          <div class="card-title">Canon EOS 200D DSLR Kamera</div>
-          <div class="card-swap-target">🔄 Takas İsteği: iPhone 11 veya Muadili</div>
-          <div class="card-footer">
-            <span>Bursa, Nilüfer</span>
-            <span>Dün</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-logo">
-        <img src="logo.png" alt="TAKASLASANA Logo">
-      </div>
-      <div class="footer-copy">
-        © 2026 TAKASLASANA. Tüm hakları saklıdır.
-      </div>
-    </div>
-  </footer>
-
-  <!-- İLAN EKLEME MODALI -->
-  <div class="modal" id="addListingModal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="toggleModal('addListingModal')">✕</button>
-      <h3 style="margin-bottom: 1.25rem;">Yeni Takas İlanı Oluştur</h3>
-      <form onsubmit="handleFormSubmit(event)">
-        <div class="form-group">
-          <label>Verilecek Ürün Başlığı</label>
-          <input type="text" required placeholder="Örn: iPad Air 4. Nesil">
-        </div>
-        <div class="form-group">
-          <label>Aranan Takas Ürünü</label>
-          <input type="text" required placeholder="Örn: Laptop veya Bisiklet">
-        </div>
-        <div class="form-group">
-          <label>Açıklama</label>
-          <textarea rows="3" placeholder="Ürünün durumu ve takas detayları..."></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">İlanı Yayınla</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- GİRİŞ MODALI -->
-  <div class="modal" id="loginModal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="toggleModal('loginModal')">✕</button>
-      <h3 style="margin-bottom: 1.25rem;">Giriş Yap</h3>
-      <form onsubmit="handleFormSubmit(event)">
-        <div class="form-group">
-          <label>E-posta Adresi</label>
-          <input type="email" required placeholder="ornek@email.com">
-        </div>
-        <div class="form-group">
-          <label>Şifre</label>
-          <input type="password" required placeholder="••••••••">
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Giriş Yap</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT KODLARI -->
-  <script>
-    // Modal Aç/Kapat Fonksiyonu
-    function toggleModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.classList.toggle('active');
-      }
-    }
-
-    // Modal Dışına Tıklandığında Kapatma
-    window.onclick = function(event) {
-      if (event.target.classList.contains('modal')) {
-        event.target.classList.remove('active');
-      }
-    }
-
-    // Form Gönderim Yakalayıcı
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      alert('İşlem başarıyla gerçekleştirildi!');
-      document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-    }
-
-    // Canlı Arama Filtresi Mock
-    document.getElementById('searchInput').addEventListener('input', function(e) {
-      const query = e.target.value.toLowerCase();
-      const cards = document.querySelectorAll('.product-card');
-      
-      cards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        const target = card.querySelector('.card-swap-target').textContent.toLowerCase();
-        
-        if (title.includes(query) || target.includes(query)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAKASLA - Takas & İlan Platformu</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome İkon Seti -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* EKRANIN SAĞINDAKİ BÜYÜK SİLİK LOGO (WATERMARK) */
+        .watermark-logo {
+            position: fixed;
+            right: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 550px;
+            height: 550px;
+            opacity: 0.05; /* Silik görünüm seviyesi */
+            pointer-events: none; /* Tıklamaları engellemez, arka planda kalır */
+            z-index: 0;
+            user-select: none;
         }
-      });
-    });
-  </script>
+
+        /* Ana İçerik Katmanı */
+        .main-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Özel Kaydırma Çubuğu */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen relative overflow-x-hidden">
+
+    <!-- SAĞ TARAFTAKİ BÜYÜK SİLİK LOGO -->
+    <div class="watermark-logo flex items-center justify-center">
+        <svg viewBox="0 0 200 200" class="w-full h-full text-indigo-900 fill-current">
+            <path d="M40,60 L140,60 L110,30 M140,60 L110,90" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M160,140 L60,140 L90,110 M60,140 L90,170" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    </div>
+
+    <!-- ANA İÇERİK KAPLAYICI -->
+    <div class="main-content flex flex-col min-h-screen">
+
+        <!-- HEADER / NAVBAR -->
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-xs">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                
+                <!-- BÜYÜTÜLMÜŞ ANA LOGO -->
+                <a href="#" class="flex items-center gap-3.5 group">
+                    <div class="w-13 h-13 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-md group-hover:bg-indigo-700 transition">
+                        <i class="fa-solid fa-arrows-rotate text-2xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-3xl font-black tracking-tight text-gray-900 leading-none">
+                            TAKAS<span class="text-indigo-600">LA</span>
+                        </span>
+                        <span class="text-[11px] text-gray-400 font-semibold tracking-wider uppercase mt-1">İlan & Takas Platformu</span>
+                    </div>
+                </a>
+
+                <!-- ARAMA ÇUBUĞU -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8">
+                    <div class="relative w-full">
+                        <input type="text" placeholder="Ne takas etmek istersin? (örn. Daire, Araç, Arsa)" 
+                               class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-transparent rounded-full text-sm focus:bg-white focus:border-indigo-500 focus:outline-none transition">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- EYLEM BUTONLARI -->
+                <div class="flex items-center gap-3">
+                    <button onclick="openModal('createModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>İlan Ver</span>
+                    </button>
+                    <button onclick="openModal('profileModal')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-xl font-medium text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="hidden sm:inline">Hesabım</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- KATEGORİ BAR -->
+        <nav class="bg-white border-b border-gray-100 shadow-2xs">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-6 overflow-x-auto py-3 text-sm font-medium text-gray-600 no-scrollbar">
+                <a href="#" class="text-indigo-600 font-semibold whitespace-nowrap border-b-2 border-indigo-600 pb-1">Tüm İlanlar</a>
+                <a href="#" class="hover:text-indigo-600 whitespace-nowrap transition">Gayrimenkul / Daire</a>
+                <a href="#" class="hover:text-indigo-600 whitespace-nowrap transition">Vasıta / Otomobil</a>
+                <a href="#" class="hover:text-indigo-600 whitespace-nowrap transition">Arsa & Arazi</a>
+                <a href="#" class="hover:text-indigo-600 whitespace-nowrap transition">Elektronik</a>
+                <a href="#" class="hover:text-indigo-600 whitespace-nowrap transition">İş Makinesi & Sanayi</a>
+            </div>
+        </nav>
+
+        <!-- HERO BANNER -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 w-full">
+            <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-600 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-indigo-500/30 text-indigo-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-3">Güvenli Takas Ağı</span>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold mb-3 leading-tight">Elinizdeki Değeri İstediğiniz Mülkle Takas Edin</h1>
+                    <p class="text-indigo-100 text-sm sm:text-base mb-6">Nakit ihtiyacı duymadan gayrimenkul, araç ve değerli varlıklarınızı doğrudan takas teklifleriyle değerlendirin.</p>
+                    <button onclick="openModal('createModal')" class="bg-white text-indigo-900 px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-indigo-50 transition">
+                        Ücretsiz Takas İlanı Oluştur
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- İLAN LİSTESİ -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 flex-1 w-full">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900">Güncel Takas İlanları</h2>
+                    <p class="text-xs text-gray-500 mt-0.5">Sistemde aktif olarak takas bekleyen ilanlar</p>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-500">
+                    <span>Sırala:</span>
+                    <select class="bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-indigo-500">
+                        <option>En Yeniler</option>
+                        <option>Fiyata Göre (Artan)</option>
+                        <option>Fiyata Göre (Azalan)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- İLAN KARTLARI GRİDİ -->
+            <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- İlan Kartı 1 -->
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden group flex flex-col">
+                    <div class="relative h-48 bg-gray-200 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80" alt="Daire" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute top-3 left-3 bg-indigo-600 text-white text-xs font-semibold px-2.5 py-1 rounded-md">Daire / Konut</span>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base mb-1 group-hover:text-indigo-600 transition line-clamp-1">3+1 Lüks Daire - Merkezde</h3>
+                            <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-location-dot text-gray-400 mr-1"></i>Kastamonu, Merkez</p>
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-2.5 mb-3">
+                                <span class="text-[11px] font-semibold text-indigo-700 block mb-0.5 uppercase tracking-wider"><i class="fa-solid fa-repeat mr-1"></i>Takas Seçeneği:</span>
+                                <p class="text-xs text-indigo-950 font-medium line-clamp-2">Üzerine nakit alabileceğim SUV Araç veya Arsa ile takas olur.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-gray-100 mt-2">
+                            <span class="text-lg font-extrabold text-gray-900">₺ 3.850.000</span>
+                            <button onclick="openMessageModal('3+1 Lüks Daire')" class="text-xs bg-gray-100 hover:bg-indigo-600 hover:text-white font-semibold text-gray-700 px-3 py-1.5 rounded-lg transition">Teklif Ver</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İlan Kartı 2 -->
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden group flex flex-col">
+                    <div class="relative h-48 bg-gray-200 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80" alt="Araç" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute top-3 left-3 bg-amber-600 text-white text-xs font-semibold px-2.5 py-1 rounded-md">Vasıta</span>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base mb-1 group-hover:text-indigo-600 transition line-clamp-1">2022 Otomatik SUV - Düşük Km</h3>
+                            <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-location-dot text-gray-400 mr-1"></i>İstanbul, Kadıköy</p>
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-2.5 mb-3">
+                                <span class="text-[11px] font-semibold text-indigo-700 block mb-0.5 uppercase tracking-wider"><i class="fa-solid fa-repeat mr-1"></i>Takas Seçeneği:</span>
+                                <p class="text-xs text-indigo-950 font-medium line-clamp-2">Ege tarafında İmarlı Arsa veya Yazlık ile takaslı.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-gray-100 mt-2">
+                            <span class="text-lg font-extrabold text-gray-900">₺ 1.650.000</span>
+                            <button onclick="openMessageModal('2022 Otomatik SUV')" class="text-xs bg-gray-100 hover:bg-indigo-600 hover:text-white font-semibold text-gray-700 px-3 py-1.5 rounded-lg transition">Teklif Ver</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İlan Kartı 3 -->
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden group flex flex-col">
+                    <div class="relative h-48 bg-gray-200 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Arsa" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-semibold px-2.5 py-1 rounded-md">Arsa</span>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-base mb-1 group-hover:text-indigo-600 transition line-clamp-1">Yatırımlık İmarlı Konut Arsası 500m²</h3>
+                            <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-location-dot text-gray-400 mr-1"></i>Ankara, Gölbaşı</p>
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-2.5 mb-3">
+                                <span class="text-[11px] font-semibold text-indigo-700 block mb-0.5 uppercase tracking-wider"><i class="fa-solid fa-repeat mr-1"></i>Takas Seçeneği:</span>
+                                <p class="text-xs text-indigo-950 font-medium line-clamp-2">Mantıklı Daire veya Araç takası değerlendirilir.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-gray-100 mt-2">
+                            <span class="text-lg font-extrabold text-gray-900">₺ 2.100.000</span>
+                            <button onclick="openMessageModal('Yatırımlık İmarlı Konut Arsası')" class="text-xs bg-gray-100 hover:bg-indigo-600 hover:text-white font-semibold text-gray-700 px-3 py-1.5 rounded-lg transition">Teklif Ver</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-white border-t border-gray-200 mt-auto py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-base">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </div>
+                    <span class="font-bold text-gray-900">TAKASLA</span>
+                    <span class="text-xs text-gray-400">© 2026 Tüm Hakları Saklıdır.</span>
+                </div>
+                <div class="flex items-center gap-6 text-xs text-gray-500 font-medium">
+                    <a href="#" class="hover:text-indigo-600 transition">Kullanım Koşulları</a>
+                    <a href="#" class="hover:text-indigo-600 transition">Gizlilik Politikası</a>
+                    <a href="#" class="hover:text-indigo-600 transition">İletişim</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- MODAL: İLAN OLUŞTURMA -->
+    <div id="createModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('createModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-gray-900 mb-1">Yeni Takas İlanı Ver</h3>
+            <p class="text-xs text-gray-500 mb-5">Varlığınızı ekleyin ve neyle takas etmek istediğinizi belirtin.</p>
+            
+            <form onsubmit="handleCreateListing(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">İlan Başlığı</label>
+                    <input type="text" id="listingTitle" required placeholder="Örn: Sahibinden Sıfır Ayarında Daire" class="w-full border border-gray-300 rounded-xl px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Kategori</label>
+                        <select id="listingCategory" class="w-full border border-gray-300 rounded-xl px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <option>Gayrimenkul</option>
+                            <option>Vasıta</option>
+                            <option>Arsa</option>
+                            <option>Elektronik</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Tahmini Değer (₺)</label>
+                        <input type="number" id="listingPrice" required placeholder="₺ 0" class="w-full border border-gray-300 rounded-xl px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Şehir / Konum</label>
+                    <input type="text" id="listingLocation" required placeholder="Örn: Kastamonu, Merkez" class="w-full border border-gray-300 rounded-xl px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1 text-indigo-700"><i class="fa-solid fa-repeat mr-1"></i>Ne İle Takas Etmek İstersiniz?</label>
+                    <textarea id="listingSwapTerms" required rows="2" placeholder="Örn: Mantıklı araçlarla takas olur, üzerine nakit verebilirim." class="w-full border border-indigo-200 bg-indigo-50/50 rounded-xl px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Görsel Yükle (Görsel Bağlantısı/URL)</label>
+                    <input type="url" id="listingImage" placeholder="https://images.unsplash.com/..." class="w-full border border-gray-300 rounded-xl px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-md transition text-sm">
+                        İlanı Yayınla
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: KULLANICI PROFİLİ & MESAJLAR -->
+    <div id="profileModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('profileModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+                <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-xl font-bold">
+                    AY
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-gray-900">Ahmet Yılmaz</h3>
+                    <p class="text-xs text-gray-500">Kullanıcı Paneli & Canlı Mesajlaşma</p>
+                </div>
+            </div>
+
+            <!-- TAB SEÇİCİ -->
+            <div class="flex border-b border-gray-200 mb-4 gap-4">
+                <button onclick="switchTab('gelenTab')" id="btnGelenTab" class="pb-2 font-semibold text-sm border-b-2 border-indigo-600 text-indigo-600">Gelen Mesajlar</button>
+                <button onclick="switchTab('gidenTab')" id="btnGidenTab" class="pb-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700">Giden Teklifler</button>
+            </div>
+
+            <!-- GELEN MESAJLAR -->
+            <div id="gelenTab" class="space-y-3">
+                <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-start justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-indigo-600">3+1 Lüks Daire için teklif</span>
+                        <p class="text-sm font-semibold text-gray-800 mt-0.5">"2023 Model Passat araç üzerine 500 bin TL nakit ile takas düşünür müsünüz?"</p>
+                        <span class="text-[10px] text-gray-400 block mt-1">Gönderen: Mehmet K. • Bugün 11:45</span>
+                    </div>
+                    <button class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold hover:bg-indigo-700 transition">Yanıtla</button>
+                </div>
+            </div>
+
+            <!-- GİDEN MESAJLAR -->
+            <div id="gidenTab" class="space-y-3 hidden">
+                <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+                    <span class="text-xs font-bold text-emerald-600">Gönderildi: 2022 Otomatik SUV</span>
+                    <p class="text-sm font-semibold text-gray-800 mt-0.5">"Gölbaşı'ndaki imarlı arsa ile başa baş takas düşündünüz mü?"</p>
+                    <span class="text-[10px] text-gray-400 block mt-1">Durum: Beklemede • Dün 16:20</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: MESAJ / TEKLİF GÖNDER -->
+    <div id="messageModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal('messageModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-lg font-bold text-gray-900 mb-1">Takas Teklifi Gönder</h3>
+            <p id="targetListingTitle" class="text-xs text-indigo-600 font-semibold mb-4">İlan Başlığı</p>
+            
+            <textarea id="offerMessage" rows="4" placeholder="Takas teklifinizin detaylarını yazın (Örn: Elindeki ürün/mülk bilgisi, üste verilecek nakit vb.)..." class="w-full border border-gray-300 rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none mb-4"></textarea>
+            
+            <button onclick="sendOffer()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl text-sm transition">Teklifi İlet</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT KONTROLLERİ -->
+    <script>
+        // Modal Aç/Kapat
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function openMessageModal(title) {
+            document.getElementById('targetListingTitle').innerText = title;
+            openModal('messageModal');
+        }
+
+        // Tab Değişimi (Gelen/Giden Mesajlar)
+        function switchTab(tabId) {
+            if(tabId === 'gelenTab') {
+                document.getElementById('gelenTab').classList.remove('hidden');
+                document.getElementById('gidenTab').classList.add('hidden');
+                document.getElementById('btnGelenTab').className = "pb-2 font-semibold text-sm border-b-2 border-indigo-600 text-indigo-600";
+                document.getElementById('btnGidenTab').className = "pb-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700";
+            } else {
+                document.getElementById('gelenTab').classList.add('hidden');
+                document.getElementById('gidenTab').classList.remove('hidden');
+                document.getElementById('btnGidenTab').className = "pb-2 font-semibold text-sm border-b-2 border-indigo-600 text-indigo-600";
+                document.getElementById('btnGelenTab').className = "pb-2 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700";
+            }
+        }
+
+        // Dinamik İlan Ekleme
+        function handleCreateListing(e) {
+            e.preventDefault();
+            const title = document.getElementById('listingTitle').value;
+            const category = document.getElementById('listingCategory').value;
+            const price = document.getElementById('listingPrice').value;
+            const location = document.getElementById('listingLocation').value;
+            const swapTerms = document.getElementById('listingSwapTerms').value;
+            const image = document.getElementById('listingImage').value || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80';
+
+            const grid = document.getElementById('listingsGrid');
+            const newCard = document.createElement('div');
+            newCard.className = "bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden group flex flex-col";
+            newCard.innerHTML = `
+                <div class="relative h-48 bg-gray-200 overflow-hidden">
+                    <img src="${image}" alt="İlan Görseli" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-3 left-3 bg-indigo-600 text-white text-xs font-semibold px-2.5 py-1 rounded-md">${category}</span>
+                </div>
+                <div class="p-4 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-gray-900 text-base mb-1 group-hover:text-indigo-600 transition line-clamp-1">${title}</h3>
+                        <p class="text-xs text-gray-500 mb-3"><i class="fa-solid fa-location-dot text-gray-400 mr-1"></i>${location}</p>
+                        <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-2.5 mb-3">
+                            <span class="text-[11px] font-semibold text-indigo-700 block mb-0.5 uppercase tracking-wider"><i class="fa-solid fa-repeat mr-1"></i>Takas Seçeneği:</span>
+                            <p class="text-xs text-indigo-950 font-medium line-clamp-2">${swapTerms}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-gray-100 mt-2">
+                        <span class="text-lg font-extrabold text-gray-900">₺ ${Number(price).toLocaleString('tr-TR')}</span>
+                        <button onclick="openMessageModal('${title}')" class="text-xs bg-gray-100 hover:bg-indigo-600 hover:text-white font-semibold text-gray-700 px-3 py-1.5 rounded-lg transition">Teklif Ver</button>
+                    </div>
+                </div>
+            `;
+            
+            grid.prepend(newCard);
+            closeModal('createModal');
+            alert('İlanınız başarıyla eklendi!');
+        }
+
+        // Teklif Gönderme Simülasyonu
+        function sendOffer() {
+            const msg = document.getElementById('offerMessage').value;
+            if(!msg) return alert('Lütfen mesajınızı yazın.');
+            alert('Takas teklifiniz başarıyla iletildi!');
+            document.getElementById('offerMessage').value = '';
+            closeModal('messageModal');
+        }
+    </script>
 </body>
 </html>
