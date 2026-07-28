@@ -59,7 +59,7 @@
             overflow-x: hidden;
         }
 
-        /* --- ARKA PLAN SİLİK LOGO --- */
+        /* --- ARKA PLAN SİLİK LOGO (YEŞİL KUTUSUZ) --- */
         .bg-logo-watermark {
             position: fixed;
             right: -60px;
@@ -67,13 +67,13 @@
             transform: translateY(-50%);
             width: 520px;
             height: 520px;
-            opacity: 0.07;
+            opacity: 0.12;
             pointer-events: none;
             z-index: 0;
         }
 
         body.dark-mode .bg-logo-watermark {
-            opacity: 0.12;
+            opacity: 0.18;
         }
 
         /* --- NAVBAR --- */
@@ -598,7 +598,7 @@
                 width: 320px;
                 height: 320px;
                 right: -80px;
-                opacity: 0.04;
+                opacity: 0.08;
             }
         }
 
@@ -610,13 +610,12 @@
 </head>
 <body>
 
-    <!-- EKRANIN SAĞINDAKİ SİLİK ARKA PLAN LOGOSU -->
+    <!-- EKRANIN SAĞINDAKİ SİLİK ARKA PLAN LOGOSU (YEŞİL KUTUSUZ) -->
     <div class="bg-logo-watermark">
         <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none">
-            <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
-            <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
-            <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
-            <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+            <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#2D6A4F"/>
+            <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#E65100"/>
+            <path d="M 38,66 Q 50,78 62,34" stroke="#2D6A4F" stroke-width="6" stroke-linecap="round"/>
         </svg>
     </div>
 
@@ -625,7 +624,7 @@
         <div class="nav-container">
             <div class="logo-wrapper">
                 <a href="#" class="logo-area" onclick="playLogoSound(); return false;" title="Jingle'ı dinlemek için tıklayın">
-                    <!-- BÜYÜTÜLMÜŞ NAVBAR LOGOSU (48x48) -->
+                    <!-- NAVBAR LOGOSU (48x48) -->
                     <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
                         <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
                         <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
@@ -1063,16 +1062,10 @@
         let activeChatListingId = null;
         let activeChatSellerUid = null;
 
-        /**
-         * İlan ID, Alıcı ID ve Satıcı ID kullanarak BENZERSİZ Sohbet Oda ID üretir.
-         */
         function getChatRoomId(listingId, sellerUid, buyerUid) {
           return `${listingId}_${buyerUid}_${sellerUid}`;
         }
 
-        /**
-         * FIREBASE MESAJ GÖNDER
-         */
         async function sendMessage(listingId, sellerUid, messageText) {
           const currentUser = auth.currentUser || window.currentUser;
 
@@ -1099,9 +1092,6 @@
           }
         }
 
-        /**
-         * FIREBASE MESAJLARI CANLI DİNLE
-         */
         function listenToChat(listingId, sellerUid, renderCallback) {
           if (activeChatListener) {
             activeChatListener();
@@ -1132,9 +1122,6 @@
           });
         }
 
-        /**
-         * OTURUM KAPATILDIĞINDA TEMİZLE
-         */
         function clearChatOnLogout(renderCallback) {
           if (activeChatListener) {
             activeChatListener();
@@ -1149,7 +1136,7 @@
         let currentLang = 'tr';
         let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
         let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false, favorites: [] };
-        window.currentUser = currentUser; // Global erişim
+        window.currentUser = currentUser;
         let currentChatTitle = "";
         let selectedCategory = 'all';
 
@@ -1638,7 +1625,6 @@
 
             document.getElementById('msgModalSub').textContent = `${currentChatTitle} - ${currentLang === 'tr' ? 'Canlı Sohbet' : 'Live Chat'}`;
             
-            // Firebase Firestore Dinleyicisini Başlat
             listenToChat(activeChatListingId, activeChatSellerUid, renderChatMessages);
             showModal('messageModal');
         }
@@ -1679,7 +1665,6 @@
             input.value = '';
         }
 
-        /* PROFİL PANELİ MESAJ SEKME ENTEGRASYONU */
         function switchProfileTab(tabName) {
             document.querySelectorAll('.profile-tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('tabContentSwaps').style.display = 'none';
@@ -1973,7 +1958,6 @@
             document.body.classList.toggle('dark-mode');
         }
 
-        // ES MODULE SCOPE OLAN FONKSİYONLARI HTML INLINE OLANLAR İÇİN WINDOW BAGLANTISI
         window.toggleLanguage = toggleLanguage;
         window.toggleDarkMode = toggleDarkMode;
         window.toggleChatbot = toggleChatbot;
