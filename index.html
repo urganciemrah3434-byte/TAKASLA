@@ -59,11 +59,11 @@
             overflow-x: hidden;
         }
 
-        /* --- ARKA PLAN SİLİK LOGOLAR (SATIŞ/HİZALAMA DÜZENLENDİ) --- */
+        /* --- ARKA PLAN SİLİK LOGOLAR --- */
         .bg-logo-watermark-right {
             position: fixed;
             right: -60px;
-            top: 30%;
+            top: 20%;
             width: 520px;
             height: 520px;
             opacity: 0.12;
@@ -82,13 +82,8 @@
             z-index: 0;
         }
 
-        body.dark-mode .bg-logo-watermark-right {
-            opacity: 0.18;
-        }
-
-        body.dark-mode .bg-logo-watermark-left {
-            opacity: 0.15;
-        }
+        body.dark-mode .bg-logo-watermark-right { opacity: 0.18; }
+        body.dark-mode .bg-logo-watermark-left { opacity: 0.15; }
 
         /* --- NAVBAR --- */
         .navbar {
@@ -122,9 +117,7 @@
             transition: transform 0.2s;
         }
 
-        .logo-area:active {
-            transform: scale(0.96);
-        }
+        .logo-area:active { transform: scale(0.96); }
 
         .logo-text {
             font-size: 1.75rem;
@@ -133,9 +126,7 @@
             letter-spacing: -0.5px;
         }
 
-        .logo-sana {
-            color: var(--accent);
-        }
+        .logo-sana { color: var(--accent); }
 
         .logo-tagline {
             color: var(--accent);
@@ -171,9 +162,7 @@
             color: var(--text-main);
         }
 
-        .btn-outline:hover {
-            background: var(--bg-body);
-        }
+        .btn-outline:hover { background: var(--bg-body); }
 
         .btn-accent {
             background: var(--accent);
@@ -220,9 +209,7 @@
             line-height: 1.25;
         }
 
-        .hero-title span {
-            color: var(--accent);
-        }
+        .hero-title span { color: var(--accent); }
 
         .hero-subtitle {
             font-size: 1.05rem;
@@ -399,13 +386,8 @@
             color: #94A3B8;
         }
 
-        .card-fav-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .card-fav-btn.active {
-            color: #F59E0B;
-        }
+        .card-fav-btn:hover { transform: scale(1.1); }
+        .card-fav-btn.active { color: #F59E0B; }
 
         .card-body {
             padding: 1rem;
@@ -488,9 +470,7 @@
             transition: color 0.2s;
         }
 
-        .footer-links a:hover {
-            color: var(--primary-dark);
-        }
+        .footer-links a:hover { color: var(--primary-dark); }
 
         .footer-bottom {
             max-width: 1280px;
@@ -504,7 +484,7 @@
             color: var(--text-muted);
         }
 
-        /* --- MODAL DIALOGS --- */
+        /* --- MODALS --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -541,9 +521,7 @@
             overflow-y: auto;
         }
 
-        .modal-overlay.active .modal-card {
-            transform: translateY(0);
-        }
+        .modal-overlay.active .modal-card { transform: translateY(0); }
 
         .close-btn {
             position: absolute;
@@ -580,7 +558,7 @@
             margin-top: 1.25rem;
         }
 
-        /* TAB STYLES FOR PROFILE */
+        /* TAB STYLES */
         .profile-tab-btn {
             padding: 0.45rem 0.75rem;
             border-radius: var(--radius-sm);
@@ -598,32 +576,15 @@
             border-color: var(--primary-dark);
         }
 
-        @media (max-width: 992px) {
-            .logo-tagline { display: none; }
-        }
-
+        @media (max-width: 992px) { .logo-tagline { display: none; } }
         @media (max-width: 900px) {
             .main-container { grid-template-columns: 1fr; }
             .footer-container { grid-template-columns: 1fr 1fr; }
         }
-
         @media (max-width: 768px) {
-            .bg-logo-watermark-right {
-                width: 300px;
-                height: 300px;
-                right: -80px;
-                top: 45%;
-                opacity: 0.08;
-            }
-            .bg-logo-watermark-left {
-                width: 280px;
-                height: 280px;
-                left: -80px;
-                top: 45%;
-                opacity: 0.06;
-            }
+            .bg-logo-watermark-right { width: 300px; height: 300px; right: -80px; top: 15%; opacity: 0.08; }
+            .bg-logo-watermark-left { width: 280px; height: 280px; left: -80px; top: 45%; opacity: 0.06; }
         }
-
         @media (max-width: 600px) {
             .footer-container { grid-template-columns: 1fr; }
             .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
@@ -632,7 +593,7 @@
 </head>
 <body>
 
-    <!-- EKRANIN SOLUNDAKİ SİLİK ARKA PLAN LOGOSU -->
+    <!-- SİLİK ARKA PLAN LOGOLARI -->
     <div class="bg-logo-watermark-left">
         <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none">
             <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#2D6A4F"/>
@@ -641,7 +602,6 @@
         </svg>
     </div>
 
-    <!-- EKRANIN SAĞINDAKİ SİLİK ARKA PLAN LOGOSU (SOLDAKİ İLE AYNI HİZADA) -->
     <div class="bg-logo-watermark-right">
         <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none">
             <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#2D6A4F"/>
@@ -655,7 +615,6 @@
         <div class="nav-container">
             <div class="logo-wrapper">
                 <a href="#" class="logo-area" onclick="playLogoSound(); return false;" title="Jingle'ı dinlemek için tıklayın">
-                    <!-- NAVBAR LOGOSU -->
                     <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
                         <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
                         <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
@@ -672,7 +631,6 @@
                 <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
                 <button class="btn btn-outline" onclick="checkAuthAndAction('favorites')">♡ <span id="favBtnText">Favoriler</span></button>
                 
-                <!-- Kimlik Doğrulama Bölümü -->
                 <div id="authButtons" style="display: flex; gap: 0.75rem; align-items: center;">
                     <button class="btn btn-outline" onclick="showModal('loginModal')">Giriş Yap</button>
                     <button class="btn btn-outline" style="border-color: var(--primary-dark); color: var(--primary-dark);" onclick="showModal('registerModal')">Kayıt Ol</button>
@@ -809,7 +767,7 @@
         </div>
     </footer>
 
-    <!-- OTOMATİK ROBOT / CANLI DESTEK ASİSTANI -->
+    <!-- CANLI DESTEK / BOT -->
     <div id="chatbotWidget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
         <button id="chatbotToggleBtn" class="btn btn-accent" style="border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: var(--shadow-md);" onclick="toggleChatbot()" title="TakasBot Asistan">🤖</button>
         <div id="chatbotWindow" style="display: none; position: absolute; bottom: 75px; right: 0; width: 350px; height: 450px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); flex-direction: column; overflow: hidden;">
@@ -832,14 +790,14 @@
         </div>
     </div>
 
-    <!-- MODALLAR -->
-    <!-- BİLGİ / FOOTER İÇERİK MODALI -->
+    <!-- MODALS -->
+    <!-- BİLGİ MODALI -->
     <div class="modal-overlay" id="infoModal">
         <div class="modal-card">
             <button class="close-btn" onclick="closeModal('infoModal')">&times;</button>
             <h2 class="modal-title" id="infoModalTitle" style="text-align: left; margin-bottom: 0.75rem;">Başlık</h2>
             <div id="infoModalBody" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; max-height: 60vh; overflow-y: auto;">
-                İçerik buraya gelecek...
+                İçerik...
             </div>
             <button class="btn btn-accent" style="width: 100%; justify-content: center; margin-top: 1.5rem;" onclick="closeModal('infoModal')">Tamam</button>
         </div>
@@ -869,9 +827,7 @@
                 <a href="#" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" id="goToRegLink">Kayıt Ol</a>
             </div>
 
-            <div class="security-badge" id="sslLoginBadge">
-                🔒 256-bit SSL ile Güvenli Giriş
-            </div>
+            <div class="security-badge" id="sslLoginBadge">🔒 256-bit SSL ile Güvenli Giriş</div>
         </div>
     </div>
 
@@ -903,13 +859,11 @@
                 <a href="#" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" id="goToLoginLink">Giriş Yap</a>
             </div>
 
-            <div class="security-badge" id="sslRegBadge">
-                🔒 256-bit SSL ile Güvenli Kayıt
-            </div>
+            <div class="security-badge" id="sslRegBadge">🔒 256-bit SSL ile Güvenli Kayıt</div>
         </div>
     </div>
 
-    <!-- KULLANICI AYARLARI / PROFİL MODALI -->
+    <!-- KULLANICI PROFİLİ MODALI -->
     <div class="modal-overlay" id="profileModal">
         <div class="modal-card" style="max-width: 780px; width: 95%;">
             <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
@@ -917,7 +871,6 @@
             <p class="modal-sub" id="profModalSub">Profil bilgilerinizi yönetin, takaslarınızı ve mesajlarınızı görüntüleyin</p>
             
             <div style="display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; align-items: start;">
-                <!-- Sol Kolon: Profil Ayarları -->
                 <div>
                     <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);" id="profInfoTitle">Hesap Bilgileri</h3>
                     <form onsubmit="handleProfileUpdate(event)">
@@ -954,31 +907,24 @@
                     <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;" onclick="handleLogout()" id="logoutBtn">Oturumu Kapat</button>
                 </div>
 
-                <!-- Sağ Kolon: TAB SİSTEMİ -->
                 <div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); min-height: 380px; max-height: 440px; display: flex; flex-direction: column;">
-                    
-                    <!-- TAB BUTONLARI -->
                     <div style="display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; overflow-x: auto;">
                         <button class="profile-tab-btn active" id="tabSwapsBtn" onclick="switchProfileTab('swaps')">📦 <span id="tabSwapsText">Takaslarım</span></button>
                         <button class="profile-tab-btn" id="tabIncomingBtn" onclick="switchProfileTab('incoming')">📥 <span id="tabIncomingText">Gelen Mesajlar</span></button>
                         <button class="profile-tab-btn" id="tabOutgoingBtn" onclick="switchProfileTab('outgoing')">📤 <span id="tabOutgoingText">Giden Mesajlar</span></button>
                     </div>
 
-                    <!-- TAB 1: TAKASLARIM LISTESİ -->
                     <div id="tabContentSwaps" style="flex: 1; overflow-y: auto;">
                         <div id="userSwapsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
                     </div>
 
-                    <!-- TAB 2: GELEN MESAJLAR LISTESİ -->
                     <div id="tabContentIncoming" style="display: none; flex: 1; overflow-y: auto;">
                         <div id="userIncomingMsgsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
                     </div>
 
-                    <!-- TAB 3: GİDEN MESAJLAR LISTESİ -->
                     <div id="tabContentOutgoing" style="display: none; flex: 1; overflow-y: auto;">
                         <div id="userOutgoingMsgsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -1074,7 +1020,7 @@
           serverTimestamp 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // FIREBASE KURULUM BİLGİLERİNİZİ BURAYA GİRİN
+        // FIREBASE AYARLARI
         const firebaseConfig = {
           apiKey: "YOUR_API_KEY",
           authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -1088,7 +1034,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Firebase Mesaj Dinleyicisi
         let activeChatListener = null;
         let activeChatListingId = null;
         let activeChatSellerUid = null;
@@ -1098,7 +1043,7 @@
         }
 
         async function sendMessage(listingId, sellerUid, messageText) {
-          const currentUser = auth.currentUser || window.currentUser;
+          const currentUser = window.currentUser || {};
 
           if (!currentUser || !currentUser.uid) {
             alert(currentLang === 'tr' ? "Mesaj göndermek için giriş yapmalısınız." : "Please login to send messages.");
@@ -1129,7 +1074,7 @@
             activeChatListener = null;
           }
 
-          const currentUser = auth.currentUser || window.currentUser;
+          const currentUser = window.currentUser || {};
 
           if (!currentUser || !currentUser.uid) {
             renderCallback([]);
@@ -1163,7 +1108,7 @@
           }
         }
 
-        /* UYGULAMA GENEL DEĞİŞKENLERİ */
+        /* GLOBAL DEĞİŞKENLER */
         let currentLang = 'tr';
         let users = JSON.parse(localStorage.getItem('takaslasana_users')) || [];
         let currentUser = JSON.parse(localStorage.getItem('takaslasana_current_user')) || { isLoggedIn: false, favorites: [] };
@@ -1185,23 +1130,11 @@
         ];
 
         const footerInfoContent = {
-            'biz-kimiz': {
-                title: { tr: "Biz Kimiz?", en: "Who Are We?" },
-                text: { 
-                    tr: "TAKASLASANA, para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas yapmayı sağlayan yenilikçi bir platformdur.",
-                    en: "TAKASLASANA is an innovative, community-driven, sustainable, and secure swapping platform without spending money."
-                }
-            },
-            'vizyonumuz': {
-                title: { tr: "Vizyonumuz & Misyonumuz", en: "Vision & Mission" },
-                text: { 
-                    tr: "Vizyonumuz: Döngüsel ekonominin lider takas ağı olmak.\nMisyonumuz: Şeffaf ve adil bir takas ekosistemi kurmak.",
-                    en: "Vision: To be the leading circular economy swap network.\nMission: To build a transparent and fair swap ecosystem."
-                }
-            },
+            'biz-kimiz': { title: { tr: "Biz Kimiz?", en: "Who Are We?" }, text: { tr: "TAKASLASANA, para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas yapmayı sağlayan yenilikçi bir platformdur.", en: "TAKASLASANA is an innovative, community-driven, sustainable, and secure swapping platform without spending money." } },
+            'vizyonumuz': { title: { tr: "Vizyonumuz & Misyonumuz", en: "Vision & Mission" }, text: { tr: "Vizyonumuz: Döngüsel ekonominin lider takas ağı olmak.\nMisyonumuz: Şeffaf ve adil bir takas ekosistemi kurmak.", en: "Vision: To be the leading circular economy swap network.\nMission: To build a transparent and fair swap ecosystem." } },
             'kariyer': { title: { tr: "Kariyer", en: "Careers" }, text: { tr: "CV'lerinizi ik@takaslasana.com adresine gönderebilirsiniz.", en: "Send CVs to ik@takaslasana.com." } },
             'surdurulebilirlik': { title: { tr: "Sürdürülebilirlik", en: "Sustainability" }, text: { tr: "Her takas karbon ayak izini azaltır.", en: "Every swap reduces carbon footprint." } },
-            'nasil-calisir': { title: { tr: "Nasıl Çalışır?", en: "How It Works?" }, text: { tr: " Üyelik oluştur, İlan ver, Teklif yap!", en: "Register, Post, Make Offers!" } },
+            'nasil-calisir': { title: { tr: "Nasıl Çalışır?", en: "How It Works?" }, text: { tr: "Üyelik oluştur, İlan ver, Teklif yap!", en: "Register, Post, Make Offers!" } },
             'guvenli-takas': { title: { tr: "Güvenli Takas Rehberi", en: "Safe Swap Guide" }, text: { tr: "Yüz yüze takaslarda kamusal alanları tercih edin.", en: "Prefer public places for face-to-face swaps." } },
             'sss': { title: { tr: "Sıkça Sorulan Sorular", en: "FAQ" }, text: { tr: "S: Ücretsiz mi? C: Evet, tamamen ücretsiz!", en: "Q: Is it free? A: Yes, completely free!" } },
             'iletisim': { title: { tr: "İletişim", en: "Contact" }, text: { tr: "E-posta: destek@takaslasana.com", en: "Email: destek@takaslasana.com" } },
@@ -1648,7 +1581,7 @@
             showModal(openId);
         }
 
-        /* FIREBASE CANLI SOHBET MODAL ENTEGRASYONU */
+        /* FIREBASE CANLI SOHBET MODAL */
         function openChatModal(listingId, sellerUid, listingTitle) {
             activeChatListingId = listingId || 1;
             activeChatSellerUid = sellerUid || "seller_default";
@@ -1669,7 +1602,7 @@
                 return;
             }
 
-            const myUid = (auth.currentUser ? auth.currentUser.uid : currentUser.uid);
+            const myUid = currentUser.uid;
 
             container.innerHTML = messages.map(msg => {
                 const isMe = msg.senderUid === myUid;
