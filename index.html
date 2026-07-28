@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TAKASLASANA - Sürdürülebilir Takas Platformu</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* TEMEL SIFIRLAMA VE ARAYÜZ AYARLARI */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -20,19 +21,19 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      overflow-x: hidden;
+      overflow-x: hidden; /* Sağdaki silik logonun kaydırma çubuğu oluşturmasını engeller */
     }
 
-    /* EKRANIN SAĞINDAKİ DEVASA VE SİLİK LOGO (WATERMARK) */
+    /* EKRANIN SAĞINDAKİ DEVASA SİLİK LOGO (WATERMARK) */
     .watermark-logo {
       position: fixed;
       top: 50%;
-      right: -40px; /* Sağa hizalama; isteğe göre içeri çekilebilir */
+      right: -60px;
       transform: translateY(-50%);
-      width: 550px; /* Devasa boyut */
+      width: 580px;
       max-width: 45vw;
-      opacity: 0.06; /* Silik/Şeffaf görünüm (0.04 - 0.10 arası ayarlanabilir) */
-      pointer-events: none; /* Sayfadaki buton ve kartların tıklanmasını engellemez */
+      opacity: 0.05; /* Silik görünüm (0.04 - 0.08 arası idealdir) */
+      pointer-events: none; /* Tıklamaları engeller, butonların çalışmasını bozmaz */
       z-index: 0;
       user-select: none;
     }
@@ -44,20 +45,20 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
     }
 
     .nav-container {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0.75rem 1.5rem;
+      padding: 0.5rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1.5rem;
     }
 
-    /* BÜYÜTÜLMÜŞ NAV LOGO */
+    /* BÜYÜTÜLEN HEADER LOGOSU */
     .brand-logo {
       display: flex;
       align-items: center;
@@ -65,68 +66,92 @@
     }
 
     .brand-logo img {
-      height: 60px; /* Logo boyutu büyütüldü */
+      height: 80px; /* Logo belirgin şekilde büyütüldü */
       width: auto;
       object-fit: contain;
       transition: transform 0.2s ease;
     }
 
     .brand-logo img:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
 
-    /* Arama Çubuğu */
-    .search-box {
+    /* ARAMA ÇUBUĞU */
+    .search-container {
       flex: 1;
-      max-width: 500px;
+      max-width: 550px;
       position: relative;
     }
 
-    .search-box input {
+    .search-container input {
       width: 100%;
-      padding: 0.65rem 1rem 0.65rem 2.5rem;
+      padding: 0.75rem 1rem 0.75rem 2.8rem;
       border-radius: 9999px;
       border: 1px solid #cbd5e1;
+      background-color: #f1f5f9;
+      font-size: 0.95rem;
       outline: none;
-      font-size: 0.9rem;
-      transition: border-color 0.2s;
+      transition: all 0.2s ease;
     }
 
-    .search-box input:focus {
+    .search-container input:focus {
+      background-color: #ffffff;
       border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
     .search-icon {
       position: absolute;
-      left: 0.85rem;
+      left: 1rem;
       top: 50%;
       transform: translateY(-50%);
-      color: #94a3b8;
+      color: #64748b;
+      font-size: 0.9rem;
     }
 
-    /* Profil & Eylemler */
+    /* NAV AKSİYONLARI VE BUTONLAR */
     .nav-actions {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
 
-    .btn-primary {
-      background-color: #2563eb;
-      color: white;
-      padding: 0.6rem 1.25rem;
+    .btn {
+      padding: 0.65rem 1.25rem;
       border-radius: 0.5rem;
       font-weight: 600;
-      text-decoration: none;
       font-size: 0.9rem;
-      transition: background-color 0.2s;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+    }
+
+    .btn-outline:hover {
+      background-color: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: #ffffff;
     }
 
     .btn-primary:hover {
       background-color: #1d4ed8;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
 
-    /* ANA İÇERİK BÖLGESİ (LOGONUN ÜSTÜNDE KALMASI İÇİN Z-INDEX: 1) */
+    /* ANA İÇERİK */
     main {
       flex: 1;
       max-width: 1280px;
@@ -134,88 +159,158 @@
       margin: 0 auto;
       padding: 2rem 1.5rem;
       position: relative;
-      z-index: 1;
+      z-index: 1; /* Sağdaki silik logonun üstünde kalması için */
     }
 
-    .hero-section {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      color: white;
-      padding: 3rem 2rem;
+    /* HERO AFİŞİ */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
       border-radius: 1rem;
-      margin-bottom: 2.5rem;
+      padding: 3rem 2.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     }
 
-    .hero-section h1 {
+    .hero-content h1 {
       font-size: 2.25rem;
-      margin-bottom: 1rem;
       font-weight: 700;
+      margin-bottom: 0.75rem;
     }
 
-    .hero-section p {
+    .hero-content p {
       color: #94a3b8;
-      max-width: 600px;
       font-size: 1.05rem;
-      line-height: 1.6;
+      max-width: 550px;
+      line-height: 1.5;
     }
 
-    /* İlan Kartları Izgarası */
-    .grid-title {
-      font-size: 1.5rem;
+    /* KATEGORİ FİLTRELERİ */
+    .categories {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .category-chip {
+      padding: 0.5rem 1.25rem;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #475569;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .category-chip.active, .category-chip:hover {
+      background-color: #2563eb;
+      color: #ffffff;
+      border-color: #2563eb;
+    }
+
+    /* İLAN GRİD YAPISI */
+    .section-title {
+      font-size: 1.35rem;
       font-weight: 700;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: #0f172a;
     }
 
-    .product-grid {
+    .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
       gap: 1.5rem;
     }
 
-    .card {
-      background: white;
+    .product-card {
+      background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 0.75rem;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
     }
 
-    .card:hover {
+    .product-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 12px 24px -5px rgba(0, 0, 0, 0.08);
     }
 
-    .card-img {
+    .card-image {
       width: 100%;
-      height: 180px;
+      height: 200px;
       background-color: #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #64748b;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      font-weight: 500;
+      position: relative;
     }
 
-    .card-body {
-      padding: 1rem;
+    .card-tag {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      background-color: rgba(15, 23, 42, 0.75);
+      color: #ffffff;
+      padding: 0.25rem 0.6rem;
+      border-radius: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-content {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
     .card-title {
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
+      color: #1e293b;
     }
 
-    .card-desc {
-      color: #64748b;
+    .card-swap-target {
       font-size: 0.85rem;
-      line-height: 1.4;
+      color: #2563eb;
+      background-color: #eff6ff;
+      padding: 0.4rem 0.6rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 0.75rem;
+      font-size: 0.8rem;
+      color: #64748b;
     }
 
     /* FOOTER */
     footer {
       background-color: #ffffff;
       border-top: 1px solid #e2e8f0;
-      padding: 2.5rem 1.5rem;
+      padding: 2rem 1.5rem;
       margin-top: auto;
       position: relative;
       z-index: 1;
@@ -225,10 +320,10 @@
       max-width: 1280px;
       margin: 0 auto;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .footer-logo img {
@@ -236,69 +331,203 @@
       width: auto;
     }
 
-    .footer-text {
+    .footer-copy {
       color: #64748b;
       font-size: 0.875rem;
+    }
+
+    /* PENCERE / MODAL DÜZENİ */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 23, 42, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: #64748b;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 0.65rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      outline: none;
+    }
+
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .brand-logo img {
+        height: 60px;
+      }
+      .watermark-logo {
+        width: 300px;
+        right: -30px;
+      }
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- EKRANIN SAĞINDAKİ SİLİK BÜYÜK LOGO -->
+  <!-- EKRANIN SAĞINDAKİ SİLİK BÜYÜK LOGO (WATERMARK) -->
   <img src="logo.png" alt="Takaslasana Watermark" class="watermark-logo">
 
-  <!-- ÜST MENÜ (NAVBAR) -->
+  <!-- NAVBAR -->
   <header>
     <div class="nav-container">
-      <!-- Büyütülmüş Logo -->
+      <!-- BÜYÜTÜLEN LOGO -->
       <a href="#" class="brand-logo">
         <img src="logo.png" alt="TAKASLASANA Logo">
       </a>
 
-      <!-- Arama Çubuğu -->
-      <div class="search-box">
+      <!-- ARAMA ÇUBUĞU -->
+      <div class="search-container">
         <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Takaslık ürün, marka veya kategori ara...">
+        <input type="text" id="searchInput" placeholder="Ne ile neyi takaslamak istersin?">
       </div>
 
-      <!-- Kullanıcı Eylemleri -->
+      <!-- BUTONLAR -->
       <div class="nav-actions">
-        <a href="#" class="btn-primary">+ İlan Ver</a>
+        <button class="btn btn-outline" onclick="toggleModal('loginModal')">Giriş Yap</button>
+        <button class="btn btn-primary" onclick="toggleModal('addListingModal')">+ İlan Ver</button>
       </div>
     </div>
   </header>
 
   <!-- ANA İÇERİK -->
   <main>
-    <section class="hero-section">
-      <h1>Kullanmadığını Takasla, İhtiyacını Karşıla</h1>
-      <p>TAKASLASANA ile güvenli, sürdürülebilir ve nakitsiz takas deneyimini hemen keşfedin.</p>
+    <!-- HERO BANNER -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Kullanmadığını Takasla, İhtiyacına Ulaş</h1>
+        <p>TAKASLASANA ile eşyalarını nakit harcamadan, güvenli ve sürdürülebilir bir şekilde takas etmeye başla.</p>
+      </div>
     </section>
 
-    <h2 class="grid-title">Öne Çıkan Takaslar</h2>
+    <!-- KATEGORİ FİLTRELERİ -->
+    <div class="categories">
+      <div class="category-chip active">Tüm İlanlar</div>
+      <div class="category-chip">Elektronik</div>
+      <div class="category-chip">Spor & Outdoor</div>
+      <div class="category-chip">Müzik Aletleri</div>
+      <div class="category-chip">Ev & Yaşam</div>
+      <div class="category-chip">Araç & Aksesuar</div>
+    </div>
 
-    <div class="product-grid">
-      <div class="card">
-        <div class="card-img">Ürün Görseli</div>
-        <div class="card-body">
-          <div class="card-title">Vintage Fotoğraf Makinesi</div>
-          <div class="card-desc">Az kullanılmış, Dağ bisikleti ile takaslanır.</div>
+    <!-- İLAN LİSTESİ -->
+    <h2 class="section-title">Güncel Takas İlanları</h2>
+    <div class="products-grid" id="productsGrid">
+      
+      <!-- İlan 1 -->
+      <div class="product-card">
+        <div class="card-image">
+          <span class="card-tag">Elektronik</span>
+          Ürün Görseli
+        </div>
+        <div class="card-content">
+          <div class="card-title">Sony WH-1000XM4 Kulaklık</div>
+          <div class="card-swap-target">🔄 Takas İsteği: Tablet veya Akıllı Saat</div>
+          <div class="card-footer">
+            <span>İstanbul, Kadıköy</span>
+            <span>2 saat önce</span>
+          </div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-img">Ürün Görseli</div>
-        <div class="card-body">
-          <div class="card-title">Elektro Gitar</div>
-          <div class="card-desc">Temiz durumda, Amfi veya Tablet ile takaslık.</div>
+
+      <!-- İlan 2 -->
+      <div class="product-card">
+        <div class="card-image">
+          <span class="card-tag">Müzik</span>
+          Ürün Görseli
+        </div>
+        <div class="card-content">
+          <div class="card-title">Fender Squier Elektro Gitar</div>
+          <div class="card-swap-target">🔄 Takas İsteği: Amfi veya Akustik Gitar</div>
+          <div class="card-footer">
+            <span>Ankara, Çankaya</span>
+            <span>5 saat önce</span>
+          </div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-img">Ürün Görseli</div>
-        <div class="card-body">
-          <div class="card-title">29 Jant Bisiklet</div>
-          <div class="card-desc">Oyun konsolu ile takas düşünülür.</div>
+
+      <!-- İlan 3 -->
+      <div class="product-card">
+        <div class="card-image">
+          <span class="card-tag">Spor</span>
+          Ürün Görseli
+        </div>
+        <div class="card-content">
+          <div class="card-title">Carraro 29 Jant Dağ Bisikleti</div>
+          <div class="card-swap-target">🔄 Takas İsteği: Oyun Konsolu (PS4 / Xbox)</div>
+          <div class="card-footer">
+            <span>İzmir, Karşıyaka</span>
+            <span>Bugün</span>
+          </div>
         </div>
       </div>
+
+      <!-- İlan 4 -->
+      <div class="product-card">
+        <div class="card-image">
+          <span class="card-tag">Fotoğrafçılık</span>
+          Ürün Görseli
+        </div>
+        <div class="card-content">
+          <div class="card-title">Canon EOS 200D DSLR Kamera</div>
+          <div class="card-swap-target">🔄 Takas İsteği: iPhone 11 veya Muadili</div>
+          <div class="card-footer">
+            <span>Bursa, Nilüfer</span>
+            <span>Dün</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
 
@@ -308,11 +537,94 @@
       <div class="footer-logo">
         <img src="logo.png" alt="TAKASLASANA Logo">
       </div>
-      <div class="footer-text">
+      <div class="footer-copy">
         © 2026 TAKASLASANA. Tüm hakları saklıdır.
       </div>
     </div>
   </footer>
 
+  <!-- İLAN EKLEME MODALI -->
+  <div class="modal" id="addListingModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="toggleModal('addListingModal')">✕</button>
+      <h3 style="margin-bottom: 1.25rem;">Yeni Takas İlanı Oluştur</h3>
+      <form onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <label>Verilecek Ürün Başlığı</label>
+          <input type="text" required placeholder="Örn: iPad Air 4. Nesil">
+        </div>
+        <div class="form-group">
+          <label>Aranan Takas Ürünü</label>
+          <input type="text" required placeholder="Örn: Laptop veya Bisiklet">
+        </div>
+        <div class="form-group">
+          <label>Açıklama</label>
+          <textarea rows="3" placeholder="Ürünün durumu ve takas detayları..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">İlanı Yayınla</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- GİRİŞ MODALI -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="toggleModal('loginModal')">✕</button>
+      <h3 style="margin-bottom: 1.25rem;">Giriş Yap</h3>
+      <form onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <label>E-posta Adresi</label>
+          <input type="email" required placeholder="ornek@email.com">
+        </div>
+        <div class="form-group">
+          <label>Şifre</label>
+          <input type="password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Giriş Yap</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT KODLARI -->
+  <script>
+    // Modal Aç/Kapat Fonksiyonu
+    function toggleModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.toggle('active');
+      }
+    }
+
+    // Modal Dışına Tıklandığında Kapatma
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('active');
+      }
+    }
+
+    // Form Gönderim Yakalayıcı
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert('İşlem başarıyla gerçekleştirildi!');
+      document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    }
+
+    // Canlı Arama Filtresi Mock
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.product-card');
+      
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title').textContent.toLowerCase();
+        const target = card.querySelector('.card-swap-target').textContent.toLowerCase();
+        
+        if (title.includes(query) || target.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
