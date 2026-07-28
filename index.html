@@ -212,16 +212,18 @@
 
         .hero-title span { color: var(--accent); }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .typing-cursor {
-            font-weight: 800;
-            animation: blink 0.8s infinite;
-            color: var(--accent);
-            margin-left: 2px;
+        .rotating-logo {
+            width: 36px;
+            height: 36px;
+            vertical-align: middle;
+            animation: spin 3s linear infinite;
+            display: inline-block;
+            margin-left: 6px;
         }
 
         .hero-subtitle {
@@ -1324,7 +1326,7 @@
             const part1 = t.heroPart1;
             const part2 = t.heroPart2;
             
-            titleEl.innerHTML = `<span id="twPart1"></span><span id="twPart2" style="color: var(--accent);"></span><span class="typing-cursor">|</span>`;
+            titleEl.innerHTML = `<span id="twPart1"></span><span id="twPart2" style="color: var(--accent);"></span><img src="logo.png" class="rotating-logo" alt="Logo">`;
             
             let p1Index = 0;
             let p2Index = 0;
