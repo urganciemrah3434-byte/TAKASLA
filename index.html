@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-    <meta name="google-site-verification" content="_8nysmdnXOpD1y5Y-C4OGf1EQ56PMhwokogJ3e-5avE" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAKASLASANA - Güvenilir & Sürdürülebilir Takas Platformu</title>
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
+<meta content="_8nysmdnXOpD1y5Y-C4OGf1EQ56PMhwokogJ3e-5avE" name="google-site-verification"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Takaslasana | Türkiye'nin Ücretsiz Takas Platformu</title>
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
         :root {
             --primary: #2D6A4F;
             --primary-dark: #1B4332;
@@ -605,424 +606,374 @@
             .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
         }
     </style>
-</head>
+<meta content="Takaslasana, Türkiye'nin ücretsiz takas platformudur. Kullanmadığınız eşyaları güvenle takas edin." name="description"/><meta content="index,follow" name="robots"/></head>
 <body>
-
-    <!-- SİLİK ARKA PLAN LOGOLARI -->
-    <div class="bg-logo-watermark-left">
-        <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none">
-            <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#2D6A4F"/>
-            <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#E65100"/>
-            <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
-        </svg>
-    </div>
-
-    <div class="bg-logo-watermark-right">
-        <svg width="100%" height="100%" viewBox="0 0 100 100" fill="none">
-            <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#2D6A4F"/>
-            <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#E65100"/>
-            <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
-        </svg>
-    </div>
-
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo-wrapper">
-                <a href="#" class="logo-area" onclick="playLogoSound(); return false;" title="Jingle'ı dinlemek için tıklayın">
-                    <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
-                        <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
-                        <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
-                        <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
-                        <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
-                    </svg>
-                    <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
-                </a>
-                <span class="logo-tagline" id="taglineText">Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!</span>
-            </div>
-
-            <div class="nav-actions">
-                <button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
-                <button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
-                <button class="btn btn-outline" onclick="checkAuthAndAction('favorites')">♡ <span id="favBtnText">Favoriler</span></button>
-                
-                <div id="authButtons" style="display: flex; gap: 0.75rem; align-items: center;">
-                    <button class="btn btn-outline" onclick="showModal('loginModal')">Giriş Yap</button>
-                    <button class="btn btn-outline" style="border-color: var(--primary-dark); color: var(--primary-dark);" onclick="showModal('registerModal')">Kayıt Ol</button>
-                </div>
-                <div id="userProfileContainer" style="display: none; align-items: center;"></div>
-
-                <button class="btn btn-accent" onclick="handlePostAdClick()">+ İlan Ver</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-badge" id="heroBadgeText">SÜRDÜRÜLEBİLİR & DOĞAL TAKAS</div>
-            <h1 class="hero-title" id="heroTitle"></h1>
-            <p class="hero-subtitle" id="heroSubtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
-            <div class="hero-buttons">
-                <a href="#ilanlar" class="btn btn-accent" style="padding: 0.8rem 2rem; font-size: 1rem;" id="heroBtn1">İlanları Keşfet</a>
-                <button class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem;" onclick="handlePostAdClick()" id="heroBtn2">İlan Oluştur</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- CATEGORIES -->
-    <div class="categories-nav">
-        <button class="cat-chip active" data-cat="all" onclick="setCategory(this)">Tümü</button>
-        <button class="cat-chip" data-cat="Elektronik" onclick="setCategory(this)">Elektronik</button>
-        <button class="cat-chip" data-cat="Ev & Yaşam" onclick="setCategory(this)">Ev & Yaşam</button>
-        <button class="cat-chip" data-cat="Eğitim" onclick="setCategory(this)">Eğitim</button>
-        <button class="cat-chip" data-cat="Hizmet" onclick="setCategory(this)">Ustalık & Hizmet</button>
-        <button class="cat-chip" data-cat="Hobi & Müzik" onclick="setCategory(this)">Hobi & Müzik</button>
-    </div>
-
-    <!-- MAIN CONTAINER -->
-    <main class="main-container" id="ilanlar">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <h2 class="filter-title" id="filterTitle">Filtrele</h2>
-            <div class="form-group">
-                <label class="form-label" id="searchLabel">Arama</label>
-                <input type="text" class="form-input" id="searchInput" placeholder="İlan ara...">
-            </div>
-            <div class="form-group">
-                <label class="form-label" id="typeLabel">Takas Türü</label>
-                <select class="form-select" id="typeSelect" onchange="filterListings()">
-                    <option value="all" id="optAllType">Tümü</option>
-                    <option value="item" id="optItem">Eşya Takası</option>
-                    <option value="service" id="optService">Hizmet Takası</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label" id="cityLabel">Şehir</label>
-                <select class="form-select" id="citySelect" onchange="filterListings()">
-                    <option value="all" id="optAllCity">Tüm Şehirler</option>
-                    <option value="İstanbul">İstanbul</option>
-                    <option value="Ankara">Ankara</option>
-                    <option value="İzmir">İzmir</option>
-                    <option value="Bursa">Bursa</option>
-                    <option value="Antalya">Antalya</option>
-                </select>
-            </div>
-        </aside>
-
-        <!-- LISTINGS -->
-        <section>
-            <div class="listings-header">
-                <h2 style="font-size: 1.5rem; font-weight: 700;" id="listingsCountHeader">Aktif İlanlar (10)</h2>
-                <select class="form-select" style="width: auto;">
-                    <option id="sortNew">En yeniler</option>
-                    <option id="sortPop">Popüler olanlar</option>
-                </select>
-            </div>
-
-            <div class="grid" id="listingsGrid"></div>
-        </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <a href="#" class="logo-area" onclick="playLogoSound(); return false;">
-                    <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
-                        <rect width="100" height="100" rx="22" fill="#2D6A4F"/>
-                        <path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"/>
-                        <path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"/>
-                        <path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
-                    </svg>
-                    <span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
-                </a>
-                <p id="footerDesc">Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
-                <div class="footer-contact">
-                    <span>📧 destek@takaslasana.com</span>
-                    <span>📞 +90 (850) 123 45 67</span>
-                    <span>📍 Maslak Mah. Büyükdere Cad. No:142, İstanbul</span>
-                </div>
-            </div>
-
-            <div>
-                <h3 class="footer-title" id="footerCol1Title">Kurumsal</h3>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="openInfoModal('biz-kimiz'); return false;">Biz Kimiz</a></li>
-                    <li><a href="#" onclick="openInfoModal('vizyonumuz'); return false;">Vizyonumuz & Misyonumuz</a></li>
-                    <li><a href="#" onclick="openInfoModal('kariyer'); return false;">Kariyer</a></li>
-                    <li><a href="#" onclick="openInfoModal('surdurulebilirlik'); return false;">Sürdürülebilirlik</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="footer-title" id="footerCol2Title">Destek & Yardım</h3>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="openInfoModal('nasil-calisir'); return false;">Nasıl Çalışır?</a></li>
-                    <li><a href="#" onclick="openInfoModal('guvenli-takas'); return false;">Güvenli Takas Rehberi</a></li>
-                    <li><a href="#" onclick="openInfoModal('sss'); return false;">Sıkça Sorulan Sorular</a></li>
-                    <li><a href="#" onclick="openInfoModal('iletisim'); return false;">İletişim</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="footer-title" id="footerCol3Title">Yasal</h3>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="openInfoModal('kullanim-kosullari'); return false;">Kullanım Koşulları</a></li>
-                    <li><a href="#" onclick="openInfoModal('gizlilik'); return false;">Gizlilik Politikası</a></li>
-                    <li><a href="#" onclick="openInfoModal('kvkk'); return false;">KVKK Aydınlatma Metni</a></li>
-                    <li><a href="#" onclick="openInfoModal('cerezler'); return false;">Çerez Tercihleri</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <span id="footerCopy">© 2026 TAKASLASANA. Tüm hakları saklıdır.</span>
-            <span>Made for a Sustainable Future 🌱</span>
-        </div>
-    </footer>
-
-    <!-- CANLI DESTEK / BOT -->
-    <div id="chatbotWidget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
-        <button id="chatbotToggleBtn" class="btn btn-accent" style="border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: var(--shadow-md);" onclick="toggleChatbot()" title="TakasBot Asistan">🤖</button>
-        <div id="chatbotWindow" style="display: none; position: absolute; bottom: 75px; right: 0; width: 350px; height: 450px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); flex-direction: column; overflow: hidden;">
-            <div style="background: var(--primary-dark); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span>🤖</span>
-                    <span style="font-weight: 700; font-size: 0.95rem;" id="botNameTitle">TakasBot Canlı Asistan</span>
-                </div>
-                <button onclick="toggleChatbot()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">&times;</button>
-            </div>
-            <div id="chatbotMessages" style="flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
-                <div id="botWelcomeMsg" style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
+<!-- SİLİK ARKA PLAN LOGOLARI -->
+<div class="bg-logo-watermark-left">
+<svg fill="none" height="100%" viewbox="0 0 100 100" width="100%">
+<path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#2D6A4F"></path>
+<path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#E65100"></path>
+<path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-linecap="round" stroke-width="6"></path>
+</svg>
+</div>
+<div class="bg-logo-watermark-right">
+<svg fill="none" height="100%" viewbox="0 0 100 100" width="100%">
+<path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#2D6A4F"></path>
+<path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#E65100"></path>
+<path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-linecap="round" stroke-width="6"></path>
+</svg>
+</div>
+<!-- NAVBAR -->
+<nav class="navbar">
+<div class="nav-container">
+<div class="logo-wrapper">
+<a class="logo-area" href="#" onclick="playLogoSound(); return false;" title="Jingle'ı dinlemek için tıklayın">
+<svg fill="none" height="48" viewbox="0 0 100 100" width="48">
+<rect fill="#2D6A4F" height="100" rx="22" width="100"></rect>
+<path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"></path>
+<path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"></path>
+<path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-linecap="round" stroke-width="6"></path>
+</svg>
+<span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
+</a>
+<span class="logo-tagline" id="taglineText">Paraya gerek yok; yeteneğinle, eşyanla Takaslasana!</span>
+</div>
+<div class="nav-actions">
+<button class="btn btn-outline" id="langBtn" onclick="toggleLanguage()">TR 🇹🇷</button>
+<button class="btn btn-outline" onclick="toggleDarkMode()" title="Mod Değiştir">🌙</button>
+<button class="btn btn-outline" onclick="checkAuthAndAction('favorites')">♡ <span id="favBtnText">Favoriler</span></button>
+<div id="authButtons" style="display: flex; gap: 0.75rem; align-items: center;">
+<button class="btn btn-outline" onclick="showModal('loginModal')">Giriş Yap</button>
+<button class="btn btn-outline" onclick="showModal('registerModal')" style="border-color: var(--primary-dark); color: var(--primary-dark);">Kayıt Ol</button>
+</div>
+<div id="userProfileContainer" style="display: none; align-items: center;"></div>
+<button class="btn btn-accent" onclick="handlePostAdClick()">+ İlan Ver</button>
+</div>
+</div>
+</nav>
+<!-- HERO SECTION -->
+<section class="hero">
+<div class="hero-container">
+<div class="hero-badge" id="heroBadgeText">SÜRDÜRÜLEBİLİR &amp; DOĞAL TAKAS</div>
+<h1 class="hero-title" id="heroTitle"></h1>
+<p class="hero-subtitle" id="heroSubtitle">Kullanmadığın eşyaları ya da yeteneklerini paylaş; karşılığında aradığın ürün veya hizmete para harcamadan ulaş.</p>
+<div class="hero-buttons">
+<a class="btn btn-accent" href="#ilanlar" id="heroBtn1" style="padding: 0.8rem 2rem; font-size: 1rem;">İlanları Keşfet</a>
+<button class="btn btn-outline" id="heroBtn2" onclick="handlePostAdClick()" style="padding: 0.8rem 2rem; font-size: 1rem;">İlan Oluştur</button>
+</div>
+</div>
+</section>
+<!-- CATEGORIES -->
+<div class="categories-nav">
+<button class="cat-chip active" data-cat="all" onclick="setCategory(this)">Tümü</button>
+<button class="cat-chip" data-cat="Elektronik" onclick="setCategory(this)">Elektronik</button>
+<button class="cat-chip" data-cat="Ev &amp; Yaşam" onclick="setCategory(this)">Ev &amp; Yaşam</button>
+<button class="cat-chip" data-cat="Eğitim" onclick="setCategory(this)">Eğitim</button>
+<button class="cat-chip" data-cat="Hizmet" onclick="setCategory(this)">Ustalık &amp; Hizmet</button>
+<button class="cat-chip" data-cat="Hobi &amp; Müzik" onclick="setCategory(this)">Hobi &amp; Müzik</button>
+</div>
+<!-- MAIN CONTAINER -->
+<main class="main-container" id="ilanlar">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<h2 class="filter-title" id="filterTitle">Filtrele</h2>
+<div class="form-group">
+<label class="form-label" id="searchLabel">Arama</label>
+<input class="form-input" id="searchInput" placeholder="İlan ara..." type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" id="typeLabel">Takas Türü</label>
+<select class="form-select" id="typeSelect" onchange="filterListings()">
+<option id="optAllType" value="all">Tümü</option>
+<option id="optItem" value="item">Eşya Takası</option>
+<option id="optService" value="service">Hizmet Takası</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label" id="cityLabel">Şehir</label>
+<select class="form-select" id="citySelect" onchange="filterListings()">
+<option id="optAllCity" value="all">Tüm Şehirler</option>
+<option value="İstanbul">İstanbul</option>
+<option value="Ankara">Ankara</option>
+<option value="İzmir">İzmir</option>
+<option value="Bursa">Bursa</option>
+<option value="Antalya">Antalya</option>
+</select>
+</div>
+</aside>
+<!-- LISTINGS -->
+<section>
+<div class="listings-header">
+<h2 id="listingsCountHeader" style="font-size: 1.5rem; font-weight: 700;">Aktif İlanlar (10)</h2>
+<select class="form-select" style="width: auto;">
+<option id="sortNew">En yeniler</option>
+<option id="sortPop">Popüler olanlar</option>
+</select>
+</div>
+<div class="grid" id="listingsGrid"></div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-container">
+<div class="footer-brand">
+<a class="logo-area" href="#" onclick="playLogoSound(); return false;">
+<svg fill="none" height="36" viewbox="0 0 100 100" width="36">
+<rect fill="#2D6A4F" height="100" rx="22" width="100"></rect>
+<path d="M 32,22 C 16,38 22,65 44,70 C 44,70 38,48 48,36 C 50,34 48,28 43,28 Z" fill="#D8F3DC"></path>
+<path d="M 68,78 C 84,62 78,35 56,30 C 56,30 62,52 52,64 C 50,66 52,72 57,72 Z" fill="#FFB703"></path>
+<path d="M 38,66 Q 50,78 62,34" stroke="#FFFFFF" stroke-linecap="round" stroke-width="6"></path>
+</svg>
+<span class="logo-text">TAKASLA<span class="logo-sana">SANA</span></span>
+</a>
+<p id="footerDesc">Para harcamadan topluluk odaklı, sürdürülebilir ve güvenli takas platformu.</p>
+<div class="footer-contact">
+<span>📧 destek@takaslasana.com</span>
+<span>📞 +90 (850) 123 45 67</span>
+<span>📍 Maslak Mah. Büyükdere Cad. No:142, İstanbul</span>
+</div>
+</div>
+<div>
+<h3 class="footer-title" id="footerCol1Title">Kurumsal</h3>
+<ul class="footer-links">
+<li><a href="#" onclick="openInfoModal('biz-kimiz'); return false;">Biz Kimiz</a></li>
+<li><a href="#" onclick="openInfoModal('vizyonumuz'); return false;">Vizyonumuz &amp; Misyonumuz</a></li>
+<li><a href="#" onclick="openInfoModal('kariyer'); return false;">Kariyer</a></li>
+<li><a href="#" onclick="openInfoModal('surdurulebilirlik'); return false;">Sürdürülebilirlik</a></li>
+</ul>
+</div>
+<div>
+<h3 class="footer-title" id="footerCol2Title">Destek &amp; Yardım</h3>
+<ul class="footer-links">
+<li><a href="#" onclick="openInfoModal('nasil-calisir'); return false;">Nasıl Çalışır?</a></li>
+<li><a href="#" onclick="openInfoModal('guvenli-takas'); return false;">Güvenli Takas Rehberi</a></li>
+<li><a href="#" onclick="openInfoModal('sss'); return false;">Sıkça Sorulan Sorular</a></li>
+<li><a href="#" onclick="openInfoModal('iletisim'); return false;">İletişim</a></li>
+</ul>
+</div>
+<div>
+<h3 class="footer-title" id="footerCol3Title">Yasal</h3>
+<ul class="footer-links">
+<li><a href="#" onclick="openInfoModal('kullanim-kosullari'); return false;">Kullanım Koşulları</a></li>
+<li><a href="#" onclick="openInfoModal('gizlilik'); return false;">Gizlilik Politikası</a></li>
+<li><a href="#" onclick="openInfoModal('kvkk'); return false;">KVKK Aydınlatma Metni</a></li>
+<li><a href="#" onclick="openInfoModal('cerezler'); return false;">Çerez Tercihleri</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<span id="footerCopy">© 2026 TAKASLASANA. Tüm hakları saklıdır.</span>
+<span>Made for a Sustainable Future 🌱</span>
+</div>
+</footer>
+<!-- CANLI DESTEK / BOT -->
+<div id="chatbotWidget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+<button class="btn btn-accent" id="chatbotToggleBtn" onclick="toggleChatbot()" style="border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: var(--shadow-md);" title="TakasBot Asistan">🤖</button>
+<div id="chatbotWindow" style="display: none; position: absolute; bottom: 75px; right: 0; width: 350px; height: 450px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); flex-direction: column; overflow: hidden;">
+<div style="background: var(--primary-dark); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; align-items: center; gap: 0.5rem;">
+<span>🤖</span>
+<span id="botNameTitle" style="font-weight: 700; font-size: 0.95rem;">TakasBot Canlı Asistan</span>
+</div>
+<button onclick="toggleChatbot()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
+</div>
+<div id="chatbotMessages" style="flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+<div id="botWelcomeMsg" style="background: var(--bg-body); padding: 0.65rem 0.875rem; border-radius: var(--radius-sm); align-self: flex-start; max-width: 85%; border: 1px solid var(--border); color: var(--text-main);">
                     Merhaba! Ben TakasBot 🤖. Takaslasana platformu hakkında merak ettiğiniz her şeyi bana sorabilirsiniz (Örn: "Nasıl ilan veririm?", "Güvenli mi?", "Para geçiyor mu?").
                 </div>
-            </div>
-            <div style="padding: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; background: var(--surface);">
-                <input type="text" id="chatbotInput" class="form-input" placeholder="Bir soru sorun..." onkeypress="handleChatKeyPress(event)">
-                <button class="btn btn-accent" style="padding: 0.5rem 1rem;" id="botSendBtn" onclick="sendChatMessage()">Gönder</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODALS -->
-    <!-- BİLGİ MODALI -->
-    <div class="modal-overlay" id="infoModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('infoModal')">&times;</button>
-            <h2 class="modal-title" id="infoModalTitle" style="text-align: left; margin-bottom: 0.75rem;">Başlık</h2>
-            <div id="infoModalBody" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; max-height: 60vh; overflow-y: auto;">
+</div>
+<div style="padding: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; background: var(--surface);">
+<input class="form-input" id="chatbotInput" onkeypress="handleChatKeyPress(event)" placeholder="Bir soru sorun..." type="text"/>
+<button class="btn btn-accent" id="botSendBtn" onclick="sendChatMessage()" style="padding: 0.5rem 1rem;">Gönder</button>
+</div>
+</div>
+</div>
+<!-- MODALS -->
+<!-- BİLGİ MODALI -->
+<div class="modal-overlay" id="infoModal">
+<div class="modal-card">
+<button class="close-btn" onclick="closeModal('infoModal')">×</button>
+<h2 class="modal-title" id="infoModalTitle" style="text-align: left; margin-bottom: 0.75rem;">Başlık</h2>
+<div id="infoModalBody" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; max-height: 60vh; overflow-y: auto;">
                 İçerik...
             </div>
-            <button class="btn btn-accent" style="width: 100%; justify-content: center; margin-top: 1.5rem;" onclick="closeModal('infoModal')">Tamam</button>
-        </div>
-    </div>
-
-    <!-- GİRİŞ YAP MODALI -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
-            <h2 class="modal-title" id="loginModalTitle">Giriş Yap</h2>
-            <p class="modal-sub" id="loginModalSub">Hesabınıza erişmek için bilgilerinizi girin</p>
-
-            <form onsubmit="handleLoginFormSubmit(event)">
-                <div class="form-group">
-                    <label class="form-label" id="loginEmailLabel">E-Posta Adresi</label>
-                    <input type="email" class="form-input" id="loginEmail" placeholder="ornek@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" id="loginPassLabel">Şifre</label>
-                    <input type="password" class="form-input" id="loginPass" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="loginSubmitBtn">Oturum Aç</button>
-            </form>
-
-            <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
-                <span id="noAccountText">Hesabın yok mu?</span> 
-                <a href="#" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" id="goToRegLink">Kayıt Ol</a>
-            </div>
-
-            <div class="security-badge" id="sslLoginBadge">🔒 256-bit SSL ile Güvenli Giriş</div>
-        </div>
-    </div>
-
-    <!-- KAYIT OL MODALI -->
-    <div class="modal-overlay" id="registerModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('registerModal')">&times;</button>
-            <h2 class="modal-title" id="regModalTitle">Kayıt Ol</h2>
-            <p class="modal-sub" id="regModalSub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
-
-            <form onsubmit="handleRegisterFormSubmit(event)">
-                <div class="form-group">
-                    <label class="form-label" id="regNameLabel">Ad Soyad</label>
-                    <input type="text" class="form-input" id="regName" placeholder="Adınız Soyadınız" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" id="regEmailLabel">E-Posta Adresi</label>
-                    <input type="email" class="form-input" id="regEmail" placeholder="ornek@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" id="regPassLabel">Şifre</label>
-                    <input type="password" class="form-input" id="regPass" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="regSubmitBtn">Hesap Oluştur</button>
-            </form>
-
-            <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
-                <span id="hasAccountText">Zaten hesabın var mı?</span> 
-                <a href="#" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;" id="goToLoginLink">Giriş Yap</a>
-            </div>
-
-            <div class="security-badge" id="sslRegBadge">🔒 256-bit SSL ile Güvenli Kayıt</div>
-        </div>
-    </div>
-
-    <!-- KULLANICI PROFİLİ MODALI -->
-    <div class="modal-overlay" id="profileModal">
-        <div class="modal-card" style="max-width: 780px; width: 95%;">
-            <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
-            <h2 class="modal-title" id="profModalTitle">Kullanıcı Paneli & Profil</h2>
-            <p class="modal-sub" id="profModalSub">Profil bilgilerinizi yönetin, takaslarınızı ve mesajlarınızı görüntüleyin</p>
-            
-            <div style="display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; align-items: start;">
-                <div>
-                    <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);" id="profInfoTitle">Hesap Bilgileri</h3>
-                    <form onsubmit="handleProfileUpdate(event)">
-                        <div class="form-group" style="text-align: center; margin-bottom: 1rem;">
-                            <div id="dropZone" 
-                                 style="width: 75px; height: 75px; border-radius: 50%; background: var(--border); margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 1.75rem; border: 2px dashed var(--primary-dark); position: relative; cursor: pointer;" 
-                                 onclick="document.getElementById('avatarFileInput').click()"
-                                 ondragover="handleDragOver(event)"
-                                 ondragleave="handleDragLeave(event)"
-                                 ondrop="handleDrop(event)">
-                                <span id="avatarPreviewContent">👤</span>
-                            </div>
-                            <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(event)">
-                            <p style="font-size: 0.7rem; color: var(--text-muted);" id="avatarChangeText">Fotoğrafı değiştirmek için tıkla</p>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" id="profNameLabel">Ad Soyad</label>
-                            <input type="text" class="form-input" id="profileFullName" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" id="profPhoneLabel">Telefon Numarası</label>
-                            <input type="tel" class="form-input" id="profilePhone" placeholder="05XXXXXXXXX">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" id="profAddressLabel">Adres</label>
-                            <input type="text" class="form-input" id="profileAddress" placeholder="Şehir, İlçe">
-                        </div>
-
-                        <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="profUpdateBtn">Güncelle</button>
-                    </form>
-                    <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;" onclick="handleLogout()" id="logoutBtn">Oturumu Kapat</button>
-                </div>
-
-                <div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); min-height: 380px; max-height: 440px; display: flex; flex-direction: column;">
-                    <div style="display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; overflow-x: auto;">
-                        <button class="profile-tab-btn active" id="tabSwapsBtn" onclick="switchProfileTab('swaps')">📦 <span id="tabSwapsText">Takaslarım</span></button>
-                        <button class="profile-tab-btn" id="tabIncomingBtn" onclick="switchProfileTab('incoming')">📥 <span id="tabIncomingText">Gelen Mesajlar</span></button>
-                        <button class="profile-tab-btn" id="tabOutgoingBtn" onclick="switchProfileTab('outgoing')">📤 <span id="tabOutgoingText">Giden Mesajlar</span></button>
-                    </div>
-
-                    <div id="tabContentSwaps" style="flex: 1; overflow-y: auto;">
-                        <div id="userSwapsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
-                    </div>
-
-                    <div id="tabContentIncoming" style="display: none; flex: 1; overflow-y: auto;">
-                        <div id="userIncomingMsgsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
-                    </div>
-
-                    <div id="tabContentOutgoing" style="display: none; flex: 1; overflow-y: auto;">
-                        <div id="userOutgoingMsgsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- İLAN VER MODALI -->
-    <div class="modal-overlay" id="postModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
-            <h2 class="modal-title" id="postModalTitle">Yeni İlan Oluştur</h2>
-            <p class="modal-sub" id="postModalSub">Eşya veya hizmetinizi takasa çıkarın</p>
-            <form onsubmit="handleFormSubmit(event)">
-                <div class="form-group">
-                    <label class="form-label" id="postTitleLabel">İlan Başlığı</label>
-                    <input type="text" class="form-input" id="newAdTitle" placeholder="Örn: Bisiklet, Ders..." required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" id="postCatLabel">Kategori</label>
-                    <select class="form-select" id="newAdCat">
-                        <option>Elektronik</option>
-                        <option>Hizmet & Ustalık</option>
-                        <option>Eğitim</option>
-                        <option>Ev & Yaşam</option>
-                        <option>Hobi & Müzik</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" id="postDescLabel">Ne ile takas etmek istersiniz?</label>
-                    <textarea class="form-textarea" id="newAdDesc" rows="3" placeholder="Aradığınız ürün veya hizmeti belirtin..." required></textarea>
-                </div>
-                <button type="submit" class="btn btn-accent" style="width:100%; justify-content:center;" id="postSubmitBtn">İlanı Yayınla</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- FAVORİLER MODALI -->
-    <div class="modal-overlay" id="favoritesModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('favoritesModal')">&times;</button>
-            <h2 class="modal-title" id="favModalTitle">♡ Favori İlanlarım</h2>
-            <p class="modal-sub" id="favModalSub">Favorilerinize eklediğiniz ilanlar</p>
-            
-            <div id="favoritesListContainer" style="max-height: 350px; overflow-y: auto; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;"></div>
-
-            <button class="btn btn-outline" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;" id="favCloseBtn">Kapat</button>
-        </div>
-    </div>
-
-    <!-- DETAY MODALI -->
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('detailModal')">&times;</button>
-            <h2 class="modal-title" id="dTitle" style="text-align:left;">İlan Detayı</h2>
-            <p id="dCategory" style="font-size: 0.85rem; color: var(--accent); font-weight:700; margin-bottom: 0.5rem;"></p>
-            <p id="dDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; line-height:1.6;"></p>
-            <div style="display:flex; gap:0.5rem; flex-wrap: wrap;">
-                <button class="btn btn-accent" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('offer')" id="detailOfferBtn">Takas Teklifi</button>
-                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center;" onclick="checkAuthAndAction('msg')" id="detailMsgBtn">Mesaj Gönder</button>
-                <button class="btn btn-outline" style="flex:1; min-width: 110px; justify-content:center; background-color: #25D366; color: white; border-color: #25D366;" onclick="checkAuthAndAction('whatsapp')" id="detailWaBtn">💬 WhatsApp</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- FIREBASE CANLI MESAJLAŞMA MODALI -->
-    <div class="modal-overlay" id="messageModal">
-        <div class="modal-card">
-            <button class="close-btn" onclick="closeModal('messageModal')">&times;</button>
-            <h2 class="modal-title" id="msgModalTitle" style="text-align:left;">💬 Mesaj Gönder</h2>
-            <p class="modal-sub" id="msgModalSub" style="text-align:left; margin-bottom: 1rem;">İlan sahibi ile canlı iletişim</p>
-            
-            <div id="chatHistory" style="height: 250px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; overflow-y: auto; background: var(--bg-body); display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.85rem;"></div>
-
-            <form onsubmit="handleSendMessageSubmit(event)">
-                <div style="display: flex; gap: 0.5rem;">
-                    <input type="text" class="form-input" id="chatInput" placeholder="Mesajınızı yazın..." required>
-                    <button type="submit" class="btn btn-accent" id="chatSendBtn">Gönder</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC & FIREBASE INTEGRATION -->
-    <script type="module">
+<button class="btn btn-accent" onclick="closeModal('infoModal')" style="width: 100%; justify-content: center; margin-top: 1.5rem;">Tamam</button>
+</div>
+</div>
+<!-- GİRİŞ YAP MODALI -->
+<div class="modal-overlay" id="loginModal">
+<div class="modal-card">
+<button class="close-btn" onclick="closeModal('loginModal')">×</button>
+<h2 class="modal-title" id="loginModalTitle">Giriş Yap</h2>
+<p class="modal-sub" id="loginModalSub">Hesabınıza erişmek için bilgilerinizi girin</p>
+<form onsubmit="handleLoginFormSubmit(event)">
+<div class="form-group">
+<label class="form-label" id="loginEmailLabel">E-Posta Adresi</label>
+<input class="form-input" id="loginEmail" placeholder="ornek@gmail.com" required="" type="email"/>
+</div>
+<div class="form-group">
+<label class="form-label" id="loginPassLabel">Şifre</label>
+<input class="form-input" id="loginPass" placeholder="••••••••" required="" type="password"/>
+</div>
+<button class="btn btn-accent" id="loginSubmitBtn" style="width:100%; justify-content:center;" type="submit">Oturum Aç</button>
+</form>
+<div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+<span id="noAccountText">Hesabın yok mu?</span>
+<a href="#" id="goToRegLink" onclick="switchModal('loginModal', 'registerModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;">Kayıt Ol</a>
+</div>
+<div class="security-badge" id="sslLoginBadge">🔒 256-bit SSL ile Güvenli Giriş</div>
+</div>
+</div>
+<!-- KAYIT OL MODALI -->
+<div class="modal-overlay" id="registerModal">
+<div class="modal-card">
+<button class="close-btn" onclick="closeModal('registerModal')">×</button>
+<h2 class="modal-title" id="regModalTitle">Kayıt Ol</h2>
+<p class="modal-sub" id="regModalSub">Hemen ücretsiz hesap oluştur ve takasa başla</p>
+<form onsubmit="handleRegisterFormSubmit(event)">
+<div class="form-group">
+<label class="form-label" id="regNameLabel">Ad Soyad</label>
+<input class="form-input" id="regName" placeholder="Adınız Soyadınız" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" id="regEmailLabel">E-Posta Adresi</label>
+<input class="form-input" id="regEmail" placeholder="ornek@gmail.com" required="" type="email"/>
+</div>
+<div class="form-group">
+<label class="form-label" id="regPassLabel">Şifre</label>
+<input class="form-input" id="regPass" placeholder="••••••••" required="" type="password"/>
+</div>
+<button class="btn btn-accent" id="regSubmitBtn" style="width:100%; justify-content:center;" type="submit">Hesap Oluştur</button>
+</form>
+<div style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">
+<span id="hasAccountText">Zaten hesabın var mı?</span>
+<a href="#" id="goToLoginLink" onclick="switchModal('registerModal', 'loginModal'); return false;" style="color: var(--accent); font-weight: 700; text-decoration: none;">Giriş Yap</a>
+</div>
+<div class="security-badge" id="sslRegBadge">🔒 256-bit SSL ile Güvenli Kayıt</div>
+</div>
+</div>
+<!-- KULLANICI PROFİLİ MODALI -->
+<div class="modal-overlay" id="profileModal">
+<div class="modal-card" style="max-width: 780px; width: 95%;">
+<button class="close-btn" onclick="closeModal('profileModal')">×</button>
+<h2 class="modal-title" id="profModalTitle">Kullanıcı Paneli &amp; Profil</h2>
+<p class="modal-sub" id="profModalSub">Profil bilgilerinizi yönetin, takaslarınızı ve mesajlarınızı görüntüleyin</p>
+<div style="display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; align-items: start;">
+<div>
+<h3 id="profInfoTitle" style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main);">Hesap Bilgileri</h3>
+<form onsubmit="handleProfileUpdate(event)">
+<div class="form-group" style="text-align: center; margin-bottom: 1rem;">
+<div id="dropZone" onclick="document.getElementById('avatarFileInput').click()" ondragleave="handleDragLeave(event)" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" style="width: 75px; height: 75px; border-radius: 50%; background: var(--border); margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; font-size: 1.75rem; border: 2px dashed var(--primary-dark); position: relative; cursor: pointer;">
+<span id="avatarPreviewContent">👤</span>
+</div>
+<input accept="image/*" id="avatarFileInput" onchange="handleFileSelect(event)" style="display: none;" type="file"/>
+<p id="avatarChangeText" style="font-size: 0.7rem; color: var(--text-muted);">Fotoğrafı değiştirmek için tıkla</p>
+</div>
+<div class="form-group">
+<label class="form-label" id="profNameLabel">Ad Soyad</label>
+<input class="form-input" id="profileFullName" required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" id="profPhoneLabel">Telefon Numarası</label>
+<input class="form-input" id="profilePhone" placeholder="05XXXXXXXXX" type="tel"/>
+</div>
+<div class="form-group">
+<label class="form-label" id="profAddressLabel">Adres</label>
+<input class="form-input" id="profileAddress" placeholder="Şehir, İlçe" type="text"/>
+</div>
+<button class="btn btn-accent" id="profUpdateBtn" style="width:100%; justify-content:center;" type="submit">Güncelle</button>
+</form>
+<button class="btn btn-outline" id="logoutBtn" onclick="handleLogout()" style="width:100%; justify-content:center; margin-top: 0.5rem; border-color: #EF4444; color: #EF4444; font-size: 0.85rem;">Oturumu Kapat</button>
+</div>
+<div style="background: var(--bg-body); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border); min-height: 380px; max-height: 440px; display: flex; flex-direction: column;">
+<div style="display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; overflow-x: auto;">
+<button class="profile-tab-btn active" id="tabSwapsBtn" onclick="switchProfileTab('swaps')">📦 <span id="tabSwapsText">Takaslarım</span></button>
+<button class="profile-tab-btn" id="tabIncomingBtn" onclick="switchProfileTab('incoming')">📥 <span id="tabIncomingText">Gelen Mesajlar</span></button>
+<button class="profile-tab-btn" id="tabOutgoingBtn" onclick="switchProfileTab('outgoing')">📤 <span id="tabOutgoingText">Giden Mesajlar</span></button>
+</div>
+<div id="tabContentSwaps" style="flex: 1; overflow-y: auto;">
+<div id="userSwapsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+</div>
+<div id="tabContentIncoming" style="display: none; flex: 1; overflow-y: auto;">
+<div id="userIncomingMsgsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+</div>
+<div id="tabContentOutgoing" style="display: none; flex: 1; overflow-y: auto;">
+<div id="userOutgoingMsgsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- İLAN VER MODALI -->
+<div class="modal-overlay" id="postModal">
+<div class="modal-card">
+<button class="close-btn" onclick="closeModal('postModal')">×</button>
+<h2 class="modal-title" id="postModalTitle">Yeni İlan Oluştur</h2>
+<p class="modal-sub" id="postModalSub">Eşya veya hizmetinizi takasa çıkarın</p>
+<form onsubmit="handleFormSubmit(event)">
+<div class="form-group">
+<label class="form-label" id="postTitleLabel">İlan Başlığı</label>
+<input class="form-input" id="newAdTitle" placeholder="Örn: Bisiklet, Ders..." required="" type="text"/>
+</div>
+<div class="form-group">
+<label class="form-label" id="postCatLabel">Kategori</label>
+<select class="form-select" id="newAdCat">
+<option>Elektronik</option>
+<option>Hizmet &amp; Ustalık</option>
+<option>Eğitim</option>
+<option>Ev &amp; Yaşam</option>
+<option>Hobi &amp; Müzik</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label" id="postDescLabel">Ne ile takas etmek istersiniz?</label>
+<textarea class="form-textarea" id="newAdDesc" placeholder="Aradığınız ürün veya hizmeti belirtin..." required="" rows="3"></textarea>
+</div>
+<button class="btn btn-accent" id="postSubmitBtn" style="width:100%; justify-content:center;" type="submit">İlanı Yayınla</button>
+</form>
+</div>
+</div>
+<!-- FAVORİLER MODALI -->
+<div class="modal-overlay" id="favoritesModal">
+<div class="modal-card">
+<button class="close-btn" onclick="closeModal('favoritesModal')">×</button>
+<h2 class="modal-title" id="favModalTitle">♡ Favori İlanlarım</h2>
+<p class="modal-sub" id="favModalSub">Favorilerinize eklediğiniz ilanlar</p>
+<div id="favoritesListContainer" style="max-height: 350px; overflow-y: auto; margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;"></div>
+<button class="btn btn-outline" id="favCloseBtn" onclick="closeModal('favoritesModal')" style="width:100%; justify-content:center;">Kapat</button>
+</div>
+</div>
+<!-- DETAY MODALI -->
+<div class="modal-overlay" id="detailModal">
+<div class="modal-card">
+<button class="close-btn" onclick="closeModal('detailModal')">×</button>
+<h2 class="modal-title" id="dTitle" style="text-align:left;">İlan Detayı</h2>
+<p id="dCategory" style="font-size: 0.85rem; color: var(--accent); font-weight:700; margin-bottom: 0.5rem;"></p>
+<p id="dDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; line-height:1.6;"></p>
+<div style="display:flex; gap:0.5rem; flex-wrap: wrap;">
+<button class="btn btn-accent" id="detailOfferBtn" onclick="checkAuthAndAction('offer')" style="flex:1; min-width: 110px; justify-content:center;">Takas Teklifi</button>
+<button class="btn btn-outline" id="detailMsgBtn" onclick="checkAuthAndAction('msg')" style="flex:1; min-width: 110px; justify-content:center;">Mesaj Gönder</button>
+<button class="btn btn-outline" id="detailWaBtn" onclick="checkAuthAndAction('whatsapp')" style="flex:1; min-width: 110px; justify-content:center; background-color: #25D366; color: white; border-color: #25D366;">💬 WhatsApp</button>
+</div>
+</div>
+</div>
+<!-- FIREBASE CANLI MESAJLAŞMA MODALI -->
+<div class="modal-overlay" id="messageModal">
+<div class="modal-card">
+<button class="close-btn" onclick="closeModal('messageModal')">×</button>
+<h2 class="modal-title" id="msgModalTitle" style="text-align:left;">💬 Mesaj Gönder</h2>
+<p class="modal-sub" id="msgModalSub" style="text-align:left; margin-bottom: 1rem;">İlan sahibi ile canlı iletişim</p>
+<div id="chatHistory" style="height: 250px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; overflow-y: auto; background: var(--bg-body); display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.85rem;"></div>
+<form onsubmit="handleSendMessageSubmit(event)">
+<div style="display: flex; gap: 0.5rem;">
+<input class="form-input" id="chatInput" placeholder="Mesajınızı yazın..." required="" type="text"/>
+<button class="btn btn-accent" id="chatSendBtn" type="submit">Gönder</button>
+</div>
+</form>
+</div>
+</div>
+<!-- JAVASCRIPT LOGIC & FIREBASE INTEGRATION -->
+<script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
