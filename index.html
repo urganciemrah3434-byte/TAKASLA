@@ -668,8 +668,7 @@
 <div class="intro-video-overlay" id="introVideoOverlay">
     <div class="intro-video-container">
         <button class="close-video-btn" onclick="closeIntroVideo()" title="Kapat">×</button>
-        <!-- 'video.mp4' kısmını yüklediğiniz videonun dosya adı veya URL'si ile değiştirebilirsiniz -->
-        <video id="bgVideo" autoplay muted playsinline controls>
+        <video id="bgVideo" autoplay playsinline controls>
             <source src="video.mp4" type="video/mp4">
             Tarayıcınız video etiketini desteklemiyor.
         </video>
@@ -1065,13 +1064,15 @@
             }
         };
 
-        // SAYFA YÜKLENDİĞİNDE VİDEOYU KISIK SESLE BAŞLAT
+        // SAYFA YÜKLENDİĞİNDE VİDEOYU SESLİ VE KONTROLLÜ BAŞLATMA
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('bgVideo');
             if (video) {
-                video.volume = 0.2; 
+                video.volume = 0.5; // Ses düzeyini %50 olarak ayarlıyoruz
                 video.play().catch(e => {
-                    console.log("Tarayıcı otomatik oynatmayı engelledi:", e);
+                    console.log("Tarayıcı otomatik oynatmayı engelledi, sessiz başlatılıyor:", e);
+                    video.muted = true;
+                    video.play();
                 });
             }
         });
